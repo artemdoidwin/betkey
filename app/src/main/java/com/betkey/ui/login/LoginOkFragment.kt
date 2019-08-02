@@ -11,6 +11,7 @@ import androidx.core.app.ActivityCompat
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
+import com.betkey.ui.jackpot.JackpotActivity
 import com.betkey.ui.scanTickets.ScanTicketsActivity
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_login_ok.*
@@ -52,7 +53,7 @@ class LoginOkFragment : BaseFragment() {
             logout_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 subscribe(viewModel.logout(), {
                     clearStack()
-                    showFragment(LoginFragment.newInstance(), R.id.login_container, LoginFragment.TAG)
+                    showFragment(LoginFragment.newInstance(), R.id.container_for_fragments, LoginFragment.TAG)
                 }, {
                     toast(it.message.toString())
                 })
@@ -66,6 +67,11 @@ class LoginOkFragment : BaseFragment() {
                 } else {
                     requestPermissions((permissions), REQUEST_CODE)
                 }
+            }
+        )
+        compositeDisposable.add(
+            jackpot_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
+                JackpotActivity.start(activity!!)
             }
         )
     }

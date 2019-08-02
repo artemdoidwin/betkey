@@ -29,6 +29,7 @@
         <activity
                 android:screenOrientation="portrait"
                 android:name=".ui.scanTickets.ScanTicketsActivity"/>
+        <activity android:name=".ui.jackpot.JackpotActivity"/>
     </application>
 
 </manifest>

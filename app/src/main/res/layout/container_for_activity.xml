@@ -13,7 +13,7 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
     <FrameLayout
-            android:id="@+id/login_container"
+            android:id="@+id/container_for_fragments"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"

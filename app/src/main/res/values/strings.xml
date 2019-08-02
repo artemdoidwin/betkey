@@ -16,7 +16,33 @@
     <string name="logout_btn">Logout</string>
 
     <string name="scan_title">Please scan ticket</string>
-    <string name="scan_back_btn">Back</string>
+    <string name="back_btn">Back</string>
+
+    <string name="winner_head">Winner</string>
+    <string name="winner_created">Created:</string>
+    <string name="winner_type">Type:</string>
+    <string name="winner_ticket_id">Ticket id:</string>
+    <string name="winner_payout_btn">Payout ticket</string>
+    <string name="winner_details_btn">Ticket details</string>
+
+    <string name="jackpot_jackpot_title">Jackpot:</string>
+    <string name="jackpot_round_title">Round:</string>
+    <string name="jackpot_last_entry_title">Last entry:</string>
+    <string name="jackpot_ticket_price_title">Game</string>
+    <string name="jackpot_draw_btn">Draw</string>
+    <string name="jackpot_create_ticket_btn">Create ticket</string>
+
+    <string name="jackpot_confirmation_title">Jackpot confirmation</string>
+    <string name="jackpot_confirmation_ticket_price">Ticket price:</string>
+    <string name="jackpot_confirmation_ticket_number">Ticket number:</string>
+    <string name="jackpot_confirmation_ticket_code">Ticket code:</string>
+    <string name="jackpot_confirmation_ticket_created">Ticket created:</string>
+    <string name="jackpot_confirmation_bet_details">Bet details</string>
+    <string name="jackpot_confirmation_home_btn">Home</string>
+    <string name="jackpot_confirmation_home">Home</string>
+    <string name="jackpot_confirmation_draw">Draw</string>
+    <string name="jackpot_confirmation_away">Away</string>
+
 
 
 </resources>

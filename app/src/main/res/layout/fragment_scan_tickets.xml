@@ -20,7 +20,7 @@
           android:layout_height="0dp"
           app:layout_constraintTop_toTopOf="parent"
           android:background="@color/white"
-          app:layout_constraintBottom_toTopOf="@+id/scan_guideline"/>
+          app:layout_constraintBottom_toTopOf="@+id/winner_guideline"/>
 
     <View android:layout_width="match_parent"
           android:layout_height="0dp"
@@ -41,10 +41,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginBottom="50dp"
-            app:layout_constraintBottom_toTopOf="@+id/scan_guideline"/>
+            app:layout_constraintBottom_toTopOf="@+id/winner_guideline"/>
 
     <RelativeLayout
-            android:id="@+id/scan_back_btn"
+            android:id="@+id/winner_back_btn"
             style="@style/ButtonRedTheme"
             android:layout_width="@dimen/small_btn_width"
             android:layout_height="@dimen/small_btn_height"
@@ -59,14 +59,14 @@
                 android:gravity="center"
                 android:background="@drawable/frame_black"
                 android:textAllCaps="true"
-                android:text="@string/scan_back_btn"
+                android:text="@string/back_btn"
                 android:textColor="@color/white"
                 android:textSize="16sp"/>
 
     </RelativeLayout>
 
     <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/scan_guideline"
+            android:id="@+id/winner_guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

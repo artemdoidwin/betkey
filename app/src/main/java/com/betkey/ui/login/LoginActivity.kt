@@ -14,7 +14,7 @@ class LoginActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.container_for_activity)
 
-        showFragment(LoginFragment.newInstance(), R.id.login_container, LoginFragment.TAG)
+        showFragment(LoginFragment.newInstance(), R.id.container_for_fragments, LoginFragment.TAG)
     }
 
     override fun onBackPressed() {

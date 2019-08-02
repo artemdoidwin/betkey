@@ -34,4 +34,8 @@
         <item name="android:background">@drawable/selector_button_yellow</item>
     </style>
 
+    <style name="ButtonGrayTheme" parent="android:Widget.Button">
+        <item name="android:background">@drawable/selector_button_gray</item>
+    </style>
+
 </resources>

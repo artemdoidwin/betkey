@@ -38,7 +38,7 @@ class ScanFragment : BaseFragment(), QRCodeReaderView.OnQRCodeReadListener  {
         activity!!.text_toolbar.text = "rrr"
 
         compositeDisposable.add(
-            scan_back_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
+            winner_back_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 activity!!.finish()
             }
         )

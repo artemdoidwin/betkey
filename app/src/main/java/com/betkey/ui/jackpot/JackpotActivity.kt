@@ -1,4 +1,4 @@
-package com.betkey.ui.scanTickets
+package com.betkey.ui.jackpot
 
 import android.app.Activity
 import android.content.Intent
@@ -6,16 +6,15 @@ import android.os.Bundle
 import com.betkey.R
 import com.betkey.base.BaseActivity
 import com.betkey.ui.MainViewModel
-import com.betkey.ui.login.LoginOkFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ScanTicketsActivity  : BaseActivity() {
+class JackpotActivity : BaseActivity() {
 
     companion object {
         private const val SELECTED_ID = "id_selected"
 
         fun start(activity: Activity) {
-            val intent = Intent(activity, ScanTicketsActivity::class.java).apply {
+            val intent = Intent(activity, JackpotActivity::class.java).apply {
                 //                putExtra(SELECTED_ID, idSelected)
             }
             activity.startActivity(intent)
@@ -28,16 +27,16 @@ class ScanTicketsActivity  : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.container_for_activity)
 
-        showFragment(ScanFragment.newInstance(), R.id.container_for_fragments, ScanFragment.TAG)
+        showFragment(JackpotFragment.newInstance(), R.id.container_for_fragments, JackpotFragment.TAG)
     }
 
     override fun onBackPressed() {
         val listFragments = supportFragmentManager.fragments.filter { frag -> frag.isVisible }
         val fragment = listFragments[listFragments.size - 1]
-        if (fragment is LoginOkFragment) {
-            super.onBackPressed()
-        } else {
+        if (fragment is JackpotFragment) {
             finish()
+        } else {
+            super.onBackPressed()
         }
     }
 }

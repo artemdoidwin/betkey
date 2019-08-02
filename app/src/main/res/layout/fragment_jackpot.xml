@@ -2,38 +2,24 @@
 <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
-
-    <ImageView
-            android:id="@+id/winner_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:layout_marginTop="25dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:scaleType="fitCenter"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/winner"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_height="match_parent">
 
     <TextView
             android:id="@+id/jackpot_head_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/winner_color"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:textAllCaps="true"
             android:textStyle="bold"
             android:layout_marginTop="16dp"
-            android:text="@string/winner_head"
+            android:text="@string/login_ok_jackpot_btn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/winner_logo"/>
+            app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
             android:id="@+id/jackpot_title"
@@ -41,12 +27,12 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:textAllCaps="true"
-            android:text="@string/winner_created"
+            android:text="@string/jackpot_jackpot_title"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/jackpot_head_text"/>
 
     <TextView
@@ -55,12 +41,12 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:textAllCaps="true"
             android:textStyle="bold"
-            android:text="@string/scan_title"
+            android:text="@string/jackpot_round_title"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="32dp"
             app:layout_constraintStart_toEndOf="@+id/jackpot_titles_barrier"
@@ -72,12 +58,12 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:textAllCaps="true"
-            android:text="@string/winner_type"
+            android:text="@string/jackpot_round_title"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/jackpot_title"/>
 
     <TextView
@@ -86,12 +72,12 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:textAllCaps="true"
             android:textStyle="bold"
-            android:text="@string/scan_title"
+            android:text="@string/jackpot_ticket_price_title"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="32dp"
             app:layout_constraintStart_toEndOf="@+id/jackpot_titles_barrier"
@@ -103,11 +89,11 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:textAllCaps="true"
-            android:text="@string/winner_ticket_id"
+            android:text="@string/jackpot_last_entry_title"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginStart="30dp"
             app:layout_constraintTop_toBottomOf="@+id/winner_type_title"/>
 
@@ -117,71 +103,69 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:textAllCaps="true"
             android:textStyle="bold"
             android:text="@string/scan_title"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="32dp"
             app:layout_constraintStart_toEndOf="@+id/jackpot_titles_barrier"
             app:layout_constraintTop_toBottomOf="@+id/winner_type"/>
 
     <TextView
-            android:id="@+id/winner_sum"
+            android:id="@+id/winner_ticket_price_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:textColor="@color/black"
-            android:textSize="44sp"
+            android:textSize="15sp"
             android:textAllCaps="true"
-            app:layout_constraintVertical_chainStyle="packed"
-            android:textStyle="bold"
-            android:text="2000"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="30dp"
-            app:layout_constraintTop_toBottomOf="@+id/winner_ticket_id"
-            app:layout_constraintStart_toStartOf="@+id/winner_back_btn"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintEnd_toStartOf="@+id/winner_currency" android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/winner_payout_btn"/>
+            android:text="@string/jackpot_ticket_price_title"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="30dp"
+            app:layout_constraintTop_toBottomOf="@+id/winner_ticket_id_title"/>
 
     <TextView
-            android:id="@+id/winner_currency"
-            android:layout_width="wrap_content"
+            android:id="@+id/winner_ticket_price"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:gravity="start"
             android:textColor="@color/black"
-            android:textSize="38sp"
+            android:textSize="15sp"
             android:textAllCaps="true"
             android:textStyle="bold"
-            android:text="CFA"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintBottom_toBottomOf="@+id/winner_sum"
-            app:layout_constraintStart_toEndOf="@+id/winner_sum"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintEnd_toEndOf="@+id/winner_back_btn"/>
-
-    <RelativeLayout
-            android:id="@+id/winner_payout_btn"
-            style="@style/ButtonGreenTheme"
-            android:layout_width="@dimen/big_btn_width"
-            android:layout_height="@dimen/big_btn_height"
-            android:layout_marginBottom="20dp"
-            app:layout_constraintBottom_toTopOf="@+id/jackpot_create_ticket_btn"
+            android:text="@string/scan_title"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="32dp"
+            app:layout_constraintStart_toEndOf="@+id/jackpot_titles_barrier"
+            app:layout_constraintTop_toBottomOf="@+id/winner_ticket_id"/>
 
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:background="@drawable/frame_black"
-                android:textAllCaps="true"
-                android:text="@string/winner_payout_btn"
-                android:textColor="@color/white"
-                android:textSize="16sp"/>
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:src="@drawable/dotted"
+            android:layerType="software"
+            app:layout_constraintTop_toBottomOf="@+id/winner_ticket_price_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="ContentDescription"/>
 
-    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/games_adapter"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_margin="8dp"
+            tools:listitem="@layout/item_game"
+            app:layout_constraintBottom_toTopOf="@+id/jackpot_create_ticket_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/winner_ticket_price_title"/>
 
     <RelativeLayout
             android:id="@+id/jackpot_create_ticket_btn"
@@ -189,8 +173,8 @@
             android:layout_width="@dimen/big_btn_width"
             android:layout_height="@dimen/big_btn_height"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="50dp"
-            app:layout_constraintBottom_toTopOf="@+id/winner_back_btn"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -206,41 +190,13 @@
 
     </RelativeLayout>
 
-
-    <RelativeLayout
-            android:id="@+id/winner_back_btn"
-            style="@style/ButtonRedTheme"
-            android:layout_width="@dimen/small_btn_width"
-            android:layout_height="@dimen/small_btn_height"
-            android:layout_marginBottom="30dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:background="@drawable/frame_black"
-                android:textAllCaps="true"
-                android:text="@string/back_btn"
-                android:textColor="@color/white"
-                android:textSize="16sp"/>
-
-    </RelativeLayout>
-
-    <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/winner_guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5"/>
-
     <androidx.constraintlayout.widget.Barrier
             android:id="@+id/jackpot_titles_barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="end"
-            app:constraint_referenced_ids="jackpot_title, winner_type_title, winner_ticket_id_title"/>
+            app:constraint_referenced_ids="jackpot_title, winner_type_title, winner_ticket_id_title"
+            tools:layout_editor_absoluteX="119dp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,7 +16,11 @@
     <color name="blue_pressed">#5A87E6</color>
     <color name="yellow">#E18700</color>
     <color name="yellow_pressed">#F3B963</color>
+    <color name="gray">#C1C1C1</color>
+    <color name="gray_pressed">#E9E7E7</color>
 
+    <color name="light_gray_color">#EFEFEF</color>
+    <color name="winner_color">#0D9407</color>
     <color name="black_30">#4A020202</color>
     <color name="white_30">#4AFFFFFF</color>
 </resources>
