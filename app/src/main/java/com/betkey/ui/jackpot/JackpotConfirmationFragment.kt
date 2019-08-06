@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
 import com.jakewharton.rxbinding3.view.clicks
@@ -32,10 +31,10 @@ class JackpotConfirmationFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activity!!.text_toolbar.text = "rrr"
+        activity?.also { it.text_toolbar.text = "rrr" }
 
         compositeDisposable.add(
-            confirmation_ticket_detail_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
+            confirmation_home_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 Log.d("", "")
             }
         )
@@ -45,6 +44,10 @@ class JackpotConfirmationFragment : BaseFragment() {
             bet_adapter.adapter = gamesAdapter
         }
 
-
+        compositeDisposable.add(
+            confirmation_home_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
+                activity?.also { it.finish() }
+            }
+        )
     }
 }

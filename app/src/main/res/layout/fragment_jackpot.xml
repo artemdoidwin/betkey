@@ -167,28 +167,25 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/winner_ticket_price_title"/>
 
-    <RelativeLayout
+    <Button
             android:id="@+id/jackpot_create_ticket_btn"
             style="@style/ButtonGreenTheme"
+            android:enabled="false"
+            tools:enabled="false"
             android:layout_width="@dimen/big_btn_width"
             android:layout_height="@dimen/big_btn_height"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:text="@string/winner_details_btn"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:background="@drawable/frame_black"
-                android:textAllCaps="true"
-                android:text="@string/winner_details_btn"
-                android:textColor="@color/white"
-                android:textSize="16sp"/>
-
-    </RelativeLayout>
+    </Button>
 
     <androidx.constraintlayout.widget.Barrier
             android:id="@+id/jackpot_titles_barrier"

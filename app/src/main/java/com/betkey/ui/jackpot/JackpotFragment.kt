@@ -46,14 +46,23 @@ class JackpotFragment : BaseFragment() {
         productsListener = object : GameListener {
             override fun onCommandLeft(commandName: String, bet: Bet) {
                 betDetailsMap[commandName] = bet.name
+                if (betDetailsMap.size == gamesAdapter.itemCount) {
+                    jackpot_create_ticket_btn.isEnabled = true
+                }
             }
 
             override fun onIDraw(commandName: String, bet: Bet) {
                 betDetailsMap[commandName] = bet.name
+                if (betDetailsMap.size == gamesAdapter.itemCount) {
+                    jackpot_create_ticket_btn.isEnabled = true
+                }
             }
 
             override fun onCommandRight(commandName: String, bet: Bet) {
                 betDetailsMap[commandName] = bet.name
+                if (betDetailsMap.size == gamesAdapter.itemCount) {
+                    jackpot_create_ticket_btn.isEnabled = true
+                }
             }
         }
         gamesAdapter = JackpotGamesAdapter(productsListener)
@@ -63,24 +72,21 @@ class JackpotFragment : BaseFragment() {
 
         compositeDisposable.add(
             jackpot_create_ticket_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
-                if (betDetailsMap.size == gamesAdapter.itemCount) {
-                    val o = betDetailsMap.toList() as ArrayList<Pair<String, String>>
+                val listPair = betDetailsMap.toList() as ArrayList<Pair<String, String>>
+                listPair.sortWith(Comparator { o1, o2 ->
+                    when {
+                        o1.first > o2.first -> 1
+                        o1.first == o2.first -> 0
+                        else -> -1
+                    }
+                })
 
-                    o.sortWith(Comparator { o1, o2 ->
-                        when {
-                            o1.first > o2.first -> 1
-                            o1.first == o2.first -> 0
-                            else -> -1
-                        }
-                    })
-
-                    viewModel.betsDetailsList.value = o
-                    showFragment(
-                        JackpotConfirmationFragment.newInstance(),
-                        com.betkey.R.id.container_for_fragments,
-                        JackpotConfirmationFragment.TAG
-                    )
-                }
+                viewModel.betsDetailsList.value = listPair
+                showFragment(
+                    JackpotConfirmationFragment.newInstance(),
+                    com.betkey.R.id.container_for_fragments,
+                    JackpotConfirmationFragment.TAG
+                )
             }
         )
 

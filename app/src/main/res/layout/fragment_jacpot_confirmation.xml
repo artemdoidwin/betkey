@@ -288,33 +288,28 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_margin="8dp"
             tools:listitem="@layout/item_bet_detail"
-            app:layout_constraintBottom_toTopOf="@+id/confirmation_ticket_detail_btn"
+            app:layout_constraintBottom_toTopOf="@+id/confirmation_home_btn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/confirmation_bet_details_title"/>
 
-    <RelativeLayout
-            android:id="@+id/confirmation_ticket_detail_btn"
+    <Button
+            android:id="@+id/confirmation_home_btn"
             style="@style/ButtonGreenTheme"
             android:layout_width="@dimen/small_btn_width"
             android:layout_height="@dimen/small_btn_height"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="@string/jackpot_confirmation_home_btn"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:background="@drawable/frame_black"
-                android:textAllCaps="true"
-                android:text="@string/jackpot_confirmation_home_btn"
-                android:textColor="@color/white"
-                android:textSize="16sp"/>
-
-    </RelativeLayout>
+    </Button>
 
     <androidx.constraintlayout.widget.Barrier
             android:id="@+id/confirmation_titles_barrier"
