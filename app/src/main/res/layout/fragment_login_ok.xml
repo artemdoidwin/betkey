@@ -31,115 +31,81 @@
             app:layout_constraintBottom_toTopOf="@+id/scan_btn"/>
 
 
-    <RelativeLayout
+    <Button
             android:id="@+id/scan_btn"
             style="@style/ButtonYellowTheme"
             android:layout_width="@dimen/big_btn_width"
             android:layout_height="@dimen/big_btn_height"
             android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="@string/login_ok_scan_btn"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/sport_betting_btn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"/>
 
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:background="@drawable/frame_black"
-                android:textAllCaps="true"
-                android:text="@string/login_ok_scan_btn"
-                android:textColor="@color/white"
-                android:textSize="16sp"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
+    <Button
             android:id="@+id/sport_betting_btn"
             style="@style/ButtonGreenTheme"
             android:layout_width="@dimen/big_btn_width"
             android:layout_height="@dimen/big_btn_height"
             android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="@string/login_ok_sport_btn"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/login_ok_guideline"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"/>
 
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:background="@drawable/frame_black"
-                android:textAllCaps="true"
-                android:text="@string/login_ok_sport_btn"
-                android:textColor="@color/white"
-                android:textSize="16sp"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
+    <Button
             android:id="@+id/jackpot_btn"
             style="@style/ButtonGreenTheme"
             android:layout_width="@dimen/big_btn_width"
             android:layout_height="@dimen/big_btn_height"
             android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="@string/login_ok_jackpot_btn"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@+id/login_ok_guideline"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"/>
 
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:background="@drawable/frame_black"
-                android:textAllCaps="true"
-                android:text="@string/login_ok_jackpot_btn"
-                android:textColor="@color/white"
-                android:textSize="16sp"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
+    <Button
             android:id="@+id/deposits_btn"
             style="@style/ButtonBlueTheme.Theme"
             android:layout_width="@dimen/big_btn_width"
             android:layout_height="@dimen/big_btn_height"
             android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="@string/login_ok_deposits_btn"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@+id/jackpot_btn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"/>
 
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:background="@drawable/frame_black"
-                android:textAllCaps="true"
-                android:text="@string/login_ok_deposits_btn"
-                android:textColor="@color/white"
-                android:textSize="16sp"/>
 
-    </RelativeLayout>
-
-    <RelativeLayout
+    <Button
             android:id="@+id/logout_btn"
             style="@style/ButtonRedTheme"
             android:layout_width="@dimen/small_btn_width"
             android:layout_height="@dimen/small_btn_height"
             android:layout_marginBottom="30dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="@string/logout_btn"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:background="@drawable/frame_black"
-                android:textAllCaps="true"
-                android:text="@string/logout_btn"
-                android:textColor="@color/white"
-                android:textSize="16sp"/>
-
-    </RelativeLayout>
+            app:layout_constraintStart_toStartOf="parent"/>
 
 
     <androidx.constraintlayout.widget.Guideline

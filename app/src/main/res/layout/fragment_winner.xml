@@ -161,73 +161,53 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintEnd_toEndOf="@+id/winner_back_btn"/>
 
-    <RelativeLayout
+    <Button
             android:id="@+id/winner_payout_btn"
             style="@style/ButtonGreenTheme"
             android:layout_width="@dimen/big_btn_width"
             android:layout_height="@dimen/big_btn_height"
             android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="@string/winner_payout_btn"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/jackpot_create_ticket_btn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"/>
 
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:background="@drawable/frame_black"
-                android:textAllCaps="true"
-                android:text="@string/winner_payout_btn"
-                android:textColor="@color/white"
-                android:textSize="16sp"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
+    <Button
             android:id="@+id/jackpot_create_ticket_btn"
             style="@style/ButtonGreenTheme"
             android:layout_width="@dimen/big_btn_width"
             android:layout_height="@dimen/big_btn_height"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="50dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="@string/winner_details_btn"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/winner_back_btn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"/>
 
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:background="@drawable/frame_black"
-                android:textAllCaps="true"
-                android:text="@string/winner_details_btn"
-                android:textColor="@color/white"
-                android:textSize="16sp"/>
-
-    </RelativeLayout>
-
-
-    <RelativeLayout
+    <Button
             android:id="@+id/winner_back_btn"
             style="@style/ButtonRedTheme"
             android:layout_width="@dimen/small_btn_width"
             android:layout_height="@dimen/small_btn_height"
             android:layout_marginBottom="30dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="@string/back_btn"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"/>
 
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:background="@drawable/frame_black"
-                android:textAllCaps="true"
-                android:text="@string/back_btn"
-                android:textColor="@color/white"
-                android:textSize="16sp"/>
 
-    </RelativeLayout>
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/winner_guideline"

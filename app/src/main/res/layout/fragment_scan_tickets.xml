@@ -43,35 +43,28 @@
             android:layout_marginBottom="50dp"
             app:layout_constraintBottom_toTopOf="@+id/winner_guideline"/>
 
-    <RelativeLayout
+    <Button
             android:id="@+id/winner_back_btn"
             style="@style/ButtonRedTheme"
             android:layout_width="@dimen/small_btn_width"
             android:layout_height="@dimen/small_btn_height"
             android:layout_marginBottom="30dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="@string/back_btn"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"/>
 
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:background="@drawable/frame_black"
-                android:textAllCaps="true"
-                android:text="@string/back_btn"
-                android:textColor="@color/white"
-                android:textSize="16sp"/>
-
-    </RelativeLayout>
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/winner_guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.30
-"/>
+            app:layout_constraintGuide_percent="0.30"/>
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/scan_guideline_bottom"
