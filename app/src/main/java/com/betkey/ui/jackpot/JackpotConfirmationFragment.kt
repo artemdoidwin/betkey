@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
 import com.jakewharton.rxbinding3.view.clicks
@@ -15,13 +16,14 @@ import java.util.concurrent.TimeUnit
 
 class JackpotConfirmationFragment : BaseFragment() {
 
-    private val viewModel by sharedViewModel<MainViewModel>()
-
     companion object {
         const val TAG = "JackpotConfirmationFragment"
 
         fun newInstance() = JackpotConfirmationFragment()
     }
+
+    private lateinit var gamesAdapter: BetsAdapter
+    private val viewModel by sharedViewModel<MainViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(com.betkey.R.layout.fragment_jacpot_confirmation, container, false)
@@ -37,6 +39,12 @@ class JackpotConfirmationFragment : BaseFragment() {
                 Log.d("", "")
             }
         )
+
+        viewModel.betsDetailsList.value?.also {
+            gamesAdapter = BetsAdapter(it)
+            bet_adapter.adapter = gamesAdapter
+        }
+
 
     }
 }

@@ -2,7 +2,7 @@ package com.betkey.network.models
 
 import com.google.gson.annotations.SerializedName
 
-class TokenObject (
+data class TokenObject (
     @SerializedName("token")
     var token: String = "",
 

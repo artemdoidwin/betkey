@@ -2,7 +2,7 @@ package com.betkey.network.models
 
 import com.google.gson.annotations.SerializedName
 
-class ShopRestObject (
+data class ShopRestObject (
     @SerializedName("shop")
     val shop: Shop
 ) : MStatus()

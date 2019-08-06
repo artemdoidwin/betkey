@@ -4,7 +4,7 @@ import com.betkey.network.models.*
 import io.reactivex.Single
 import retrofit2.http.*
 
-interface ApiInterface {
+interface ApiInterfaceBetkey {
 
     @FormUrlEncoded
     @POST("agents/authenticate")

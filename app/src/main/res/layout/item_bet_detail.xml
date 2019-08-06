@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="13sp"
             android:textAllCaps="true"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"

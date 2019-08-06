@@ -28,7 +28,7 @@ data class ModelItem (
     val link: String = ""
 )
 
-data class RoomImage(
-    var link: String,
-    val tab: Int
+data class BetDetail(
+    var commandName: String,
+    val betName: String
 )

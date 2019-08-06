@@ -1,18 +1,18 @@
 package com.betkey.data
 
-import com.betkey.network.ApiInterface
+import com.betkey.network.ApiInterfaceBetkey
 import com.betkey.repository.ModelRepository
 import io.reactivex.Completable
 
-class MainDataManager(
+class BetKeyDataManager(
     private val prefManager: PreferencesManager,
     private val modelRepository: ModelRepository,
-    private val apiInterface: ApiInterface
+    private val apiBetkey: ApiInterfaceBetkey
 ) {
 
 
     fun login(userName: String, password: String): Completable {
-        return apiInterface.authenticateAgent(userName, password)
+        return apiBetkey.authenticateAgent(userName, password)
             .flatMapCompletable {
                 Completable.fromRunnable {
                     prefManager.saveToken(it.token)
@@ -24,7 +24,7 @@ class MainDataManager(
 
     fun agentLogout(): Completable {
         return prefManager.getToken()!!.let { token ->
-            apiInterface.agentLogout(token)
+            apiBetkey.agentLogout(token)
                 .flatMapCompletable {
                     Completable.fromRunnable {
                         prefManager.saveToken("")
@@ -35,7 +35,7 @@ class MainDataManager(
 
     fun generateAgentToken() {
         modelRepository.agent.value?.also { agent ->
-            apiInterface.generateAgentToken(agent.id, agent.agentId, agent.username)
+            apiBetkey.generateAgentToken(agent.id, agent.agentId, agent.username)
                 .flatMapCompletable {
                     Completable.fromRunnable {
                         prefManager.saveToken(it.token)
@@ -46,7 +46,7 @@ class MainDataManager(
 
     fun getAgentInfo() {
         prefManager.getToken()?.also {
-            apiInterface.getAgentInfo(it)
+            apiBetkey.getAgentInfo(it)
                 .flatMapCompletable {
                     Completable.fromRunnable {
                         modelRepository.agent.value = it.agent
@@ -57,7 +57,7 @@ class MainDataManager(
 
     fun getAgentWallets() {
         prefManager.getToken()?.also {
-            apiInterface.getAgentWallets(it)
+            apiBetkey.getAgentWallets(it)
                 .flatMapCompletable {
                     Completable.fromRunnable {
                         modelRepository.wallets.value = it.wallets

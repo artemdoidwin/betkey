@@ -1,10 +1,12 @@
 package com.betkey.ui.jackpot
 
+import com.betkey.network.models.Bet
+
 interface GameListener {
 
-    fun onCommandLeft(product: String)
+    fun onCommandLeft(commandName: String, bet: Bet)
 
-    fun onIDraw()
+    fun onIDraw(commandName: String, bet: Bet)
 
-    fun onCommandRight(product: String)
+    fun onCommandRight(commandName: String, bet: Bet)
 }

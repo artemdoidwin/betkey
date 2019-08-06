@@ -2,7 +2,7 @@ package com.betkey.network.models
 
 import com.google.gson.annotations.SerializedName
 
-class AgentRestObject (
+data class AgentRestObject (
     @SerializedName("agent")
     val agent: Agent
 )
