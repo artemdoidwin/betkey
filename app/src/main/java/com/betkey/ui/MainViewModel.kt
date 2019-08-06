@@ -13,6 +13,7 @@ class MainViewModel(
     ) : BaseViewModel() {
 
     val betsDetailsList = marginfoxDataManager.betsDetailsList
+    val wallets = betkeydataManager.wallets
 
     fun login(userName: String, password: String): Completable {
         return betkeydataManager.login(userName, password)

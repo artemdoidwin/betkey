@@ -9,7 +9,7 @@ class BetKeyDataManager(
     private val modelRepository: ModelRepository,
     private val apiBetkey: ApiInterfaceBetkey
 ) {
-
+    val wallets = modelRepository.wallets
 
     fun login(userName: String, password: String): Completable {
         return apiBetkey.authenticateAgent(userName, password)

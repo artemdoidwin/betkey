@@ -41,8 +41,6 @@ class JackpotFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activity!!.text_toolbar.text = "rrr"
-
         productsListener = object : GameListener {
             override fun onCommandLeft(commandName: String, bet: Bet) {
                 betDetailsMap[commandName] = bet.name
@@ -67,8 +65,6 @@ class JackpotFragment : BaseFragment() {
         }
         gamesAdapter = JackpotGamesAdapter(productsListener)
         games_adapter.adapter = gamesAdapter
-
-
 
         compositeDisposable.add(
             jackpot_create_ticket_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {

@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.betkey.R
 import com.betkey.base.BaseActivity
 import com.betkey.ui.MainViewModel
+import kotlinx.android.synthetic.main.view_toolbar.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class JackpotActivity : BaseActivity() {
@@ -26,17 +27,15 @@ class JackpotActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.container_for_activity)
+        viewModel.wallets.value?.also {
+            val text = "${String.format("%.2f", it[0].balance)} ${it[0].currency.toUpperCase()}"
+            text_toolbar.text = text
+        }
 
         showFragment(JackpotFragment.newInstance(), R.id.container_for_fragments, JackpotFragment.TAG)
     }
 
     override fun onBackPressed() {
-        val listFragments = supportFragmentManager.fragments.filter { frag -> frag.isVisible }
-        val fragment = listFragments[listFragments.size - 1]
-        if (fragment is JackpotFragment) {
-            finish()
-        } else {
-            super.onBackPressed()
-        }
+        finish()
     }
 }

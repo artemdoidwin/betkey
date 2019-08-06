@@ -43,9 +43,12 @@ class LoginOkFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activity!!.text_toolbar.text = "rrr"
-
         initButtons()
+
+        viewModel.wallets.value?.also {
+            val text = "${String.format("%.2f", it[0].balance)} ${it[0].currency.toUpperCase()}"
+            text_toolbar.text = text
+        }
     }
 
     private fun initButtons() {

@@ -31,8 +31,6 @@ class JackpotConfirmationFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activity?.also { it.text_toolbar.text = "rrr" }
-
         compositeDisposable.add(
             confirmation_home_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 Log.d("", "")
