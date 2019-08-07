@@ -1,4 +1,4 @@
-package com.betkey.ui.scanTickets
+package com.betkey.ui.deposit
 
 import android.app.Activity
 import android.content.Intent
@@ -8,16 +8,17 @@ import com.betkey.R
 import com.betkey.base.BaseActivity
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.login.LoginOkFragment
+import com.betkey.ui.scanTickets.ScanFragment
 import kotlinx.android.synthetic.main.view_toolbar.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ScanTicketsActivity  : BaseActivity() {
+class DepositActivity  : BaseActivity() {
 
     companion object {
         private const val SELECTED_ID = "id_selected"
 
         fun start(activity: Activity) {
-            val intent = Intent(activity, ScanTicketsActivity::class.java).apply {
+            val intent = Intent(activity, DepositActivity::class.java).apply {
                 //                putExtra(SELECTED_ID, idSelected)
             }
             activity.startActivity(intent)
@@ -30,7 +31,7 @@ class ScanTicketsActivity  : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.container_for_activity)
 
-        showFragment(ScanFragment.newInstance(), R.id.container_for_fragments, ScanFragment.TAG)
+        addFragment(FindPlayerFragment.newInstance(), R.id.container_for_fragments, FindPlayerFragment.TAG)
 
         viewModel.wallets.observe(this, Observer { wallets ->
             wallets?.also {
@@ -43,10 +44,10 @@ class ScanTicketsActivity  : BaseActivity() {
     override fun onBackPressed() {
         val listFragments = supportFragmentManager.fragments.filter { frag -> frag.isVisible }
         val fragment = listFragments[listFragments.size - 1]
-        if (fragment is LoginOkFragment) {
-            super.onBackPressed()
-        } else {
+        if (fragment is FindPlayerFragment) {
             finish()
+        } else {
+            super.onBackPressed()
         }
     }
 }

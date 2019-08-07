@@ -39,11 +39,11 @@ abstract class BaseActivity : AppCompatActivity(){
     }
 
 
-    fun addFragment(fragment: BaseFragment, tag: String){
+    fun addFragment(fragment: BaseFragment, idContainer: Int, tag: String){
         currentFragment = fragment
         supportFragmentManager
             .beginTransaction()
-            .add(R.id.container, fragment)
+            .add(idContainer, fragment)
             .addToBackStack(tag)
             .commit()
     }

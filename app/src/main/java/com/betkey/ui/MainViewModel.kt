@@ -14,6 +14,7 @@ class MainViewModel(
 
     val betsDetailsList = marginfoxDataManager.betsDetailsList
     val wallets = betkeydataManager.wallets
+    val player = betkeydataManager.player
 
     fun login(userName: String, password: String): Completable {
         return betkeydataManager.login(userName, password)
@@ -27,5 +28,7 @@ class MainViewModel(
         return marginfoxDataManager.getJacpotInfo()
     }
 
-
+    fun findPlayer(phone: String): Completable {
+        return betkeydataManager.findPlayer(phone)
+    }
 }

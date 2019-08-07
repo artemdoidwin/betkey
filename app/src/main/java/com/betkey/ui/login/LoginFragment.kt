@@ -32,7 +32,7 @@ class LoginFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         activity!!.include_toolbar.visibility = View.GONE
-        login_username.requestFocus()
+        deposit_found_amount_ET.requestFocus()
 
         compositeDisposable.add(
             login_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {

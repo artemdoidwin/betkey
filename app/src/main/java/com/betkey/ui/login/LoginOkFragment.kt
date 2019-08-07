@@ -8,9 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
+import com.betkey.ui.deposit.DepositActivity
 import com.betkey.ui.jackpot.JackpotActivity
 import com.betkey.ui.scanTickets.ScanTicketsActivity
 import com.jakewharton.rxbinding3.view.clicks
@@ -45,10 +47,12 @@ class LoginOkFragment : BaseFragment() {
 
         initButtons()
 
-        viewModel.wallets.value?.also {
-            val text = "${String.format("%.2f", it[0].balance)} ${it[0].currency.toUpperCase()}"
-            text_toolbar.text = text
-        }
+        viewModel.wallets.observe(myLifecycleOwner, Observer { wallets ->
+            wallets?.also {
+                val text = "${String.format("%.2f", it[0].balance)} ${it[0].currency.toUpperCase()}"
+                text_toolbar.text = text
+            }
+        })
     }
 
     private fun initButtons() {
@@ -70,6 +74,11 @@ class LoginOkFragment : BaseFragment() {
                 } else {
                     requestPermissions((permissions), REQUEST_CODE)
                 }
+            }
+        )
+        compositeDisposable.add(
+            deposits_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
+                DepositActivity.start(activity!!)
             }
         )
         compositeDisposable.add(

@@ -17,6 +17,7 @@
 
     <string name="scan_title">Please scan ticket</string>
     <string name="back_btn">Back</string>
+    <string name="home_btn">Home</string>
 
     <string name="winner_head">Winner</string>
     <string name="winner_created">Created:</string>
@@ -38,12 +39,23 @@
     <string name="jackpot_confirmation_ticket_code">Ticket code:</string>
     <string name="jackpot_confirmation_ticket_created">Ticket created:</string>
     <string name="jackpot_confirmation_bet_details">Bet details</string>
-    <string name="jackpot_confirmation_home_btn">Home</string>
     <string name="jackpot_confirmation_home">Home</string>
     <string name="jackpot_confirmation_draw">Draw</string>
     <string name="jackpot_confirmation_away">Away</string>
     <string name="jackpot_game">Game</string>
 
+    <string name="deposit_title">Find player</string>
+    <string name="deposit_mob_num">Mobile number:</string>
+    <string name="deposit_found_player">Found player</string>
+    <string name="deposit_player_name">Name:</string>
+    <string name="deposit_amount">Amount</string>
+    <string name="deposit_deposit">Deposit</string>
+    <string name="deposit_confirm_deposit">Confirm deposit</string>
+    <string name="deposit_confirm">Confirm</string>
+    <string name="deposit_success">Deposit success</string>
+    <string name="deposit_successful">Deposit is successful</string>
+    <string name="deposit_instantly">Player is account is instantly updated!</string>
+    <string name="deposit_no_found">No player found</string>
 
 
 </resources>

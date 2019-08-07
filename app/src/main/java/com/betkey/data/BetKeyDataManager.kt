@@ -10,6 +10,7 @@ class BetKeyDataManager(
     private val apiBetkey: ApiInterfaceBetkey
 ) {
     val wallets = modelRepository.wallets
+    val player = modelRepository.player
 
     fun login(userName: String, password: String): Completable {
         return apiBetkey.authenticateAgent(userName, password)
@@ -17,7 +18,7 @@ class BetKeyDataManager(
                 Completable.fromRunnable {
                     prefManager.saveToken(it.token)
                     modelRepository.agent.postWithValue(it.agent!!.agent)
-                    modelRepository.wallets.postWithValue(it.wallets!!.toMutableList())
+                    modelRepository.wallets.postValue(it.wallets!!.toMutableList())
                 }
             }
     }
@@ -64,5 +65,16 @@ class BetKeyDataManager(
                     }
                 }
         }
+    }
+
+    fun findPlayer(phone: String) : Completable{
+        return apiBetkey.findPlayer(phone)
+            .flatMapCompletable {
+                val p = it.player
+                Completable.fromRunnable {
+                    modelRepository.player.postValue(it.player)
+                }
+            }
+
     }
 }

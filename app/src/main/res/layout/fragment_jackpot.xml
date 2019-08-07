@@ -7,7 +7,7 @@
         android:layout_height="match_parent">
 
     <TextView
-            android:id="@+id/jackpot_head_text"
+            android:id="@+id/deposit_confirm_head_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -22,7 +22,7 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-            android:id="@+id/jackpot_title"
+            android:id="@+id/deposit_confirm_name_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -33,10 +33,10 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="30dp"
             android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/jackpot_head_text"/>
+            app:layout_constraintTop_toBottomOf="@+id/deposit_confirm_head_text"/>
 
     <TextView
-            android:id="@+id/jackpot"
+            android:id="@+id/deposit_confirm_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="start"
@@ -50,7 +50,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="32dp"
             app:layout_constraintStart_toEndOf="@+id/jackpot_titles_barrier"
-            app:layout_constraintTop_toBottomOf="@+id/jackpot_head_text"/>
+            app:layout_constraintTop_toBottomOf="@+id/deposit_confirm_head_text"/>
 
     <TextView
             android:id="@+id/winner_type_title"
@@ -64,7 +64,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="30dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/jackpot_title"/>
+            app:layout_constraintTop_toBottomOf="@+id/deposit_confirm_name_title"/>
 
     <TextView
             android:id="@+id/winner_type"
@@ -81,7 +81,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="32dp"
             app:layout_constraintStart_toEndOf="@+id/jackpot_titles_barrier"
-            app:layout_constraintTop_toBottomOf="@+id/jackpot"/>
+            app:layout_constraintTop_toBottomOf="@+id/deposit_confirm_name"/>
 
     <TextView
             android:id="@+id/winner_ticket_id_title"
@@ -192,7 +192,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="end"
-            app:constraint_referenced_ids="jackpot_title, winner_type_title, winner_ticket_id_title"
+            app:constraint_referenced_ids="deposit_confirm_name_title, winner_type_title, winner_ticket_id_title"
             tools:layout_editor_absoluteX="119dp"/>
 
 

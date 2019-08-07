@@ -37,5 +37,5 @@ interface ApiInterfaceBetkey {
 
     @FormUrlEncoded
     @POST("players/lookup")
-    fun getPlayer( @Field("player[lookup]") phone: String): Single<PlayerRestObject>
+    fun findPlayer( @Field("player[lookup]") phone: String): Single<PlayerRestObject>
 }
