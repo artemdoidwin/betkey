@@ -10,5 +10,5 @@ open class MStatus (
     var message: String = "",
 
     @SerializedName("errors")
-    var errors: List<String> = arrayListOf()
+    var errors: List<ErrorObj> = arrayListOf()
 )

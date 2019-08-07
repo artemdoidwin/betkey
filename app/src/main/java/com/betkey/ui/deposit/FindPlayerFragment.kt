@@ -40,7 +40,11 @@ class FindPlayerFragment : BaseFragment() {
                     subscribe(
 //                        viewModel.findPlayer(deposit_find_amount_ET.text.toString()), {
                         viewModel.findPlayer("35621001240"), {
-                            addFragment(FoundFragment.newInstance(), R.id.container_for_fragments, FoundFragment.TAG)
+                            if (it.errors.isNotEmpty() && it.errors[0].code == 33){
+                                addFragment(NoPlayerFoundFragment.newInstance(), R.id.container_for_fragments, NoPlayerFoundFragment.TAG)
+                            }else{
+                                addFragment(FoundFragment.newInstance(), R.id.container_for_fragments, FoundFragment.TAG)
+                            }
                         }, {
                             toast(it.message.toString())
                         }

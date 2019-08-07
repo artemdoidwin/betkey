@@ -5,6 +5,7 @@ import com.betkey.data.BetKeyDataManager
 import com.betkey.data.MarginfoxDataManager
 import com.betkey.data.PSPDataManager
 import com.betkey.network.models.JackpotInfo
+import com.betkey.network.models.PlayerRestObject
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -31,7 +32,7 @@ class MainViewModel(
         return marginfoxDataManager.getJackpotInfo()
     }
 
-    fun findPlayer(phone: String): Completable {
+    fun findPlayer(phone: String): Single<PlayerRestObject> {
         return betkeydataManager.findPlayer(phone)
     }
 

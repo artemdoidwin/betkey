@@ -1,8 +1,11 @@
 package com.betkey.data
 
 import com.betkey.network.ApiInterfaceBetkey
+import com.betkey.network.models.PlayerDeposit
+import com.betkey.network.models.PlayerRestObject
 import com.betkey.repository.ModelRepository
 import io.reactivex.Completable
+import io.reactivex.Single
 
 class BetKeyDataManager(
     private val prefManager: PreferencesManager,
@@ -67,13 +70,11 @@ class BetKeyDataManager(
             }
     }
 
-    fun findPlayer(phone: String): Completable {
+    fun findPlayer(phone: String): Single<PlayerRestObject> {
         return apiBetkey.findPlayer(phone)
-            .flatMapCompletable {
-                Completable.fromRunnable {
-                    modelRepository.player.postValue(it.player)
-                }
+            .flatMap {
+                modelRepository.player.postValue(it.player)
+                Single.just(it)
             }
-
     }
 }
