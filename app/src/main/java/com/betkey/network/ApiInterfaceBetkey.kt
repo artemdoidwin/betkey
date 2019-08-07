@@ -30,10 +30,8 @@ interface ApiInterfaceBetkey {
     @POST("agents/info")
     fun getAgentInfo(@Header("X-AUTH-TOKEN") token: String): Single<AgentRestObject>
 
-    @FormUrlEncoded
-    @POST("agents/wallets")
+    @GET("agents/wallets")
     fun getAgentWallets(@Header("X-AUTH-TOKEN") token: String): Single<Wallets>
-
 
     @FormUrlEncoded
     @POST("players/lookup")

@@ -56,21 +56,20 @@ class BetKeyDataManager(
         }
     }
 
-    fun getAgentWallets() {
-        prefManager.getToken()?.also {
-            apiBetkey.getAgentWallets(it)
-                .flatMapCompletable {
-                    Completable.fromRunnable {
-                        modelRepository.wallets.value = it.wallets
-                    }
+    fun getAgentWallets(): Completable {
+        var token = ""
+        prefManager.getToken()?.let { token = it }
+        return apiBetkey.getAgentWallets(token)
+            .flatMapCompletable {
+                Completable.fromRunnable {
+                    modelRepository.wallets.postValue(it.wallets)
                 }
-        }
+            }
     }
 
-    fun findPlayer(phone: String) : Completable{
+    fun findPlayer(phone: String): Completable {
         return apiBetkey.findPlayer(phone)
             .flatMapCompletable {
-                val p = it.player
                 Completable.fromRunnable {
                     modelRepository.player.postValue(it.player)
                 }

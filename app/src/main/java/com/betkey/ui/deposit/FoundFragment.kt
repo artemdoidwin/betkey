@@ -51,6 +51,8 @@ class FoundFragment : BaseFragment() {
 
         viewModel.player.observe(this, Observer { player ->
             player?.also {
+                val name = "${it.first_name} ${it.last_name}"
+                deposit_found_name.text = name
                 deposit_found_phone.text = it.phone
                 deposit_found_currency.text = it.currency
             }

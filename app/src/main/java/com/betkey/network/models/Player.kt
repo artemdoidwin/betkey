@@ -34,5 +34,11 @@ data class Player(
     var updated: Long = 0,
 
     @SerializedName("phones")
-    var phonesList: List<String> = listOf()
+    var phonesList: List<String> = listOf(),
+
+    @SerializedName("first_name")
+    var first_name: String = "",
+
+    @SerializedName("last_name")
+    var last_name: String = ""
 )

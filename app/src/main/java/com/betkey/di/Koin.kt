@@ -3,15 +3,14 @@ package com.betkey.di
 import android.content.Context
 import com.betkey.data.BetKeyDataManager
 import com.betkey.data.MarginfoxDataManager
+import com.betkey.data.PSPDataManager
 import com.betkey.data.PreferencesManager
 import com.betkey.network.ApiInterfaceBetkey
 import com.betkey.network.ApiInterfaceMarginfox
+import com.betkey.network.ApiInterfacePSP
 import com.betkey.repository.ModelRepository
 import com.betkey.ui.MainViewModel
-import com.betkey.utils.API_KEY_BETKEY
-import com.betkey.utils.API_KEY_MARGINFOX
-import com.betkey.utils.BASE_URSL_BETKEY
-import com.betkey.utils.BASE_URSL_MARGINFOX
+import com.betkey.utils.*
 import com.google.gson.Gson
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
@@ -22,8 +21,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 private val viewModelModule = module {
-    viewModel { MainViewModel(get(), get()) }
-
+    viewModel { MainViewModel(get(), get(), get()) }
 }
 
 private val networkModule = module {
@@ -59,6 +57,13 @@ private val networkModule = module {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
             .build().create(ApiInterfaceMarginfox::class.java)
     }
+    single {
+        Retrofit.Builder()
+            .baseUrl(BASE_URSL_PSP)
+            .addConverterFactory(GsonConverterFactory.create(Gson()))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+            .build().create(ApiInterfacePSP::class.java)
+    }
 }
 
 private val dataModule = module {
@@ -66,9 +71,8 @@ private val dataModule = module {
     single { PreferencesManager(get()) }
     single { BetKeyDataManager(get(), get(), get()) }
     single { MarginfoxDataManager(get(), get(), get()) }
+    single { PSPDataManager(get(), get(), get()) }
     single { ModelRepository(get()) }
-
-
 }
 
 val appModules = mutableListOf(viewModelModule, networkModule, dataModule)

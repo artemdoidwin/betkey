@@ -13,6 +13,7 @@ class ModelRepository(
     val wallets = MutableLiveData<MutableList<Wallet>>().apply { value = null }
     val events = MutableLiveData<Map<String, Event>>().apply { value = null }
     val player = MutableLiveData<Player>().apply { value = null }
+    val payment = MutableLiveData<PaymentRest>().apply { value = null }
 
 
 
