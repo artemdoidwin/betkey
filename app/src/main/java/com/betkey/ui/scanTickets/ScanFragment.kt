@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView
@@ -38,10 +40,16 @@ class ScanFragment : BaseFragment(), QRCodeReaderView.OnQRCodeReadListener  {
         activity!!.text_toolbar.text = "rrr"
 
         compositeDisposable.add(
-            winner_back_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
+            scan_back_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 activity!!.finish()
             }
         )
+        viewModel.link.observe(this, Observer { link ->
+            link?.also {
+                addFragment(ScanWinnerFragment.newInstance(), R.id.container_for_fragments, ScanWinnerFragment.TAG)
+            }
+        })
+
     }
 
     override fun onQRCodeRead(text: String?, points: Array<out PointF>?) {
@@ -51,6 +59,9 @@ class ScanFragment : BaseFragment(), QRCodeReaderView.OnQRCodeReadListener  {
 //                viewModel.openQREventId.value = eventId
 //
 //            }
+            if ( viewModel.link.value == null){
+                viewModel.link.value = link
+            }
         }
     }
 

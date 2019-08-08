@@ -35,6 +35,9 @@
         <activity
                 android:screenOrientation="portrait"
                 android:name=".ui.deposit.DepositActivity"/>
+        <activity
+                android:screenOrientation="portrait"
+                android:name=".ui.sportbetting.SportBettingActivity"/>
 
     </application>
 

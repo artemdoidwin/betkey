@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <ImageView
+            android:id="@+id/sp_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ball"
+            app:layout_constraintBottom_toTopOf="@+id/sp_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="ContentDescription"/>
+
+
+    <TextView
+            android:id="@+id/sp_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:text="@string/sportbetting_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sp_logo"
+            app:layout_constraintBottom_toTopOf="@+id/sp_todays_event_btn"/>
+
+
+    <Button
+            android:id="@+id/sp_todays_event_btn"
+            style="@style/ButtonGreenTheme"
+            android:layout_width="@dimen/big_btn_width"
+            android:layout_height="@dimen/big_btn_height"
+            android:layout_marginBottom="40dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="@string/sportbetting_todat_events"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/sp_next_3_days_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+            android:id="@+id/sp_next_3_days_btn"
+            style="@style/ButtonGreenTheme"
+            android:layout_width="@dimen/big_btn_width"
+            android:layout_height="@dimen/big_btn_height"
+            android:layout_marginBottom="40dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="@string/sportbetting_next_3_days"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/login_ok_guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+            android:id="@+id/sp_lookup_booking__btn"
+            style="@style/ButtonYellowTheme"
+            android:layout_width="@dimen/big_btn_width"
+            android:layout_height="@dimen/big_btn_height"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="@string/sportbetting_lookup_booking"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/login_ok_guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    <LinearLayout
+            android:layout_width="@dimen/big_btn_width"
+            android:layout_height="90dp"
+            android:layout_marginTop="40dp"
+            app:layout_constraintTop_toBottomOf="@+id/sp_lookup_booking__btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+            <Button
+                    android:id="@+id/sb_event_id"
+                    style="@style/ButtonGrayTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textAllCaps="true"
+                    android:text="@string/sportbetting_event_id"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    tools:ignore="NestedWeights"/>
+
+            <Button
+                    android:id="@+id/sb_market_id"
+                    style="@style/ButtonGrayTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:textAllCaps="true"
+                    android:text="@string/sportbetting_market_id"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
+
+        </LinearLayout>
+
+        <Button
+                android:id="@+id/sb_add_bet"
+                style="@style/ButtonGreenTheme"
+                android:layout_width="0dp"
+                android:layout_height="90dp"
+                android:gravity="center"
+                android:layout_marginStart="4dp"
+                android:textAllCaps="true"
+                android:layout_weight="1"
+                android:text="@string/sportbetting_add_bet"
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
+
+    </LinearLayout>
+
+    <Button
+            android:id="@+id/sp_back_btn"
+            style="@style/ButtonRedTheme"
+            android:layout_width="@dimen/small_btn_width"
+            android:layout_height="@dimen/small_btn_height"
+            android:layout_marginBottom="30dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="@string/back_btn"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/login_ok_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

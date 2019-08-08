@@ -4,8 +4,10 @@ import com.betkey.base.BaseViewModel
 import com.betkey.data.BetKeyDataManager
 import com.betkey.data.MarginfoxDataManager
 import com.betkey.data.PSPDataManager
+import com.betkey.network.models.AgentBettingResult
 import com.betkey.network.models.JackpotInfo
 import com.betkey.network.models.PlayerRestObject
+import com.betkey.utils.AGENT_HHT
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -19,6 +21,9 @@ class MainViewModel(
     val wallets = betkeydataManager.wallets
     val player = betkeydataManager.player
     val payment = pspDataManager.payment
+    val link = pspDataManager.link
+    val agentBet = marginfoxDataManager.agentBet
+    val jackpotInfo = marginfoxDataManager.jackpotInfo
 
     fun login(userName: String, password: String): Completable {
         return betkeydataManager.login(userName, password)
@@ -30,6 +35,21 @@ class MainViewModel(
 
     fun getJacpotInfo(): Single<JackpotInfo>{
         return marginfoxDataManager.getJackpotInfo()
+    }
+
+    fun jackpotAgentBetting(
+        selection0: String,
+        selection1: String,
+        selection2: String,
+        selection3: String,
+        selection4: String,
+        selection5: String,
+        selection6: String,
+        stake: Int,
+        alternativeSelections: Int
+    ): Single<AgentBettingResult>{
+        return marginfoxDataManager.jackpotAgentBetting(selection0, selection1, selection2, selection3, selection4,
+            selection5, selection6, stake, alternativeSelections)
     }
 
     fun findPlayer(phone: String): Single<PlayerRestObject> {

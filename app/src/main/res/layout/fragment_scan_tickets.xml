@@ -44,7 +44,7 @@
             app:layout_constraintBottom_toTopOf="@+id/winner_guideline"/>
 
     <Button
-            android:id="@+id/winner_back_btn"
+            android:id="@+id/scan_back_btn"
             style="@style/ButtonRedTheme"
             android:layout_width="@dimen/small_btn_width"
             android:layout_height="@dimen/small_btn_height"

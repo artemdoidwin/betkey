@@ -1,7 +1,6 @@
 package com.betkey.ui.jackpot
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +10,11 @@ import com.betkey.network.models.Event
 import com.betkey.ui.MainViewModel
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_jackpot.*
-import kotlinx.android.synthetic.main.view_toolbar.*
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import java.util.concurrent.TimeUnit
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.HashMap
-import kotlin.collections.ArrayList
 
 
 class JackpotFragment : BaseFragment() {
@@ -33,6 +30,7 @@ class JackpotFragment : BaseFragment() {
     private lateinit var gamesAdapter: JackpotGamesAdapter
     private lateinit var productsListener: GameListener
     private var betDetailsMap = HashMap<String, String>()
+    private var stake: Int? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(com.betkey.R.layout.fragment_jackpot, container, false)
@@ -68,6 +66,7 @@ class JackpotFragment : BaseFragment() {
 
         compositeDisposable.add(
             jackpot_create_ticket_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
+
                 val listPair = betDetailsMap.toList() as ArrayList<Pair<String, String>>
                 listPair.sortWith(Comparator { o1, o2 ->
                     when {
@@ -76,23 +75,48 @@ class JackpotFragment : BaseFragment() {
                         else -> -1
                     }
                 })
+//
+//                subscribe(viewModel.jackpotAgentBetting(
+//                    listPair[0].first,
+//                    listPair[1].first,
+//                    listPair[2].first,
+//                    listPair[3].first,
+//                    listPair[4].first,
+//                    listPair[5].first,
+//                    listPair[6].first,
+//                    stake!!,
+//                    2
+//                ), {
 
-                viewModel.betsDetailsList.value = listPair
-                showFragment(
-                    JackpotConfirmationFragment.newInstance(),
-                    com.betkey.R.id.container_for_fragments,
-                    JackpotConfirmationFragment.TAG
-                )
+
+                    viewModel.betsDetailsList.value = listPair
+                    showFragment(
+                        JackpotConfirmationFragment.newInstance(),
+                        com.betkey.R.id.container_for_fragments,
+                        JackpotConfirmationFragment.TAG
+                    )
+
+//                }, {
+//                    toast(it.message.toString())
+//                })
             }
         )
 
         subscribe(viewModel.getJacpotInfo(), {
-            Log.d("", "")
             val li = mutableListOf<Event>()
             li.addAll(it.events!!.values)
             gamesAdapter.setItems(li)
         }, {
             toast(it.message.toString())
+        })
+
+
+        viewModel.jackpotInfo.observe(myLifecycleOwner, androidx.lifecycle.Observer { jackpotInfo ->
+            jackpotInfo?.also {
+                it.coupon?.also { coupon ->
+                    stake = coupon.defaultStake
+                }
+            }
         })
     }
 }

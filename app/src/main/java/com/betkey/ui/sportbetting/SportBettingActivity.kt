@@ -1,4 +1,4 @@
-package com.betkey.ui.scanTickets
+package com.betkey.ui.sportbetting
 
 import android.app.Activity
 import android.content.Intent
@@ -7,17 +7,18 @@ import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseActivity
 import com.betkey.ui.MainViewModel
-import com.betkey.ui.login.LoginOkFragment
+import com.betkey.ui.deposit.DepositActivity
+import com.betkey.ui.deposit.FindPlayerFragment
 import kotlinx.android.synthetic.main.view_toolbar.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ScanTicketsActivity  : BaseActivity() {
+class SportBettingActivity  : BaseActivity() {
 
     companion object {
         private const val SELECTED_ID = "id_selected"
 
         fun start(activity: Activity) {
-            val intent = Intent(activity, ScanTicketsActivity::class.java).apply {
+            val intent = Intent(activity, SportBettingActivity::class.java).apply {
                 //                putExtra(SELECTED_ID, idSelected)
             }
             activity.startActivity(intent)
@@ -30,7 +31,7 @@ class ScanTicketsActivity  : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.container_for_activity)
 
-        addFragment(ScanFragment.newInstance(), R.id.container_for_fragments, ScanFragment.TAG)
+        addFragment(SportbetingFragment.newInstance(), R.id.container_for_fragments, SportbetingFragment.TAG)
 
         viewModel.wallets.observe(this, Observer { wallets ->
             wallets?.also {
@@ -41,12 +42,12 @@ class ScanTicketsActivity  : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        val listFragments = supportFragmentManager.fragments.filter { frag -> frag.isVisible }
-        val fragment = listFragments[listFragments.size - 1]
-        if (fragment is LoginOkFragment) {
+//        val listFragments = supportFragmentManager.fragments.filter { frag -> frag.isVisible }
+//        val fragment = listFragments[listFragments.size - 1]
+//        if (fragment is FindPlayerFragment) {
+//            finish()
+//        } else {
             super.onBackPressed()
-        } else {
-            finish()
-        }
+//        }
     }
 }

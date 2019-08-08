@@ -13,12 +13,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class JackpotActivity : BaseActivity() {
 
     companion object {
-        private const val SELECTED_ID = "id_selected"
-
         fun start(activity: Activity) {
-            val intent = Intent(activity, JackpotActivity::class.java).apply {
-                //                putExtra(SELECTED_ID, idSelected)
-            }
+            val intent = Intent(activity, JackpotActivity::class.java)
             activity.startActivity(intent)
         }
     }

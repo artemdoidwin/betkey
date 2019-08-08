@@ -5,4 +5,5 @@
     <dimen name="small_btn_height">45dp</dimen>
     <dimen name="big_btn_width">250dp</dimen>
     <dimen name="big_btn_height">45dp</dimen>
+    <dimen name="little_btn_height">30dp</dimen>
 </resources>

@@ -15,6 +15,7 @@ import com.betkey.ui.MainViewModel
 import com.betkey.ui.deposit.DepositActivity
 import com.betkey.ui.jackpot.JackpotActivity
 import com.betkey.ui.scanTickets.ScanTicketsActivity
+import com.betkey.ui.sportbetting.SportBettingActivity
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_login_ok.*
 import kotlinx.android.synthetic.main.view_toolbar.*
@@ -57,16 +58,6 @@ class LoginOkFragment : BaseFragment() {
 
     private fun initButtons() {
         compositeDisposable.add(
-            logout_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
-                subscribe(viewModel.logout(), {
-                    clearStack()
-                    showFragment(LoginFragment.newInstance(), R.id.container_for_fragments, LoginFragment.TAG)
-                }, {
-                    toast(it.message.toString())
-                })
-            }
-        )
-        compositeDisposable.add(
             scan_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 val permissions = arrayOf(Manifest.permission.CAMERA)
                 if (hasPermissions(context!!, *permissions)) {
@@ -77,13 +68,28 @@ class LoginOkFragment : BaseFragment() {
             }
         )
         compositeDisposable.add(
-            deposits_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
-                DepositActivity.start(activity!!)
+            sport_betting_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
+                SportBettingActivity.start(activity!!)
             }
         )
         compositeDisposable.add(
             jackpot_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 JackpotActivity.start(activity!!)
+            }
+        )
+        compositeDisposable.add(
+            deposits_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
+                DepositActivity.start(activity!!)
+            }
+        )
+        compositeDisposable.add(
+            logout_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
+                subscribe(viewModel.logout(), {
+                    clearStack()
+                    showFragment(LoginFragment.newInstance(), R.id.container_for_fragments, LoginFragment.TAG)
+                }, {
+                    toast(it.message.toString())
+                })
             }
         )
     }

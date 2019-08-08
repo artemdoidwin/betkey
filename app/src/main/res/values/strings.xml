@@ -10,7 +10,7 @@
 
     <string name="login_ok_title">Main menu</string>
     <string name="login_ok_scan_btn">Scan ticket</string>
-    <string name="login_ok_sport_btn">Sport betting</string>
+    <string name="login_ok_sport_btn">Sportsbetting</string>
     <string name="login_ok_jackpot_btn">Jackpot</string>
     <string name="login_ok_deposits_btn">Deposits</string>
     <string name="logout_btn">Logout</string>
@@ -56,6 +56,27 @@
     <string name="deposit_successful">Deposit is successful</string>
     <string name="deposit_instantly">Player is account is instantly updated!</string>
     <string name="deposit_no_found">No player found</string>
+
+    <string name="sportbetting_title">Sportsbetting</string>
+    <string name="sportbetting_todat_events">Today\'s events</string>
+    <string name="sportbetting_next_3_days">Next 3 days</string>
+    <string name="sportbetting_lookup_booking">Lookup booking</string>
+    <string name="sportbetting_event_id">Event id</string>
+    <string name="sportbetting_market_id">Market id</string>
+    <string name="sportbetting_add_bet">Add bet</string>
+    <string name="sportbetting_betslip">Betslip</string>
+    <string name="sportbetting_stake">Stake</string>
+    <string name="sportbetting_total_odds">Total odds:</string>
+    <string name="sportbetting_potential_win">Potential win:</string>
+    <string name="sportbetting_bonus">Bonus:</string>
+    <string name="sportbetting_total_win">Total win:</string>
+    <string name="sportbetting_tax">Tax 10%:</string>
+    <string name="sportbetting_payout">Payout:</string>
+    <string name="sportbetting_place_bet">Place bet</string>
+    <string name="sportbetting_clear_bets">Clear all bets</string>
+    <string name="sportbetting_bet">Bet:</string>
+    <string name="sportbetting_Odds">Odds:</string>
+
 
 
 </resources>

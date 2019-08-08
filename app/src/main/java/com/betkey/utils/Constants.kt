@@ -7,3 +7,5 @@ const val BASE_URSL_MARGINFOX = "http://api.exaloc.org/v1/"
 const val API_KEY_MARGINFOX = "exaloc"
 
 const val BASE_URSL_PSP = "http://exaloc-payment-psp.betkey.net/"
+
+const val AGENT_HHT = "AGENT_HHT"

@@ -19,7 +19,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_priority_high_green"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="ContentDescription"/>
 
     <TextView
             android:id="@+id/deposit_confirm_head_text"

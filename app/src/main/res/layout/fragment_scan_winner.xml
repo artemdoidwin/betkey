@@ -172,12 +172,12 @@
             android:text="@string/winner_payout_btn"
             android:textColor="@color/white"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/jackpot_create_ticket_btn"
+            app:layout_constraintBottom_toTopOf="@+id/winner_ticket_detail_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
     <Button
-            android:id="@+id/jackpot_create_ticket_btn"
+            android:id="@+id/winner_ticket_detail_btn"
             style="@style/ButtonGreenTheme"
             android:layout_width="@dimen/big_btn_width"
             android:layout_height="@dimen/big_btn_height"
