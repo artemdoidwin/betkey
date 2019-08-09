@@ -7,36 +7,37 @@
         android:background="@color/white">
 
     <ImageView
-            android:id="@+id/deposit_logo"
+            android:id="@+id/scan_success_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="25dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:scaleType="fitCenter"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/winner"
+            app:srcCompat="@drawable/ic_done"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="ContentDescription"/>
 
     <TextView
-            android:id="@+id/deposit_confirm_head_text"
+            android:id="@+id/scan_success_logo_head_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/winner_color"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:textAllCaps="true"
             android:textStyle="bold"
-            android:layout_marginTop="8dp"
-            android:text="@string/winner_head"
+            android:layout_marginTop="16dp"
+            android:text="@string/scan_payout_success"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/deposit_logo"/>
+            app:layout_constraintTop_toBottomOf="@+id/scan_success_logo"/>
 
     <TextView
-            android:id="@+id/deposit_confirm_name_title"
+            android:id="@+id/scan_success_created_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -46,11 +47,11 @@
             android:text="@string/winner_created"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/deposit_confirm_head_text"/>
+            android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@+id/scan_success_logo_head_text"/>
 
     <TextView
-            android:id="@+id/deposit_confirm_name"
+            android:id="@+id/scan_success_created"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="start"
@@ -60,14 +61,13 @@
             android:textStyle="bold"
             android:text="@string/scan_title"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="32dp"
-            app:layout_constraintStart_toEndOf="@+id/jackpot_titles_barrier"
-            app:layout_constraintTop_toBottomOf="@+id/deposit_confirm_head_text"/>
+            app:layout_constraintStart_toEndOf="@+id/scan_success_barrier"
+            app:layout_constraintTop_toTopOf="@+id/scan_success_created_title"/>
 
     <TextView
-            android:id="@+id/winner_type_title"
+            android:id="@+id/scan_success_type_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -77,11 +77,11 @@
             android:text="@string/winner_type"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/deposit_confirm_name_title"/>
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/scan_success_created_title"/>
 
     <TextView
-            android:id="@+id/winner_type"
+            android:id="@+id/scan_success_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="start"
@@ -91,14 +91,13 @@
             android:textStyle="bold"
             android:text="@string/scan_title"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="32dp"
-            app:layout_constraintStart_toEndOf="@+id/jackpot_titles_barrier"
-            app:layout_constraintTop_toBottomOf="@+id/deposit_confirm_name"/>
+            app:layout_constraintStart_toEndOf="@+id/scan_success_barrier"
+            app:layout_constraintTop_toTopOf="@+id/scan_success_type_title"/>
 
     <TextView
-            android:id="@+id/winner_ticket_id_title"
+            android:id="@+id/scan_success_ticket_id_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -107,12 +106,12 @@
             android:textAllCaps="true"
             android:text="@string/winner_ticket_id"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginStart="30dp"
-            app:layout_constraintTop_toBottomOf="@+id/winner_type_title"/>
+            app:layout_constraintTop_toBottomOf="@+id/scan_success_type_title"/>
 
     <TextView
-            android:id="@+id/winner_ticket_id"
+            android:id="@+id/scan_success_ticket_id"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="start"
@@ -122,87 +121,71 @@
             android:textStyle="bold"
             android:text="@string/scan_title"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="32dp"
-            app:layout_constraintStart_toEndOf="@+id/jackpot_titles_barrier"
-            app:layout_constraintTop_toBottomOf="@+id/winner_type"/>
+            app:layout_constraintStart_toEndOf="@+id/scan_success_barrier"
+            app:layout_constraintTop_toTopOf="@+id/scan_success_ticket_id_title"/>
 
     <TextView
-            android:id="@+id/deposit_confirm_sum"
+            android:id="@+id/scan_success_sum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textSize="44sp"
             android:textAllCaps="true"
-            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintHorizontal_chainStyle="packed"
             android:textStyle="bold"
-            android:text="2000"
+            tools:text="2000"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="30dp"
-            app:layout_constraintTop_toBottomOf="@+id/winner_ticket_id"
-            app:layout_constraintStart_toStartOf="@+id/winner_back_btn"
+            app:layout_constraintTop_toBottomOf="@+id/scan_success_ticket_id_title"
+            app:layout_constraintStart_toStartOf="@+id/scan_success_play_player"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintEnd_toStartOf="@+id/deposit_confirm_currency"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/winner_payout_btn"/>
+            app:layout_constraintEnd_toStartOf="@+id/scan_success_currency"
+            app:layout_constraintBottom_toTopOf="@+id/scan_success_play_player"/>
 
     <TextView
-            android:id="@+id/deposit_confirm_currency"
+            android:id="@+id/scan_success_currency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textSize="38sp"
             android:textAllCaps="true"
             android:textStyle="bold"
-            android:text="CFA"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintBottom_toBottomOf="@+id/deposit_confirm_sum"
-            app:layout_constraintStart_toEndOf="@+id/deposit_confirm_sum"
+            tools:text="CFA"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintBottom_toBottomOf="@+id/scan_success_sum"
+            app:layout_constraintStart_toEndOf="@+id/scan_success_sum"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintEnd_toEndOf="@+id/winner_back_btn"/>
+            app:layout_constraintEnd_toEndOf="@+id/scan_success_play_player"/>
 
-    <Button
-            android:id="@+id/winner_payout_btn"
-            style="@style/ButtonGreenTheme"
-            android:layout_width="@dimen/big_btn_width"
-            android:layout_height="@dimen/big_btn_height"
-            android:layout_marginBottom="20dp"
-            android:gravity="center"
+    <TextView
+            android:id="@+id/scan_success_play_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:textSize="21sp"
             android:textAllCaps="true"
-            android:text="@string/winner_payout_btn"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/winner_ticket_detail_btn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:textStyle="bold"
+            android:text="@string/scan_payout_play_player"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintEnd_toEndOf="@+id/scan_success_back_btn"
+            app:layout_constraintStart_toStartOf="@+id/scan_success_back_btn"
+            app:layout_constraintBottom_toTopOf="@+id/scan_success_back_btn"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/scan_success_sum"
+            app:layout_constraintHorizontal_bias="0.5"/>
 
     <Button
-            android:id="@+id/winner_ticket_detail_btn"
-            style="@style/ButtonGreenTheme"
-            android:layout_width="@dimen/big_btn_width"
-            android:layout_height="@dimen/big_btn_height"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="25dp"
-            android:gravity="center"
-            android:textAllCaps="true"
-            android:text="@string/winner_details_btn"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/winner_back_btn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-    <Button
-            android:id="@+id/winner_back_btn"
+            android:id="@+id/scan_success_back_btn"
             style="@style/ButtonRedTheme"
             android:layout_width="@dimen/small_btn_width"
             android:layout_height="@dimen/small_btn_height"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="30dp"
             android:gravity="center"
             android:textAllCaps="true"
-            android:text="@string/back_btn"
+            android:text="@string/home_btn"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -210,19 +193,12 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
 
-
-    <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/winner_guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5"/>
-
     <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/jackpot_titles_barrier"
+            android:id="@+id/scan_success_barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="end"
-            app:constraint_referenced_ids="deposit_confirm_name_title, winner_type_title, winner_ticket_id_title"/>
+            app:constraint_referenced_ids="scan_success_created_title,
+            scan_success_type_title, scan_success_ticket_id_title"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

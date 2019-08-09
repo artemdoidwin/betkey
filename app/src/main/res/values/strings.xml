@@ -2,6 +2,8 @@
     <string name="app_name">Betkey</string>
 
     <string name="no_permission">Permissions not granted</string>
+    <string name="wait">...</string>
+    <string name="enter_password">Please enter correct username or password</string>
 
     <string name="login_title">Betkey agent pos</string>
     <string name="login_username_hint">Username</string>
@@ -16,9 +18,12 @@
     <string name="logout_btn">Logout</string>
 
     <string name="scan_title">Please scan ticket</string>
+    <string name="scan_payout_success">Payout success</string>
+    <string name="scan_payout_play_player">!! Please play player !!</string>
+    <string name="scan_detail_type">Type:</string>
+
     <string name="back_btn">Back</string>
     <string name="home_btn">Home</string>
-    <string name="wait">...</string>
 
     <string name="winner_head">Winner</string>
     <string name="winner_created">Created:</string>

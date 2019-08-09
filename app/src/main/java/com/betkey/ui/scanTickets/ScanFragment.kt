@@ -54,13 +54,14 @@ class ScanFragment : BaseFragment(), QRCodeReaderView.OnQRCodeReadListener  {
 
     override fun onQRCodeRead(text: String?, points: Array<out PointF>?) {
         text?.also { link ->
-            toast(link)
+
 //            Uri.parse(link)?.getQueryParameter(EventDetailsActivity.KEY_EVENT_ID)?.also { eventId ->
 //                viewModel.openQREventId.value = eventId
 //
 //            }
             if ( viewModel.link.value == null){
                 viewModel.link.value = link
+                toast(link)
             }
         }
     }
