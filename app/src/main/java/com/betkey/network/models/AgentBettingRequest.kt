@@ -11,7 +11,7 @@ class AgentBettingResult (
     var message: String? = null,
 
     @SerializedName("message_data")
-    var message_data: List<String>? = null,
+    var message_data: MessageData? = null,
 
     @SerializedName("error_code")
     var error_code: Int? = null,

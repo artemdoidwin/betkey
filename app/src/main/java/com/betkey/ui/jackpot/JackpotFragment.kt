@@ -8,6 +8,8 @@ import com.betkey.base.BaseFragment
 import com.betkey.network.models.Bet
 import com.betkey.network.models.Event
 import com.betkey.ui.MainViewModel
+import com.betkey.utils.dateToString
+import com.betkey.utils.toFullDate
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_jackpot.*
 import org.jetbrains.anko.support.v4.toast
@@ -40,21 +42,21 @@ class JackpotFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         productsListener = object : GameListener {
-            override fun onCommandLeft(commandName: String, bet: Bet) {
+            override fun onCommandLeft(commandName: String, bet: Bet, selection: String) {
                 betDetailsMap[commandName] = bet.name
                 if (betDetailsMap.size == gamesAdapter.itemCount) {
                     jackpot_create_ticket_btn.isEnabled = true
                 }
             }
 
-            override fun onIDraw(commandName: String, bet: Bet) {
+            override fun onIDraw(commandName: String, bet: Bet, selection: String) {
                 betDetailsMap[commandName] = bet.name
                 if (betDetailsMap.size == gamesAdapter.itemCount) {
                     jackpot_create_ticket_btn.isEnabled = true
                 }
             }
 
-            override fun onCommandRight(commandName: String, bet: Bet) {
+            override fun onCommandRight(commandName: String, bet: Bet, selection: String) {
                 betDetailsMap[commandName] = bet.name
                 if (betDetailsMap.size == gamesAdapter.itemCount) {
                     jackpot_create_ticket_btn.isEnabled = true
@@ -62,7 +64,7 @@ class JackpotFragment : BaseFragment() {
             }
         }
         gamesAdapter = JackpotGamesAdapter(productsListener)
-        games_adapter.adapter = gamesAdapter
+        jackpot_games_adapter.adapter = gamesAdapter
 
         compositeDisposable.add(
             jackpot_create_ticket_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
@@ -75,30 +77,27 @@ class JackpotFragment : BaseFragment() {
                         else -> -1
                     }
                 })
-//
-//                subscribe(viewModel.jackpotAgentBetting(
-//                    listPair[0].first,
-//                    listPair[1].first,
-//                    listPair[2].first,
-//                    listPair[3].first,
-//                    listPair[4].first,
-//                    listPair[5].first,
-//                    listPair[6].first,
-//                    stake!!,
-//                    2
-//                ), {
 
-
+                subscribe(viewModel.jackpotAgentBetting(
+                    convertFieldToKey(listPair[0].second),
+                    convertFieldToKey(listPair[1].second),
+                    convertFieldToKey(listPair[2].second),
+                    convertFieldToKey(listPair[3].second),
+                    convertFieldToKey(listPair[4].second),
+                    convertFieldToKey(listPair[5].second),
+                    convertFieldToKey(listPair[6].second),
+                    stake!!,
+                    2
+                ), {
                     viewModel.betsDetailsList.value = listPair
                     showFragment(
                         JackpotConfirmationFragment.newInstance(),
                         com.betkey.R.id.container_for_fragments,
                         JackpotConfirmationFragment.TAG
                     )
-
-//                }, {
-//                    toast(it.message.toString())
-//                })
+                }, {
+                    toast(it.message.toString())
+                })
             }
         )
 
@@ -106,17 +105,30 @@ class JackpotFragment : BaseFragment() {
             val li = mutableListOf<Event>()
             li.addAll(it.events!!.values)
             gamesAdapter.setItems(li)
+            it.coupon?.also { coupon ->
+                stake = coupon.defaultStake
+                jackpot_coupon_id.text = coupon.coupon?.id.toString()
+
+                viewModel.wallets.value?.also {
+                    val price = "${coupon.defaultStake} ${viewModel.wallets.value!![0].currency} "
+                    jackpot_ticket_price.text = price
+                }
+
+                val date = coupon.coupon?.expires?.toFullDate()!!.dateToString()
+                jackpot_coupon_last_entry.text = date
+            }
         }, {
             toast(it.message.toString())
         })
+    }
 
-
-        viewModel.jackpotInfo.observe(myLifecycleOwner, androidx.lifecycle.Observer { jackpotInfo ->
-            jackpotInfo?.also {
-                it.coupon?.also { coupon ->
-                    stake = coupon.defaultStake
-                }
-            }
-        })
+    private fun convertFieldToKey(field: String): String {
+        var key = ""
+        when (field) {
+            "Home" -> key = "1"
+            "Draw" -> key = "X"
+            "Away" -> key = "2"
+        }
+        return key
     }
 }

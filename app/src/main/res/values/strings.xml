@@ -18,6 +18,7 @@
     <string name="scan_title">Please scan ticket</string>
     <string name="back_btn">Back</string>
     <string name="home_btn">Home</string>
+    <string name="wait">...</string>
 
     <string name="winner_head">Winner</string>
     <string name="winner_created">Created:</string>
@@ -29,7 +30,7 @@
     <string name="jackpot_jackpot_title">Jackpot:</string>
     <string name="jackpot_round_title">Round:</string>
     <string name="jackpot_last_entry_title">Last entry:</string>
-    <string name="jackpot_ticket_price_title">Game</string>
+    <string name="jackpot_ticket_price_title">Ticket price:</string>
     <string name="jackpot_draw_btn">Draw</string>
     <string name="jackpot_create_ticket_btn">Create ticket</string>
 
