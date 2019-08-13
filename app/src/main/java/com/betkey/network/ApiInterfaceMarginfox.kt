@@ -1,6 +1,7 @@
 package com.betkey.network
 
 import com.betkey.network.models.AgentBettingResult
+import com.betkey.network.models.BetLookupObj
 import com.betkey.network.models.JackpotInfo
 import io.reactivex.Single
 import retrofit2.http.*
@@ -45,7 +46,11 @@ interface ApiInterfaceMarginfox {
 
         @Field("jackpot[alternativeSelections][0]")
         alternativeSelections: Int
-
-
     ): Single<AgentBettingResult>
+
+    @GET("jackpot_bet/lookup/{betslip_code}")
+    fun betLookup(
+        @Path("betslip_code")
+        betslip_code: String
+    ): Single<BetLookupObj>
 }

@@ -31,6 +31,7 @@
     <string name="winner_ticket_id">Ticket id:</string>
     <string name="winner_payout_btn">Payout ticket</string>
     <string name="winner_details_btn">Ticket details</string>
+    <string name="winner_wrong_ticket_id">Wrong ticket id</string>
 
     <string name="jackpot_jackpot_title">Jackpot:</string>
     <string name="jackpot_round_title">Round:</string>

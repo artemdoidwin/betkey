@@ -27,18 +27,45 @@ data class Event (
     @SerializedName("updated_at")
     var updatedAt: String? = null,
 
+    @SerializedName("updated")
+    var updated: Boolean? = null,
+
     @SerializedName("teams")
-    var teams: Map<String, Team>,
+    var teams: Map<String, Team> = mapOf(),
 
     @SerializedName("league")
     var league: League? = null,
 
     @SerializedName("markets")
-    var markets: Map<String, Market>,
+    var markets: Map<String, Market> = mapOf(),
 
     @SerializedName("result")
     var result: String? = null,
 
     @SerializedName("markets_count")
-    var marketsCount: Int? = null
+    var marketsCount: Int? = null,
+
+    @SerializedName("bet")
+    var bet: String? = null,
+
+    @SerializedName("odds")
+    var odds: Double? = null,
+
+    @SerializedName("odds_formats")
+    var odds_formats: Any? = null,
+
+    @SerializedName("bet_time_info")
+    var bet_time_info: Any? = null,
+
+    @SerializedName("market")
+    var market: String? = null,
+
+    @SerializedName("market_name")
+    var market_name: String? = null,
+
+    @SerializedName("line")
+    var line: String? = null,
+
+    @SerializedName("time")
+    var time: TimeObj? = null
 )

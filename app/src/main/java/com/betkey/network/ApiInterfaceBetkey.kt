@@ -35,5 +35,15 @@ interface ApiInterfaceBetkey {
 
     @FormUrlEncoded
     @POST("players/lookup")
-    fun findPlayer( @Field("player[lookup]") phone: String): Single<PlayerRestObject>
+    fun findPlayer(@Field("player[lookup]") phone: String): Single<PlayerRestObject>
+
+    @GET("tickets/agents_tickets/{ticket_id}")
+    fun checkTicket(
+        @Header("X-AUTH-TOKEN")
+        token: String,
+
+        @Path("ticket_id")
+        ticketId: String
+    ): Single<TicketRestObj>
+
 }

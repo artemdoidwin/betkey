@@ -8,18 +8,20 @@ import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
+import com.betkey.ui.jackpot.JackpotConfirmationFragment
 import com.betkey.utils.createDateString
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_scan_winner.*
+import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.concurrent.TimeUnit
 
-class ScanWinnerFragment : BaseFragment() {
+class ScanerNoWinnerFragment : BaseFragment() {
 
     companion object {
-        const val TAG = "ScanWinnerFragment"
+        const val TAG = "ScanerNoWinnerFragment"
 
-        fun newInstance() = ScanWinnerFragment()
+        fun newInstance() = ScanerNoWinnerFragment()
     }
 
     private val viewModel by sharedViewModel<MainViewModel>()
@@ -30,15 +32,33 @@ class ScanWinnerFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        winner_logo.setImageResource(R.drawable.no_winner)
+        winner_payout_btn.visibility = View.GONE
+        winner_sum.visibility = View.GONE
+        winner_currency.visibility = View.GONE
+
+        viewModel.ticket.observe(myLifecycleOwner, Observer { ticket ->
+            ticket?.also {
+                winner_created.text = createDateString(it.created!!.toLong())
+                winner_type.text = it.platformUnit!!.name
+                winner_ticket_id.text = it.ticketId
+            }
+        })
 
         compositeDisposable.add(
-            winner_payout_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
-                addFragment(ScanPayoutSuccessFragment.newInstance(), R.id.container_for_fragments, ScanPayoutSuccessFragment.TAG)
-            }
-        )
-        compositeDisposable.add(
             winner_ticket_detail_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
-                addFragment(ScanTikcetDetailsFragment.newInstance(), R.id.container_for_fragments, ScanTikcetDetailsFragment.TAG)
+                viewModel.ticket.value?.also { ticket ->
+
+                    subscribe(viewModel.betLookup(ticket.ticketId!!), {
+                        addFragment(
+                            ScanTikcetDetailsFragment.newInstance(),
+                            R.id.container_for_fragments,
+                            ScanTikcetDetailsFragment.TAG
+                        )
+                    }, {
+                        toast(it.message.toString())
+                    })
+                }
             }
         )
         compositeDisposable.add(
@@ -47,14 +67,6 @@ class ScanWinnerFragment : BaseFragment() {
                 popBackStack()
             }
         )
-
-        viewModel.ticket.observe(myLifecycleOwner, Observer { ticket ->
-            ticket?.also {
-                winner_created.text  = createDateString(it.created!!.toLong())
-                winner_type.text  = it.platformUnit!!.name
-                winner_ticket_id.text  = it.ticketId
-            }
-        })
     }
 
     override fun onDestroyView() {

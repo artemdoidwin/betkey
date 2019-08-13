@@ -3,6 +3,7 @@ package com.betkey.data
 import androidx.lifecycle.MutableLiveData
 import com.betkey.network.ApiInterfaceMarginfox
 import com.betkey.network.models.AgentBettingResult
+import com.betkey.network.models.BetLookupObj
 import com.betkey.network.models.JackpotInfo
 import com.betkey.network.models.PlayerRestObject
 import com.betkey.repository.ModelRepository
@@ -18,11 +19,20 @@ class MarginfoxDataManager(
     val betsDetailsList = MutableLiveData<List<Pair<String, String>>>().apply { value = null }
     val agentBet = modelRepository.agentBet
     val jackpotInfo = modelRepository.jackpotInfo
+    val lookupBets = modelRepository.lookupBets
 
     fun getJackpotInfo(): Single<JackpotInfo> {
         return apiMarginfox.getJacpotInfo()
             .flatMap {
                 modelRepository.jackpotInfo.postValue(it)
+                Single.just(it)
+            }
+    }
+
+    fun betLookup( ticketId: String): Single<BetLookupObj> {
+        return apiMarginfox.betLookup(ticketId)
+            .flatMap {
+                modelRepository.lookupBets.postValue(it)
                 Single.just(it)
             }
     }

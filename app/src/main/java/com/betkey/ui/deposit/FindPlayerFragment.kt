@@ -38,8 +38,8 @@ class FindPlayerFragment : BaseFragment() {
             deposit_find_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
 //                if (deposit_find_amount_ET.text.length >= 9) {
                     subscribe(
-//                        viewModel.findPlayer(deposit_find_amount_ET.text.toString()), {
-                        viewModel.findPlayer("35621001240"), {
+                        viewModel.findPlayer(deposit_find_amount_ET.text.toString()), {
+//                        viewModel.findPlayer("35621001240"), {
                             if (it.errors.isNotEmpty() && it.errors[0].code == 33){
                                 addFragment(NoPlayerFoundFragment.newInstance(), R.id.container_for_fragments, NoPlayerFoundFragment.TAG)
                             }else{

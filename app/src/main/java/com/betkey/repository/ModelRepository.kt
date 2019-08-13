@@ -17,6 +17,8 @@ class ModelRepository(
     val link = SingleLiveEvent<String>().apply { value = null }
     val agentBet = MutableLiveData<AgentBettingResult>().apply { value = null }
     val jackpotInfo = MutableLiveData<JackpotInfo>().apply { value = null }
+    val ticket = MutableLiveData<Ticket>().apply { value = null }
+    val lookupBets = MutableLiveData<BetLookupObj>().apply { value = null }
 
 
 }

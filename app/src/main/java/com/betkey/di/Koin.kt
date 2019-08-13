@@ -15,23 +15,27 @@ import com.google.gson.Gson
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+
 
 private val viewModelModule = module {
     viewModel { MainViewModel(get(), get(), get()) }
 }
 
 private val networkModule = module {
-    single {
+    single(named(BETKEY)) {
         Retrofit.Builder()
             .baseUrl(BASE_URSL_BETKEY)
-            .client(OkHttpClient.Builder()
+            .client(get<OkHttpClient.Builder>()
+                .authenticator(get<TokenAuthenticator>())
                 .addInterceptor {
                     it.proceed(
                         it.request().newBuilder().url(
+//                        it.request().newBuilder().header(TOKEN_NAME, "").url(
                             it.request().url().newBuilder().addQueryParameter("apikey", API_KEY_BETKEY).build()
                         ).build()
                     )
@@ -39,12 +43,12 @@ private val networkModule = module {
                 .build())
             .addConverterFactory(GsonConverterFactory.create(Gson()))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
-            .build().create(ApiInterfaceBetkey::class.java)
+            .build()
     }
-    single {
+    single(named(MARGINFOX)) {
         Retrofit.Builder()
             .baseUrl(BASE_URSL_MARGINFOX)
-            .client(OkHttpClient.Builder()
+            .client(get<OkHttpClient.Builder>()
                 .addInterceptor {
                     it.proceed(
                         it.request().newBuilder().url(
@@ -55,24 +59,33 @@ private val networkModule = module {
                 .build())
             .addConverterFactory(GsonConverterFactory.create(Gson()))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
-            .build().create(ApiInterfaceMarginfox::class.java)
+            .build()
     }
-    single {
+    single(named(PSP)) {
         Retrofit.Builder()
             .baseUrl(BASE_URSL_PSP)
             .addConverterFactory(GsonConverterFactory.create(Gson()))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
-            .build().create(ApiInterfacePSP::class.java)
+            .build()
     }
 }
 
 private val dataModule = module {
-    single { get<Context>().applicationContext.getSharedPreferences("Prefers", Context.MODE_PRIVATE) }
+    single { get<Context>().applicationContext.getSharedPreferences(PREF, Context.MODE_PRIVATE) }
     single { PreferencesManager(get()) }
     single { BetKeyDataManager(get(), get(), get()) }
     single { MarginfoxDataManager(get(), get(), get()) }
     single { PSPDataManager(get(), get(), get()) }
     single { ModelRepository(get()) }
+    factory { TokenAuthenticator(get(), get()) }
+    single { OkHttpClient.Builder() }
 }
 
-val appModules = mutableListOf(viewModelModule, networkModule, dataModule)
+private val apiModule = module {
+    single { get<Retrofit>(named(BETKEY)).create(ApiInterfaceBetkey::class.java) }
+    single { get<Retrofit>(named(MARGINFOX)).create(ApiInterfaceMarginfox::class.java) }
+    single { get<Retrofit>(named(PSP)).create(ApiInterfacePSP::class.java) }
+}
+
+
+val appModules = mutableListOf(viewModelModule, networkModule, dataModule, apiModule)

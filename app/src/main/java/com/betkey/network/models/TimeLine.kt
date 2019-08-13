@@ -8,5 +8,8 @@ data class TimeLine (
     var action: String = "",
 
     @SerializedName("time")
-    var time: Long = 0
+    var time: Long = 0   ,
+
+    @SerializedName("transaction_id")
+    var transactionId: Int = 0
 )

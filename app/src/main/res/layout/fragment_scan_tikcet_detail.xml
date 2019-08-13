@@ -32,7 +32,7 @@
             android:textAllCaps="true"
             android:textStyle="bold"
             android:layout_marginTop="8dp"
-            android:text="@string/jackpot_confirmation_title"
+            android:text="@string/winner_details_btn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/scan_detail_logo"/>
@@ -59,8 +59,8 @@
             android:textColor="@color/black"
             android:textSize="15sp"
             android:textAllCaps="true"
+            android:text="@string/wait"
             android:textStyle="bold"
-            android:text="10 000 000 EUR"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="32dp"
@@ -91,7 +91,7 @@
             android:textSize="15sp"
             android:textAllCaps="true"
             android:textStyle="bold"
-            android:text="@string/wait"
+            android:text="10 000 000 EUR"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="32dp"
@@ -201,8 +201,7 @@
             android:layout_marginStart="32dp"
             app:layout_constraintStart_toEndOf="@+id/confirmation_titles_barrier"
             app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/scan_detail_ticket_code_title"/>
+            app:layout_constraintTop_toTopOf="@+id/scan_detail_ticket_code_title"/>
 
 
     <TextView
@@ -234,8 +233,7 @@
             android:layout_marginStart="32dp"
             app:layout_constraintStart_toEndOf="@+id/confirmation_titles_barrier"
             app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/scan_detail_created_title"/>
+            app:layout_constraintTop_toTopOf="@+id/scan_detail_created_title"/>
 
     <ImageView
             android:id="@+id/dotted_line2"

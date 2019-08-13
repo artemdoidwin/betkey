@@ -10,7 +10,7 @@ data class AuthenticateAgent(
     var tokenExpires: Long = 0,
 
     @SerializedName("agent")
-    var agent: AgentRestObject? = null,
+    var agent: Agent? = null,
 
     @SerializedName("wallets")
     var wallets: List<Wallet>? = null
