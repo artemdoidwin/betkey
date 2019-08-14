@@ -24,7 +24,7 @@ class BetKeyDataManager(
                     it.agent?.also {agent ->
                         prefManager.saveAgent(agent.id, agent.agentId, agent.username)
                     }
-                    modelRepository.agent.postWithValue(it.agent!!)
+//                    modelRepository.agent.postWithValue(it.agent!!)
                     modelRepository.wallets.postValue(it.wallets!!.toMutableList())
                 }
             }

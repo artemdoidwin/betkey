@@ -12,10 +12,10 @@ import com.betkey.base.BaseFragment
 import com.betkey.network.models.ErrorObj
 import com.betkey.network.models.Ticket
 import com.betkey.ui.MainViewModel
+import com.betkey.ui.UsbPrinterActivity
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_scan_tickets.*
-import kotlinx.android.synthetic.main.view_toolbar.*
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.concurrent.TimeUnit
@@ -44,7 +44,9 @@ class ScanFragment : BaseFragment(), QRCodeReaderView.OnQRCodeReadListener {
         compositeDisposable.add(
             scan_back_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 viewModel.link.value = null
-                activity!!.finish()
+//                activity!!.finish()
+//                startActivity(Intent(activity!!, UsbPrinterActivity::class.java))
+                UsbPrinterActivity.start(activity!!, "3j0m-b9s2-ysd", "", "", "")
             }
         )
         viewModel.link.observe(this, Observer { link ->
@@ -54,6 +56,7 @@ class ScanFragment : BaseFragment(), QRCodeReaderView.OnQRCodeReadListener {
                         showErrors(it.errors[0])
                     } else {
                         ticket(it.ticket)
+
                     }
                 }, {
                     if (it.message == null) {

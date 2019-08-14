@@ -38,6 +38,10 @@
         <activity
                 android:screenOrientation="portrait"
                 android:name=".ui.sportbetting.SportBettingActivity"/>
+        <activity
+                android:name=".ui.UsbPrinterActivity"
+                android:theme="@style/Theme.Transparent"
+        />
 
     </application>
 

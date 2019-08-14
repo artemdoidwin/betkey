@@ -65,4 +65,11 @@ dependencies {
     implementation "com.jakewharton.rxbinding3:rxbinding-appcompat:3.0.0-alpha2"
 
     implementation 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
+
+
+    implementation files('libs/SmartCardLib.jar')
+    implementation files('libs/acssmc-1.1.1.jar')
+//    implementation files('libs/core-3.1.0.jar')
+    implementation files('libs/sdtapi.jar')
+    implementation files('libs/telpo_api.jar')
 }
