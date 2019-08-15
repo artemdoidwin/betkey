@@ -53,7 +53,6 @@ class UsbPrinterActivity : BaseActivity() {
     private var progressDialog: ProgressDialog? = null
     private lateinit var dialog: ProgressDialog
     private var mUsbThermalPrinter = UsbThermalPrinter(this@UsbPrinterActivity)
-    private val space = "\n---------------------------\n"
 
     private val viewModel by viewModel<MainViewModel>()
 
@@ -214,12 +213,11 @@ class UsbPrinterActivity : BaseActivity() {
             try {
 //                //picture
                 mUsbThermalPrinter.start(0)
-                mUsbThermalPrinter.reset()
-                mUsbThermalPrinter.setGray(printGray)
-                mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
-                val bitmapSource = BitmapFactory.decodeResource(resources, R.drawable.marginfox_logo)
-                mUsbThermalPrinter.printLogo(bitmapSource, false)
-                mUsbThermalPrinter
+//                mUsbThermalPrinter.reset()
+//                mUsbThermalPrinter.setGray(printGray)
+//                mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
+//                val bitmapSource = BitmapFactory.decodeResource(resources, R.drawable.marginfox_logo)
+//                mUsbThermalPrinter.printLogo(bitmapSource, false)
 
                 //context
                 //init
@@ -232,38 +230,37 @@ class UsbPrinterActivity : BaseActivity() {
                 mUsbThermalPrinter.setGray(printGray)
 
                 //print head
-//                dottedLine()
-//                printHeadRow(
-//                    resources.getString(R.string.jackpot_confirmation_ticket_number).toUpperCase(),
-//                    viewModel.agentBet.value!!.message_data?.couponId.toString(),
-//                    true
-//                )
-//                printHeadRow(
-//                    resources.getString(R.string.jackpot_game_code).toUpperCase(),
-//                    viewModel.agentBet.value!!.message_data?.betCode!!,
-//                    false
-//                )
-//                printHeadRow(
-//                    resources.getString(R.string.jackpot_game_date_time).toUpperCase(),
-//                    createDateString(viewModel.agentBet.value!!.created!!),
-//                    true
-//                )
-//                printHeadRow(
-//                    resources.getString(R.string.scan_detail_type).toUpperCase(),
-//                    viewModel.ticket.value!!.platformUnit!!.name!!,
-//                    false
-//                )
-//                dottedLine()
-//                printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details).toUpperCase())
-//                dottedLine()
-//                for (i in viewModel.lookupBets.value!!.events!!.indices) {
-//                    dottedLine()
-//                    createBetList(viewModel.lookupBets.value!!.events!![i])
-//                }
+                dottedLine()
+                printHeadRow(
+                    resources.getString(R.string.jackpot_confirmation_ticket_number).toUpperCase(),
+                    viewModel.agentBet.value!!.message_data?.couponId.toString(),
+                    true
+                )
+                printHeadRow(
+                    resources.getString(R.string.jackpot_game_code).toUpperCase(),
+                    viewModel.agentBet.value!!.message_data?.betCode!!,
+                    false
+                )
+                printHeadRow(
+                    resources.getString(R.string.jackpot_game_date_time).toUpperCase(),
+                    createDateString(viewModel.agentBet.value!!.created!!),
+                    true
+                )
+                printHeadRow(
+                    resources.getString(R.string.scan_detail_type).toUpperCase(),
+                    viewModel.ticket.value!!.platformUnit!!.name!!,
+                    false
+                )
+                dottedLine()
+                printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details).toUpperCase())
+                for (i in viewModel.lookupBets.value!!.events!!.indices) {
+//                    if (i < 2) {
+                        dottedLine()
+                        createBetList(viewModel.lookupBets.value!!.events!![i])
+//                    }
+                }
 
-//                printStake(viewModel.ticket.value!!.stake!!, viewModel.ticket.value!!.currency!!)
-                mUsbThermalPrinter.addString(contentText)
-                mUsbThermalPrinter.printString()
+                printStake(viewModel.ticket.value!!.stake!!, viewModel.ticket.value!!.currency!!)
 
                 //qr
                 mUsbThermalPrinter.reset()
@@ -306,7 +303,7 @@ class UsbPrinterActivity : BaseActivity() {
         val contentBet = "$date\n" +
                 "$friendlyId $league\n" +
                 "$team1Name -\n" +
-                "$team2Name\n"
+                team2Name
         mUsbThermalPrinter.addString(contentBet)
         mUsbThermalPrinter.printString()
         mUsbThermalPrinter.clearString()
@@ -320,7 +317,7 @@ class UsbPrinterActivity : BaseActivity() {
     }
 
     private fun dottedLine() {
-        mUsbThermalPrinter.addString(space)
+        mUsbThermalPrinter.addString("---------------------------")
         mUsbThermalPrinter.printString()
         mUsbThermalPrinter.clearString()
     }
@@ -334,32 +331,33 @@ class UsbPrinterActivity : BaseActivity() {
     }
 
     private fun printHeadRow(res: String, text: String, reduce: Boolean) {
-        mUsbThermalPrinter.addString("$res ")
+//        mUsbThermalPrinter.addString("$res ")
+//        mUsbThermalPrinter.printString()
+//        mUsbThermalPrinter.clearString()
+//        mUsbThermalPrinter.addString(text)
+//        if (reduce) {
+//            mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_RIGHT)
+//            mUsbThermalPrinter.setFontSize(1)
+//            mUsbThermalPrinter.printString()
+//            mUsbThermalPrinter.clearString()
+//            mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_LEFT)
+//            mUsbThermalPrinter.setFontSize(2)
+//        }else{
+//            mUsbThermalPrinter.printString()
+//        }
+        mUsbThermalPrinter.addString("$res $text")
         mUsbThermalPrinter.printString()
-        mUsbThermalPrinter.clearString()
-        if (reduce) {
-            mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_RIGHT)
-            mUsbThermalPrinter.setFontSize(1)
-        }
-        mUsbThermalPrinter.addString("$text\n")
-        if (reduce) {
-            mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_LEFT)
-            mUsbThermalPrinter.setFontSize(2)
-        }
-        mUsbThermalPrinter.clearString()
     }
 
-    private fun printStake(price: String, currency: String){
-        mUsbThermalPrinter.addString("PLACE")
-        mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
-        mUsbThermalPrinter.addString("11/11")
-        mUsbThermalPrinter.setAlgin(UsbThermalPrinter.DIRECTION_BACK)
+    private fun printStake(price: String, currency: String) {
+//        mUsbThermalPrinter.addString("PLACE")
+//        mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
+//        mUsbThermalPrinter.addString("11/11")
+//        mUsbThermalPrinter.setAlgin(UsbThermalPrinter.DIRECTION_BACK)
         mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_RIGHT)
         val stake = "${price.toDouble().roundOffDecimal()} ${currency.toUpperCase()}"
         mUsbThermalPrinter.addString(stake)
         mUsbThermalPrinter.printString()
-
-
     }
 
     override fun onDestroy() {

@@ -129,6 +129,7 @@ class ScanFragment : BaseFragment(), QRCodeReaderView.OnQRCodeReadListener {
     override fun onResume() {
         super.onResume()
         qr_decoder_view.startCamera()
+        qr_decoder_view.setAutofocusInterval(1000)
     }
 
     override fun onPause() {
