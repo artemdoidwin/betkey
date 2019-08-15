@@ -48,7 +48,7 @@ class MarginfoxDataManager(
         stake: Int,
         alternativeSelections: Int
     ): Single<AgentBettingResult> {
-        return prefManager.getToken()!!.let { token ->
+        return prefManager.getToken().let { token ->
             apiMarginfox.jackpotAgentBetting(
                 token, selection0, selection1, selection2, selection3, selection4,
                 selection5, selection6, stake, AGENT_HHT, alternativeSelections

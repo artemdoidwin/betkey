@@ -40,7 +40,7 @@ class ScanTikcetDetailsFragment : BaseFragment() {
 
         viewModel.ticket.observe(myLifecycleOwner, Observer { ticket ->
             ticket?.also { t ->
-                scan_detail_type.text = createDateString(t.created!!.toLong())
+                scan_detail_type.text = t.platformUnit!!.name
                 t.stake?.also { stake ->
                     val price = "${stake.toDouble().roundOffDecimal()} ${t.currency}"
                     scan_detail_ticket_price.text = price

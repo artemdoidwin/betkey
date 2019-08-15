@@ -27,7 +27,7 @@ class ScanerNoWinnerFragment : BaseFragment() {
     private val viewModel by sharedViewModel<MainViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(com.betkey.R.layout.fragment_scan_winner, container, false)
+        return inflater.inflate(R.layout.fragment_scan_winner, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,6 +36,8 @@ class ScanerNoWinnerFragment : BaseFragment() {
         winner_payout_btn.visibility = View.GONE
         winner_sum.visibility = View.GONE
         winner_currency.visibility = View.GONE
+        winner_head_text.text = resources.getString(R.string.winner_head_no_winner)
+        winner_head_text.setTextColor(resources.getColor(R.color.red))
 
         viewModel.ticket.observe(myLifecycleOwner, Observer { ticket ->
             ticket?.also {

@@ -26,6 +26,7 @@
     <string name="home_btn">Home</string>
 
     <string name="winner_head">Winner</string>
+    <string name="winner_head_no_winner">No winner</string>
     <string name="winner_created">Created:</string>
     <string name="winner_type">Type:</string>
     <string name="winner_ticket_id">Ticket id:</string>
@@ -50,6 +51,8 @@
     <string name="jackpot_confirmation_draw">Draw</string>
     <string name="jackpot_confirmation_away">Away</string>
     <string name="jackpot_game">Game</string>
+    <string name="jackpot_game_code">Code:</string>
+    <string name="jackpot_game_date_time">Date/time:</string>
 
     <string name="deposit_title">Find player</string>
     <string name="deposit_mob_num">Mobile number:</string>

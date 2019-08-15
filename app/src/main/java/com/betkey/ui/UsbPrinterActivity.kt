@@ -9,10 +9,19 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.*
+import android.os.BatteryManager
+import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.view.KeyEvent
 import android.widget.Toast
 import com.betkey.R
+import com.betkey.base.BaseActivity
+import com.betkey.network.models.Event
+import com.betkey.utils.createDateString
+import com.betkey.utils.dateToString2
+import com.betkey.utils.roundOffDecimal
+import com.betkey.utils.toFullDate2
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
@@ -20,23 +29,17 @@ import com.telpo.tps550.api.TelpoException
 import com.telpo.tps550.api.printer.UsbThermalPrinter
 import com.telpo.tps550.api.util.StringUtil
 import com.telpo.tps550.api.util.SystemUtil
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class UsbPrinterActivity : Activity() {
+class UsbPrinterActivity : BaseActivity() {
     private val NOPAPER = 3
     private val LOWBATTERY = 4
     private val PRINTVERSION = 5
-    private val PRINTBARCODE = 6
-    private val PRINTQRCODE = 7
-    private val PRINTCONTENT = 9
     private val CANCELPROMPT = 10
     private val PRINTERR = 11
     private val OVERHEAT = 12
-    private val PRINTPICTURE = 14
     private val NOBLACKBLOCK = 15
+    private val MYTREAD = 1
 
     private lateinit var handler: MyHandler
     private var result: String? = null
@@ -46,10 +49,13 @@ class UsbPrinterActivity : Activity() {
     private var lineDistance: Int = 0 //(0-255)
     private var wordFont: Int = 2 //(1-4)
     private var printGray: Int = 1// (0-7)
-    private var charSpace: Int = 0 //(0-255)
+    private var charSpace: Int = 10 //(0-255)
     private var progressDialog: ProgressDialog? = null
     private lateinit var dialog: ProgressDialog
     private var mUsbThermalPrinter = UsbThermalPrinter(this@UsbPrinterActivity)
+    private val space = "\n---------------------------\n"
+
+    private val viewModel by viewModel<MainViewModel>()
 
     private val printReceive = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -124,6 +130,7 @@ class UsbPrinterActivity : Activity() {
     private inner class MyHandler : Handler() {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
+                MYTREAD -> MyThread().start()
                 NOPAPER -> noPaperDlg()
                 LOWBATTERY -> {
                     val alertDialog = AlertDialog.Builder(this@UsbPrinterActivity)
@@ -141,20 +148,16 @@ class UsbPrinterActivity : Activity() {
                     dialog.dismiss()
                     if (msg.obj == "1") {
                         printVersion
-//                        startPrintContent()
-                        printPicture()
+                        myStart()
                     } else {
                         Toast.makeText(this@UsbPrinterActivity, R.string.operation_fail, Toast.LENGTH_LONG).show()
                         finish()
                     }
                 }
-                PRINTBARCODE -> BarCodePrintThread().start()
-                PRINTQRCODE -> QRcodePrintThread().start()
-                PRINTCONTENT -> ContentPrintThread().start()
-                PRINTPICTURE -> PrintPicture().start()
                 CANCELPROMPT -> if (progressDialog != null && !this@UsbPrinterActivity.isFinishing) {
                     progressDialog!!.dismiss()
                     progressDialog = null
+                    finish()
                 }
                 OVERHEAT -> {
                     val overHeatDialog = AlertDialog.Builder(this@UsbPrinterActivity)
@@ -171,7 +174,15 @@ class UsbPrinterActivity : Activity() {
         }
     }
 
-    fun printPicture() {
+    fun myStart() {
+//        if (contentText.isEmpty()) {
+//            Toast.makeText(this@UsbPrinterActivity, getString(R.string.empty), Toast.LENGTH_LONG).show()
+//            return
+//        }
+//        if (qrCodeText.isEmpty()) {
+//            Toast.makeText(this@UsbPrinterActivity, getString(R.string.input_print_data), Toast.LENGTH_SHORT).show()
+//            return
+//        }
         if (lowBattery) {
             handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null))
         } else {
@@ -181,73 +192,7 @@ class UsbPrinterActivity : Activity() {
                     getString(R.string.bl_dy),
                     getString(R.string.printing_wait)
                 )
-                handler.sendMessage(handler.obtainMessage(PRINTPICTURE, 1, 0, null))
-            } else {
-                Toast.makeText(this@UsbPrinterActivity, getString(R.string.ptintInit), Toast.LENGTH_LONG).show()
-            }
-        }
-    }
-
-    fun printBarCode() {
-        barcodeStr = barCodeText
-        if (barcodeStr == null || barcodeStr!!.isEmpty()) {
-            Toast.makeText(this@UsbPrinterActivity, getString(R.string.empty), Toast.LENGTH_LONG).show()
-            return
-        }
-        if (lowBattery) {
-            handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null))
-        } else {
-            if (!nopaper) {
-                progressDialog = ProgressDialog.show(
-                    this@UsbPrinterActivity,
-                    getString(R.string.bl_dy),
-                    getString(R.string.printing_wait)
-                )
-                handler.sendMessage(handler.obtainMessage(PRINTBARCODE, 1, 0, null))
-            } else {
-                Toast.makeText(this@UsbPrinterActivity, getString(R.string.ptintInit), Toast.LENGTH_LONG).show()
-            }
-        }
-    }
-
-    fun printQR() {
-        qrcodeStr = qrCodeText
-        if (qrcodeStr == null || qrcodeStr!!.isEmpty()) {
-            Toast.makeText(this@UsbPrinterActivity, getString(R.string.input_print_data), Toast.LENGTH_SHORT).show()
-            return
-        }
-        if (lowBattery) {
-            handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null))
-        } else {
-            if (!nopaper) {
-                progressDialog = ProgressDialog.show(
-                    this@UsbPrinterActivity,
-                    getString(R.string.D_barcode_loading),
-                    getString(R.string.generate_barcode_wait)
-                )
-                handler.sendMessage(handler.obtainMessage(PRINTQRCODE, 1, 0, null))
-            } else {
-                Toast.makeText(this@UsbPrinterActivity, getString(R.string.ptintInit), Toast.LENGTH_LONG).show()
-            }
-        }
-    }
-
-    fun startPrintContent() {
-        printContent = contentText
-        if (printContent == null || printContent!!.isEmpty()) {
-            Toast.makeText(this@UsbPrinterActivity, getString(R.string.empty), Toast.LENGTH_LONG).show()
-            return
-        }
-        if (lowBattery) {
-            handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null))
-        } else {
-            if (!nopaper) {
-                progressDialog = ProgressDialog.show(
-                    this@UsbPrinterActivity,
-                    getString(R.string.bl_dy),
-                    getString(R.string.printing_wait)
-                )
-                handler.sendMessage(handler.obtainMessage(PRINTCONTENT, 1, 0, null))
+                handler.sendMessage(handler.obtainMessage(MYTREAD, 1, 0, null))
             } else {
                 Toast.makeText(this@UsbPrinterActivity, getString(R.string.ptintInit), Toast.LENGTH_LONG).show()
             }
@@ -263,102 +208,70 @@ class UsbPrinterActivity : Activity() {
         dlg.show()
     }
 
-
-
-
-    private inner class BarCodePrintThread : Thread() {
+    private inner class MyThread : Thread() {
         override fun run() {
             super.run()
             try {
+//                //picture
                 mUsbThermalPrinter.start(0)
                 mUsbThermalPrinter.reset()
                 mUsbThermalPrinter.setGray(printGray)
-                val bitmap = createCode(barcodeStr, BarcodeFormat.CODE_128, 320, 176)
-                mUsbThermalPrinter.printLogo(bitmap, true)
-                mUsbThermalPrinter.addString(barcodeStr)
-                mUsbThermalPrinter.printString()
-                mUsbThermalPrinter.walkPaper(10)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                result = e.toString()
-                if (result == "com.telpo.tps550.api.printer.NoPaperException") {
-                    nopaper = true
-                } else if (result == "com.telpo.tps550.api.printer.OverHeatException") {
-                    handler.sendMessage(handler.obtainMessage(OVERHEAT, 1, 0, null))
-                } else {
-                    handler.sendMessage(handler.obtainMessage(PRINTERR, 1, 0, null))
-                }
-            } finally {
-                handler.sendMessage(handler.obtainMessage(CANCELPROMPT, 1, 0, null))
-                if (nopaper) {
-                    handler.sendMessage(handler.obtainMessage(NOPAPER, 1, 0, null))
-                    nopaper = false
-                    return
-                }
-                mUsbThermalPrinter.stop()
-            }
-        }
-    }
+                mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
+                val bitmapSource = BitmapFactory.decodeResource(resources, R.drawable.marginfox_logo)
+                mUsbThermalPrinter.printLogo(bitmapSource, false)
+                mUsbThermalPrinter
 
-    private inner class QRcodePrintThread : Thread() {
-        override fun run() {
-            super.run()
-            try {
-                mUsbThermalPrinter.start(0)
-                mUsbThermalPrinter.reset()
-                mUsbThermalPrinter.setGray(printGray)
-                val bitmap = createCode(qrcodeStr, BarcodeFormat.QR_CODE, 256, 256)
-                mUsbThermalPrinter.printLogo(bitmap, true)
-                mUsbThermalPrinter.addString(qrcodeStr)
-                mUsbThermalPrinter.printString()
-                mUsbThermalPrinter.walkPaper(10)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                result = e.toString()
-                if (result == "com.telpo.tps550.api.printer.NoPaperException") {
-                    nopaper = true
-                } else if (result == "com.telpo.tps550.api.printer.OverHeatException") {
-                    handler.sendMessage(handler.obtainMessage(OVERHEAT, 1, 0, null))
-                } else {
-                    handler.sendMessage(handler.obtainMessage(PRINTERR, 1, 0, null))
-                }
-            } finally {
-                handler.sendMessage(handler.obtainMessage(CANCELPROMPT, 1, 0, null))
-                if (nopaper) {
-                    handler.sendMessage(handler.obtainMessage(NOPAPER, 1, 0, null))
-                    nopaper = false
-                    return
-                }
-                mUsbThermalPrinter.stop()
-            }
-        }
-    }
-
-    private inner class ContentPrintThread : Thread() {
-        override fun run() {
-            super.run()
-            try {
-                mUsbThermalPrinter.start(0)
+                //context
+                //init
                 mUsbThermalPrinter.reset()
                 mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_LEFT)
                 mUsbThermalPrinter.setLeftIndent(leftDistance)
                 mUsbThermalPrinter.setLineSpace(lineDistance)
                 mUsbThermalPrinter.setCharSpace(charSpace)
-                if (wordFont == 4) {
-                    mUsbThermalPrinter.setFontSize(2)
-                    mUsbThermalPrinter.enlargeFontSize(2, 2)
-                } else if (wordFont == 3) {
-                    mUsbThermalPrinter.setFontSize(1)
-                    mUsbThermalPrinter.enlargeFontSize(2, 2)
-                } else if (wordFont == 2) {
-                    mUsbThermalPrinter.setFontSize(2)
-                } else if (wordFont == 1) {
-                    mUsbThermalPrinter.setFontSize(1)
-                }
+                mUsbThermalPrinter.setFontSize(2)
                 mUsbThermalPrinter.setGray(printGray)
-                mUsbThermalPrinter.addString(printContent)
+
+                //print head
+//                dottedLine()
+//                printHeadRow(
+//                    resources.getString(R.string.jackpot_confirmation_ticket_number).toUpperCase(),
+//                    viewModel.agentBet.value!!.message_data?.couponId.toString(),
+//                    true
+//                )
+//                printHeadRow(
+//                    resources.getString(R.string.jackpot_game_code).toUpperCase(),
+//                    viewModel.agentBet.value!!.message_data?.betCode!!,
+//                    false
+//                )
+//                printHeadRow(
+//                    resources.getString(R.string.jackpot_game_date_time).toUpperCase(),
+//                    createDateString(viewModel.agentBet.value!!.created!!),
+//                    true
+//                )
+//                printHeadRow(
+//                    resources.getString(R.string.scan_detail_type).toUpperCase(),
+//                    viewModel.ticket.value!!.platformUnit!!.name!!,
+//                    false
+//                )
+//                dottedLine()
+//                printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details).toUpperCase())
+//                dottedLine()
+//                for (i in viewModel.lookupBets.value!!.events!!.indices) {
+//                    dottedLine()
+//                    createBetList(viewModel.lookupBets.value!!.events!![i])
+//                }
+
+//                printStake(viewModel.ticket.value!!.stake!!, viewModel.ticket.value!!.currency!!)
+                mUsbThermalPrinter.addString(contentText)
                 mUsbThermalPrinter.printString()
+
+                //qr
+                mUsbThermalPrinter.reset()
+                mUsbThermalPrinter.setGray(printGray)
+                val bitmap = createCode(qrCodeText, BarcodeFormat.QR_CODE, 256, 256)
+                mUsbThermalPrinter.printLogo(bitmap, false)
                 mUsbThermalPrinter.walkPaper(10)
+
             } catch (e: Exception) {
                 e.printStackTrace()
                 result = e.toString()
@@ -381,41 +294,72 @@ class UsbPrinterActivity : Activity() {
         }
     }
 
-    private inner class PrintPicture : Thread() {
+    private fun createBetList(event: Event) {
+        val date = event.time!!.date!!.toFullDate2().dateToString2()
+        val friendlyId = event.friendlyId!!
+        val league = event.league!!.name
+        val team1Name = (event.teams["1"])!!.name
+        val team2Name = (event.teams["2"])!!.name
+        val marketName = event.market_name!!
+        val bet = event.bet!!
 
-        override fun run() {
-            super.run()
-            try {
-                mUsbThermalPrinter.start(0)
-                mUsbThermalPrinter.reset()
-                mUsbThermalPrinter.setGray(printGray)
-                mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
+        val contentBet = "$date\n" +
+                "$friendlyId $league\n" +
+                "$team1Name -\n" +
+                "$team2Name\n"
+        mUsbThermalPrinter.addString(contentBet)
+        mUsbThermalPrinter.printString()
+        mUsbThermalPrinter.clearString()
 
-                val bitmapSource = BitmapFactory.decodeResource(resources, R.drawable.marginfox_logo)
+        val result = "$marketName $bet"
+        mUsbThermalPrinter.setBold(true)
+        mUsbThermalPrinter.addString(result)
+        mUsbThermalPrinter.printString()
+        mUsbThermalPrinter.clearString()
+        mUsbThermalPrinter.setBold(false)
+    }
 
-                mUsbThermalPrinter.printLogo(bitmapSource, false)
-                mUsbThermalPrinter.walkPaper(10)
+    private fun dottedLine() {
+        mUsbThermalPrinter.addString(space)
+        mUsbThermalPrinter.printString()
+        mUsbThermalPrinter.clearString()
+    }
 
-            } catch (e: Exception) {
-                e.printStackTrace()
-                result = e.toString()
-                if (result == "com.telpo.tps550.api.printer.NoPaperException") {
-                    nopaper = true
-                } else if (result == "com.telpo.tps550.api.printer.OverHeatException") {
-                    handler.sendMessage(handler.obtainMessage(OVERHEAT, 1, 0, null))
-                } else {
-                    handler.sendMessage(handler.obtainMessage(PRINTERR, 1, 0, result))
-                }
-            } finally {
-                handler.sendMessage(handler.obtainMessage(CANCELPROMPT, 1, 0, null))
-                if (nopaper) {
-                    handler.sendMessage(handler.obtainMessage(NOPAPER, 1, 0, null))
-                    nopaper = false
-                    return
-                }
-                mUsbThermalPrinter.stop()
-            }
+    private fun printMiddleText(text: String) {
+        mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
+        mUsbThermalPrinter.addString(text)
+        mUsbThermalPrinter.printString()
+        mUsbThermalPrinter.clearString()
+        mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_LEFT)
+    }
+
+    private fun printHeadRow(res: String, text: String, reduce: Boolean) {
+        mUsbThermalPrinter.addString("$res ")
+        mUsbThermalPrinter.printString()
+        mUsbThermalPrinter.clearString()
+        if (reduce) {
+            mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_RIGHT)
+            mUsbThermalPrinter.setFontSize(1)
         }
+        mUsbThermalPrinter.addString("$text\n")
+        if (reduce) {
+            mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_LEFT)
+            mUsbThermalPrinter.setFontSize(2)
+        }
+        mUsbThermalPrinter.clearString()
+    }
+
+    private fun printStake(price: String, currency: String){
+        mUsbThermalPrinter.addString("PLACE")
+        mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
+        mUsbThermalPrinter.addString("11/11")
+        mUsbThermalPrinter.setAlgin(UsbThermalPrinter.DIRECTION_BACK)
+        mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_RIGHT)
+        val stake = "${price.toDouble().roundOffDecimal()} ${currency.toUpperCase()}"
+        mUsbThermalPrinter.addString(stake)
+        mUsbThermalPrinter.printString()
+
+
     }
 
     override fun onDestroy() {
@@ -456,43 +400,36 @@ class UsbPrinterActivity : Activity() {
     }
 
     companion object {
-
         private var printVersion: String? = null
+        private const val CONTENT_TEXT = "content_text"
+        private const val TICKET_NUMBER = "ticket_number"
+        private const val QR_CODE_TEXT = "qr_code_text"
 
-        var barcodeStr: String? = null
-        var qrcodeStr: String? = null
-        var printContent: String? = null
-
-        fun start(sender: Activity, contentText: String, barCodeText: String, qrCodeText: String, picture: String) {
+        fun start(
+            sender: Activity,
+            contentText: String,
+            ticketNumber: String,
+            qrCodeText: String
+        ) {
             val intent = Intent(sender, UsbPrinterActivity::class.java).apply {
                 putExtra(CONTENT_TEXT, contentText)
-                putExtra(BARCODE_TEXT, barCodeText)
+                putExtra(TICKET_NUMBER, ticketNumber)
                 putExtra(QR_CODE_TEXT, qrCodeText)
-                putExtra(PICTURE_TEXT, picture)
             }
             sender.startActivity(intent)
         }
-
-        private const val CONTENT_TEXT = "content_text"
-        private const val BARCODE_TEXT = "bar_code_text"
-        private const val QR_CODE_TEXT = "qr_code_text"
-        private const val PICTURE_TEXT = "picture_text"
     }
 
     private val contentText: String by lazy {
         intent!!.extras!!.getString(CONTENT_TEXT)
     }
 
-    private val barCodeText: String by lazy {
-        intent!!.extras!!.getString(BARCODE_TEXT)
+    private val ticketNumber: String by lazy {
+        intent!!.extras!!.getString(TICKET_NUMBER)
     }
 
     private val qrCodeText: String by lazy {
         intent!!.extras!!.getString(QR_CODE_TEXT)
-    }
-
-    private val pictureText: String by lazy {
-        intent!!.extras!!.getString(PICTURE_TEXT)
     }
 }
 

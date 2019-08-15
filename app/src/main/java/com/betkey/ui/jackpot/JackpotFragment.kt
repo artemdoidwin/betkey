@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.network.models.Bet
+import com.betkey.network.models.ErrorObj
 import com.betkey.network.models.Event
 import com.betkey.ui.MainViewModel
+import com.betkey.ui.scanTickets.ScanWrongTicketFragment
 import com.betkey.utils.dateToString
 import com.betkey.utils.toFullDate
 import com.jakewharton.rxbinding3.view.clicks
@@ -88,13 +91,24 @@ class JackpotFragment : BaseFragment() {
                     convertFieldToKey(listPair[6].second),
                     stake!!,
                     2
-                ), {
-                    viewModel.betsDetailsList.value = listPair
-                    showFragment(
-                        JackpotConfirmationFragment.newInstance(),
-                        com.betkey.R.id.container_for_fragments,
-                        JackpotConfirmationFragment.TAG
-                    )
+                ), { result ->
+                    subscribe(viewModel.betLookup(result.message_data!!.betCode), {
+
+                        subscribe(viewModel.checkTicket(result.message_data!!.betCode), {
+                            viewModel.betsDetailsList.value = listPair
+                            showFragment(
+                                JackpotConfirmationFragment.newInstance(),
+                                R.id.container_for_fragments,
+                                JackpotConfirmationFragment.TAG
+                            )
+                        }, {
+                            toast(it.message.toString())
+                        })
+
+                    }, {
+                        toast(it.message.toString())
+                    })
+
                 }, {
                     toast(it.message.toString())
                 })
@@ -120,6 +134,8 @@ class JackpotFragment : BaseFragment() {
         }, {
             toast(it.message.toString())
         })
+
+
     }
 
     private fun convertFieldToKey(field: String): String {

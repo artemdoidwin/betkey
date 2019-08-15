@@ -44,19 +44,19 @@ class ScanFragment : BaseFragment(), QRCodeReaderView.OnQRCodeReadListener {
         compositeDisposable.add(
             scan_back_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 viewModel.link.value = null
-//                activity!!.finish()
-//                startActivity(Intent(activity!!, UsbPrinterActivity::class.java))
-                UsbPrinterActivity.start(activity!!, "3j0m-b9s2-ysd", "", "", "")
+                activity!!.finish()
+//                val text = "---------------------------\n" +
+//                        "${resources.getString(R.string.jackpot_confirmation_ticket_number)} Device Base Information\n"
+//                        UsbPrinterActivity.start(activity!!, "3j0m-b9s2-ysd", "","444444")
             }
         )
         viewModel.link.observe(this, Observer { link ->
-            link?.also {
-                subscribe(viewModel.checkTicket("3j0m-b9s2-ysd"), {
+            link?.also {l ->
+                subscribe(viewModel.checkTicket(l), {
                     if (it.errors.isNotEmpty() && it.errors[0].code == 43) {
                         showErrors(it.errors[0])
                     } else {
                         ticket(it.ticket)
-
                     }
                 }, {
                     if (it.message == null) {
@@ -83,14 +83,32 @@ class ScanFragment : BaseFragment(), QRCodeReaderView.OnQRCodeReadListener {
     private fun ticket(ticket: Ticket?) {
         ticket?.also {
             when (it.outcome) {
-                0 -> Log.d("", "")// "open"
+                0 -> {
+                    Log.d("", "")
+                    return
+                }// "open"
                 //won
-                1 -> addFragment(ScanWinnerFragment.newInstance(), R.id.container_for_fragments, ScanWinnerFragment.TAG)
+                1 -> {
+                    addFragment(ScanWinnerFragment.newInstance(), R.id.container_for_fragments, ScanWinnerFragment.TAG)
+                    return
+                }
                 //"lost"
-                2 -> addFragment(ScanerNoWinnerFragment.newInstance(), R.id.container_for_fragments, ScanerNoWinnerFragment.TAG)
-                3 -> Log.d("", "") // "payout"
-                4 -> Log.d("", "") // "cancelled"
-                5 -> Log.d("", "") // "reverted"
+                2 -> {
+                    addFragment(ScanerNoWinnerFragment.newInstance(), R.id.container_for_fragments, ScanerNoWinnerFragment.TAG)
+                    return
+                }
+                3 -> {
+                    Log.d("", "")
+                    return
+                } // "payout"
+                4 -> {
+                    Log.d("", "")
+                    return
+                } // "cancelled"
+                5 -> {
+                    Log.d("", "")
+                    return
+                } // "reverted"
             }
         }
     }

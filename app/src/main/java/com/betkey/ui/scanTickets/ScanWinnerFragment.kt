@@ -11,6 +11,7 @@ import com.betkey.ui.MainViewModel
 import com.betkey.utils.createDateString
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_scan_winner.*
+import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.concurrent.TimeUnit
 
@@ -33,12 +34,26 @@ class ScanWinnerFragment : BaseFragment() {
 
         compositeDisposable.add(
             winner_payout_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
-                addFragment(ScanPayoutSuccessFragment.newInstance(), R.id.container_for_fragments, ScanPayoutSuccessFragment.TAG)
+                addFragment(
+                    ScanPayoutSuccessFragment.newInstance(),
+                    R.id.container_for_fragments,
+                    ScanPayoutSuccessFragment.TAG
+                )
             }
         )
         compositeDisposable.add(
             winner_ticket_detail_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
-                addFragment(ScanTikcetDetailsFragment.newInstance(), R.id.container_for_fragments, ScanTikcetDetailsFragment.TAG)
+                viewModel.ticket.value?.also { ticket ->
+                    subscribe(viewModel.betLookup(ticket.ticketId!!), {
+                        addFragment(
+                            ScanTikcetDetailsFragment.newInstance(),
+                            R.id.container_for_fragments,
+                            ScanTikcetDetailsFragment.TAG
+                        )
+                    }, {
+                        toast(it.message.toString())
+                    })
+                }
             }
         )
         compositeDisposable.add(
@@ -50,9 +65,9 @@ class ScanWinnerFragment : BaseFragment() {
 
         viewModel.ticket.observe(myLifecycleOwner, Observer { ticket ->
             ticket?.also {
-                winner_created.text  = createDateString(it.created!!.toLong())
-                winner_type.text  = it.platformUnit!!.name
-                winner_ticket_id.text  = it.ticketId
+                winner_created.text = createDateString(it.created!!.toLong())
+                winner_type.text = it.platformUnit!!.name
+                winner_ticket_id.text = it.ticketId
             }
         })
     }
