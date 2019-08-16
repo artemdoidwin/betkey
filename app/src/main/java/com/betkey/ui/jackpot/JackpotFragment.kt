@@ -92,22 +92,26 @@ class JackpotFragment : BaseFragment() {
                     stake!!,
                     2
                 ), { result ->
-                    subscribe(viewModel.betLookup(result.message_data!!.betCode), {
+                    if (result.error_message.isNullOrEmpty()) {
+                        subscribe(viewModel.betLookup(result.message_data!!.betCode), {
+                            subscribe(viewModel.checkTicket(result.message_data!!.betCode), {
+                                viewModel.betsDetailsList.value = listPair
+                                showFragment(
+                                    JackpotConfirmationFragment.newInstance(),
+                                    R.id.container_for_fragments,
+                                    JackpotConfirmationFragment.TAG
+                                )
+                            }, {
+                                toast(it.message.toString())
+                            })
 
-                        subscribe(viewModel.checkTicket(result.message_data!!.betCode), {
-                            viewModel.betsDetailsList.value = listPair
-                            showFragment(
-                                JackpotConfirmationFragment.newInstance(),
-                                R.id.container_for_fragments,
-                                JackpotConfirmationFragment.TAG
-                            )
                         }, {
                             toast(it.message.toString())
                         })
 
-                    }, {
-                        toast(it.message.toString())
-                    })
+                    } else {
+                        toast(result.error_message!!)
+                    }
 
                 }, {
                     toast(it.message.toString())

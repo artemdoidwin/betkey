@@ -48,7 +48,7 @@ class UsbPrinterActivity : BaseActivity() {
     private var leftDistance = 0 //(0-255)
     private var lineDistance: Int = 0 //(0-255)
     private var wordFont: Int = 2 //(1-4)
-    private var printGray: Int = 1// (0-7)
+    private var printGray: Int = 1// 1-20, default is 8
     private var charSpace: Int = 10 //(0-255)
     private var progressDialog: ProgressDialog? = null
     private lateinit var dialog: ProgressDialog
