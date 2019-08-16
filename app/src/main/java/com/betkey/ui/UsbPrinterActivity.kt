@@ -211,13 +211,13 @@ class UsbPrinterActivity : BaseActivity() {
         override fun run() {
             super.run()
             try {
-//                //picture
+                //picture
                 mUsbThermalPrinter.start(0)
-//                mUsbThermalPrinter.reset()
-//                mUsbThermalPrinter.setGray(printGray)
-//                mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
-//                val bitmapSource = BitmapFactory.decodeResource(resources, R.drawable.marginfox_logo)
-//                mUsbThermalPrinter.printLogo(bitmapSource, false)
+                mUsbThermalPrinter.reset()
+                mUsbThermalPrinter.setGray(printGray)
+                mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
+                val bitmapSource = BitmapFactory.decodeResource(resources, R.drawable.marginfox_logo)
+                mUsbThermalPrinter.printLogo(bitmapSource, false)
 
                 //context
                 //init
