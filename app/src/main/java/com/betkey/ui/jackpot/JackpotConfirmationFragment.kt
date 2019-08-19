@@ -57,12 +57,7 @@ class JackpotConfirmationFragment : BaseFragment() {
                 confirmation_ticket_number.text = it.message_data?.couponId.toString()
                 confirmation_ticket_code.text = it.message_data?.betCode
                 confirmation_ticket_created.text = createDateString(it.created!!)
-                UsbPrinterActivity.start(
-                    activity!!,
-                    "",
-                    "",
-                    it.message_data?.betCode!!
-                )
+                UsbPrinterActivity.start(activity!!)
             }
         })
 
@@ -81,5 +76,10 @@ class JackpotConfirmationFragment : BaseFragment() {
                 }
             }
         })
+    }
+
+    override fun onDestroyView() {
+        viewModel.betsDetailsList.value = null
+        super.onDestroyView()
     }
 }

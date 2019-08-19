@@ -7,10 +7,8 @@ import android.view.ViewGroup
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.network.models.Bet
-import com.betkey.network.models.ErrorObj
 import com.betkey.network.models.Event
 import com.betkey.ui.MainViewModel
-import com.betkey.ui.scanTickets.ScanWrongTicketFragment
 import com.betkey.utils.dateToString
 import com.betkey.utils.toFullDate
 import com.jakewharton.rxbinding3.view.clicks
@@ -38,7 +36,7 @@ class JackpotFragment : BaseFragment() {
     private var stake: Int? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(com.betkey.R.layout.fragment_jackpot, container, false)
+        return inflater.inflate(R.layout.fragment_jackpot, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -81,41 +79,7 @@ class JackpotFragment : BaseFragment() {
                     }
                 })
 
-                subscribe(viewModel.jackpotAgentBetting(
-                    convertFieldToKey(listPair[0].second),
-                    convertFieldToKey(listPair[1].second),
-                    convertFieldToKey(listPair[2].second),
-                    convertFieldToKey(listPair[3].second),
-                    convertFieldToKey(listPair[4].second),
-                    convertFieldToKey(listPair[5].second),
-                    convertFieldToKey(listPair[6].second),
-                    stake!!,
-                    2
-                ), { result ->
-                    if (result.error_message.isNullOrEmpty()) {
-                        subscribe(viewModel.betLookup(result.message_data!!.betCode), {
-                            subscribe(viewModel.checkTicket(result.message_data!!.betCode), {
-                                viewModel.betsDetailsList.value = listPair
-                                showFragment(
-                                    JackpotConfirmationFragment.newInstance(),
-                                    R.id.container_for_fragments,
-                                    JackpotConfirmationFragment.TAG
-                                )
-                            }, {
-                                toast(it.message.toString())
-                            })
-
-                        }, {
-                            toast(it.message.toString())
-                        })
-
-                    } else {
-                        toast(result.error_message!!)
-                    }
-
-                }, {
-                    toast(it.message.toString())
-                })
+               sendRequest(listPair)
             }
         )
 
@@ -138,8 +102,44 @@ class JackpotFragment : BaseFragment() {
         }, {
             toast(it.message.toString())
         })
+    }
 
+    private fun sendRequest(listPair: ArrayList<Pair<String, String>>) {
+        subscribe(viewModel.jackpotAgentBetting(
+            convertFieldToKey(listPair[0].second),
+            convertFieldToKey(listPair[1].second),
+            convertFieldToKey(listPair[2].second),
+            convertFieldToKey(listPair[3].second),
+            convertFieldToKey(listPair[4].second),
+            convertFieldToKey(listPair[5].second),
+            convertFieldToKey(listPair[6].second),
+            stake!!,
+            2
+        ), { result ->
+            if (result.error_message.isEmpty()) {
+                subscribe(viewModel.betLookup(result.message_data!!.betCode), {
+                    subscribe(viewModel.checkTicket(result.message_data!!.betCode), {
+                        viewModel.betsDetailsList.value = listPair
+                        showFragment(
+                            JackpotConfirmationFragment.newInstance(),
+                            R.id.container_for_fragments,
+                            JackpotConfirmationFragment.TAG
+                        )
+                    }, {
+                        toast(it.message.toString())
+                    })
 
+                }, {
+                    toast(it.message.toString())
+                })
+
+            } else {
+                toast(result.error_message)
+            }
+
+        }, {
+            toast(it.message.toString())
+        })
     }
 
     private fun convertFieldToKey(field: String): String {

@@ -17,7 +17,7 @@ class AgentBettingResult (
     var error_code: Int? = null,
 
     @SerializedName("error_message")
-    var error_message: String? = null,
+    var error_message: String = "",
 
     @SerializedName("error_data")
     var error_data: List<String> = listOf(),

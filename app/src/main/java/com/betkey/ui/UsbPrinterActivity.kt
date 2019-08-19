@@ -47,7 +47,6 @@ class UsbPrinterActivity : BaseActivity() {
     private var lowBattery = false
     private var leftDistance = 0 //(0-255)
     private var lineDistance: Int = 0 //(0-255)
-    private var wordFont: Int = 2 //(1-4)
     private var printGray: Int = 1// 1-20, default is 8
     private var charSpace: Int = 10 //(0-255)
     private var progressDialog: ProgressDialog? = null
@@ -64,13 +63,13 @@ class UsbPrinterActivity : BaseActivity() {
                 val level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0)
                 val scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, 0)
                 //TPS390 can not print,while in low battery,whether is charging or not charging
-                if (SystemUtil.getDeviceType() == StringUtil.DeviceModelEnum.TPS390.ordinal) {
-                    lowBattery = level * 5 <= scale
+                lowBattery = if (SystemUtil.getDeviceType() == StringUtil.DeviceModelEnum.TPS390.ordinal) {
+                    level * 5 <= scale
                 } else {
                     if (status != BatteryManager.BATTERY_STATUS_CHARGING) {
-                        lowBattery = level * 5 <= scale
+                        level * 5 <= scale
                     } else {
-                        lowBattery = false
+                        false
                     }
                 }
             } else if (action == "android.intent.action.BATTERY_CAPACITY_EVENT") {
@@ -174,14 +173,6 @@ class UsbPrinterActivity : BaseActivity() {
     }
 
     fun myStart() {
-//        if (contentText.isEmpty()) {
-//            Toast.makeText(this@UsbPrinterActivity, getString(R.string.empty), Toast.LENGTH_LONG).show()
-//            return
-//        }
-//        if (qrCodeText.isEmpty()) {
-//            Toast.makeText(this@UsbPrinterActivity, getString(R.string.input_print_data), Toast.LENGTH_SHORT).show()
-//            return
-//        }
         if (lowBattery) {
             handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null))
         } else {
@@ -229,55 +220,42 @@ class UsbPrinterActivity : BaseActivity() {
                 mUsbThermalPrinter.setFontSize(2)
                 mUsbThermalPrinter.setGray(printGray)
 
-                //print head
+                //print content
                 dottedLine()
-                printHeadRow(
-                    resources.getString(R.string.jackpot_confirmation_ticket_number).toUpperCase(),
-                    viewModel.agentBet.value!!.message_data?.couponId.toString(),
-                    true
-                )
-                printHeadRow(
-                    resources.getString(R.string.jackpot_game_code).toUpperCase(),
-                    viewModel.agentBet.value!!.message_data?.betCode!!,
-                    false
-                )
-                printHeadRow(
-                    resources.getString(R.string.jackpot_game_date_time).toUpperCase(),
-                    createDateString(viewModel.agentBet.value!!.created!!),
-                    true
-                )
-                printHeadRow(
-                    resources.getString(R.string.scan_detail_type).toUpperCase(),
-                    viewModel.ticket.value!!.platformUnit!!.name!!,
-                    false
-                )
+                printHeadRow(resources.getString(R.string.jackpot_confirmation_ticket_number).toUpperCase(), viewModel.agentBet.value!!.message_data?.couponId.toString())
+                printHeadRow(resources.getString(R.string.jackpot_game_code).toUpperCase(), viewModel.agentBet.value!!.message_data?.betCode!!)
+                printHeadRow(resources.getString(R.string.jackpot_game_date_time).toUpperCase(), createDateString(viewModel.agentBet.value!!.created!!))
+                printHeadRow(resources.getString(R.string.scan_detail_type).toUpperCase(), viewModel.ticket.value!!.platformUnit!!.name!!)
                 dottedLine()
                 printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details).toUpperCase())
                 for (i in viewModel.lookupBets.value!!.events!!.indices) {
-//                    if (i < 2) {
-                        dottedLine()
-                        createBetList(viewModel.lookupBets.value!!.events!![i])
-//                    }
+                    dottedLine()
+                    createBetList(viewModel.lookupBets.value!!.events!![i])
                 }
-
                 printStake(viewModel.ticket.value!!.stake!!, viewModel.ticket.value!!.currency!!)
 
                 //qr
                 mUsbThermalPrinter.reset()
                 mUsbThermalPrinter.setGray(printGray)
-                val bitmap = createCode(qrCodeText, BarcodeFormat.QR_CODE, 256, 256)
+                val bitmap =
+                    createCode(viewModel.agentBet.value!!.message_data?.betCode!!, BarcodeFormat.QR_CODE, 256, 256)
                 mUsbThermalPrinter.printLogo(bitmap, false)
                 mUsbThermalPrinter.walkPaper(10)
 
             } catch (e: Exception) {
                 e.printStackTrace()
                 result = e.toString()
-                if (result == "com.telpo.tps550.api.printer.NoPaperException") {
-                    nopaper = true
-                } else if (result == "com.telpo.tps550.api.printer.OverHeatException") {
-                    handler.sendMessage(handler.obtainMessage(OVERHEAT, 1, 0, null))
-                } else {
-                    handler.sendMessage(handler.obtainMessage(PRINTERR, 1, 0, null))
+                when (result) {
+                    "com.telpo.tps550.api.printer.NoPaperException" -> nopaper = true
+                    "com.telpo.tps550.api.printer.OverHeatException" -> handler.sendMessage(
+                        handler.obtainMessage(
+                            OVERHEAT,
+                            1,
+                            0,
+                            null
+                        )
+                    )
+                    else -> handler.sendMessage(handler.obtainMessage(PRINTERR, 1, 0, null))
                 }
             } finally {
                 handler.sendMessage(handler.obtainMessage(CANCELPROMPT, 1, 0, null))
@@ -330,30 +308,12 @@ class UsbPrinterActivity : BaseActivity() {
         mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_LEFT)
     }
 
-    private fun printHeadRow(res: String, text: String, reduce: Boolean) {
-//        mUsbThermalPrinter.addString("$res ")
-//        mUsbThermalPrinter.printString()
-//        mUsbThermalPrinter.clearString()
-//        mUsbThermalPrinter.addString(text)
-//        if (reduce) {
-//            mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_RIGHT)
-//            mUsbThermalPrinter.setFontSize(1)
-//            mUsbThermalPrinter.printString()
-//            mUsbThermalPrinter.clearString()
-//            mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_LEFT)
-//            mUsbThermalPrinter.setFontSize(2)
-//        }else{
-//            mUsbThermalPrinter.printString()
-//        }
+    private fun printHeadRow(res: String, text: String) {
         mUsbThermalPrinter.addString("$res $text")
         mUsbThermalPrinter.printString()
     }
 
     private fun printStake(price: String, currency: String) {
-//        mUsbThermalPrinter.addString("PLACE")
-//        mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
-//        mUsbThermalPrinter.addString("11/11")
-//        mUsbThermalPrinter.setAlgin(UsbThermalPrinter.DIRECTION_BACK)
         mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_RIGHT)
         val stake = "${price.toDouble().roundOffDecimal()} ${currency.toUpperCase()}"
         mUsbThermalPrinter.addString(stake)
@@ -367,6 +327,9 @@ class UsbPrinterActivity : BaseActivity() {
         }
         unregisterReceiver(printReceive)
         mUsbThermalPrinter.stop()
+        viewModel.ticket.value = null
+        viewModel.agentBet.value = null
+        viewModel.lookupBets.value = null
         super.onDestroy()
     }
 
@@ -399,35 +362,11 @@ class UsbPrinterActivity : BaseActivity() {
 
     companion object {
         private var printVersion: String? = null
-        private const val CONTENT_TEXT = "content_text"
-        private const val TICKET_NUMBER = "ticket_number"
-        private const val QR_CODE_TEXT = "qr_code_text"
 
-        fun start(
-            sender: Activity,
-            contentText: String,
-            ticketNumber: String,
-            qrCodeText: String
-        ) {
-            val intent = Intent(sender, UsbPrinterActivity::class.java).apply {
-                putExtra(CONTENT_TEXT, contentText)
-                putExtra(TICKET_NUMBER, ticketNumber)
-                putExtra(QR_CODE_TEXT, qrCodeText)
-            }
+        fun start(sender: Activity) {
+            val intent = Intent(sender, UsbPrinterActivity::class.java)
             sender.startActivity(intent)
         }
-    }
-
-    private val contentText: String by lazy {
-        intent!!.extras!!.getString(CONTENT_TEXT)
-    }
-
-    private val ticketNumber: String by lazy {
-        intent!!.extras!!.getString(TICKET_NUMBER)
-    }
-
-    private val qrCodeText: String by lazy {
-        intent!!.extras!!.getString(QR_CODE_TEXT)
     }
 }
 

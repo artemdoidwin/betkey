@@ -13,12 +13,6 @@ fun Double.roundOffDecimal(): String? {
     return df.format(this)
 }
 
-fun Double.roundOffDecimalOne(): String? {
-    val df = DecimalFormat("#.#")
-    df.roundingMode = RoundingMode.FLOOR
-    return df.format(this)
-}
-
 fun createDateString(sec: Long): String {
     val cal = Calendar.getInstance()
     cal.timeInMillis = sec * 1000
