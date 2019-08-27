@@ -8,18 +8,25 @@
 
     <TextView
             android:id="@+id/jackpot_head_text"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/black"
+            android:layout_marginStart="30dp"
             android:textSize="16sp"
             android:textAllCaps="true"
-            android:textStyle="bold"
             android:layout_marginTop="16dp"
-            android:text="@string/login_ok_jackpot_btn"
+            android:text="@string/winner_stake"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
+
+    <Spinner
+            android:id="@+id/jackpot_stake_sp"
+            app:layout_constraintStart_toEndOf="@+id/jackpot_titles_barrier"
+            android:layout_marginStart="32dp"
+            android:layout_width="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/jackpot_head_text"
+            android:layout_height="wrap_content"/>
 
     <TextView
             android:id="@+id/jackpot_title"
@@ -28,11 +35,11 @@
             android:gravity="center"
             android:textColor="@color/black"
             android:textSize="15sp"
+            android:layout_marginTop="8dp"
             android:textAllCaps="true"
             android:text="@string/jackpot_jackpot_title"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/jackpot_head_text"/>
 
     <TextView
@@ -46,11 +53,10 @@
             android:textStyle="bold"
             android:text="10 000 000 EUR"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="32dp"
             app:layout_constraintStart_toEndOf="@+id/jackpot_titles_barrier"
-            app:layout_constraintTop_toBottomOf="@+id/jackpot_head_text"/>
+            app:layout_constraintTop_toTopOf="@+id/jackpot_title"/>
 
     <TextView
             android:id="@+id/jackpot_coupon_id_title"
@@ -62,8 +68,8 @@
             android:textAllCaps="true"
             android:text="@string/jackpot_round_title"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="30dp"
             android:layout_marginTop="8dp"
+            android:layout_marginStart="30dp"
             app:layout_constraintTop_toBottomOf="@+id/jackpot_title"/>
 
     <TextView

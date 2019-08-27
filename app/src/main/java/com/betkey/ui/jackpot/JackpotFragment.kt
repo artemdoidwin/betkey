@@ -1,9 +1,11 @@
 package com.betkey.ui.jackpot
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.network.models.Bet
@@ -11,6 +13,7 @@ import com.betkey.network.models.Event
 import com.betkey.ui.MainViewModel
 import com.betkey.utils.dateToString
 import com.betkey.utils.toFullDate
+import com.google.gson.Gson
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_jackpot.*
 import org.jetbrains.anko.support.v4.toast
@@ -78,17 +81,32 @@ class JackpotFragment : BaseFragment() {
                         else -> -1
                     }
                 })
+                listPair.forEach {
+                    Log.d("PAIRS", "First: ${it.first}, second: ${it.second}")
+                }
 
-               sendRequest(listPair)
+                stake = jackpot_stake_sp.selectedItem.toString().toInt()
+                sendRequest(listPair)
             }
         )
 
         subscribe(viewModel.getJacpotInfo(), {
+            it.coupon?.stakes?.also { stakes ->
+                jackpot_stake_sp.adapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, stakes)
+
+                it.coupon?.defaultStake?.also { defStake ->
+                    stake = defStake
+                    jackpot_stake_sp.setSelection(stakes.indexOfFirst { st -> st == defStake.toString() })
+                }
+            }
+
             val li = mutableListOf<Event>()
             li.addAll(it.events!!.values)
+
+            it.altEvents?.also { event -> li.add(event.apply { isAltGame = true }) }
+
             gamesAdapter.setItems(li)
             it.coupon?.also { coupon ->
-                stake = coupon.defaultStake
                 jackpot_coupon_id.text = coupon.coupon?.id.toString()
 
                 viewModel.wallets.value?.also {
@@ -116,6 +134,8 @@ class JackpotFragment : BaseFragment() {
             stake!!,
             2
         ), { result ->
+            Log.d("PAIRS", "Result: ${Gson().toJson(result)}")
+            Log.d("PAIRS", "Date: ${Date((result.created ?: 0) * 1000).dateToString()}")
             if (result.error_message.isEmpty()) {
                 subscribe(viewModel.betLookup(result.message_data!!.betCode), {
                     subscribe(viewModel.checkTicket(result.message_data!!.betCode), {

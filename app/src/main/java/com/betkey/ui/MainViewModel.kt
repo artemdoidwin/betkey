@@ -24,6 +24,9 @@ class MainViewModel(
     val jackpotInfo = marginfoxDataManager.jackpotInfo
     val ticket = betkeydataManager.ticket
     val lookupBets = marginfoxDataManager.lookupBets
+    val agent = betkeydataManager.agent
+
+    var phoneNumberCountryCode = 237
 
     fun login(userName: String, password: String): Completable {
         return betkeydataManager.login(userName, password)
@@ -74,4 +77,6 @@ class MainViewModel(
         val paymentId = (0..Int.MAX_VALUE).random()
         return pspDataManager.agentDeposit(paymentId, playerId, currency, amount)
     }
+
+    fun getOutcomes() = betkeydataManager.outcomes
 }

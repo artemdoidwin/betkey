@@ -31,8 +31,9 @@
     <string name="winner_type">Type:</string>
     <string name="winner_ticket_id">Ticket id:</string>
     <string name="winner_payout_btn">Payout ticket</string>
-    <string name="winner_details_btn">Ticket details</string>
+    <string name="winner_details_btn">Create ticket</string>
     <string name="winner_wrong_ticket_id">Wrong ticket id</string>
+    <string name="winner_stake">Stake:</string>
 
     <string name="jackpot_jackpot_title">Jackpot:</string>
     <string name="jackpot_round_title">Round:</string>
@@ -40,6 +41,7 @@
     <string name="jackpot_ticket_price_title">Ticket price:</string>
     <string name="jackpot_draw_btn">Draw</string>
     <string name="jackpot_create_ticket_btn">Create ticket</string>
+    <string name="jackpot_alternative_game">Alternative Game</string>
 
     <string name="jackpot_confirmation_title">Jackpot confirmation</string>
     <string name="jackpot_confirmation_ticket_price">Ticket price:</string>
@@ -66,6 +68,7 @@
     <string name="deposit_successful">Deposit is successful</string>
     <string name="deposit_instantly">Player is account is instantly updated!</string>
     <string name="deposit_no_found">No player found</string>
+    <string name="deposit_phone_number_hint">%dXXXXXX</string>
 
     <string name="sportbetting_title">Sportsbetting</string>
     <string name="sportbetting_todat_events">Today\'s events</string>

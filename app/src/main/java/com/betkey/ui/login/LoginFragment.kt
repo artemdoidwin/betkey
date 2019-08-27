@@ -32,12 +32,11 @@ class LoginFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         activity!!.include_toolbar.visibility = View.GONE
-        ogin_user_name.requestFocus()
+        login_user_name.requestFocus()
 
         compositeDisposable.add(
             login_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
-                subscribe(viewModel.login("test2", "12345"), {
-//                subscribe(viewModel.login(ogin_user_name.text.toString(), login_password.text.toString()), {
+                subscribe(viewModel.login(login_user_name.text.toString().trim(), login_password.text.toString().trim()), {
                     showFragment(LoginOkFragment.newInstance(), R.id.container_for_fragments, LoginOkFragment.TAG)
                 },{
                     if (it.message == null){

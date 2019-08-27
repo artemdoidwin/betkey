@@ -15,6 +15,7 @@ import com.betkey.ui.MainViewModel
 import com.betkey.ui.UsbPrinterActivity
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView
 import com.jakewharton.rxbinding3.view.clicks
+import kotlinx.android.synthetic.main.container_for_activity.*
 import kotlinx.android.synthetic.main.fragment_scan_tickets.*
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -27,7 +28,6 @@ class ScanFragment : BaseFragment(), QRCodeReaderView.OnQRCodeReadListener {
 
     companion object {
         const val TAG = "ScanFragment"
-        const val QR_READER_CAMERA_REQUEST = 1004
 
         fun newInstance() = ScanFragment()
     }
@@ -45,13 +45,10 @@ class ScanFragment : BaseFragment(), QRCodeReaderView.OnQRCodeReadListener {
             scan_back_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 viewModel.link.value = null
                 activity!!.finish()
-//                val text = "---------------------------\n" +
-//                        "${resources.getString(R.string.jackpot_confirmation_ticket_number)} Device Base Information\n"
-//                        UsbPrinterActivity.start(activity!!, "3j0m-b9s2-ysd", "","444444")
             }
         )
         viewModel.link.observe(this, Observer { link ->
-            link?.also {l ->
+            link?.also { l ->
                 subscribe(viewModel.checkTicket(l), {
                     if (it.errors.isNotEmpty() && it.errors[0].code == 43) {
                         showErrors(it.errors[0])
@@ -81,10 +78,16 @@ class ScanFragment : BaseFragment(), QRCodeReaderView.OnQRCodeReadListener {
     }
 
     private fun ticket(ticket: Ticket?) {
+        Log.d("SCANS", "Ticket outcome: ${ticket?.outcome}")
+
         ticket?.also {
             when (it.outcome) {
                 0 -> {
                     Log.d("", "")
+                    addFragment(
+                        BlankOutcomeFragment.newInstance(viewModel.getOutcomes()?.get(it.outcome.toString())),
+                        R.id.container_for_fragments, BlankOutcomeFragment.TAG
+                    )
                     return
                 }// "open"
                 //won
@@ -94,31 +97,44 @@ class ScanFragment : BaseFragment(), QRCodeReaderView.OnQRCodeReadListener {
                 }
                 //"lost"
                 2 -> {
-                    addFragment(ScanerNoWinnerFragment.newInstance(), R.id.container_for_fragments, ScanerNoWinnerFragment.TAG)
+                    addFragment(
+                        ScanerNoWinnerFragment.newInstance(),
+                        R.id.container_for_fragments,
+                        ScanerNoWinnerFragment.TAG
+                    )
                     return
                 }
                 3 -> {
                     Log.d("", "")
+                    addFragment(
+                        BlankOutcomeFragment.newInstance(viewModel.getOutcomes()?.get(it.outcome.toString())),
+                        R.id.container_for_fragments, BlankOutcomeFragment.TAG
+                    )
                     return
                 } // "payout"
                 4 -> {
                     Log.d("", "")
+                    addFragment(
+                        BlankOutcomeFragment.newInstance(viewModel.getOutcomes()?.get(it.outcome.toString())),
+                        R.id.container_for_fragments, BlankOutcomeFragment.TAG
+                    )
                     return
                 } // "cancelled"
                 5 -> {
                     Log.d("", "")
+                    addFragment(
+                        BlankOutcomeFragment.newInstance(viewModel.getOutcomes()?.get(it.outcome.toString())),
+                        R.id.container_for_fragments, BlankOutcomeFragment.TAG
+                    )
                     return
                 } // "reverted"
             }
+            viewModel.link.value = null
         }
     }
 
     override fun onQRCodeRead(text: String?, points: Array<out PointF>?) {
         text?.also { link ->
-            //            Uri.parse(link)?.getQueryParameter(EventDetailsActivity.KEY_EVENT_ID)?.also { eventId ->
-//                viewModel.openQREventId.value = eventId
-//
-//            }
             if (viewModel.link.value == null) {
                 viewModel.link.value = link
                 toast(link)

@@ -7,11 +7,8 @@ import android.view.ViewGroup
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
-import com.betkey.ui.login.LoginOkFragment
 import com.jakewharton.rxbinding3.view.clicks
-import kotlinx.android.synthetic.main.container_for_activity.*
 import kotlinx.android.synthetic.main.fragment_find_player.*
-import kotlinx.android.synthetic.main.fragment_login.*
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.concurrent.TimeUnit
@@ -33,6 +30,7 @@ class FindPlayerFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        deposit_find_amount_ET.hint = getString(R.string.deposit_phone_number_hint, viewModel.phoneNumberCountryCode)
 
         compositeDisposable.add(
             deposit_find_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {

@@ -1,5 +1,6 @@
 package com.betkey.data
 
+import android.util.Log
 import com.betkey.network.ApiInterfaceBetkey
 import com.betkey.network.models.PlayerRestObject
 import com.betkey.network.models.TicketRestObj
@@ -15,16 +16,20 @@ class BetKeyDataManager(
     val wallets = modelRepository.wallets
     val player = modelRepository.player
     val ticket = modelRepository.ticket
+    val agent = modelRepository.agent
+
+    var outcomes: Map<String, String>? = null
 
     fun login(userName: String, password: String): Completable {
         return apiBetkey.authenticateAgent(userName, password)
             .flatMapCompletable {
                 Completable.fromRunnable {
                     prefManager.saveToken(it.token)
+                    Log.d("USERS", "Agent: ${it.agent}")
                     it.agent?.also {agent ->
+                        modelRepository.agent.postValue(agent)
                         prefManager.saveAgent(agent.id, agent.agentId, agent.username)
                     }
-//                    modelRepository.agent.postWithValue(it.agent!!)
                     modelRepository.wallets.postValue(it.wallets!!.toMutableList())
                 }
             }
@@ -73,6 +78,7 @@ class BetKeyDataManager(
         return prefManager.getToken().let { token ->
             apiBetkey.checkTicket(token, ticketCode)
                 .flatMap {
+                    outcomes = it.outcomes
                     it.ticket?.also { ticket ->
                         modelRepository.ticket.postValue(ticket)
                     }

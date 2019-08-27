@@ -292,7 +292,7 @@
 
     <Button
             android:id="@+id/confirmation_home_btn"
-            style="@style/ButtonGreenTheme"
+            style="@style/ButtonRedTheme"
             android:layout_width="@dimen/small_btn_width"
             android:layout_height="@dimen/small_btn_height"
             android:layout_marginTop="16dp"

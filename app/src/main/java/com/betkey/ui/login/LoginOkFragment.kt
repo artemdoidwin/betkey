@@ -50,7 +50,12 @@ class LoginOkFragment : BaseFragment() {
 
         viewModel.wallets.observe(myLifecycleOwner, Observer { wallets ->
             wallets?.also {
-                val text = "${String.format("%.2f", it[0].balance)} ${it[0].currency.toUpperCase()}"
+                val nameToDisplay = when {
+                    viewModel.agent.value?.firstName?.isNotEmpty() == true -> "${viewModel.agent.value?.firstName} - "
+                    viewModel.agent.value?.username?.isNotEmpty() == true -> "${viewModel.agent.value?.username} - "
+                    else -> ""
+                }
+                val text = "$nameToDisplay${String.format("%.2f", it[0].balance)} ${it[0].currency.toUpperCase()}"
                 text_toolbar.text = text
             }
         })

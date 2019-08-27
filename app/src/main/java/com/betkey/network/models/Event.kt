@@ -2,7 +2,7 @@ package com.betkey.network.models
 
 import com.google.gson.annotations.SerializedName
 
-data class Event (
+data class Event(
     @SerializedName("id")
     var id: String? = null,
 
@@ -67,5 +67,8 @@ data class Event (
     var line: String? = null,
 
     @SerializedName("time")
-    var time: TimeObj? = null
+    var time: TimeObj? = null,
+
+    var isAltGame: Boolean = false,
+    var btnChecked: Int = -1
 )
