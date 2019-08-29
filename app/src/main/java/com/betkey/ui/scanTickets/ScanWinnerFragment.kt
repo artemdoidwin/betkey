@@ -26,7 +26,7 @@ class ScanWinnerFragment : BaseFragment() {
     private val viewModel by sharedViewModel<MainViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(com.betkey.R.layout.fragment_scan_winner, container, false)
+        return inflater.inflate(R.layout.fragment_scan_winner, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

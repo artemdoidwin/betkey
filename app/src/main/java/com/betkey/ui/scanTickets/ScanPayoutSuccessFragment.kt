@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
 import com.jakewharton.rxbinding3.view.clicks
@@ -22,7 +23,7 @@ class ScanPayoutSuccessFragment : BaseFragment() {
     private val viewModel by sharedViewModel<MainViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(com.betkey.R.layout.fragment_scan_payout_success, container, false)
+        return inflater.inflate(R.layout.fragment_scan_payout_success, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

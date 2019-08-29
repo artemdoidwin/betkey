@@ -45,7 +45,7 @@ interface ApiInterfaceMarginfox {
         source: String,
 
         @Field("jackpot[alternativeSelections][0]")
-        alternativeSelections: Int
+        alternativeSelections: String
     ): Single<AgentBettingResult>
 
     @GET("jackpot_bet/lookup/{betslip_code}")

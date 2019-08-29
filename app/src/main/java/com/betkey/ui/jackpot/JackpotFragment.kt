@@ -100,12 +100,16 @@ class JackpotFragment : BaseFragment() {
                 }
             }
 
-            val li = mutableListOf<Event>()
-            li.addAll(it.events!!.values)
+            val listEvents = mutableListOf<Event>()
+            listEvents.addAll(it.events!!.values)
 
-            it.altEvents?.also { event -> li.add(event.apply { isAltGame = true }) }
+            it.altEvents?.also { events ->
+                events.forEach { (t, u) ->
+                    listEvents.add(u.apply { isAltGame = true })
+                }
+            }
 
-            gamesAdapter.setItems(li)
+            gamesAdapter.setItems(listEvents)
             it.coupon?.also { coupon ->
                 jackpot_coupon_id.text = coupon.coupon?.id.toString()
 
@@ -132,7 +136,7 @@ class JackpotFragment : BaseFragment() {
             convertFieldToKey(listPair[5].second),
             convertFieldToKey(listPair[6].second),
             stake!!,
-            2
+            convertFieldToKey(listPair[7].second)
         ), { result ->
             Log.d("PAIRS", "Result: ${Gson().toJson(result)}")
             Log.d("PAIRS", "Date: ${Date((result.created ?: 0) * 1000).dateToString()}")

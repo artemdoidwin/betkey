@@ -33,7 +33,7 @@ class ScanFragment : BaseFragment(), QRCodeReaderView.OnQRCodeReadListener {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(com.betkey.R.layout.fragment_scan_tickets, container, false)
+        return inflater.inflate(R.layout.fragment_scan_tickets, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

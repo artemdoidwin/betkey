@@ -63,22 +63,18 @@ class UsbPrinterActivity : BaseActivity() {
                 val level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0)
                 val scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, 0)
                 //TPS390 can not print,while in low battery,whether is charging or not charging
-                lowBattery = if (SystemUtil.getDeviceType() == StringUtil.DeviceModelEnum.TPS390.ordinal) {
-                    level * 5 <= scale
-                } else {
-                    if (status != BatteryManager.BATTERY_STATUS_CHARGING) {
+                lowBattery = if (status != BatteryManager.BATTERY_STATUS_CHARGING) {
                         level * 5 <= scale
                     } else {
                         false
                     }
-                }
             } else if (action == "android.intent.action.BATTERY_CAPACITY_EVENT") {
                 val status = intent.getIntExtra("action", 0)
                 val level = intent.getIntExtra("level", 0)
-                if (status == 0) {
-                    lowBattery = level < 1
+                lowBattery = if (status == 0) {
+                    level < 1
                 } else {
-                    lowBattery = false
+                    false
                 }
             }//Only use for TPS550MTK devices
         }

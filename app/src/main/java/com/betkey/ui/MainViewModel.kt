@@ -49,7 +49,7 @@ class MainViewModel(
         selection5: String,
         selection6: String,
         stake: Int,
-        alternativeSelections: Int
+        alternativeSelections: String
     ): Single<AgentBettingResult> {
         return marginfoxDataManager.jackpotAgentBetting(
             selection0, selection1, selection2, selection3, selection4,

@@ -8,7 +8,7 @@ data class JackpotInfo (
 
     @SerializedName("altEvents")
 //    var altEvents: AltEvents? = null,
-    var altEvents: Event? = null,
+    var altEvents: Map<String, Event>? = null,
 
     @SerializedName("coupon")
     var coupon: Coupon? = null

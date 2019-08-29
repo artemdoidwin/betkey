@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
 import com.betkey.utils.createDateString
@@ -26,7 +27,7 @@ class ScanTikcetDetailsFragment : BaseFragment() {
     private lateinit var betsAdapter: BetAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(com.betkey.R.layout.fragment_scan_tikcet_detail, container, false)
+        return inflater.inflate(R.layout.fragment_scan_tikcet_detail, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
