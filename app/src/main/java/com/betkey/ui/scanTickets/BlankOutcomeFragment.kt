@@ -37,9 +37,13 @@ class BlankOutcomeFragment : BaseFragment(){
             outcome_name.text = it
         }
 
-
         back_btn.setOnClickListener{
             activity?.supportFragmentManager?.popBackStack()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.link.value = null
     }
 }

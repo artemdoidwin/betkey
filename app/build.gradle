@@ -58,18 +58,18 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
 
     implementation "com.jakewharton.rxbinding3:rxbinding:3.0.0-alpha2"
     implementation "com.jakewharton.rxbinding3:rxbinding-core:3.0.0-alpha2"
     implementation "com.jakewharton.rxbinding3:rxbinding-appcompat:3.0.0-alpha2"
 
-    implementation 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
-
-
     implementation files('libs/SmartCardLib.jar')
     implementation files('libs/acssmc-1.1.1.jar')
-//    implementation files('libs/core-3.1.0.jar')
+    implementation files('libs/core-3.1.0.jar')
     implementation files('libs/sdtapi.jar')
     implementation files('libs/telpo_api.jar')
+
+    implementation 'com.google.android.gms:play-services-vision:18.0.0'
+
 }

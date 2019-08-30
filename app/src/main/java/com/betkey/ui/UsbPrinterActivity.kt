@@ -27,8 +27,6 @@ import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.telpo.tps550.api.TelpoException
 import com.telpo.tps550.api.printer.UsbThermalPrinter
-import com.telpo.tps550.api.util.StringUtil
-import com.telpo.tps550.api.util.SystemUtil
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UsbPrinterActivity : BaseActivity() {

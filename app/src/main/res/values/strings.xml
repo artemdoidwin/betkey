@@ -4,6 +4,8 @@
     <string name="no_permission">Permissions not granted</string>
     <string name="wait">...</string>
     <string name="enter_password">Please enter correct username or password</string>
+    <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
+
 
     <string name="login_title">Betkey agent pos</string>
     <string name="login_username_hint">Username</string>
