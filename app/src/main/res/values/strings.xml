@@ -17,6 +17,7 @@
     <string name="login_ok_sport_btn">Sportsbetting</string>
     <string name="login_ok_jackpot_btn">Jackpot</string>
     <string name="login_ok_deposits_btn">Deposits</string>
+    <string name="login_ok_withdrawal_btn">Withdrawal</string>
     <string name="logout_btn">Logout</string>
 
     <string name="scan_title">Please scan ticket</string>
@@ -71,6 +72,13 @@
     <string name="deposit_instantly">Player is account is instantly updated!</string>
     <string name="deposit_no_found">No player found</string>
     <string name="deposit_phone_number_hint">%dXXXXXX</string>
+    <string name="withdrawal_funds">Withdrawal funds</string>
+    <string name="withdrawal_pin">Withdrawal pin</string>
+    <string name="withdrawal_hint_pin">pin</string>
+    <string name="withdrawal_confirm">Confirm withdrawal</string>
+    <string name="withdrawal_success">Withdrawal success</string>
+    <string name="withdrawal_successful">Withdrawal is successful</string>
+    <string name="withdrawal_error_pin">Wrong withdrawal pin</string>
 
     <string name="sportbetting_title">Sportsbetting</string>
     <string name="sportbetting_todat_events">Today\'s events</string>

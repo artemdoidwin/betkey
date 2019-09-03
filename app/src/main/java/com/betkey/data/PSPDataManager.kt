@@ -11,10 +11,11 @@ class PSPDataManager (
 ) {
 
     val payment = modelRepository.payment
+    val withdrawal = modelRepository.withdrawal
     val link = modelRepository.link
 
     fun agentDeposit(paymentId: Int, playerId: String, currency: String, amount: Int): Completable {
-        return prefManager.getToken()!!.let { token ->
+        return prefManager.getToken().let { token ->
             apiPSP.agentDeposit(token, paymentId, playerId, currency, amount)
                 .flatMapCompletable {
                     Completable.fromRunnable {
@@ -24,5 +25,14 @@ class PSPDataManager (
         }
     }
 
-
+    fun agentWithdrawal(paymentId: Int, code: Int): Completable {
+        return prefManager.getToken().let { token ->
+            apiPSP.agentWithdrawal(token, paymentId, code)
+                .flatMapCompletable {
+                    Completable.fromRunnable {
+                        modelRepository.withdrawal.postValue(it)
+                    }
+                }
+        }
+    }
 }

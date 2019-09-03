@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
-import com.betkey.utils.createDateString
+import com.betkey.utils.dateString
 import com.betkey.utils.roundOffDecimal
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_scan_tikcet_detail.*
@@ -47,7 +47,7 @@ class ScanTikcetDetailsFragment : BaseFragment() {
                     scan_detail_ticket_price.text = price
                 }
                 scan_detail_ticket_code.text = t.ticketId
-                scan_detail_ticket_created.text = createDateString(t.created!!.toLong())
+                scan_detail_ticket_created.text = dateString(t.created!!.toLong())
                 scan_detail_ticket_number.text = t.id
             }
         })

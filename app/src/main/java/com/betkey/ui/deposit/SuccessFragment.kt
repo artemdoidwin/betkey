@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_deposit_success.*
+import org.jetbrains.anko.textColor
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.concurrent.TimeUnit
 
@@ -23,12 +25,26 @@ class SuccessFragment : BaseFragment() {
         fun newInstance() = SuccessFragment()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_deposit_success, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        when (activity!!.localClassName) {
+            "ui.withdrawal.WithdrawalActivity" -> {
+                deposit_success_head_text.text = context!!.resources.getString(R.string.withdrawal_success)
+                deposit_success.text = context!!.resources.getString(R.string.withdrawal_successful)
+                deposit_instantly.text = context!!.resources.getString(R.string.scan_payout_play_player)
+                deposit_instantly.textColor = ContextCompat.getColor(context!!, R.color.red)
+                deposit_instantly.textSize = 22F
+            }
+        }
 
         compositeDisposable.add(
             deposit_success_back_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
@@ -44,9 +60,9 @@ class SuccessFragment : BaseFragment() {
             }
         })
         viewModel.payment.observe(this, Observer { payment ->
-            payment?.also {paymentRest ->
-                paymentRest.player_deposit?.also {playerDeposit ->
-                    playerDeposit.payment?.also{
+            payment?.also { paymentRest ->
+                paymentRest.player_deposit?.also { playerDeposit ->
+                    playerDeposit.payment?.also {
                         val confirmSum = String.format("%.2f", it.amount.toDouble())
                         deposit_success_sum.text = confirmSum
                         deposit_success_currency.text = it.currency
@@ -54,5 +70,18 @@ class SuccessFragment : BaseFragment() {
                 }
             }
         })
+        viewModel.withdrawal.observe(this, Observer { withdrawal ->
+            withdrawal?.confirm?.a2pDeposit?.payment?.also {
+                val confirmSum = String.format("%.2f", it.amount.toDouble())
+                deposit_success_sum.text = confirmSum
+                deposit_success_currency.text = it.currency
+            }
+        })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.withdrawal.value = null
+        viewModel.payment.value = null
     }
 }

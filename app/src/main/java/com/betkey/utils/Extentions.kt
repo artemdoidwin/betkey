@@ -13,8 +13,9 @@ fun Double.roundOffDecimal(): String? {
     return df.format(this)
 }
 
-fun createDateString(sec: Long): String {
+fun dateString(sec: Long): String {
     val cal = Calendar.getInstance()
+    cal.timeZone = TimeZone.getTimeZone("UTC")
     cal.timeInMillis = sec * 1000
     val hh = convertDate(cal.get(Calendar.HOUR_OF_DAY))
     val mm = convertDate(cal.get(Calendar.MINUTE))
@@ -31,8 +32,7 @@ private fun convertDate(num: Int): String {
 
 fun String.toFullDate(): Date {
     return try {
-        SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX", Locale.getDefault())
-            .parse(this)
+        SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX", Locale.getDefault()).parse(this)
     } catch (e: java.lang.Exception) {
         Date(0)
     }

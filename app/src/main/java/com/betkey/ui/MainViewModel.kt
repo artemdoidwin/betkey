@@ -19,6 +19,7 @@ class MainViewModel(
     val wallets = betkeydataManager.wallets
     val player = betkeydataManager.player
     val payment = pspDataManager.payment
+    val withdrawal = pspDataManager.withdrawal
     val link = pspDataManager.link
     val agentBet = marginfoxDataManager.agentBet
     val jackpotInfo = marginfoxDataManager.jackpotInfo
@@ -76,6 +77,11 @@ class MainViewModel(
     fun agentDeposit(playerId: String, currency: String, amount: Int): Completable {
         val paymentId = (0..Int.MAX_VALUE).random()
         return pspDataManager.agentDeposit(paymentId, playerId, currency, amount)
+    }
+
+    fun agentWithdrawal(code: Int): Completable {
+        val paymentId = (0..Int.MAX_VALUE).random()
+        return pspDataManager.agentWithdrawal(paymentId, code)
     }
 
     fun getOutcomes() = betkeydataManager.outcomes

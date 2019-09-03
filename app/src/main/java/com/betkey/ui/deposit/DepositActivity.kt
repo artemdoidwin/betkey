@@ -35,7 +35,12 @@ class DepositActivity  : BaseActivity() {
 
         viewModel.wallets.observe(this, Observer { wallets ->
             wallets?.also {
-                val text = "${String.format("%.2f", it[0].balance)} ${it[0].currency.toUpperCase()}"
+                val nameToDisplay = when {
+                    viewModel.agent.value?.firstName?.isNotEmpty() == true -> "${viewModel.agent.value?.firstName} - "
+                    viewModel.agent.value?.username?.isNotEmpty() == true -> "${viewModel.agent.value?.username} - "
+                    else -> ""
+                }
+                val text = "$nameToDisplay${String.format("%.2f", it[0].balance)} ${it[0].currency.toUpperCase()}"
                 text_toolbar.text = text
             }
         })
@@ -44,7 +49,7 @@ class DepositActivity  : BaseActivity() {
     override fun onBackPressed() {
         val listFragments = supportFragmentManager.fragments.filter { frag -> frag.isVisible }
         val fragment = listFragments[listFragments.size - 1]
-        if (fragment is FindPlayerFragment) {
+        if (fragment is FindPlayerFragment || fragment is SuccessFragment) {
             finish()
         } else {
             super.onBackPressed()

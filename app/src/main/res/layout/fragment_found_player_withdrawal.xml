@@ -8,7 +8,7 @@
         android:background="@color/white">
 
     <ImageView
-            android:id="@+id/deposit_success_logo"
+            android:id="@+id/deposit_found_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
@@ -17,12 +17,12 @@
             android:layout_marginEnd="10dp"
             android:scaleType="fitCenter"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_done"
+            app:srcCompat="@drawable/ic_person"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
-            android:id="@+id/deposit_success_head_text"
+            android:id="@+id/deposit_found_head_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -30,14 +30,14 @@
             android:textSize="16sp"
             android:textAllCaps="true"
             android:textStyle="bold"
-            android:layout_marginTop="20dp"
-            android:text="@string/deposit_success"
+            android:layout_marginTop="16dp"
+            android:text="@string/deposit_found_player"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/deposit_success_logo"/>
+            app:layout_constraintTop_toBottomOf="@+id/deposit_found_logo"/>
 
     <TextView
-            android:id="@+id/deposit_success_name_title"
+            android:id="@+id/deposit_found_name_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -48,10 +48,10 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="30dp"
             android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/deposit_success_head_text"/>
+            app:layout_constraintTop_toBottomOf="@+id/deposit_found_head_text"/>
 
     <TextView
-            android:id="@+id/deposit_success_name"
+            android:id="@+id/deposit_found_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="start"
@@ -65,10 +65,10 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="32dp"
             app:layout_constraintStart_toEndOf="@+id/deposit_titles_barrier"
-            app:layout_constraintTop_toBottomOf="@+id/deposit_success_head_text"/>
+            app:layout_constraintTop_toBottomOf="@+id/deposit_found_head_text"/>
 
     <TextView
-            android:id="@+id/deposit_success_phone_title"
+            android:id="@+id/deposit_found_phone_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -79,10 +79,10 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="30dp"
             android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/deposit_success_name_title"/>
+            app:layout_constraintTop_toBottomOf="@+id/deposit_found_name_title"/>
 
     <TextView
-            android:id="@+id/deposit_success_phone"
+            android:id="@+id/deposit_found_phone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="start"
@@ -96,83 +96,74 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="32dp"
             app:layout_constraintStart_toEndOf="@+id/deposit_titles_barrier"
-            app:layout_constraintTop_toBottomOf="@+id/deposit_success_name"/>
+            app:layout_constraintTop_toBottomOf="@+id/deposit_found_name"/>
 
     <TextView
-            android:id="@+id/deposit_success_sum"
+            android:id="@+id/deposit_found_amount_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="44sp"
-            android:textAllCaps="true"
-            app:layout_constraintVertical_chainStyle="packed"
-            android:textStyle="bold"
-            android:text="2000"
-            android:layout_marginTop="30dp"
-            app:layout_constraintTop_toBottomOf="@+id/deposit_success_phone_title"
-            app:layout_constraintStart_toStartOf="@+id/deposit_success_back_btn"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintEnd_toStartOf="@+id/deposit_success_currency"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/deposit_success"/>
-
-    <TextView
-            android:id="@+id/deposit_success_currency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="38sp"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            android:text="CFA"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintBottom_toBottomOf="@+id/deposit_success_sum"
-            app:layout_constraintStart_toEndOf="@+id/deposit_success_sum"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintEnd_toEndOf="@+id/deposit_success_back_btn"/>
-
-
-    <TextView
-            android:id="@+id/deposit_success"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
             android:gravity="center"
+            android:text="@string/withdrawal_pin"
             android:textAllCaps="true"
-            android:text="@string/deposit_successful"
             android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/deposit_instantly"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:layout_marginStart="30dp"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/deposit_found_phone_title" />
 
-    <TextView
-            android:id="@+id/deposit_instantly"
-            android:layout_width="wrap_content"
+
+    <RelativeLayout
+            android:id="@+id/deposit_found_amount_view"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
+            style="@style/EditTextTheme"
+            android:padding="6dp"
+            android:layout_marginStart="20dp"
+            app:layout_constraintStart_toEndOf="@+id/deposit_titles_barrier"
+            app:layout_constraintTop_toTopOf="@+id/deposit_found_amount_title"
+            app:layout_constraintBottom_toBottomOf="@+id/deposit_found_amount_title">
+
+        <EditText
+                android:id="@+id/deposit_found_amount_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="@string/withdrawal_hint_pin"
+                android:inputType="number"
+                tools:ignore="Autofill,TextFields"/>
+
+    </RelativeLayout>
+
+
+
+    <Button
+            android:id="@+id/deposit_found_btn"
+            style="@style/ButtonGreenTheme"
+            android:layout_width="@dimen/big_btn_width"
+            android:layout_height="@dimen/big_btn_height"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="50dp"
             android:gravity="center"
+            android:enabled="false"
             android:textAllCaps="true"
-            android:text="@string/deposit_instantly"
-            android:textColor="@color/black"
+            android:text="@string/withdrawal_funds"
+            android:textColor="@color/white"
             android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/deposit_success_back_btn"
+            app:layout_constraintBottom_toTopOf="@+id/deposit_found_back_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
     <Button
-            android:id="@+id/deposit_success_back_btn"
+            android:id="@+id/deposit_found_back_btn"
             style="@style/ButtonRedTheme"
             android:layout_width="@dimen/small_btn_width"
             android:layout_height="@dimen/small_btn_height"
             android:layout_marginBottom="30dp"
             android:gravity="center"
             android:textAllCaps="true"
-            android:text="@string/home_btn"
+            android:text="@string/back_btn"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -181,7 +172,7 @@
 
 
     <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/deposit_success_guideline"
+            android:id="@+id/deposit_guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -192,6 +183,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="end"
-            app:constraint_referenced_ids="deposit_success_name_title, deposit_success_phone_title"/>
+            app:constraint_referenced_ids="deposit_found_name_title,deposit_found_phone_title,deposit_found_amount_title "/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

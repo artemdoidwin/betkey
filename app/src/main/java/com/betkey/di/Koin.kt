@@ -76,7 +76,7 @@ private val dataModule = module {
     single { BetKeyDataManager(get(), get(), get()) }
     single { MarginfoxDataManager(get(), get(), get()) }
     single { PSPDataManager(get(), get(), get()) }
-    single { ModelRepository(get()) }
+    single { ModelRepository() }
     factory { TokenAuthenticator(get(), get()) }
     single { OkHttpClient.Builder() }
 }

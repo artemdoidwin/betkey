@@ -16,6 +16,7 @@ import com.betkey.ui.deposit.DepositActivity
 import com.betkey.ui.jackpot.JackpotActivity
 import com.betkey.ui.scanTickets.ScanTicketsActivity
 import com.betkey.ui.sportbetting.SportBettingActivity
+import com.betkey.ui.withdrawal.WithdrawalActivity
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_login_ok.*
 import kotlinx.android.synthetic.main.view_toolbar.*
@@ -85,6 +86,11 @@ class LoginOkFragment : BaseFragment() {
         compositeDisposable.add(
             deposits_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 DepositActivity.start(activity!!)
+            }
+        )
+        compositeDisposable.add(
+            withdrawal_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
+                WithdrawalActivity.start(activity!!)
             }
         )
         compositeDisposable.add(

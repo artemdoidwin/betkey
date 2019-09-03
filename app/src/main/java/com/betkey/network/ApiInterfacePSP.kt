@@ -1,6 +1,8 @@
 package com.betkey.network
 
 import com.betkey.network.models.AgentDeposit
+import com.betkey.network.models.AgentWithdrawal
+import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -27,4 +29,17 @@ interface ApiInterfacePSP {
         @Field("payment[amount]")
         amount: Int
     ): Single<AgentDeposit>
+
+    @FormUrlEncoded
+    @POST("agent/withdrawal_confirm")
+    fun agentWithdrawal(
+        @Header("X-AUTH-TOKEN")
+        token: String,
+
+        @Field("payment[id]")
+        paymentId: Int,
+
+        @Field("payment[code]")
+        code: Int
+    ): Single<AgentWithdrawal>
 }

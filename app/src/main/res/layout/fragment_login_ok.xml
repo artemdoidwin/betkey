@@ -89,6 +89,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
+    <Button
+            android:id="@+id/withdrawal_btn"
+            style="@style/ButtonBlueTheme.Theme"
+            android:layout_width="@dimen/big_btn_width"
+            android:layout_height="@dimen/big_btn_height"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="@string/login_ok_withdrawal_btn"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/deposits_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
 
     <Button
             android:id="@+id/logout_btn"
@@ -111,6 +126,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.55"/>
+            app:layout_constraintGuide_percent="0.47" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

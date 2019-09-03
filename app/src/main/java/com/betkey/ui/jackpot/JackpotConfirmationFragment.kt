@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseFragment
-import com.betkey.network.models.Event
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.UsbPrinterActivity
 import com.betkey.utils.*
@@ -56,7 +55,11 @@ class JackpotConfirmationFragment : BaseFragment() {
             bet?.also {
                 confirmation_ticket_number.text = it.message_data?.couponId.toString()
                 confirmation_ticket_code.text = it.message_data?.betCode
-                confirmation_ticket_created.text = createDateString(it.created!!)
+                viewModel.wallets.value?.also {wallets ->
+                    val price = "${it.message_data?.stake} ${wallets[0].currency} "
+                    confirmation_ticket_price.text = price
+                }
+                confirmation_ticket_created.text = dateString(it.created!!)
                 UsbPrinterActivity.start(activity!!)
             }
         })
@@ -65,12 +68,6 @@ class JackpotConfirmationFragment : BaseFragment() {
             jackpotInfo?.also {
                 it.coupon?.also { coupon ->
                     confirmation_coupon_id.text = coupon.coupon?.id.toString()
-
-                    viewModel.wallets.value?.also {
-                        val price = "${coupon.defaultStake} ${viewModel.wallets.value!![0].currency} "
-                        confirmation_ticket_price.text = price
-                    }
-
                     val date = coupon.coupon?.expires?.toFullDate()!!.dateToString()
                     confirmation_last_entry.text = date
                 }

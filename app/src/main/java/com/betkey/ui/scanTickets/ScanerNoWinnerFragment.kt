@@ -8,8 +8,7 @@ import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
-import com.betkey.ui.jackpot.JackpotConfirmationFragment
-import com.betkey.utils.createDateString
+import com.betkey.utils.dateString
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_scan_winner.*
 import org.jetbrains.anko.support.v4.toast
@@ -41,7 +40,7 @@ class ScanerNoWinnerFragment : BaseFragment() {
 
         viewModel.ticket.observe(myLifecycleOwner, Observer { ticket ->
             ticket?.also {
-                winner_created.text = createDateString(it.created!!.toLong())
+                winner_created.text = dateString(it.created!!.toLong())
                 winner_type.text = it.platformUnit!!.name
                 winner_ticket_id.text = it.ticketId
             }

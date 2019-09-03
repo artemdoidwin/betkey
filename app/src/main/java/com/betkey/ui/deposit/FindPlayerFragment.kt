@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
+import com.betkey.ui.withdrawal.WithdrawalFoundPlayerFragment
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_find_player.*
 import org.jetbrains.anko.support.v4.toast
@@ -34,20 +35,22 @@ class FindPlayerFragment : BaseFragment() {
 
         compositeDisposable.add(
             deposit_find_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
-//                if (deposit_find_amount_ET.text.length >= 9) {
-                    subscribe(
-                        viewModel.findPlayer(deposit_find_amount_ET.text.toString()), {
-//                        viewModel.findPlayer("35621001240"), {
-                            if (it.errors.isNotEmpty() && it.errors[0].code == 33){
-                                addFragment(NoPlayerFoundFragment.newInstance(), R.id.container_for_fragments, NoPlayerFoundFragment.TAG)
-                            }else{
-                                addFragment(FoundFragment.newInstance(), R.id.container_for_fragments, FoundFragment.TAG)
-                            }
-                        }, {
-                            toast(it.message.toString())
+                subscribe(
+//                    viewModel.findPlayer(deposit_find_amount_ET.text.toString()), {
+                                                viewModel.findPlayer("35621001240"), {
+                        if (it.errors.isNotEmpty() && it.errors[0].code == 33) {
+                            addFragment(
+                                NoPlayerFoundFragment.newInstance(),
+                                R.id.container_for_fragments,
+                                NoPlayerFoundFragment.TAG
+                            )
+                        } else {
+                            checkFragment()
                         }
-                    )
-//                }
+                    }, {
+                        toast(it.message.toString())
+                    }
+                )
             }
         )
 
@@ -56,5 +59,24 @@ class FindPlayerFragment : BaseFragment() {
                 activity?.also { it.finish() }
             }
         )
+    }
+
+    private fun checkFragment() {
+        when (activity!!.localClassName) {
+            "ui.withdrawal.WithdrawalActivity" -> {
+                addFragment(
+                    WithdrawalFoundPlayerFragment.newInstance(),
+                    R.id.container_for_fragments,
+                    WithdrawalFoundPlayerFragment.TAG
+                )
+            }
+            "ui.deposit.DepositActivity" -> {
+                addFragment(
+                    FoundFragment.newInstance(),
+                    R.id.container_for_fragments,
+                    FoundFragment.TAG
+                )
+            }
+        }
     }
 }

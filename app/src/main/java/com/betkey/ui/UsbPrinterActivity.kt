@@ -18,7 +18,7 @@ import android.widget.Toast
 import com.betkey.R
 import com.betkey.base.BaseActivity
 import com.betkey.network.models.Event
-import com.betkey.utils.createDateString
+import com.betkey.utils.dateString
 import com.betkey.utils.dateToString2
 import com.betkey.utils.roundOffDecimal
 import com.betkey.utils.toFullDate2
@@ -218,7 +218,7 @@ class UsbPrinterActivity : BaseActivity() {
                 dottedLine()
                 printHeadRow(resources.getString(R.string.jackpot_confirmation_ticket_number).toUpperCase(), viewModel.agentBet.value!!.message_data?.couponId.toString())
                 printHeadRow(resources.getString(R.string.jackpot_game_code).toUpperCase(), viewModel.agentBet.value!!.message_data?.betCode!!)
-                printHeadRow(resources.getString(R.string.jackpot_game_date_time).toUpperCase(), createDateString(viewModel.agentBet.value!!.created!!))
+                printHeadRow(resources.getString(R.string.jackpot_game_date_time).toUpperCase(), dateString(viewModel.agentBet.value!!.created!!))
                 printHeadRow(resources.getString(R.string.scan_detail_type).toUpperCase(), viewModel.ticket.value!!.platformUnit!!.name!!)
                 dottedLine()
                 printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details).toUpperCase())
