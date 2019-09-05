@@ -113,11 +113,6 @@ class JackpotFragment : BaseFragment() {
             it.coupon?.also { coupon ->
                 jackpot_coupon_id.text = coupon.coupon?.id.toString()
 
-                viewModel.wallets.value?.also {
-                    val price = "${coupon.defaultStake} ${viewModel.wallets.value!![0].currency} "
-                    jackpot_ticket_price.text = price
-                }
-
                 val date = coupon.coupon?.expires?.toFullDate()!!.dateToString()
                 jackpot_coupon_last_entry.text = date
             }

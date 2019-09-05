@@ -40,7 +40,9 @@ fun String.toFullDate(): Date {
 
 fun String.toFullDate2(): Date {
     return try {
-        SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).parse(this)
+        SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            .apply {  timeZone = TimeZone.getTimeZone("UTC") }
+            .parse(this)
     } catch (e: java.lang.Exception) {
         Date(0)
     }
@@ -56,6 +58,8 @@ fun Date.dateToString(): String {
 
 fun Date.dateToString2(): String {
     if (this.time == 0L) return ""
-    return SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+    return SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).apply {
+        timeZone = TimeZone.getTimeZone("UTC")
+    }
         .format(this)
 }
