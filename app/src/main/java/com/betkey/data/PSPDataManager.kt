@@ -1,10 +1,13 @@
 package com.betkey.data
 
 import com.betkey.network.ApiInterfacePSP
+import com.betkey.network.models.AgentWithdrawal
+import com.betkey.network.models.WithdrawalRequest
 import com.betkey.repository.ModelRepository
 import io.reactivex.Completable
+import io.reactivex.Single
 
-class PSPDataManager (
+class PSPDataManager(
     private val prefManager: PreferencesManager,
     private val modelRepository: ModelRepository,
     private val apiPSP: ApiInterfacePSP
@@ -12,6 +15,7 @@ class PSPDataManager (
 
     val payment = modelRepository.payment
     val withdrawal = modelRepository.withdrawal
+    val withdrawalRequest = modelRepository.withdrawalRequest
     val link = modelRepository.link
 
     fun agentDeposit(paymentId: Int, playerId: String, currency: String, amount: Int): Completable {
@@ -25,13 +29,22 @@ class PSPDataManager (
         }
     }
 
-    fun agentWithdrawal(paymentId: Int, code: Int): Completable {
+    fun agentWithdrawalConfirm(paymentId: Int, code: Int): Single<AgentWithdrawal> {
         return prefManager.getToken().let { token ->
-            apiPSP.agentWithdrawal(token, paymentId, code)
-                .flatMapCompletable {
-                    Completable.fromRunnable {
-                        modelRepository.withdrawal.postValue(it)
-                    }
+            apiPSP.agentWithdrawalConfirm(token, paymentId, code)
+                .flatMap {
+                    modelRepository.withdrawal.postValue(it)
+                    Single.just(it)
+                }
+        }
+    }
+
+    fun agentWithdrawalRequest(securityCode: String): Single<WithdrawalRequest> {
+        return prefManager.getToken().let { token ->
+            apiPSP.agentWithdrawalRequest(token, securityCode)
+                .flatMap {
+                    modelRepository.withdrawalRequest.postValue(it)
+                    Single.just(it)
                 }
         }
     }

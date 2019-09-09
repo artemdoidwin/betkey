@@ -40,5 +40,17 @@ data class Player(
     var first_name: String = "",
 
     @SerializedName("last_name")
-    var last_name: String = ""
+    var last_name: String = "",
+
+    @SerializedName("birthday")
+    var birthday: String = "",
+
+    @SerializedName("gender")
+    var gender: Int? = null,
+
+    @SerializedName("language")
+    var language: String = "",
+
+    @SerializedName("wallets")
+    var wallets: List<Wallet> = listOf()
 )

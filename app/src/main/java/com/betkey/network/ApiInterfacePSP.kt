@@ -2,12 +2,10 @@ package com.betkey.network
 
 import com.betkey.network.models.AgentDeposit
 import com.betkey.network.models.AgentWithdrawal
+import com.betkey.network.models.WithdrawalRequest
 import io.reactivex.Completable
 import io.reactivex.Single
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiInterfacePSP {
 
@@ -32,7 +30,7 @@ interface ApiInterfacePSP {
 
     @FormUrlEncoded
     @POST("agent/withdrawal_confirm")
-    fun agentWithdrawal(
+    fun agentWithdrawalConfirm(
         @Header("X-AUTH-TOKEN")
         token: String,
 
@@ -42,4 +40,13 @@ interface ApiInterfacePSP {
         @Field("payment[code]")
         code: Int
     ): Single<AgentWithdrawal>
+
+    @POST("agent/withdrawal_request_info/{security_code}")
+    fun agentWithdrawalRequest(
+        @Header("X-AUTH-TOKEN")
+        token: String,
+
+        @Path("security_code")
+        securityCode: String
+    ): Single<WithdrawalRequest>
 }

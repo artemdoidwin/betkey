@@ -132,8 +132,9 @@ class ScanFragment : BaseFragment() {
                 0 -> {
                     Log.d("", "")
                     addFragment(
-                        BlankOutcomeFragment.newInstance(viewModel.getOutcomes()?.get(it.outcome.toString())),
-                        R.id.container_for_fragments, BlankOutcomeFragment.TAG
+                        ScanerNoWinnerFragment.newInstance(),
+                        R.id.container_for_fragments,
+                        ScanerNoWinnerFragment.TAG
                     )
                     return
                 }// "open"

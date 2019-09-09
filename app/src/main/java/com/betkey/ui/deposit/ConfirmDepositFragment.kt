@@ -62,7 +62,11 @@ class ConfirmDepositFragment : BaseFragment() {
                     context!!.resources.getString(R.string.withdrawal_confirm)
                 compositeDisposable.add(
                     deposit_confirm_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
-                        subscribe(viewModel.agentWithdrawal(code!!), {}, {
+                        subscribe(viewModel.agentWithdrawal(code!!), {
+                            if (checkErrors(it)) {
+                                updateWallets()
+                            }
+                        }, {
                             toast(it.message.toString())
                         })
                     }
@@ -91,13 +95,11 @@ class ConfirmDepositFragment : BaseFragment() {
         viewModel.player.observe(this, Observer { player ->
             player?.also {updatePlayerData(it) }
         })
-        viewModel.withdrawal.observe(this, Observer { withdrawal ->
-            withdrawal?.also {
-                if (checkErrors(it)) {
-                    updateWallets()
-                }else{
-                    viewModel.withdrawal.value = null
-                }
+        viewModel.withdrawalRequest.observe(this, Observer { withdrawalRequest ->
+            withdrawalRequest?.request?.also {
+                val confirmSum = String.format("%.0f", it.amount)
+                deposit_confirm_sum.text = confirmSum
+                deposit_confirm_currency.text = it.currency
             }
         })
     }

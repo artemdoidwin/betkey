@@ -5,7 +5,6 @@ import com.betkey.data.BetKeyDataManager
 import com.betkey.data.MarginfoxDataManager
 import com.betkey.data.PSPDataManager
 import com.betkey.network.models.*
-import com.betkey.utils.AGENT_HHT
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -20,6 +19,7 @@ class MainViewModel(
     val player = betkeydataManager.player
     val payment = pspDataManager.payment
     val withdrawal = pspDataManager.withdrawal
+    val withdrawalRequest = pspDataManager.withdrawalRequest
     val link = pspDataManager.link
     val agentBet = marginfoxDataManager.agentBet
     val jackpotInfo = marginfoxDataManager.jackpotInfo
@@ -79,9 +79,13 @@ class MainViewModel(
         return pspDataManager.agentDeposit(paymentId, playerId, currency, amount)
     }
 
-    fun agentWithdrawal(code: Int): Completable {
+    fun agentWithdrawal(code: Int): Single<AgentWithdrawal> {
         val paymentId = (0..Int.MAX_VALUE).random()
-        return pspDataManager.agentWithdrawal(paymentId, code)
+        return pspDataManager.agentWithdrawalConfirm(paymentId, code)
+    }
+
+    fun agentWithdrawalRequest(securityCode: String): Single <WithdrawalRequest>{
+        return pspDataManager.agentWithdrawalRequest(securityCode)
     }
 
     fun getOutcomes() = betkeydataManager.outcomes

@@ -24,12 +24,14 @@
     <string name="scan_payout_success">Payout success</string>
     <string name="scan_payout_play_player">!! Please play player !!</string>
     <string name="scan_detail_type">Type:</string>
+    <string name="scan_ticket_details">Ticket details</string>
 
     <string name="back_btn">Back</string>
     <string name="home_btn">Home</string>
 
     <string name="winner_head">Winner</string>
     <string name="winner_head_no_winner">No winner</string>
+    <string name="winner_head_pending">Pending ticket</string>
     <string name="winner_created">Created:</string>
     <string name="winner_type">Type:</string>
     <string name="winner_ticket_id">Ticket id:</string>

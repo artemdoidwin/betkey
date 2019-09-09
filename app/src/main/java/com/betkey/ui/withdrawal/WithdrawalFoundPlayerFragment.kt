@@ -9,11 +9,11 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseFragment
+import com.betkey.network.models.WithdrawalRequest
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.deposit.ConfirmDepositFragment
-import com.betkey.ui.deposit.SuccessFragment
 import com.jakewharton.rxbinding3.view.clicks
-import kotlinx.android.synthetic.main.fragment_found_player.*
+import kotlinx.android.synthetic.main.fragment_found_player_withdrawal.*
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.concurrent.TimeUnit
@@ -39,22 +39,23 @@ class WithdrawalFoundPlayerFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        deposit_found_amount_ET.addTextChangedListener(textWatcherWithdrawal)
+        withdrawal_found_amount_ET.addTextChangedListener(textWatcherWithdrawal)
 
         compositeDisposable.add(
-            deposit_found_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
-                if (deposit_found_amount_ET.text.isNotEmpty()) {
-                    addFragment(
-                        ConfirmDepositFragment.newInstance(deposit_found_amount_ET.text.toString().toInt()),
-                        R.id.container_for_fragments,
-                        ConfirmDepositFragment.TAG
+            withdrawal_found_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
+                if (withdrawal_found_amount_ET.text.isNotEmpty()) {
+                    subscribe(viewModel.agentWithdrawalRequest(withdrawal_found_amount_ET.text.toString()), {
+                        checkErrors(it)
+                        }, {
+                            toast(it.message.toString())
+                        }
                     )
                 }
             }
         )
 
         compositeDisposable.add(
-            deposit_found_back_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
+            withdrawal_found_back_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 popBackStack()
             }
         )
@@ -62,16 +63,30 @@ class WithdrawalFoundPlayerFragment : BaseFragment() {
         viewModel.player.observe(this, Observer { player ->
             player?.also {
                 val name = "${it.first_name} ${it.last_name}"
-                deposit_found_name.text = name
-                deposit_found_phone.text = it.phone
-                deposit_found_currency?.also { currency -> currency.text = it.currency }
+                withdrawal_found_name.text = name
+                withdrawal_found_phone.text = it.phone
             }
         })
     }
 
+    private fun checkErrors(request: WithdrawalRequest) {
+        if (request.errors.isNotEmpty()) {
+            when (request.errors[0].code) {
+                925 -> toast(context!!.resources.getString(R.string.withdrawal_error_pin))
+                else -> toast(request.errors[0].message.toString())
+            }
+        } else {
+            addFragment(
+                ConfirmDepositFragment.newInstance(withdrawal_found_amount_ET.text.toString().toInt()),
+                R.id.container_for_fragments,
+                ConfirmDepositFragment.TAG
+            )
+        }
+    }
+
     private val textWatcherWithdrawal = object : TextWatcher {
         override fun onTextChanged(searchText: CharSequence, start: Int, before: Int, count: Int) {
-            deposit_found_btn.isEnabled = searchText.isNotEmpty()
+            withdrawal_found_btn.isEnabled = searchText.isNotEmpty()
         }
 
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}

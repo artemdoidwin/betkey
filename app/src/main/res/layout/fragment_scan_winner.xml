@@ -187,7 +187,7 @@
             android:layout_marginBottom="25dp"
             android:gravity="center"
             android:textAllCaps="true"
-            android:text="@string/winner_details_btn"
+            android:text="@string/scan_ticket_details"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/winner_back_btn"
@@ -223,6 +223,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="end"
-            app:constraint_referenced_ids="winner_created_title, winner_type_title, winner_ticket_id_title"/>
+            app:constraint_referenced_ids="winner_created_title,winner_type_title,winner_ticket_id_title"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

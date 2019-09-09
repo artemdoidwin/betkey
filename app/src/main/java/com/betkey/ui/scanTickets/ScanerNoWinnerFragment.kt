@@ -1,17 +1,21 @@
 package com.betkey.ui.scanTickets
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseFragment
+import com.betkey.network.models.Ticket
 import com.betkey.ui.MainViewModel
 import com.betkey.utils.dateString
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_scan_winner.*
 import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.textColor
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.concurrent.TimeUnit
 
@@ -31,15 +35,14 @@ class ScanerNoWinnerFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        winner_logo.setImageResource(R.drawable.no_winner)
         winner_payout_btn.visibility = View.GONE
         winner_sum.visibility = View.GONE
         winner_currency.visibility = View.GONE
-        winner_head_text.text = resources.getString(R.string.winner_head_no_winner)
-        winner_head_text.setTextColor(resources.getColor(R.color.red))
 
         viewModel.ticket.observe(myLifecycleOwner, Observer { ticket ->
             ticket?.also {
+                createScreen(it)
+
                 winner_created.text = dateString(it.created!!.toLong())
                 winner_type.text = it.platformUnit!!.name
                 winner_ticket_id.text = it.ticketId
@@ -68,6 +71,23 @@ class ScanerNoWinnerFragment : BaseFragment() {
                 popBackStack()
             }
         )
+    }
+
+    private fun createScreen(ticket: Ticket) {
+        when (ticket.outcome) {
+            0 -> {
+                winner_logo.setImageResource(R.drawable.ic_pending)
+                winner_head_text.text = resources.getString(R.string.winner_head_pending)
+                winner_head_text.textColor = ContextCompat.getColor(context!!, R.color.pending)
+                return
+            }// "open"
+            2 -> {
+                winner_logo.setImageResource(R.drawable.no_winner)
+                winner_head_text.text = resources.getString(R.string.winner_head_no_winner)
+                winner_head_text.textColor = ContextCompat.getColor(context!!, R.color.red)
+                return
+            }//"lost"
+        }
     }
 
     override fun onDestroyView() {

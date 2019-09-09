@@ -59,20 +59,10 @@ class SuccessFragment : BaseFragment() {
                 deposit_success_phone.text = it.phone
             }
         })
-        viewModel.payment.observe(this, Observer { payment ->
-            payment?.also { paymentRest ->
-                paymentRest.player_deposit?.also { playerDeposit ->
-                    playerDeposit.payment?.also {
-                        val confirmSum = String.format("%.2f", it.amount.toDouble())
-                        deposit_success_sum.text = confirmSum
-                        deposit_success_currency.text = it.currency
-                    }
-                }
-            }
-        })
+
         viewModel.withdrawal.observe(this, Observer { withdrawal ->
             withdrawal?.confirm?.a2pDeposit?.payment?.also {
-                val confirmSum = String.format("%.2f", it.amount.toDouble())
+                val confirmSum = String.format("%.0f", it.amount.toDouble())
                 deposit_success_sum.text = confirmSum
                 deposit_success_currency.text = it.currency
             }
