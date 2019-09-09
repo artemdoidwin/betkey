@@ -13,8 +13,8 @@ class PSPDataManager(
     private val apiPSP: ApiInterfacePSP
 ) {
 
-    val payment = modelRepository.payment
-    val withdrawal = modelRepository.withdrawal
+    val agentDeposit = modelRepository.agentDeposit
+    val withdrawalConfirm = modelRepository.withdrawalConfirm
     val withdrawalRequest = modelRepository.withdrawalRequest
     val link = modelRepository.link
 
@@ -23,7 +23,7 @@ class PSPDataManager(
             apiPSP.agentDeposit(token, paymentId, playerId, currency, amount)
                 .flatMapCompletable {
                     Completable.fromRunnable {
-                        modelRepository.payment.postValue(it.payment)
+                        modelRepository.agentDeposit.postValue(it.payment)
                     }
                 }
         }
@@ -33,7 +33,7 @@ class PSPDataManager(
         return prefManager.getToken().let { token ->
             apiPSP.agentWithdrawalConfirm(token, paymentId, code)
                 .flatMap {
-                    modelRepository.withdrawal.postValue(it)
+                    modelRepository.withdrawalConfirm.postValue(it)
                     Single.just(it)
                 }
         }

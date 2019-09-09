@@ -90,15 +90,15 @@ class ConfirmDepositFragment : BaseFragment() {
                 popBackStack()
             }
         )
-        val confirmSum = String.format("%.2f", sum)
+        val confirmSum = String.format("%.0f", sum)
         deposit_confirm_sum.text = confirmSum
         viewModel.player.observe(this, Observer { player ->
             player?.also {updatePlayerData(it) }
         })
         viewModel.withdrawalRequest.observe(this, Observer { withdrawalRequest ->
             withdrawalRequest?.request?.also {
-                val confirmSum = String.format("%.0f", it.amount)
-                deposit_confirm_sum.text = confirmSum
+                val sum = String.format("%.0f", it.amount)
+                deposit_confirm_sum.text = sum
                 deposit_confirm_currency.text = it.currency
             }
         })
@@ -138,5 +138,10 @@ class ConfirmDepositFragment : BaseFragment() {
         }, {
             toast(it.message.toString())
         })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.withdrawalRequest.value = null
     }
 }

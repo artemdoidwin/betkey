@@ -17,8 +17,8 @@ class MainViewModel(
     val betsDetailsList = marginfoxDataManager.betsDetailsList
     val wallets = betkeydataManager.wallets
     val player = betkeydataManager.player
-    val payment = pspDataManager.payment
-    val withdrawal = pspDataManager.withdrawal
+    val agentDeposit = pspDataManager.agentDeposit
+    val withdrawalConfirm = pspDataManager.withdrawalConfirm
     val withdrawalRequest = pspDataManager.withdrawalRequest
     val link = pspDataManager.link
     val agentBet = marginfoxDataManager.agentBet
