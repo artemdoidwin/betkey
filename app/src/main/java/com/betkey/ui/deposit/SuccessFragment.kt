@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
+import com.betkey.ui.UsbPrinterActivity
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_deposit_success.*
 import org.jetbrains.anko.textColor
@@ -38,9 +39,11 @@ class SuccessFragment : BaseFragment() {
 
         when (activity!!.localClassName) {
             "ui.withdrawal.WithdrawalActivity" -> {
-                deposit_success_head_text.text = context!!.resources.getString(R.string.withdrawal_success)
+                deposit_success_head_text.text =
+                    context!!.resources.getString(R.string.withdrawal_success)
                 deposit_success.text = context!!.resources.getString(R.string.withdrawal_successful)
-                deposit_instantly.text = context!!.resources.getString(R.string.scan_payout_play_player)
+                deposit_instantly.text =
+                    context!!.resources.getString(R.string.scan_payout_play_player)
                 deposit_instantly.textColor = ContextCompat.getColor(context!!, R.color.red)
                 deposit_instantly.textSize = 22F
             }
@@ -65,18 +68,16 @@ class SuccessFragment : BaseFragment() {
                 val confirmSum = String.format("%.0f", it.amount.toDouble())
                 deposit_success_sum.text = confirmSum
                 deposit_success_currency.text = it.currency
+                UsbPrinterActivity.start(activity!!, UsbPrinterActivity.WITHDRAWAL)
             }
         })
 
         viewModel.agentDeposit.observe(this, Observer { payment ->
-            payment?.also { paymentRest ->
-                paymentRest.player_deposit?.also { playerDeposit ->
-                    playerDeposit.payment?.also {
-                        val confirmSum = String.format("%.0f", it.amount.toDouble())
-                        deposit_success_sum.text = confirmSum
-                        deposit_success_currency.text = it.currency
-                    }
-                }
+            payment?.player_deposit?.payment?.also {
+                val confirmSum = String.format("%.0f", it.amount.toDouble())
+                deposit_success_sum.text = confirmSum
+                deposit_success_currency.text = it.currency
+                UsbPrinterActivity.start(activity!!, UsbPrinterActivity.DEPOSIT)
             }
         })
     }

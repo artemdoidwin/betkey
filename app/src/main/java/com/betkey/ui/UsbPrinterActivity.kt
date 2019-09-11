@@ -14,7 +14,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.view.KeyEvent
-import android.widget.Toast
 import com.betkey.R
 import com.betkey.base.BaseActivity
 import com.betkey.network.models.Event
@@ -27,6 +26,7 @@ import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.telpo.tps550.api.TelpoException
 import com.telpo.tps550.api.printer.UsbThermalPrinter
+import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UsbPrinterActivity : BaseActivity() {
@@ -37,7 +37,7 @@ class UsbPrinterActivity : BaseActivity() {
     private val PRINTERR = 11
     private val OVERHEAT = 12
     private val NOBLACKBLOCK = 15
-    private val MYTREAD = 1
+    private val PRINT_TREAD = 1
 
     private lateinit var handler: MyHandler
     private var result: String? = null
@@ -57,15 +57,18 @@ class UsbPrinterActivity : BaseActivity() {
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action
             if (action == Intent.ACTION_BATTERY_CHANGED) {
-                val status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, BatteryManager.BATTERY_STATUS_NOT_CHARGING)
+                val status = intent.getIntExtra(
+                    BatteryManager.EXTRA_STATUS,
+                    BatteryManager.BATTERY_STATUS_NOT_CHARGING
+                )
                 val level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0)
                 val scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, 0)
                 //TPS390 can not print,while in low battery,whether is charging or not charging
                 lowBattery = if (status != BatteryManager.BATTERY_STATUS_CHARGING) {
-                        level * 5 <= scale
-                    } else {
-                        false
-                    }
+                    level * 5 <= scale
+                } else {
+                    false
+                }
             } else if (action == "android.intent.action.BATTERY_CAPACITY_EVENT") {
                 val status = intent.getIntExtra("action", 0)
                 val level = intent.getIntExtra("level", 0)
@@ -76,6 +79,25 @@ class UsbPrinterActivity : BaseActivity() {
                 }
             }//Only use for TPS550MTK devices
         }
+    }
+
+    companion object {
+        private var printVersion: String? = null
+        const val OPERATION = "operation"
+        const val JACKPOT = 0
+        const val WITHDRAWAL = 1
+        const val DEPOSIT = 2
+
+        fun start(sender: Activity, operation: Int) {
+            val intent = Intent(sender, UsbPrinterActivity::class.java).apply {
+                putExtra(OPERATION, operation)
+            }
+            sender.startActivity(intent)
+        }
+    }
+
+    private val operation: Int by lazy {
+        intent.getIntExtra(OPERATION, -1)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,6 +111,10 @@ class UsbPrinterActivity : BaseActivity() {
         pIntentFilter.addAction("android.intent.action.BATTERY_CAPACITY_EVENT")
         registerReceiver(printReceive, pIntentFilter)
 
+        checkDrawer()
+    }
+
+    private fun checkDrawer() {
         dialog = ProgressDialog(this@UsbPrinterActivity)
         dialog.setTitle(R.string.idcard_czz)
         dialog.setMessage(getText(R.string.watting))
@@ -122,7 +148,7 @@ class UsbPrinterActivity : BaseActivity() {
     private inner class MyHandler : Handler() {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
-                MYTREAD -> MyThread().start()
+                PRINT_TREAD -> PrintThread().start()
                 NOPAPER -> noPaperDlg()
                 LOWBATTERY -> {
                     val alertDialog = AlertDialog.Builder(this@UsbPrinterActivity)
@@ -131,25 +157,19 @@ class UsbPrinterActivity : BaseActivity() {
                     alertDialog.setPositiveButton(getString(R.string.dialog_comfirm)) { _, _ -> }
                     alertDialog.show()
                 }
-                NOBLACKBLOCK -> Toast.makeText(
-                    this@UsbPrinterActivity,
-                    R.string.maker_not_find,
-                    Toast.LENGTH_SHORT
-                ).show()
+                NOBLACKBLOCK -> toast(getString(R.string.maker_not_find))
                 PRINTVERSION -> {
                     dialog.dismiss()
                     if (msg.obj == "1") {
-                        printVersion
-                        myStart()
+                        checkOperations()
                     } else {
-                        Toast.makeText(this@UsbPrinterActivity, R.string.operation_fail, Toast.LENGTH_LONG).show()
+                        toast(getString(R.string.operation_fail))
                         finish()
                     }
                 }
                 CANCELPROMPT -> if (progressDialog != null && !this@UsbPrinterActivity.isFinishing) {
                     progressDialog!!.dismiss()
                     progressDialog = null
-                    finish()
                 }
                 OVERHEAT -> {
                     val overHeatDialog = AlertDialog.Builder(this@UsbPrinterActivity)
@@ -159,14 +179,14 @@ class UsbPrinterActivity : BaseActivity() {
                     overHeatDialog.show()
                 }
                 else -> {
-                    Toast.makeText(this@UsbPrinterActivity, msg.obj.toString(), Toast.LENGTH_LONG).show()
+                    toast(msg.obj.toString())
                     finish()
                 }
             }
         }
     }
 
-    fun myStart() {
+    private fun checkOperations() {
         if (lowBattery) {
             handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null))
         } else {
@@ -176,9 +196,9 @@ class UsbPrinterActivity : BaseActivity() {
                     getString(R.string.bl_dy),
                     getString(R.string.printing_wait)
                 )
-                handler.sendMessage(handler.obtainMessage(MYTREAD, 1, 0, null))
+                handler.sendMessage(handler.obtainMessage(PRINT_TREAD, 1, 0, null))
             } else {
-                Toast.makeText(this@UsbPrinterActivity, getString(R.string.ptintInit), Toast.LENGTH_LONG).show()
+                toast(getString(R.string.ptintInit))
             }
         }
     }
@@ -188,66 +208,31 @@ class UsbPrinterActivity : BaseActivity() {
         dlg.setTitle(getString(R.string.noPaper))
         dlg.setMessage(getString(R.string.noPaperNotice))
         dlg.setCancelable(false)
-        dlg.setPositiveButton(R.string.sure) { _, _ -> mUsbThermalPrinter.stop() }
+        dlg.setPositiveButton(R.string.sure) { _, _ -> finish() }
         dlg.show()
     }
 
-    private inner class MyThread : Thread() {
+    private inner class PrintThread : Thread() {
         override fun run() {
             super.run()
             try {
-                //picture
                 mUsbThermalPrinter.start(0)
-                mUsbThermalPrinter.reset()
-                mUsbThermalPrinter.setGray(printGray)
-                mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
-                val bitmapSource = BitmapFactory.decodeResource(resources, R.drawable.marginfox_logo)
-                mUsbThermalPrinter.printLogo(bitmapSource, false)
 
-                //context
-                //init
-                mUsbThermalPrinter.reset()
-                mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_LEFT)
-                mUsbThermalPrinter.setLeftIndent(leftDistance)
-                mUsbThermalPrinter.setLineSpace(lineDistance)
-                mUsbThermalPrinter.setCharSpace(charSpace)
-                mUsbThermalPrinter.setFontSize(2)
-                mUsbThermalPrinter.setGray(printGray)
-
-                //print content
-                dottedLine()
-                printHeadRow(resources.getString(R.string.jackpot_confirmation_ticket_number).toUpperCase(), viewModel.agentBet.value!!.message_data?.couponId.toString())
-                printHeadRow(resources.getString(R.string.jackpot_game_code).toUpperCase(), viewModel.agentBet.value!!.message_data?.betCode!!)
-                printHeadRow(resources.getString(R.string.jackpot_game_date_time).toUpperCase(), dateString(viewModel.agentBet.value!!.created!!))
-                printHeadRow(resources.getString(R.string.scan_detail_type).toUpperCase(), viewModel.ticket.value!!.platformUnit!!.name!!)
-                dottedLine()
-                printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details).toUpperCase())
-                for (i in viewModel.lookupBets.value!!.events!!.indices) {
-                    dottedLine()
-                    createBetList(viewModel.lookupBets.value!!.events!![i])
+                when (operation) {
+                    JACKPOT -> jackpotPrint()
+                    WITHDRAWAL -> withdrawalPrint()
+                    DEPOSIT -> depositPrint()
                 }
-                printStake(viewModel.ticket.value!!.stake!!, viewModel.ticket.value!!.currency!!)
 
-                //qr
-                mUsbThermalPrinter.reset()
-                mUsbThermalPrinter.setGray(printGray)
-                val bitmap =
-                    createCode(viewModel.agentBet.value!!.message_data?.betCode!!, BarcodeFormat.QR_CODE, 256, 256)
-                mUsbThermalPrinter.printLogo(bitmap, false)
                 mUsbThermalPrinter.walkPaper(10)
-
+                finish()
             } catch (e: Exception) {
                 e.printStackTrace()
                 result = e.toString()
                 when (result) {
                     "com.telpo.tps550.api.printer.NoPaperException" -> nopaper = true
                     "com.telpo.tps550.api.printer.OverHeatException" -> handler.sendMessage(
-                        handler.obtainMessage(
-                            OVERHEAT,
-                            1,
-                            0,
-                            null
-                        )
+                        handler.obtainMessage(OVERHEAT, 1, 0, null)
                     )
                     else -> handler.sendMessage(handler.obtainMessage(PRINTERR, 1, 0, null))
                 }
@@ -261,6 +246,158 @@ class UsbPrinterActivity : BaseActivity() {
                 mUsbThermalPrinter.stop()
             }
         }
+    }
+
+    private fun depositPrint() {
+        printMyLogo(R.drawable.logo_for_print)   //picture
+        initStyleContent()
+
+        val textMiddle = "${resources.getString(R.string.deposit_deposit).toUpperCase()}\n"
+        printMiddleText(textMiddle)
+
+        val number = "${resources.getString(R.string.withdrawal_number)} " +
+                "${viewModel.agentDeposit.value!!.player_deposit?.payment?.psp_payment_id}"
+        val name = "${resources.getString(R.string.deposit_player_name)} " +
+                "${viewModel.player.value?.first_name} ${viewModel.player.value?.last_name}"
+        val time = "${resources.getString(R.string.withdrawal_time)} " +
+                dateString(viewModel.agentDeposit.value!!.player_deposit?.payment?.created!!)
+        val id = "${resources.getString(R.string.withdrawal_id).toUpperCase()} " +
+                viewModel.agentDeposit.value!!.player_deposit?.payment?.shortId
+        mUsbThermalPrinter.addString(number.toUpperCase())
+        mUsbThermalPrinter.addString(name.toUpperCase())
+        mUsbThermalPrinter.addString(time.toUpperCase())
+        mUsbThermalPrinter.addString(id)
+        mUsbThermalPrinter.printString()
+
+        mUsbThermalPrinter.setFontSize(1)
+        mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
+        mUsbThermalPrinter.addString("\n${resources.getString(R.string.deposit_amount_text).toUpperCase()}")
+        mUsbThermalPrinter.printString()
+
+        mUsbThermalPrinter.setFontSize(3)
+        val am =
+            "${viewModel.agentDeposit.value!!.player_deposit?.payment?.amount?.toDouble()?.roundOffDecimal()} "
+        val amount = am + "${viewModel.agentDeposit.value!!.player_deposit?.payment?.currency}"
+        mUsbThermalPrinter.addString(amount.toUpperCase())
+        mUsbThermalPrinter.printString()
+
+        printBottomText()
+    }
+
+    private fun withdrawalPrint() {
+        printMyLogo(R.drawable.logo_for_print)   //picture
+        initStyleContent()
+
+        val textMiddle = "${resources.getString(R.string.withdrawal).toUpperCase()}\n"
+        printMiddleText(textMiddle)
+
+        val number = "${resources.getString(R.string.withdrawal_number)} " +
+                "${viewModel.withdrawalConfirm.value!!.confirm?.a2pDeposit?.payment?.psp_payment_id}"
+        val name = "${resources.getString(R.string.deposit_player_name)} " +
+                "${viewModel.player.value?.first_name} ${viewModel.player.value?.last_name}"
+        val time = "${resources.getString(R.string.withdrawal_time)} " +
+                dateString(viewModel.withdrawalConfirm.value!!.confirm?.a2pDeposit?.payment?.created!!)
+        val id = "${resources.getString(R.string.withdrawal_id).toUpperCase()} " +
+                viewModel.withdrawalConfirm.value!!.confirm?.a2pDeposit?.payment?.shortId
+
+        mUsbThermalPrinter.addString(number.toUpperCase())
+        mUsbThermalPrinter.addString(name.toUpperCase())
+        mUsbThermalPrinter.addString(time.toUpperCase())
+        mUsbThermalPrinter.addString(id)
+        mUsbThermalPrinter.printString()
+
+        mUsbThermalPrinter.setFontSize(1)
+        mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
+        mUsbThermalPrinter.addString("\n${resources.getString(R.string.deposit_amount_text).toUpperCase()}")
+        mUsbThermalPrinter.printString()
+
+        mUsbThermalPrinter.setFontSize(3)
+        val am =
+            "${viewModel.withdrawalConfirm.value!!.confirm?.a2pDeposit?.payment?.amount?.toDouble()?.roundOffDecimal()} "
+        val amount =
+            am + "${viewModel.withdrawalConfirm.value!!.confirm?.a2pDeposit?.payment?.currency}"
+        mUsbThermalPrinter.addString(amount.toUpperCase())
+        mUsbThermalPrinter.printString()
+
+        printBottomText()
+    }
+
+    private fun printBottomText() {
+        printMyLogo(R.drawable.line)
+
+        mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_LEFT)
+        val bottomText =
+            "\n${resources.getString(R.string.withdrawal_text_bottom_looking).toUpperCase()}\n\n" +
+                    resources.getString(R.string.withdrawal_text_bottom_contact).toUpperCase()
+        mUsbThermalPrinter.addString(bottomText)
+        mUsbThermalPrinter.printString()
+
+        mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
+        mUsbThermalPrinter.addString("\n${resources.getString(R.string.withdrawal_site).toUpperCase()}")
+        mUsbThermalPrinter.printString()
+        mUsbThermalPrinter.clearString()
+    }
+
+    private fun jackpotPrint() {
+        printMyLogo(R.drawable.marginfox_logo)   //picture
+        initStyleContent() //init context
+
+        //print content
+        dottedLine()
+        printHeadRow(
+            resources.getString(R.string.jackpot_confirmation_ticket_number).toUpperCase(),
+            viewModel.agentBet.value!!.message_data?.couponId.toString()
+        )
+        printHeadRow(
+            resources.getString(R.string.jackpot_game_code).toUpperCase(),
+            viewModel.agentBet.value!!.message_data?.betCode!!
+        )
+        printHeadRow(
+            resources.getString(R.string.jackpot_game_date_time).toUpperCase(),
+            dateString(viewModel.agentBet.value!!.created!!)
+        )
+        printHeadRow(
+            resources.getString(R.string.scan_detail_type).toUpperCase(),
+            viewModel.ticket.value!!.platformUnit!!.name!!
+        )
+        dottedLine()
+        printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details).toUpperCase())
+        for (i in viewModel.lookupBets.value!!.events!!.indices) {
+            dottedLine()
+            createBetList(viewModel.lookupBets.value!!.events!![i])
+        }
+        printStake(viewModel.ticket.value!!.stake!!, viewModel.ticket.value!!.currency!!)
+
+        //qr
+        mUsbThermalPrinter.reset()
+        mUsbThermalPrinter.setGray(printGray)
+        val bitmap =
+            createCode(
+                viewModel.agentBet.value!!.message_data?.betCode!!,
+                BarcodeFormat.QR_CODE,
+                256,
+                256
+            )
+        mUsbThermalPrinter.printLogo(bitmap, false)
+    }
+
+    private fun printMyLogo(drawableLogo: Int) {
+        //picture
+        mUsbThermalPrinter.reset()
+        mUsbThermalPrinter.setGray(printGray)
+        mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
+        val bitmapSource = BitmapFactory.decodeResource(resources, drawableLogo)
+        mUsbThermalPrinter.printLogo(bitmapSource, false)
+    }
+
+    private fun initStyleContent() {
+        mUsbThermalPrinter.reset()
+        mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_LEFT)
+        mUsbThermalPrinter.setLeftIndent(leftDistance)
+        mUsbThermalPrinter.setLineSpace(lineDistance)
+        mUsbThermalPrinter.setCharSpace(charSpace)
+        mUsbThermalPrinter.setFontSize(2)
+        mUsbThermalPrinter.setGray(printGray)
     }
 
     private fun createBetList(event: Event) {
@@ -352,15 +489,6 @@ class UsbPrinterActivity : BaseActivity() {
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
         return bitmap
-    }
-
-    companion object {
-        private var printVersion: String? = null
-
-        fun start(sender: Activity) {
-            val intent = Intent(sender, UsbPrinterActivity::class.java)
-            sender.startActivity(intent)
-        }
     }
 }
 

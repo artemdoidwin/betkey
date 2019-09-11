@@ -60,7 +60,7 @@ class JackpotConfirmationFragment : BaseFragment() {
                     confirmation_ticket_price.text = price
                 }
                 confirmation_ticket_created.text = dateString(it.created!!)
-                UsbPrinterActivity.start(activity!!)
+                UsbPrinterActivity.start(activity!!, UsbPrinterActivity.JACKPOT)
             }
         })
 

@@ -66,6 +66,7 @@
     <string name="deposit_found_player">Found player</string>
     <string name="deposit_player_name">Name:</string>
     <string name="deposit_amount">Amount</string>
+    <string name="deposit_amount_text">Amount:</string>
     <string name="deposit_deposit">Deposit</string>
     <string name="deposit_confirm_deposit">Confirm deposit</string>
     <string name="deposit_confirm">Confirm</string>
@@ -75,6 +76,13 @@
     <string name="deposit_no_found">No player found</string>
     <string name="deposit_phone_number_hint">%dXXXXXX</string>
     <string name="withdrawal_funds">Withdrawal funds</string>
+    <string name="withdrawal">Withdrawal</string>
+    <string name="withdrawal_number">Number:</string>
+    <string name="withdrawal_time">Time:</string>
+    <string name="withdrawal_id">Id:</string>
+    <string name="withdrawal_text_bottom_looking">Looking for a reliable agent system?</string>
+    <string name="withdrawal_text_bottom_contact">Contact us today for more information</string>
+    <string name="withdrawal_site">www.betkey.bet</string>
     <string name="withdrawal_pin">Withdrawal pin</string>
     <string name="withdrawal_hint_pin">pin</string>
     <string name="withdrawal_confirm">Confirm withdrawal</string>
