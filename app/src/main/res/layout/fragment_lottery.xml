@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        <TextView
+                android:id="@+id/lottery_head_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/lottery_head"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+                android:id="@+id/lottery_price_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/jackpot_ticket_price_title"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lottery_head_text" />
+
+        <Spinner
+                android:id="@+id/lottery_price_sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                app:layout_constraintStart_toEndOf="@+id/lottery_titles_barrier"
+                app:layout_constraintTop_toTopOf="@id/lottery_price_title" />
+
+        <TextView
+                android:id="@+id/lottery_round_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="@string/lottery_id"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lottery_price_title" />
+
+        <TextView
+                android:id="@+id/lottery_round"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="start"
+                android:text="@string/wait"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/lottery_titles_barrier"
+                app:layout_constraintTop_toTopOf="@+id/lottery_round_title" />
+
+        <TextView
+                android:id="@+id/lottery_newt_draw_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/lottery_next_draw"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lottery_round_title" />
+
+        <TextView
+                android:id="@+id/lottery_newt_draw"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="start"
+                android:text="@string/wait"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/lottery_titles_barrier"
+                app:layout_constraintTop_toTopOf="@+id/lottery_newt_draw_title" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@color/gray_pressed"
+                app:layout_constraintBottom_toTopOf="@+id/lottery_bet_btn"
+                app:layout_constraintTop_toBottomOf="@+id/lottery_newt_draw_title">
+
+            <TextView
+                    android:id="@+id/lottery_head_numbers"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/lottery_numbers_head"
+                    android:textColor="@color/black"
+                    android:textSize="11sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/lottery_games_adapter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                    app:spanCount="6"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lottery_head_numbers"
+                    tools:listitem="@layout/item_lottery" />
+
+            <Button
+                    android:id="@+id/lottery_autopick_btn"
+                    style="@style/ButtonGrayTheme"
+                    android:layout_width="@dimen/small_btn_width"
+                    android:layout_height="@dimen/small_btn_height"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="@string/lottery_autopick"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+                android:id="@+id/lottery_bet_btn"
+                style="@style/ButtonGreenTheme"
+                android:layout_width="@dimen/big_btn_width"
+                android:layout_height="@dimen/big_btn_height"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:enabled="false"
+                android:gravity="center"
+                android:text="@string/lottery_bet_btn"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/lottery_back_btn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:enabled="false" />
+
+        <Button
+                android:id="@+id/lottery_back_btn"
+                style="@style/ButtonRedTheme"
+                android:layout_width="@dimen/small_btn_width"
+                android:layout_height="@dimen/small_btn_height"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:text="@string/back_btn"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+        <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/lottery_titles_barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="end"
+                app:constraint_referenced_ids="lottery_price_title,lottery_round_title,lottery_newt_draw_title" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

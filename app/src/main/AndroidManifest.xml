@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
-          package="com.betkey">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        package="com.betkey">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -10,13 +11,13 @@
     <application
             android:name=".Application"
             android:allowBackup="true"
-            android:usesCleartextTraffic="true"
             android:hardwareAccelerated="true"
             android:icon="@mipmap/icon"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
+            android:usesCleartextTraffic="true"
             tools:ignore="GoogleAppIndexingWarning">
         <meta-data
                 android:name="com.google.android.gms.version"
@@ -26,32 +27,38 @@
                 android:value="barcode" />
 
         <activity
-                android:screenOrientation="portrait"
-                android:name=".ui.login.LoginActivity">
+                android:name=".ui.login.LoginActivity"
+                android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-                android:screenOrientation="portrait"
-                android:name=".ui.scanTickets.ScanTicketsActivity"/>
+                android:name=".ui.scanTickets.ScanTicketsActivity"
+                android:screenOrientation="portrait" />
         <activity
-                android:screenOrientation="portrait"
-                android:name=".ui.jackpot.JackpotActivity"/>
+                android:name=".ui.jackpot.JackpotActivity"
+                android:screenOrientation="portrait" />
         <activity
-                android:screenOrientation="portrait"
-                android:name=".ui.deposit.DepositActivity"/>
+                android:name=".ui.deposit.DepositActivity"
+                android:screenOrientation="portrait" />
         <activity
-                android:screenOrientation="portrait"
-                android:name=".ui.withdrawal.WithdrawalActivity"/>
+                android:name=".ui.withdrawal.WithdrawalActivity"
+                android:screenOrientation="portrait" />
         <activity
-                android:screenOrientation="portrait"
-                android:name=".ui.sportbetting.SportBettingActivity"/>
+                android:name=".ui.sportbetting.SportBettingActivity"
+                android:screenOrientation="portrait" />
         <activity
                 android:name=".ui.UsbPrinterActivity"
                 android:theme="@style/Theme.Transparent" />
+        <activity
+                android:name=".ui.lottery.LotteryActivity"
+                android:screenOrientation="portrait" />
+        <activity
+                android:name=".ui.pick3.Pick3Activity"
+                android:screenOrientation="portrait" />
 
     </application>
 

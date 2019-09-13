@@ -110,6 +110,16 @@
     <string name="sportbetting_bet">Bet:</string>
     <string name="sportbetting_Odds">Odds:</string>
 
+    <string name="lottery_id">Round id:</string>
+    <string name="lottery_next_draw">Next draw:</string>
+    <string name="lottery_bet_btn">Place bet</string>
+    <string name="lottery_head">Lottery 6/49</string>
+    <string name="lottery_numbers_head">Select 6 numbers</string>
+    <string name="lottery_your_numbers">Your numbers:</string>
+    <string name="lottery">Lottery</string>
+    <string name="lottery_autopick">Auto pick</string>
+    <string name="lottery_play">Play again</string>
+
     <!-- Print -->
     <string name="print_text">Print Text</string>
     <string name="printing_wait">Printing, please wait……</string>

@@ -46,7 +46,7 @@ private constructor() {
     private var mCamera: Camera? = null
 
     /**
-     * Returns the selected camera; one of [.CAMERA_FACING_BACK] or
+     * Returns the isSelected camera; one of [.CAMERA_FACING_BACK] or
      * [.CAMERA_FACING_FRONT].
      */
     var cameraFacing = CAMERA_FACING_BACK
@@ -125,7 +125,7 @@ private constructor() {
 
         /**
          * Sets the requested frame rate in frames per second.  If the exact requested value is not
-         * not available, the best matching available value is selected.   Default: 30.
+         * not available, the best matching available value is isSelected.   Default: 30.
          */
         fun setRequestedFps(fps: Float): Builder {
             require(fps > 0) { "Invalid fps: $fps" }
@@ -145,7 +145,7 @@ private constructor() {
 
         /**
          * Sets the desired width and height of the camera frames in pixels.  If the exact desired
-         * values are not available options, the best matching available options are selected.
+         * values are not available options, the best matching available options are isSelected.
          * Also, we try to select a preview size which corresponds to the aspect ratio of an
          * associated full picture size, if applicable.  Default: 1024x768.
          */
@@ -756,7 +756,7 @@ private constructor() {
      *
      * @param camera            the camera to select a frames per second range from
      * @param desiredPreviewFps the desired frames per second for the camera preview frames
-     * @return the selected preview frames per second range
+     * @return the isSelected preview frames per second range
      */
     private fun selectPreviewFpsRange(camera: Camera, desiredPreviewFps: Float): IntArray? {
         // The camera API uses integers scaled by a factor of 1000 instead of floating-point frame
@@ -1054,7 +1054,7 @@ private constructor() {
          * @param camera        the camera to select a preview size from
          * @param desiredWidth  the desired width of the camera preview frames
          * @param desiredHeight the desired height of the camera preview frames
-         * @return the selected preview and picture size pair
+         * @return the isSelected preview and picture size pair
          */
         private fun selectSizePair(camera: Camera, desiredWidth: Int, desiredHeight: Int): SizePair? {
             val validPreviewSizes = generateValidPreviewSizeList(camera)
