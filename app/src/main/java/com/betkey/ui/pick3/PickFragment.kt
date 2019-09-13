@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.NumberPicker
+import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.lottery.LotteryWaitFragment
 import com.jakewharton.rxbinding3.view.clicks
+import kotlinx.android.synthetic.main.fragment_lottery.*
 import kotlinx.android.synthetic.main.fragment_pick.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.concurrent.TimeUnit
@@ -42,8 +44,11 @@ class PickFragment : BaseFragment() {
 
         compositeDisposable.add(
             pick_bet_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
-                                addFragment(
-                    LotteryWaitFragment.newInstance( pick_price_sp.selectedItem.toString(), addNumbers()),
+                addFragment(
+                    LotteryWaitFragment.newInstance(
+                        pick_price_sp.selectedItem.toString(),
+                        addNumbers()
+                    ),
                     R.id.container_for_fragments,
                     LotteryWaitFragment.TAG
                 )
@@ -65,10 +70,20 @@ class PickFragment : BaseFragment() {
         number_picker1.setOnValueChangedListener { _, _, _ -> pick_bet_btn.isEnabled = true }
         number_picker2.setOnValueChangedListener { _, _, _ -> pick_bet_btn.isEnabled = true }
         number_picker3.setOnValueChangedListener { _, _, _ -> pick_bet_btn.isEnabled = true }
+
+        viewModel.lotteryOrPickRequest.observe(this, Observer { model ->
+            model?.also { m ->
+                pick_price_sp.setSelection(0)
+                number_picker1.value = 0
+                number_picker2.value = 0
+                number_picker3.value = 0
+                pick_bet_btn.isEnabled = false
+            }
+        })
     }
 
     private fun addNumbers(): MutableList<Int> {
-        val list  = mutableListOf<Int>()
+        val list = mutableListOf<Int>()
         list.add(number_picker1.value)
         list.add(number_picker2.value)
         list.add(number_picker3.value)

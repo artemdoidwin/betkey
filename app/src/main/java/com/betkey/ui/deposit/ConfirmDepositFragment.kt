@@ -56,10 +56,8 @@ class ConfirmDepositFragment : BaseFragment() {
 
         when (activity!!.localClassName) {
             "ui.withdrawal.WithdrawalActivity" -> {
-                deposit_confirm_head_text.text =
-                    context!!.resources.getString(R.string.withdrawal_confirm)
-                deposit_confirm_btn.text =
-                    context!!.resources.getString(R.string.withdrawal_confirm)
+                deposit_confirm_head_text.text = context!!.resources.getString(R.string.withdrawal_confirm)
+                deposit_confirm_btn.text = context!!.resources.getString(R.string.withdrawal_confirm)
                 compositeDisposable.add(
                     deposit_confirm_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                         subscribe(viewModel.agentWithdrawal(code!!), {

@@ -26,6 +26,8 @@ class MainViewModel(
     val ticket = betkeydataManager.ticket
     val lookupBets = marginfoxDataManager.lookupBets
     val agent = betkeydataManager.agent
+    val lotteryOrPick = betkeydataManager.lotteryOrPick
+    val lotteryOrPickRequest = betkeydataManager.lotteryOrPickRequest
 
     var phoneNumberCountryCode = 237
 

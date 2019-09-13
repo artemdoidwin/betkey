@@ -87,6 +87,8 @@ class UsbPrinterActivity : BaseActivity() {
         const val JACKPOT = 0
         const val WITHDRAWAL = 1
         const val DEPOSIT = 2
+        const val LOTTERY = 3
+        const val PICK_3 = 4
 
         fun start(sender: Activity, operation: Int) {
             val intent = Intent(sender, UsbPrinterActivity::class.java).apply {
@@ -222,6 +224,8 @@ class UsbPrinterActivity : BaseActivity() {
                     JACKPOT -> jackpotPrint()
                     WITHDRAWAL -> withdrawalPrint()
                     DEPOSIT -> depositPrint()
+                    LOTTERY -> lotteryPrint()
+                    PICK_3 -> pickPrint()
                 }
 
                 mUsbThermalPrinter.walkPaper(10)
@@ -245,6 +249,88 @@ class UsbPrinterActivity : BaseActivity() {
                 }
                 mUsbThermalPrinter.stop()
             }
+        }
+    }
+
+    private fun lotteryPrint() {
+        printMyLogo(R.drawable.logo_for_print)   //picture
+        initStyleContent()
+
+        val textMiddle = "${resources.getString(R.string.lottery_head).toUpperCase()}\n"
+        printMiddleText(textMiddle)
+
+        val price = "${resources.getString(R.string.jackpot_ticket_price_title)} " +
+                "${viewModel.lotteryOrPick.value!!.price} EUR"
+        val round = "\n${resources.getString(R.string.lottery_id)} " +
+                viewModel.lotteryOrPick.value!!.round
+        val draw = "${resources.getString(R.string.pick_draw_print)} " +
+                viewModel.lotteryOrPick.value!!.draw
+        mUsbThermalPrinter.addString(price.toUpperCase())
+        mUsbThermalPrinter.addString(round.toUpperCase())
+        mUsbThermalPrinter.addString(draw.toUpperCase())
+        mUsbThermalPrinter.printString()
+
+        val numbersTitle = "\n${resources.getString(R.string.lottery_your_numbers)} "
+        mUsbThermalPrinter.setFontSize(1)
+        mUsbThermalPrinter.addString(numbersTitle.toUpperCase())
+        mUsbThermalPrinter.printString()
+
+        mUsbThermalPrinter.setFontSize(3)
+        mUsbThermalPrinter.setBold(true)
+        printMiddleText(viewModel.lotteryOrPick.value!!.numbers)
+        mUsbThermalPrinter.setBold(false)
+
+        printMultiplyStake(viewModel.lotteryOrPick.value!!.winsCombinations)
+
+        printQR("text")
+        printBottomText()
+    }
+
+    private fun pickPrint() {
+        printMyLogo(R.drawable.logo_for_print)   //picture
+        initStyleContent()
+
+        val textMiddle = "${resources.getString(R.string.pick).toUpperCase()}\n"
+        printMiddleText(textMiddle)
+
+        val price = "${resources.getString(R.string.jackpot_ticket_price_title)} " +
+                "${viewModel.lotteryOrPick.value!!.price} EUR"
+        val round = "\n${resources.getString(R.string.lottery_id)} " +
+                viewModel.lotteryOrPick.value!!.round
+        val draw = "${resources.getString(R.string.pick_draw_print)} " +
+                viewModel.lotteryOrPick.value!!.draw
+        mUsbThermalPrinter.addString(price.toUpperCase())
+        mUsbThermalPrinter.addString(round.toUpperCase())
+        mUsbThermalPrinter.addString(draw.toUpperCase())
+        mUsbThermalPrinter.printString()
+
+        val numbersTitle = "\n${resources.getString(R.string.lottery_your_numbers)} "
+        mUsbThermalPrinter.setFontSize(1)
+        mUsbThermalPrinter.addString(numbersTitle.toUpperCase())
+        mUsbThermalPrinter.printString()
+
+        mUsbThermalPrinter.setFontSize(3)
+        mUsbThermalPrinter.setBold(true)
+        printMiddleText(viewModel.lotteryOrPick.value!!.numbers)
+        mUsbThermalPrinter.setBold(false)
+
+        printMultiplyStake(viewModel.lotteryOrPick.value!!.winsCombinations)
+
+        printQR("text")
+        printBottomText()
+    }
+
+    private fun printMultiplyStake(list: List<String>) {
+        mUsbThermalPrinter.setFontSize(1)
+        val titleWinningNum =
+            "\n${resources.getString(R.string.pick_print_winning_num)}         ${resources.getString(R.string.pick_print_multiply_stake)}"
+        mUsbThermalPrinter.addString(titleWinningNum.toUpperCase())
+        mUsbThermalPrinter.printString()
+
+        for (i in list.lastIndex downTo 0) {
+            val row = "${i + 1}:                                          ${list[i]}"
+            mUsbThermalPrinter.addString(row)
+            mUsbThermalPrinter.printString()
         }
     }
 
@@ -333,6 +419,7 @@ class UsbPrinterActivity : BaseActivity() {
         mUsbThermalPrinter.printString()
 
         mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
+        mUsbThermalPrinter.setBold(true)
         mUsbThermalPrinter.addString("\n${resources.getString(R.string.withdrawal_site).toUpperCase()}")
         mUsbThermalPrinter.printString()
         mUsbThermalPrinter.clearString()
@@ -369,11 +456,15 @@ class UsbPrinterActivity : BaseActivity() {
         printStake(viewModel.ticket.value!!.stake!!, viewModel.ticket.value!!.currency!!)
 
         //qr
-        mUsbThermalPrinter.reset()
-        mUsbThermalPrinter.setGray(printGray)
+        printQR( viewModel.agentBet.value!!.message_data?.betCode!!)
+    }
+
+    private fun printQR(textQr: String) {
+//        mUsbThermalPrinter.reset()
+//        mUsbThermalPrinter.setGray(printGray)
         val bitmap =
             createCode(
-                viewModel.agentBet.value!!.message_data?.betCode!!,
+                textQr,
                 BarcodeFormat.QR_CODE,
                 256,
                 256
@@ -397,6 +488,7 @@ class UsbPrinterActivity : BaseActivity() {
         mUsbThermalPrinter.setLineSpace(lineDistance)
         mUsbThermalPrinter.setCharSpace(charSpace)
         mUsbThermalPrinter.setFontSize(2)
+        mUsbThermalPrinter.setBold(false)
         mUsbThermalPrinter.setGray(printGray)
     }
 

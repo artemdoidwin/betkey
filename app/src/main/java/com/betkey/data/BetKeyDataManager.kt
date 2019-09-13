@@ -17,6 +17,8 @@ class BetKeyDataManager(
     val player = modelRepository.player
     val ticket = modelRepository.ticket
     val agent = modelRepository.agent
+    val lotteryOrPick = modelRepository.lotteryOrPick
+    val lotteryOrPickRequest = modelRepository.lotteryOrPickRequest
 
     var outcomes: Map<String, String>? = null
 

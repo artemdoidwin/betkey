@@ -119,10 +119,14 @@
     <string name="lottery">Lottery</string>
     <string name="lottery_autopick">Auto pick</string>
     <string name="lottery_play">Play again</string>
+    <string name="lottery_clear">Clear</string>
 
     <string name="pick_numbers_head">Select 3 numbers</string>
     <string name="pick_draw">Draw every 15 minutes</string>
     <string name="pick">Pick 3</string>
+    <string name="pick_draw_print">Draw:</string>
+    <string name="pick_print_winning_num">Winning numbers</string>
+    <string name="pick_print_multiply_stake">Multiply by your stake</string>
 
     <!-- Print -->
     <string name="print_text">Print Text</string>

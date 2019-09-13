@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseFragment
+import com.betkey.models.LotteryOrPickModel
 import com.betkey.ui.MainViewModel
+import com.betkey.ui.UsbPrinterActivity
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_lotery_wait.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 class LotteryWaitFragment : BaseFragment() {
 
@@ -46,7 +48,9 @@ class LotteryWaitFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val num = if (list?.size == 6) {
-            "${list?.get(0)} - ${list?.get(1)} - ${list?.get(2)} - ${list?.get(3)} - ${list?.get(4)} - ${list?.get(5)}"
+            "${list?.get(0)} - ${list?.get(1)} - ${list?.get(2)} - ${list?.get(3)} - ${list?.get(4)} - ${list?.get(
+                5
+            )}"
         } else {
             "${list?.get(0)} - ${list?.get(1)} - ${list?.get(2)}"
         }
@@ -64,12 +68,54 @@ class LotteryWaitFragment : BaseFragment() {
                 activity!!.finish()
             }
         )
-        viewModel.link.observe(this, Observer { link ->
-            //            link?.also { l ->
+
+        val winsCombinations = mutableListOf<String>()
+
+        viewModel.player.observe(this, Observer { link ->
+            when (activity!!.localClassName) {
+                "ui.lottery.LotteryActivity" -> {
+                    winsCombinations.add("X 1")
+                    winsCombinations.add("X 10")
+                    winsCombinations.add("X 100")
+                    winsCombinations.add("X 1000")
+                    winsCombinations.add("X 10 000")
+                    winsCombinations.add("X 100 000")
+
+                    viewModel.lotteryOrPick.value =
+                        LotteryOrPickModel(
+                            stake!!,
+                            "2142",
+                            "Monday 12.oct.19:45",
+                            num.replace(" ", ""),
+                            winsCombinations
+                        )
+//                    UsbPrinterActivity.start(activity!!, UsbPrinterActivity.LOTTERY)
+                }
+                "ui.pick3.PickActivity" -> {
+                    winsCombinations.add("X 1")
+                    winsCombinations.add("X 10")
+                    winsCombinations.add("X 300")
+
+                    viewModel.lotteryOrPick.value = LotteryOrPickModel(
+                        stake!!,
+                        "9999",
+                        "Monday 19:45",
+                        num.replace(" ", ""),
+                        winsCombinations
+                    )
+//                    UsbPrinterActivity.start(activity!!, UsbPrinterActivity.PICK_3)
+                }
+            }
+//                        link?.also { l ->
 //                subscribe(viewModel.checkTicket(l), {
 //
 //                }, { toast(it.message.toString()) })
 //            }
         })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.lotteryOrPickRequest.value = "l"
     }
 }
