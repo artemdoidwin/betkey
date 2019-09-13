@@ -57,7 +57,7 @@
                 android:name=".ui.lottery.LotteryActivity"
                 android:screenOrientation="portrait" />
         <activity
-                android:name=".ui.pick3.Pick3Activity"
+                android:name=".ui.pick3.PickActivity"
                 android:screenOrientation="portrait" />
 
     </application>

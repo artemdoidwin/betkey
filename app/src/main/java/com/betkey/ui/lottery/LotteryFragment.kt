@@ -1,12 +1,11 @@
 package com.betkey.ui.lottery
 
-import android.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.lifecycle.Observer
+import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.models.LotteryModel
 import com.betkey.ui.MainViewModel
@@ -35,14 +34,15 @@ class LotteryFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(com.betkey.R.layout.fragment_lottery, container, false)
+        return inflater.inflate(R.layout.fragment_lottery, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val stakes = arrayOf(10, 50, 100, 150)
-        lottery_price_sp.adapter = ArrayAdapter(context!!, R.layout.simple_spinner_item, stakes)
+        lottery_price_sp.adapter =
+            ArrayAdapter(context!!, android.R.layout.simple_spinner_item, stakes)
 
         initAdapter()
 
@@ -53,7 +53,7 @@ class LotteryFragment : BaseFragment() {
                         lottery_price_sp.selectedItem.toString(),
                         list.filter { model -> model.isSelected }.map { it.number }
                     ),
-                    com.betkey.R.id.container_for_fragments,
+                    R.id.container_for_fragments,
                     LotteryWaitFragment.TAG
                 )
             }

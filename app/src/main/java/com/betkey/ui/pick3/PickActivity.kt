@@ -13,11 +13,11 @@ import com.betkey.ui.lottery.LotteryWaitFragment
 import kotlinx.android.synthetic.main.view_toolbar.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class Pick3Activity : BaseActivity() {
+class PickActivity : BaseActivity() {
 
     companion object {
         fun start(activity: Activity) {
-            val intent = Intent(activity, LotteryActivity::class.java)
+            val intent = Intent(activity, PickActivity::class.java)
             activity.startActivity(intent)
         }
     }
@@ -28,7 +28,7 @@ class Pick3Activity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.container_for_activity)
 
-        addFragment(LotteryFragment.newInstance(), R.id.container_for_fragments, LotteryFragment.TAG)
+        addFragment(PickFragment.newInstance(), R.id.container_for_fragments, LotteryFragment.TAG)
 
         viewModel.wallets.observe(this, Observer { wallets ->
             wallets?.also {

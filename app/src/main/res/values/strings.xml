@@ -120,6 +120,9 @@
     <string name="lottery_autopick">Auto pick</string>
     <string name="lottery_play">Play again</string>
 
+    <string name="pick_numbers_head">Select 3 numbers</string>
+    <string name="pick_draw">Draw every 15 minutes</string>
+
     <!-- Print -->
     <string name="print_text">Print Text</string>
     <string name="printing_wait">Printing, please wait……</string>
