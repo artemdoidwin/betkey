@@ -33,7 +33,7 @@
             style="@style/ButtonYellowTheme"
             android:layout_width="@dimen/big_btn_width"
             android:layout_height="@dimen/big_btn_height"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="12dp"
             android:gravity="center"
             android:text="@string/login_ok_scan_btn"
             android:textAllCaps="true"
@@ -48,7 +48,7 @@
             style="@style/ButtonGreenTheme"
             android:layout_width="@dimen/big_btn_width"
             android:layout_height="@dimen/big_btn_height"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="6dp"
             android:gravity="center"
             android:text="@string/login_ok_sport_btn"
             android:textAllCaps="true"
@@ -63,7 +63,7 @@
             style="@style/ButtonGreenTheme"
             android:layout_width="@dimen/big_btn_width"
             android:layout_height="@dimen/big_btn_height"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:gravity="center"
             android:text="@string/login_ok_jackpot_btn"
             android:textAllCaps="true"
@@ -78,7 +78,7 @@
             style="@style/ButtonBlueTheme.Theme"
             android:layout_width="@dimen/big_btn_width"
             android:layout_height="@dimen/big_btn_height"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:gravity="center"
             android:text="@string/login_ok_deposits_btn"
             android:textAllCaps="true"
@@ -93,7 +93,7 @@
             style="@style/ButtonBlueTheme.Theme"
             android:layout_width="@dimen/big_btn_width"
             android:layout_height="@dimen/big_btn_height"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:gravity="center"
             android:text="@string/login_ok_withdrawal_btn"
             android:textAllCaps="true"
@@ -108,7 +108,7 @@
             style="@style/ButtonYellowTheme"
             android:layout_width="@dimen/big_btn_width"
             android:layout_height="@dimen/big_btn_height"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:gravity="center"
             android:text="@string/lottery"
             android:textAllCaps="true"
@@ -117,6 +117,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/withdrawal_btn" />
+
+    <Button
+            android:id="@+id/pick_btn"
+            style="@style/ButtonGreenTheme"
+            android:layout_width="@dimen/big_btn_width"
+            android:layout_height="@dimen/big_btn_height"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/pick"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lottery_btn" />
 
 
     <Button
@@ -132,7 +147,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lottery_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/pick_btn" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -140,6 +155,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.41" />
+            app:layout_constraintGuide_percent="0.36" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

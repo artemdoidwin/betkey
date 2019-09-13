@@ -8,8 +8,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true">
 
         <TextView
                 android:id="@+id/lottery_head_text"
@@ -121,8 +121,8 @@
                     android:id="@+id/lottery_head_numbers"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_marginTop="8dp"
+                    android:gravity="center"
                     android:text="@string/lottery_numbers_head"
                     android:textColor="@color/black"
                     android:textSize="11sp"
@@ -134,16 +134,15 @@
                     android:id="@+id/lottery_games_adapter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"
-                    android:orientation="vertical"
-                    app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-                    app:spanCount="6"
-                    android:layout_marginEnd="8dp"
+
                     android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/lottery_head_numbers"
+                    app:spanCount="6"
                     tools:listitem="@layout/item_lottery" />
 
             <Button
@@ -158,7 +157,7 @@
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

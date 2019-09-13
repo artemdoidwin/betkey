@@ -14,6 +14,7 @@ import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.deposit.DepositActivity
 import com.betkey.ui.jackpot.JackpotActivity
+import com.betkey.ui.lottery.LotteryActivity
 import com.betkey.ui.pick3.PickActivity
 import com.betkey.ui.scanTickets.ScanTicketsActivity
 import com.betkey.ui.sportbetting.SportBettingActivity
@@ -96,6 +97,11 @@ class LoginOkFragment : BaseFragment() {
         )
         compositeDisposable.add(
             lottery_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
+                LotteryActivity.start(activity!!)
+            }
+        )
+        compositeDisposable.add(
+            pick_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 PickActivity.start(activity!!)
             }
         )
