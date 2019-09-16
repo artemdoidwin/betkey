@@ -217,8 +217,6 @@ class UsbPrinterActivity : BaseActivity() {
         override fun run() {
             super.run()
             try {
-                mUsbThermalPrinter.start(0)
-
                 when (operation) {
                     JACKPOT -> jackpotPrint()
                     WITHDRAWAL -> withdrawalPrint()
@@ -553,6 +551,7 @@ class UsbPrinterActivity : BaseActivity() {
         viewModel.ticket.value = null
         viewModel.agentBet.value = null
         viewModel.lookupBets.value = null
+        viewModel.lotteryOrPick.value = null
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
