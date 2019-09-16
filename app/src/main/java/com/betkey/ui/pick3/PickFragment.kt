@@ -54,7 +54,6 @@ class PickFragment : BaseFragment() {
                 )
             }
         )
-
         compositeDisposable.add(
             pick_back_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 activity!!.finish()
@@ -89,5 +88,4 @@ class PickFragment : BaseFragment() {
         list.add(number_picker3.value)
         return list
     }
-
 }

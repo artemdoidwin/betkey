@@ -28,7 +28,7 @@ abstract class BaseFragment : Fragment() {
 
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         this.baseActivity = context as BaseActivity
     }

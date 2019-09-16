@@ -46,7 +46,7 @@ object LoadingUiHelper {
         override fun onStart() {
             super.onStart()
 
-            val window = dialog.window
+            val window = dialog?.window
             window?.setBackgroundDrawable(null)
         }
     }

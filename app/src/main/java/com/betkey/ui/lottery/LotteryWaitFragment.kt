@@ -89,7 +89,7 @@ class LotteryWaitFragment : BaseFragment() {
                             num.replace(" ", ""),
                             winsCombinations
                         )
-//                    UsbPrinterActivity.start(activity!!, UsbPrinterActivity.LOTTERY)
+                    UsbPrinterActivity.start(activity!!, UsbPrinterActivity.LOTTERY)
                 }
                 "ui.pick3.PickActivity" -> {
                     winsCombinations.add("X 1")
@@ -103,14 +103,9 @@ class LotteryWaitFragment : BaseFragment() {
                         num.replace(" ", ""),
                         winsCombinations
                     )
-//                    UsbPrinterActivity.start(activity!!, UsbPrinterActivity.PICK_3)
+                    UsbPrinterActivity.start(activity!!, UsbPrinterActivity.PICK_3)
                 }
             }
-//                        link?.also { l ->
-//                subscribe(viewModel.checkTicket(l), {
-//
-//                }, { toast(it.message.toString()) })
-//            }
         })
     }
 

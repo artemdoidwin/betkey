@@ -142,7 +142,6 @@ class UsbPrinterActivity : BaseActivity() {
                     message.obj = "0"
                     handler.sendMessage(message)
                 }
-                mUsbThermalPrinter.stop()
             }
         }).start()
     }
@@ -544,6 +543,7 @@ class UsbPrinterActivity : BaseActivity() {
     }
 
     override fun onDestroy() {
+        super.onDestroy()
         if (progressDialog != null && !this@UsbPrinterActivity.isFinishing) {
             progressDialog!!.dismiss()
             progressDialog = null
@@ -553,7 +553,6 @@ class UsbPrinterActivity : BaseActivity() {
         viewModel.ticket.value = null
         viewModel.agentBet.value = null
         viewModel.lookupBets.value = null
-        super.onDestroy()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
