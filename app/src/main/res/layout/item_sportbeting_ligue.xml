@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/item_winner_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp">
+
+    <TextView
+            android:id="@+id/item_sport_betting_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="start"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/details"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="MONDAY 12 june 14.00" />
+
+    <TextView
+            android:id="@+id/item_sport_betting_command_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:gravity="start"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/details"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_sport_betting_date"
+            tools:text="ARSENAL - LIVERPOOL" />
+
+    <Button
+            android:id="@+id/details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_button_gray"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:padding="5dp"
+            android:text="+32"
+            app:layout_constraintBottom_toBottomOf="@+id/item_sport_betting_command_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/item_sport_betting_date" />
+
+
+    <RadioGroup
+            android:id="@+id/sport_betting_items"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_sport_betting_command_name">
+
+        <RadioButton
+                android:id="@+id/item_winner_command_left_btn"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sport_betting_btn_height"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/selector_button_gray"
+                android:button="@null"
+                android:checked="false"
+                android:gravity="center"
+                android:lines="1"
+                android:padding="3dp"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:theme="@style/ButtonGrayTheme"
+                tools:text="1 : 2.50" />
+
+        <RadioButton
+                android:id="@+id/item_winner_draw_btn"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sport_betting_btn_height"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/selector_button_gray"
+                android:button="@null"
+                android:checked="false"
+                android:gravity="center"
+                android:lines="1"
+                android:padding="3dp"
+                android:text="X : 3.56"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:theme="@style/ButtonGrayTheme" />
+
+        <RadioButton
+                android:id="@+id/item_winner_command_right_btn"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sport_betting_btn_height"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/selector_button_gray"
+                android:button="@null"
+                android:checked="false"
+                android:gravity="center"
+                android:lines="1"
+                android:padding="3dp"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:theme="@style/ButtonGrayTheme"
+                tools:text="2 : 1.98" />
+
+    </RadioGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

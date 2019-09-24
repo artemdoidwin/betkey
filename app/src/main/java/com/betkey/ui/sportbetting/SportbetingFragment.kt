@@ -9,6 +9,7 @@ import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_sportbetting.*
+import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.concurrent.TimeUnit
 
@@ -30,8 +31,32 @@ class SportbetingFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         compositeDisposable.add(
-            sp_todays_event_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
-                addFragment(TodaysEventsFragment.newInstance(), R.id.container_for_fragments, TodaysEventsFragment.TAG)
+            sp_featured_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
+                subscribe( viewModel.sportBetStartingSoon(), {
+                    addFragment(TodaysEventsFragment.newInstance(), R.id.container_for_fragments, TodaysEventsFragment.TAG)
+                }, {
+                    toast(it.message.toString())
+                })
+            }
+        )
+
+        compositeDisposable.add(
+            sp_tomorrow_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
+                subscribe( viewModel.sportBetTomorrow(), {
+                    addFragment(TodaysEventsFragment.newInstance(), R.id.container_for_fragments, TodaysEventsFragment.TAG)
+                }, {
+                    toast(it.message.toString())
+                })
+            }
+        )
+
+        compositeDisposable.add(
+            sp_today_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
+                subscribe( viewModel.sportBetToday(), {
+                    addFragment(TodaysEventsFragment.newInstance(), R.id.container_for_fragments, TodaysEventsFragment.TAG)
+                }, {
+                    toast(it.message.toString())
+                })
             }
         )
 

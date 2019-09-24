@@ -63,3 +63,11 @@ fun Date.dateToString2(): String {
     }
         .format(this)
 }
+
+fun Date.dateToString3(): String {
+    if (this.time == 0L) return ""
+    return SimpleDateFormat("EEEE dd MMMM HH:mm", Locale.getDefault()).apply {
+        timeZone = TimeZone.getTimeZone("UTC")
+    }
+        .format(this)
+}

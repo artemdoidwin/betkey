@@ -26,7 +26,7 @@
         <item name="android:background">@drawable/selector_button_red</item>
     </style>
 
-    <style name="ButtonBlueTheme.Theme" parent="android:Widget.Button">
+    <style name="ButtonBlueTheme" parent="android:Widget.Button">
         <item name="android:background">@drawable/selector_button_blue</item>
     </style>
 

@@ -91,8 +91,12 @@
     <string name="withdrawal_error_pin">Wrong withdrawal pin</string>
 
     <string name="sportbetting_title">Sportsbetting</string>
+    <string name="sportbetting_featured_events">Featured events</string>
+    <string name="sportbetting_today">Today</string>
     <string name="sportbetting_todat_events">Today\'s events</string>
-    <string name="sportbetting_next_3_days">Next 3 days</string>
+    <string name="sportbetting_tomorrow_events">Tomorrow\'s events</string>
+    <string name="sportbetting_starting_soon_events">Starting soon events</string>
+    <string name="sportbetting_tomorrow">Tomorrow</string>
     <string name="sportbetting_lookup_booking">Lookup booking</string>
     <string name="sportbetting_event_id">Event id</string>
     <string name="sportbetting_market_id">Market id</string>
@@ -106,9 +110,10 @@
     <string name="sportbetting_tax">Tax 10%:</string>
     <string name="sportbetting_payout">Payout:</string>
     <string name="sportbetting_place_bet">Place bet</string>
-    <string name="sportbetting_clear_bets">Clear all bets</string>
     <string name="sportbetting_bet">Bet:</string>
     <string name="sportbetting_Odds">Odds:</string>
+    <string name="sportbetting_back"><u>Back</u></string>
+    <string name="sportbetting_clear_bets">Clear all bets</string>
 
     <string name="lottery_id">Round id:</string>
     <string name="lottery_next_draw">Next draw:</string>

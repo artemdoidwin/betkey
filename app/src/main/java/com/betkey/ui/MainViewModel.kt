@@ -28,6 +28,10 @@ class MainViewModel(
     val agent = betkeydataManager.agent
     val lotteryOrPick = betkeydataManager.lotteryOrPick
     val lotteryOrPickRequest = betkeydataManager.lotteryOrPickRequest
+    val sportBetToday = marginfoxDataManager.sportBetToday
+    val sportBetTomorrow = marginfoxDataManager.sportBetTomorrow
+    val sportBetStartingSoon = marginfoxDataManager.sportBetStartingSoon
+    val marketsRest = marginfoxDataManager.marketsRest
 
     var phoneNumberCountryCode = 237
 
@@ -41,6 +45,22 @@ class MainViewModel(
 
     fun getJacpotInfo(): Single<JackpotInfo> {
         return marginfoxDataManager.getJackpotInfo()
+    }
+
+    fun sportBetToday(): Single<Map<String, Map<String, List<Event>>>> {
+        return marginfoxDataManager.sportBetToday()
+    }
+
+    fun sportBetStartingSoon(): Single<Map<String, Map<String, List<Event>>>> {
+        return marginfoxDataManager.sportBetStartingSoon()
+    }
+
+    fun sportBetTomorrow(): Single<Map<String, Map<String, List<Event>>>> {
+        return marginfoxDataManager.sportBetTomorrow()
+    }
+
+    fun getSportbettingMarkets(eventId: String): Single<Event> {
+        return marginfoxDataManager.getSportbettingMarkets(eventId)
     }
 
     fun jackpotAgentBetting(
@@ -86,7 +106,7 @@ class MainViewModel(
         return pspDataManager.agentWithdrawalConfirm(paymentId, code)
     }
 
-    fun agentWithdrawalRequest(securityCode: String): Single <WithdrawalRequest>{
+    fun agentWithdrawalRequest(securityCode: String): Single<WithdrawalRequest> {
         return pspDataManager.agentWithdrawalRequest(securityCode)
     }
 

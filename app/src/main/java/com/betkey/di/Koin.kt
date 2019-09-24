@@ -52,7 +52,7 @@ private val networkModule = module {
                 .addInterceptor {
                     it.proceed(
                         it.request().newBuilder().url(
-                            it.request().url().newBuilder().addQueryParameter("instance", API_KEY_MARGINFOX).build()
+                            it.request().url().newBuilder().addQueryParameter("instance", INSTANCE_MARGINFOX).build()
                         ).build()
                     )
                 }

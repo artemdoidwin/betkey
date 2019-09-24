@@ -1,8 +1,6 @@
 package com.betkey.network
 
-import com.betkey.network.models.AgentBettingResult
-import com.betkey.network.models.BetLookupObj
-import com.betkey.network.models.JackpotInfo
+import com.betkey.network.models.*
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -53,4 +51,18 @@ interface ApiInterfaceMarginfox {
         @Path("betslip_code")
         betslip_code: String
     ): Single<BetLookupObj>
+
+    @GET("prelive/static/pages")
+    fun getSportbetting(
+        @Query("lang") lang: String,
+        @Query("markets") markets: String,
+        @Query("api_key") apiKey: String
+    ): Single<SportBettingRest>
+
+    @GET("prelive/events/{event_id}")
+    fun getSportbettingMarkets(
+        @Path("event_id") eventId: String,
+        @Query("lang") lang: String,
+        @Query("api_key") apiKey: String
+    ): Single<Event>
 }

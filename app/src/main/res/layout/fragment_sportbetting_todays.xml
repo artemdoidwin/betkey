@@ -8,7 +8,7 @@
         android:layout_height="match_parent">
 
     <TextView
-            android:id="@+id/bs_todays_events_head_text"
+            android:id="@+id/head_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -23,17 +23,36 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
 
+    <TextView
+            android:id="@+id/bs_todays_basket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/frame_black"
+            android:drawableStart="@drawable/basket"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2" />
+
+
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/bs_todays_events_adapter"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_margin="8dp"
-            tools:listitem="@layout/item_game"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/bs_todays_events_back_btn"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bs_todays_events_head_text"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bs_todays_basket"
+            app:layout_constraintVertical_bias="1.0"
+            tools:listitem="@layout/item_sportbeting" />
 
     <Button
             android:id="@+id/bs_todays_events_back_btn"

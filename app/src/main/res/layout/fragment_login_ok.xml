@@ -75,7 +75,7 @@
 
     <Button
             android:id="@+id/deposits_btn"
-            style="@style/ButtonBlueTheme.Theme"
+            style="@style/ButtonBlueTheme"
             android:layout_width="@dimen/big_btn_width"
             android:layout_height="@dimen/big_btn_height"
             android:layout_marginTop="12dp"
@@ -90,7 +90,7 @@
 
     <Button
             android:id="@+id/withdrawal_btn"
-            style="@style/ButtonBlueTheme.Theme"
+            style="@style/ButtonBlueTheme"
             android:layout_width="@dimen/big_btn_width"
             android:layout_height="@dimen/big_btn_height"
             android:layout_marginTop="12dp"

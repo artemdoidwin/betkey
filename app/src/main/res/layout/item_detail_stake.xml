@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <RadioButton
+            android:id="@+id/market_btn"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sport_betting_btn_height"
+            android:layout_margin="4dp"
+            android:background="@drawable/selector_button_gray"
+            android:button="@null"
+            android:checked="false"
+            android:gravity="center"
+            android:lines="1"
+            android:padding="3dp"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:theme="@style/ButtonGrayTheme"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line_name"
+            tools:text="1 : 2.50" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

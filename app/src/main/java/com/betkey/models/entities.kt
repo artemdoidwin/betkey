@@ -37,3 +37,10 @@ data class LotteryModel(
     var isSelected: Boolean,
     var number: Int
 )
+
+
+data class DetailsSportBetModel(
+    var com1: String,
+    var x: String,
+    var com2: String
+)
