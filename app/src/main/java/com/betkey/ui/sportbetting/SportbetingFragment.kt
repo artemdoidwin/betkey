@@ -33,7 +33,7 @@ class SportbetingFragment : BaseFragment() {
         compositeDisposable.add(
             sp_featured_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 subscribe( viewModel.sportBetStartingSoon(), {
-                    addFragment(TodaysEventsFragment.newInstance(), R.id.container_for_fragments, TodaysEventsFragment.TAG)
+                    addFragment(TodayEventsFragment.newInstance(), R.id.container_for_fragments, TodayEventsFragment.TAG)
                 }, {
                     toast(it.message.toString())
                 })
@@ -43,7 +43,7 @@ class SportbetingFragment : BaseFragment() {
         compositeDisposable.add(
             sp_tomorrow_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 subscribe( viewModel.sportBetTomorrow(), {
-                    addFragment(TodaysEventsFragment.newInstance(), R.id.container_for_fragments, TodaysEventsFragment.TAG)
+                    addFragment(TodayEventsFragment.newInstance(), R.id.container_for_fragments, TodayEventsFragment.TAG)
                 }, {
                     toast(it.message.toString())
                 })
@@ -53,7 +53,7 @@ class SportbetingFragment : BaseFragment() {
         compositeDisposable.add(
             sp_today_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 subscribe( viewModel.sportBetToday(), {
-                    addFragment(TodaysEventsFragment.newInstance(), R.id.container_for_fragments, TodaysEventsFragment.TAG)
+                    addFragment(TodayEventsFragment.newInstance(), R.id.container_for_fragments, TodayEventsFragment.TAG)
                 }, {
                     toast(it.message.toString())
                 })

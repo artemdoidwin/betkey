@@ -42,14 +42,23 @@ class LigueAdapter(
             val teamsName = "${model.teams["1"]?.name} - ${model.teams["2"]?.name}"
             val date = model.startTime!!.toFullDate().dateToString3()
             val marketName = model.markets.keys.toList()[0]
-            basketlist.map {
-               if (it.idEvent == model.id ) {
-                   when(it.betWinName){
-                       model.teams["1"]?.name!! ->  itemView.item_winner_command_left_btn.isChecked = true
-                       model.markets["MRFT"]?.lines?.get("NA")?.bets?.get("X")?.name ->  itemView.item_winner_draw_btn.isChecked = true
-                       model.teams["2"]?.name!! ->  itemView.item_winner_command_right_btn.isChecked = true
-                   }
-               }
+
+            model.markets["MRFT"]?.lines?.get("NA")?.bets?.get("X")?.name?.also { drawName ->
+                model.teams["1"]?.name?.also { firstTeamName ->
+                    model.teams["2"]?.name?.also { secondTeamName ->
+                        basketlist.map {
+                            if (it.idEvent == model.id) {
+                                when (it.betWinName) {
+                                    firstTeamName -> itemView.item_winner_command_left_btn.isChecked =
+                                        true
+                                    drawName -> itemView.item_winner_draw_btn.isChecked = true
+                                    secondTeamName -> itemView.item_winner_command_right_btn.isChecked =
+                                        true
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             model.markets["MRFT"]?.lines?.get("NA")?.bets?.get("1")?.also { bet ->

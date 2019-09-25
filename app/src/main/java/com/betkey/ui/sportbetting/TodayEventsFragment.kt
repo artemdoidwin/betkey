@@ -17,12 +17,12 @@ import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.concurrent.TimeUnit
 
-class TodaysEventsFragment : BaseFragment() {
+class TodayEventsFragment : BaseFragment() {
 
     companion object {
-        const val TAG = "TodaysEventsFragment"
+        const val TAG = "TodayEventsFragment"
 
-        fun newInstance() = TodaysEventsFragment()
+        fun newInstance() = TodayEventsFragment()
     }
 
     private val viewModel by sharedViewModel<MainViewModel>()
@@ -56,42 +56,44 @@ class TodaysEventsFragment : BaseFragment() {
         )
 
         viewModel.sportBetToday.observe(myLifecycleOwner, Observer { sportBetToday ->
-            sportBetToday?.also {map ->
+            sportBetToday?.also { map ->
                 currenpMap = map
                 head_text.text = resources.getString(R.string.sportbetting_todat_events)
-                viewModel.basketList.value?.also {list ->
+                viewModel.basketList.value?.also { list ->
                     initAdapter(map, list)
                 }
             }
         })
         viewModel.sportBetTomorrow.observe(myLifecycleOwner, Observer { sportBetTomorrow ->
-            sportBetTomorrow?.also {map ->
+            sportBetTomorrow?.also { map ->
                 currenpMap = map
                 head_text.text = resources.getString(R.string.sportbetting_tomorrow_events)
-                viewModel.basketList.value?.also {list ->
+                viewModel.basketList.value?.also { list ->
                     initAdapter(map, list)
                 }
             }
         })
         viewModel.sportBetStartingSoon.observe(myLifecycleOwner, Observer { sportBetStartingSoon ->
-            sportBetStartingSoon?.also {map ->
+            sportBetStartingSoon?.also { map ->
                 currenpMap = map
                 head_text.text = resources.getString(R.string.sportbetting_starting_soon_events)
-                viewModel.basketList.value?.also {list ->
+                viewModel.basketList.value?.also { list ->
                     initAdapter(map, list)
                 }
             }
         })
         viewModel.basketList.observe(myLifecycleOwner, Observer {
-           it?.also {basketList ->
-               bs_todays_basket.text = it.size.toString()
+            it?.also { basketList ->
+                bs_todays_basket.text = it.size.toString()
 
-               val listFragments =  activity!!.supportFragmentManager.fragments.filter { frag -> frag.isVisible }
-               val fragment = listFragments[listFragments.size - 1]
-               if (fragment !is TodaysEventsFragment) {
-                   initAdapter(currenpMap, basketList)
-               }
-           }
+                activity?.supportFragmentManager?.fragments?.also { fragmentList ->
+                    fragmentList.filter { frag -> frag.isVisible }
+                    val fragment = fragmentList[fragmentList.size - 1]
+                    if (fragment !is TodayEventsFragment) {
+                        initAdapter(currenpMap, basketList)
+                    }
+                }
+            }
         })
 
         productsListener = object : SportBettingListener {
@@ -136,7 +138,8 @@ class TodaysEventsFragment : BaseFragment() {
     }
 
     private fun initAdapter(
-        it: Map<String, Map<String, List<Event>>>, basketlist: MutableList<SportBetBasketModel>) {
+        it: Map<String, Map<String, List<Event>>>, basketlist: MutableList<SportBetBasketModel>
+    ) {
         it["football"]?.also { footballMap ->
             val adapter = EventsAdapter(
                 basketlist,
