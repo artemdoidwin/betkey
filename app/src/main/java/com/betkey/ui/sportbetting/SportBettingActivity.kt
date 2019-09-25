@@ -47,12 +47,12 @@ class SportBettingActivity  : BaseActivity() {
     }
 
     override fun onBackPressed() {
-//        val listFragments = supportFragmentManager.fragments.filter { frag -> frag.isVisible }
-//        val fragment = listFragments[listFragments.size - 1]
-//        if (fragment is FindPlayerFragment) {
-//            finish()
-//        } else {
+        val listFragments = supportFragmentManager.fragments.filter { frag -> frag.isVisible }
+        val fragment = listFragments[listFragments.size - 1]
+        if (fragment is SportbetingFragment) {
+            finish()
+        } else {
             super.onBackPressed()
-//        }
+        }
     }
 }

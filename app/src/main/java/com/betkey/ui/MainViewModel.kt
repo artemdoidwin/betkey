@@ -32,6 +32,7 @@ class MainViewModel(
     val sportBetTomorrow = marginfoxDataManager.sportBetTomorrow
     val sportBetStartingSoon = marginfoxDataManager.sportBetStartingSoon
     val marketsRest = marginfoxDataManager.marketsRest
+    val basketList = marginfoxDataManager.basketList
 
     var phoneNumberCountryCode = 237
 

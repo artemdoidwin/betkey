@@ -2,16 +2,16 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
-        android:paddingTop="16dp"
+        android:id="@+id/basket_item_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
 
     <ImageView
             android:id="@+id/remove"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
@@ -25,74 +25,72 @@
             android:id="@+id/ligue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="france/ligue1"
-            android:textColor="@color/black"
             android:textAllCaps="true"
+            android:textColor="@color/black"
             android:textSize="11sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="france/ligue1" />
 
     <TextView
             android:id="@+id/command_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:text="france/ligue1"
+            android:layout_marginEnd="8dp"
             android:textAllCaps="true"
             android:textColor="@color/black"
+            android:textSize="14sp"
             android:textStyle="bold"
-            android:textSize="15sp"
+            app:layout_constraintEnd_toStartOf="@+id/remove"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ligue" />
+            app:layout_constraintTop_toBottomOf="@+id/ligue"
+            tools:text="france/ligue1" />
 
     <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="monday 12 july 14:00"
             android:textAllCaps="true"
-            android:layout_marginTop="8dp"
             android:textColor="@color/black"
             android:textSize="11sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/command_name" />
+            app:layout_constraintTop_toBottomOf="@+id/command_name"
+            tools:text="monday 12 july 14:00" />
 
     <TextView
             android:id="@+id/match_result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            tools:text="monday 12 july 14:00"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="11sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/date" />
+            app:layout_constraintTop_toBottomOf="@+id/date"
+            tools:text="monday 12 july 14:00" />
 
     <TextView
             android:id="@+id/bet_command_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            tools:text="bet: psg"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="11sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/match_result" />
+            app:layout_constraintTop_toBottomOf="@+id/match_result"
+            tools:text="bet: psg" />
 
     <TextView
             android:id="@+id/odds"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            tools:text="odds: 1.98"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="11sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bet_command_name" />
+            app:layout_constraintTop_toBottomOf="@+id/bet_command_name"
+            tools:text="odds: 1.98" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

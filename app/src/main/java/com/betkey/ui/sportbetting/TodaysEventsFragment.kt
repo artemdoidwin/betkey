@@ -1,13 +1,13 @@
 package com.betkey.ui.sportbetting
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseFragment
+import com.betkey.models.SportBetBasketModel
 import com.betkey.network.models.Event
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.sportbetting.eventsAdapters.EventsAdapter
@@ -27,6 +27,7 @@ class TodaysEventsFragment : BaseFragment() {
 
     private val viewModel by sharedViewModel<MainViewModel>()
     private lateinit var productsListener: SportBettingListener
+    private lateinit var currenpMap: Map<String, Map<String, List<Event>>>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,38 +56,59 @@ class TodaysEventsFragment : BaseFragment() {
         )
 
         viewModel.sportBetToday.observe(myLifecycleOwner, Observer { sportBetToday ->
-            sportBetToday?.also {
+            sportBetToday?.also {map ->
+                currenpMap = map
                 head_text.text = resources.getString(R.string.sportbetting_todat_events)
-                initAdapter(it)
+                viewModel.basketList.value?.also {list ->
+                    initAdapter(map, list)
+                }
             }
         })
         viewModel.sportBetTomorrow.observe(myLifecycleOwner, Observer { sportBetTomorrow ->
-            sportBetTomorrow?.also {
+            sportBetTomorrow?.also {map ->
+                currenpMap = map
                 head_text.text = resources.getString(R.string.sportbetting_tomorrow_events)
-                initAdapter(it)
+                viewModel.basketList.value?.also {list ->
+                    initAdapter(map, list)
+                }
             }
         })
         viewModel.sportBetStartingSoon.observe(myLifecycleOwner, Observer { sportBetStartingSoon ->
-            sportBetStartingSoon?.also {
+            sportBetStartingSoon?.also {map ->
+                currenpMap = map
                 head_text.text = resources.getString(R.string.sportbetting_starting_soon_events)
-                initAdapter(it)
+                viewModel.basketList.value?.also {list ->
+                    initAdapter(map, list)
+                }
             }
+        })
+        viewModel.basketList.observe(myLifecycleOwner, Observer {
+           it?.also {basketList ->
+               bs_todays_basket.text = it.size.toString()
+
+               val listFragments =  activity!!.supportFragmentManager.fragments.filter { frag -> frag.isVisible }
+               val fragment = listFragments[listFragments.size - 1]
+               if (fragment !is TodaysEventsFragment) {
+                   initAdapter(currenpMap, basketList)
+               }
+           }
         })
 
         productsListener = object : SportBettingListener {
-            override fun onCommandLeft(commandName: String) {
-                Log.d("", "")
+            override fun onCommandLeft(model: SportBetBasketModel) {
+                changeBasketList(model)
             }
 
-            override fun onIDraw(commandName: String) {
-                Log.d("", "")
+            override fun onIDraw(model: SportBetBasketModel) {
+                changeBasketList(model)
             }
 
-            override fun onCommandRight(commandName: String) {
-                Log.d("", "")
+            override fun onCommandRight(model: SportBetBasketModel) {
+                changeBasketList(model)
             }
+
             override fun onSetMarkets(eventId: String) {
-                subscribe( viewModel.getSportbettingMarkets(eventId), {
+                subscribe(viewModel.getSportbettingMarkets(eventId), {
                     addFragment(
                         DetailsSportBitingFragment.newInstance(),
                         R.id.container_for_fragments,
@@ -99,9 +121,25 @@ class TodaysEventsFragment : BaseFragment() {
         }
     }
 
-    private fun initAdapter(it: Map<String, Map<String, List<Event>>>) {
+    private fun changeBasketList(model: SportBetBasketModel) {
+        viewModel.basketList.value?.also { list ->
+            val newList = mutableListOf<SportBetBasketModel>()
+            newList.addAll(list)
+            list.forEach { modelInList ->
+                if (modelInList.idEvent == model.idEvent) {
+                    newList.remove(modelInList)
+                }
+            }
+            newList.add(model)
+            viewModel.basketList.value = newList
+        }
+    }
+
+    private fun initAdapter(
+        it: Map<String, Map<String, List<Event>>>, basketlist: MutableList<SportBetBasketModel>) {
         it["football"]?.also { footballMap ->
             val adapter = EventsAdapter(
+                basketlist,
                 productsListener,
                 footballMap.toMutableMap()
             )
@@ -116,6 +154,7 @@ class TodaysEventsFragment : BaseFragment() {
         viewModel.sportBetStartingSoon.value = null
         viewModel.sportBetTomorrow.value = null
         viewModel.sportBetToday.value = null
+        viewModel.basketList.value = mutableListOf()
     }
 
 

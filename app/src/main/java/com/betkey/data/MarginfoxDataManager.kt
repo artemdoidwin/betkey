@@ -1,13 +1,11 @@
 package com.betkey.data
 
-import amlib.ccid.d
 import androidx.lifecycle.MutableLiveData
 import com.betkey.network.ApiInterfaceMarginfox
 import com.betkey.network.models.*
 import com.betkey.network.models.SportBetting.Companion.toSportBetting
 import com.betkey.repository.ModelRepository
 import com.betkey.utils.AGENT_HHT
-import io.reactivex.Completable
 import io.reactivex.Single
 
 class MarginfoxDataManager(
@@ -24,6 +22,7 @@ class MarginfoxDataManager(
     val sportBetTomorrow = modelRepository.sportBetTomorrow
     val sportBetToday = modelRepository.sportBetToday
     val marketsRest = modelRepository.marketsRest
+    val basketList = modelRepository.basketList
 
     fun getJackpotInfo(): Single<JackpotInfo> {
         return apiMarginfox.getJacpotInfo()

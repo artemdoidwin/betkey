@@ -65,6 +65,9 @@ class DetailsSportBitingFragment : BaseFragment() {
                 }
             }
         })
+        viewModel.basketList.observe(myLifecycleOwner, Observer {
+            it?.also {  detail_basket.text = it.size.toString() }
+        })
     }
 
     private fun initAdapter(

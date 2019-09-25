@@ -115,7 +115,7 @@ android:paddingTop="8dp"
             android:textAllCaps="true"
             android:layout_marginTop="5dp"
             android:textStyle="bold"
-            android:text="@string/sportbetting_Odds"
+            android:text="@string/sportbetting_odds"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/betslip_team_name_title"/>
 
@@ -128,7 +128,7 @@ android:paddingTop="8dp"
             android:textSize="12sp"
             android:textAllCaps="true"
             android:textStyle="bold"
-            android:text="@string/sportbetting_Odds"
+            android:text="@string/sportbetting_odds"
             app:layout_constraintTop_toTopOf="@+id/betslip_team_odds_title"
             app:layout_constraintStart_toEndOf="@+id/betslip_team_odds_title"
             android:layout_marginStart="8dp"/>

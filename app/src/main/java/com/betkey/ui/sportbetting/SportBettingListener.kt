@@ -1,11 +1,13 @@
 package com.betkey.ui.sportbetting
 
+import com.betkey.models.SportBetBasketModel
+
 interface SportBettingListener {
-    fun onCommandLeft(commandName: String)
+    fun onCommandLeft(model: SportBetBasketModel)
 
-    fun onIDraw(commandName: String)
+    fun onIDraw(model: SportBetBasketModel)
 
-    fun onCommandRight(commandName: String)
+    fun onCommandRight(model: SportBetBasketModel)
 
     fun onSetMarkets(eventId: String)
 }

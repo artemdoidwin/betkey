@@ -31,22 +31,24 @@
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/basket_adapter"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_margin="8dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toTopOf="@+id/amount_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/head_text"
-                tools:listitem="@layout/item_sportbetting_basket" />
+                />
 
         <TextView
                 android:id="@+id/amount_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="40dp"
+                android:layout_marginBottom="16dp"
                 android:gravity="center"
                 android:text="@string/sportbetting_stake"
                 android:textAllCaps="true"
@@ -99,7 +101,7 @@
                 android:id="@+id/total_odds_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="4dp"
                 android:gravity="center"
                 android:text="@string/sportbetting_total_odds"
                 android:textAllCaps="true"
@@ -113,7 +115,7 @@
                 android:id="@+id/total_odds"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="4dp"
                 android:gravity="center"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
@@ -121,14 +123,13 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/potential_win"
                 app:layout_constraintStart_toStartOf="@+id/payout"
-                tools:text="4.95" />
+                android:text="0" />
 
         <TextView
                 android:id="@+id/potential_win_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:text="@string/sportbetting_potential_win"
                 android:textAllCaps="true"
@@ -143,7 +144,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
@@ -151,14 +151,13 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/bonus"
                 app:layout_constraintEnd_toEndOf="@+id/bonus"
-                tools:text="1,567.20  CFA" />
+                android:text="0 CFA" />
 
         <TextView
                 android:id="@+id/bonus_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:text="@string/sportbetting_bonus"
                 android:textAllCaps="true"
@@ -173,7 +172,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
@@ -181,14 +179,13 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/total_win"
                 app:layout_constraintEnd_toEndOf="@+id/total_win"
-                tools:text="1,567.20  CFA" />
+                android:text="0 CFA"  />
 
         <TextView
                 android:id="@+id/total_win_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:text="@string/sportbetting_total_win"
                 android:textAllCaps="true"
@@ -203,7 +200,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
@@ -211,7 +207,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/tax"
                 app:layout_constraintEnd_toEndOf="@+id/tax"
-                tools:text="1,567.20  CFA" />
+                android:text="0 CFA"  />
 
         <TextView
                 android:id="@+id/tax_title"
@@ -219,7 +215,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="4dp"
                 android:gravity="center"
                 android:text="@string/sportbetting_tax"
                 android:textAllCaps="true"
@@ -234,7 +230,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="4dp"
                 android:gravity="center"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
@@ -242,7 +238,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/payout"
                 app:layout_constraintEnd_toEndOf="@+id/place_bet_btn"
-                tools:text="1,567.20  CFA" />
+                android:text="0 CFA" />
 
         <TextView
                 android:id="@+id/payout_title"
@@ -271,7 +267,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/place_bet_btn"
                 app:layout_constraintEnd_toEndOf="@+id/place_bet_btn"
-                tools:text="1,567.20  CFA" />
+                android:text="0 CFA"  />
 
         <Button
                 android:id="@+id/place_bet_btn"
@@ -280,8 +276,8 @@
                 android:layout_height="@dimen/big_btn_height"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
-                android:gravity="center"
                 android:enabled="false"
+                android:gravity="center"
                 android:text="@string/sportbetting_place_bet"
                 android:textAllCaps="true"
                 android:textColor="@color/white"

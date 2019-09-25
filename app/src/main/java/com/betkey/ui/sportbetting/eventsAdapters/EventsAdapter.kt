@@ -6,11 +6,13 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.betkey.R
+import com.betkey.models.SportBetBasketModel
 import com.betkey.network.models.Event
 import com.betkey.ui.sportbetting.SportBettingListener
 import kotlinx.android.synthetic.main.item_sportbeting.view.*
 
 class EventsAdapter(
+    private val basketlist: MutableList<SportBetBasketModel>,
     private val gameListener: SportBettingListener,
     val mapGame: MutableMap<String, List<Event>>
 ) :
@@ -57,7 +59,7 @@ class EventsAdapter(
 
             itemView.league_name.text = name
             itemView.bs_events_adapter.adapter =
-                LigueAdapter(gameListener, list)
+                LigueAdapter(basketlist, gameListener, list)
         }
     }
 }
