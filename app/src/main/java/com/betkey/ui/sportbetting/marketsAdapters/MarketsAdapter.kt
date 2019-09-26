@@ -7,20 +7,23 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import com.betkey.R
-import com.betkey.network.models.Bet
+import com.betkey.models.SportBetBasketModel
 import com.betkey.network.models.Market
 import com.betkey.network.models.Team
 import kotlinx.android.synthetic.main.item_details_sportbetting.view.*
 
 class MarketsAdapter(
+    private val basketList: MutableList<SportBetBasketModel>,
     private val mapMarkets: MutableMap<String, Market>,
     private val teams: Map<String, Team>,
-    private val gameListener: (Bet) -> Unit
+    private val idEvent: String,
+    private val league: String,
+    private val date: String,
+    private val gameListener: (SportBetBasketModel) -> Unit
 ) :
     RecyclerView.Adapter<MarketsAdapter.GameViewHolder>() {
     private lateinit var recyclerView: RecyclerView
     private val list = mutableListOf<String>()
-    private var selectedBet: Bet? = null
     private var listPosition = mutableListOf<Int>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
@@ -38,9 +41,11 @@ class MarketsAdapter(
         holder.updateItem(list[position])
     }
 
-    fun setItems(entities: MutableList<String>, bet: Bet?, listPosition: MutableList<Int>) {
+    fun setItems(
+        entities: MutableList<String>,
+        listPosition: MutableList<Int>
+    ) {
         this.listPosition = listPosition
-        selectedBet = bet
         list.clear()
         list.addAll(entities)
         notifyDataSetChanged()
@@ -67,11 +72,11 @@ class MarketsAdapter(
             }
             mapMarkets[name]?.also {
                 val namesLine = it.lines.keys.toMutableList()
-                val adapter = LineAdapter(it.lines.toMutableMap(), teams, name) { bet ->
-                    gameListener(bet)
+                val adapter = LineAdapter(basketList, it.lines.toMutableMap(), teams, name) { basketMod ->
+                    gameListener(basketMod.copy(idEvent = idEvent, league = league, date = date))
                 }
                 itemView.bs_block_adapter.adapter = adapter
-                adapter.setItems(namesLine, selectedBet)
+                adapter.setItems(namesLine)
 
                 itemView.name_market.text = it.name
             }

@@ -1,5 +1,7 @@
 package com.betkey.models
 
+import com.betkey.network.models.Bet
+
 data class LotteryOrPickModel(
     var price: String = "",
     var round: String = "",
@@ -14,17 +16,13 @@ data class LotteryModel(
 )
 
 data class SportBetBasketModel(
-    val idEvent: String = "",
+    var idEvent: String = "",
     var league: String = "",
     var teamsName: String = "",
     var date: String = "",
     var marketName: String = "",
     var betWinName: String = "",
-    var odds: String = ""
-)
-
-data class SportBetParamsModel(
-    var marketKey: String = "",
-    var lineKey: String = "",
-    val totalOdds: String = ""
+    var odds: String = "",
+    var bet: Bet? = null,
+    var lineName: String = ""
 )

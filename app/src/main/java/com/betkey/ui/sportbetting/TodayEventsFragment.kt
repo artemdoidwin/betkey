@@ -138,11 +138,11 @@ class TodayEventsFragment : BaseFragment() {
     }
 
     private fun initAdapter(
-        it: Map<String, Map<String, List<Event>>>, basketlist: MutableList<SportBetBasketModel>
+        it: Map<String, Map<String, List<Event>>>, basketList: MutableList<SportBetBasketModel>
     ) {
         it["football"]?.also { footballMap ->
             val adapter = EventsAdapter(
-                basketlist,
+                basketList,
                 productsListener,
                 footballMap.toMutableMap()
             )
@@ -159,6 +159,4 @@ class TodayEventsFragment : BaseFragment() {
         viewModel.sportBetToday.value = null
         viewModel.basketList.value = mutableListOf()
     }
-
-
 }

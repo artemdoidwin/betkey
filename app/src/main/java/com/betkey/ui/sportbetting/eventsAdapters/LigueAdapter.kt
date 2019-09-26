@@ -60,7 +60,6 @@ class LigueAdapter(
                     }
                 }
             }
-
             model.markets["MRFT"]?.lines?.get("NA")?.bets?.get("1")?.also { bet ->
                 val btnText = "1: ${bet.odds}"
                 itemView.item_winner_command_left_btn.text = btnText
@@ -76,7 +75,9 @@ class LigueAdapter(
                                     date = date,
                                     marketName = marketName,
                                     betWinName = betWinName,
-                                    odds = bet.odds
+                                    odds = bet.odds,
+                                    bet = bet,
+                                    lineName = "NA"
                                 )
                             )
                         }
@@ -87,7 +88,7 @@ class LigueAdapter(
                 val btnText = "X: ${bet.odds}"
                 itemView.item_winner_draw_btn.text = btnText
                 itemView.item_winner_draw_btn.setOnClickListener {
-
+                    val j = bet.id
                     model.id?.also { idEvent ->
                         gameListener.onIDraw(
                             basketModel.copy(
@@ -97,7 +98,9 @@ class LigueAdapter(
                                 date = date,
                                 marketName = marketName,
                                 betWinName = bet.name,
-                                odds = bet.odds
+                                odds = bet.odds,
+                                bet = bet,
+                                lineName = "NA"
                             )
                         )
                     }
@@ -118,7 +121,9 @@ class LigueAdapter(
                                     date = date,
                                     marketName = marketName,
                                     betWinName = betWinName,
-                                    odds = bet.odds
+                                    odds = bet.odds,
+                                    bet = bet,
+                                    lineName = "NA"
                                 )
                             )
                         }

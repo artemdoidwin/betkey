@@ -1,5 +1,6 @@
 package com.betkey.data
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.betkey.network.ApiInterfaceMarginfox
 import com.betkey.network.models.*
@@ -85,6 +86,9 @@ class MarginfoxDataManager(
         return apiMarginfox.getSportbetting("en", "MRFT", "exaloc_kong_key")
             .flatMap {
                 val sb = toSportBetting(it)
+//                sb.startingSoon["football"]!!["China - Chinese Super League"]!![0]!!.markets["MRFT"]!!.lines["NA"]!!.bets["1"]?.id?.also {id ->
+//                    Log.d("MYBET", " StartingSoon $id")
+//                }
                 modelRepository.sportBetStartingSoon.postValue(sb.startingSoon)
                 Single.just(sb.startingSoon)
             }
@@ -93,6 +97,10 @@ class MarginfoxDataManager(
     fun getSportbettingMarkets(eventId: String): Single<Event> {
         return apiMarginfox.getSportbettingMarkets(eventId, "en", "exaloc_kong_key")
             .flatMap {
+                it.markets["MRFT"]!!.lines["NA"]!!.bets["1"]?.id?.also {id ->
+                    Log.d("MYBET", " markets $id")
+                }
+
                 modelRepository.marketsRest.postValue(it)
                 Single.just(it)
             }

@@ -5,19 +5,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.betkey.R
+import com.betkey.models.SportBetBasketModel
 import com.betkey.network.models.Bet
 import com.betkey.network.models.Line
 import com.betkey.network.models.Team
 import kotlinx.android.synthetic.main.item_sportbetting_line.view.*
 
 class LineAdapter(
-    val mapLines: MutableMap<String, Line>,
+    private val basketList: MutableList<SportBetBasketModel>,
+    private val mapLines: MutableMap<String, Line>,
     private val teams: Map<String, Team>,
     private val marketName: String,
-    private val clickListener: (Bet) -> Unit
+    private val clickListener: (SportBetBasketModel) -> Unit
 ) : RecyclerView.Adapter<LineAdapter.GameViewHolder>() {
 
-    private  var selectedBet: Bet? = null
     private val list = mutableListOf<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
@@ -29,8 +30,7 @@ class LineAdapter(
         )
     }
 
-    fun setItems(entities: MutableList<String>, bet: Bet?) {
-        selectedBet = bet
+    fun setItems(entities: MutableList<String>) {
         list.clear()
         list.addAll(entities)
         notifyDataSetChanged()
@@ -53,11 +53,11 @@ class LineAdapter(
 
             mapLines[name]?.also {
                 val namesBets = it.bets.keys.toMutableList()
-                val adapter = BlockAdapter(it.bets.toMutableMap(), teams, marketName) {bet ->
-                    clickListener(bet)
+                val adapter = BlockAdapter(basketList, it.bets.toMutableMap(), teams, marketName) {basketMod ->
+                    clickListener(basketMod.copy(lineName = name))
                 }
                 itemView.recycler_lines.adapter = adapter
-                adapter.setItems(namesBets, selectedBet)
+                adapter.setItems(namesBets)
             }
         }
     }

@@ -1,15 +1,14 @@
 package com.betkey.ui.sportbetting
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseFragment
-import com.betkey.network.models.Market
-import com.betkey.network.models.Team
+import com.betkey.models.SportBetBasketModel
+import com.betkey.network.models.Event
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.sportbetting.marketsAdapters.MarketsAdapter
 import com.betkey.utils.dateToString3
@@ -29,6 +28,7 @@ class DetailsSportBitingFragment : BaseFragment() {
 
     private val viewModel by sharedViewModel<MainViewModel>()
     private lateinit var adapter: MarketsAdapter
+    private lateinit var currentEvernt: Event
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,7 +57,11 @@ class DetailsSportBitingFragment : BaseFragment() {
         )
         viewModel.marketsRest.observe(myLifecycleOwner, Observer { event ->
             event?.also {
-                initAdapter(it.markets.keys.toMutableList(), it.teams, it.markets)
+                currentEvernt = it
+                viewModel.basketList.value?.also { list ->
+                    initAdapter(it, list)
+                }
+
                 val commandName = "${it.teams["1"]?.name} - ${it.teams["2"]?.name}"
                 details_head_text.text = commandName
                 it.startTime?.toFullDate()?.also { dateString ->
@@ -66,20 +70,49 @@ class DetailsSportBitingFragment : BaseFragment() {
             }
         })
         viewModel.basketList.observe(myLifecycleOwner, Observer {
-            it?.also {  detail_basket.text = it.size.toString() }
+            it?.also { detail_basket.text = it.size.toString() }
+
+//            activity?.supportFragmentManager?.fragments?.also { fragmentList ->
+//                fragmentList.filter { frag -> frag.isVisible }
+//                val fragment = fragmentList[fragmentList.size - 1]
+//                if (fragment !is DetailsSportBitingFragment) {
+                    initAdapter(currentEvernt, it)
+//                }
+//            }
         })
     }
 
     private fun initAdapter(
-        namesMarkets: MutableList<String>,
-        teams: Map<String, Team>,
-        markets: Map<String, Market>
+        e: Event,
+        basketList: MutableList<SportBetBasketModel>
     ) {
-        val listPosition = mutableListOf(0, 1)
-        adapter = MarketsAdapter(markets.toMutableMap(), teams) { bet ->
-            adapter.setItems(namesMarkets, bet, listPosition)
+        val openListPosition = mutableListOf(0, 1)
+        adapter = MarketsAdapter(
+            basketList,
+            e.markets.toMutableMap(),
+            e.teams,
+            e.id!!,
+            e.league?.name!!,
+            e.startTime!!.toFullDate().dateToString3()
+        ) { basketModel ->
+            changeBasketList(basketModel)
+            adapter.setItems(e.markets.keys.toMutableList(), openListPosition)
         }
         recycler_markets.adapter = adapter
-        adapter.setItems(namesMarkets, null, listPosition)
+        adapter.setItems(e.markets.keys.toMutableList(), openListPosition)
+    }
+
+    private fun changeBasketList(model: SportBetBasketModel) {
+        viewModel.basketList.value?.also { list ->
+            val newList = mutableListOf<SportBetBasketModel>()
+            newList.addAll(list)
+            list.forEach { modelInList ->
+                if (modelInList.bet == model.bet) {
+                    newList.remove(modelInList)
+                }
+            }
+            newList.add(model)
+            viewModel.basketList.value = newList
+        }
     }
 }

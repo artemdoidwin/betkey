@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Bet (
     @SerializedName("id")
-    var dec: Int? = null,
+    var id: String = "",
 
     @SerializedName("name")
     var name: String = "" ,
