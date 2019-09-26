@@ -23,9 +23,7 @@ class LineAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
         return GameViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(
-                    R.layout.item_sportbetting_line, parent, false
-                )
+                .inflate(R.layout.item_sportbetting_line, parent, false)
         )
     }
 

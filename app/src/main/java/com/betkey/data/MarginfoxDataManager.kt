@@ -97,9 +97,9 @@ class MarginfoxDataManager(
     fun getSportbettingMarkets(eventId: String): Single<Event> {
         return apiMarginfox.getSportbettingMarkets(eventId, "en", "exaloc_kong_key")
             .flatMap {
-                it.markets["MRFT"]!!.lines["NA"]!!.bets["1"]?.id?.also {id ->
-                    Log.d("MYBET", " markets $id")
-                }
+//                it.markets["MRFT"]!!.lines["NA"]!!.bets["1"]?.id?.also {id ->
+//                    Log.d("MYBET", " markets $id")
+//                }
 
                 modelRepository.marketsRest.postValue(it)
                 Single.just(it)

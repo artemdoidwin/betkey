@@ -1,5 +1,6 @@
 package com.betkey.ui.sportbetting.marketsAdapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import com.betkey.R
 import com.betkey.models.SportBetBasketModel
 import com.betkey.network.models.Bet
 import com.betkey.network.models.Team
+import com.betkey.ui.sportbetting.DetailsSportBitingFragment
 import kotlinx.android.synthetic.main.item_detail_stake.view.*
 
 class BlockAdapter(
@@ -92,6 +94,7 @@ class BlockAdapter(
                     )
                 }
             }
+            Log.d("TIMER", "${System.currentTimeMillis() - DetailsSportBitingFragment.time}")
         }
     }
 }

@@ -19,7 +19,7 @@ class MarketsAdapter(
     private val idEvent: String,
     private val league: String,
     private val date: String,
-    private val gameListener: (SportBetBasketModel) -> Unit
+    private val gameListener: (SportBetBasketModel, MutableList<Int>) -> Unit
 ) :
     RecyclerView.Adapter<MarketsAdapter.GameViewHolder>() {
     private lateinit var recyclerView: RecyclerView
@@ -73,7 +73,7 @@ class MarketsAdapter(
             mapMarkets[name]?.also {
                 val namesLine = it.lines.keys.toMutableList()
                 val adapter = LineAdapter(basketList, it.lines.toMutableMap(), teams, name) { basketMod ->
-                    gameListener(basketMod.copy(idEvent = idEvent, league = league, date = date))
+                    gameListener(basketMod.copy(idEvent = idEvent, league = league, date = date), listPosition)
                 }
                 itemView.bs_block_adapter.adapter = adapter
                 adapter.setItems(namesLine)

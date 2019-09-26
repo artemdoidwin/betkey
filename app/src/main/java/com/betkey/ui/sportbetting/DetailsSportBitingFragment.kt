@@ -22,7 +22,7 @@ class DetailsSportBitingFragment : BaseFragment() {
 
     companion object {
         const val TAG = "DetailsSportBitingFragment"
-
+        var time: Long = 0
         fun newInstance() = DetailsSportBitingFragment()
     }
 
@@ -80,7 +80,7 @@ class DetailsSportBitingFragment : BaseFragment() {
         event: Event,
         basketList: MutableList<SportBetBasketModel>
     ) {
-        val openListPosition = mutableListOf(0, 1)
+        var openListPosition = mutableListOf(0, 1)
         adapter = MarketsAdapter(
             basketList,
             event.markets.toMutableMap(),
@@ -88,12 +88,15 @@ class DetailsSportBitingFragment : BaseFragment() {
             event.id!!,
             event.league?.name!!,
             event.startTime!!.toFullDate().dateToString3()
-        ) { basketModel ->
+        ) { basketModel, newListPos ->
             changeBasketList(basketModel)
+            openListPosition = newListPos
             adapter.setItems(event.markets.keys.toMutableList(), openListPosition)
         }
         recycler_markets.adapter = adapter
+        time = System.currentTimeMillis()
         adapter.setItems(event.markets.keys.toMutableList(), openListPosition)
+
     }
 
     private fun changeBasketList(model: SportBetBasketModel) {
@@ -101,7 +104,7 @@ class DetailsSportBitingFragment : BaseFragment() {
             val newList = mutableListOf<SportBetBasketModel>()
             newList.addAll(list)
             list.forEach { modelInList ->
-                if (modelInList.bet == model.bet) {
+                if (modelInList.idEvent == model.idEvent) {
                     newList.remove(modelInList)
                 }
             }
