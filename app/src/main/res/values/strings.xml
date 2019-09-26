@@ -98,6 +98,7 @@
     <string name="sportbetting_starting_soon_events">Starting soon events</string>
     <string name="sportbetting_tomorrow">Tomorrow</string>
     <string name="sportbetting_lookup_booking">Lookup booking</string>
+    <string name="sportbetting_lookup">Lookup</string>
     <string name="sportbetting_event_id">Event id</string>
     <string name="sportbetting_market_id">Market id</string>
     <string name="sportbetting_add_bet">Add bet</string>
@@ -114,6 +115,7 @@
     <string name="sportbetting_odds">Odds:</string>
     <string name="sportbetting_back"><u>Back</u></string>
     <string name="sportbetting_clear_bets">Clear all bets</string>
+    <string name="sportbetting_enter_code">Enter booking code:</string>
 
     <string name="lottery_id">Round id:</string>
     <string name="lottery_next_draw">Next draw:</string>

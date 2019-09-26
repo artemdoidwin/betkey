@@ -45,20 +45,11 @@ class BlockAdapter(
         fun updateItem(name: String, gameListener: (SportBetBasketModel) -> Unit) {
             mapBets[name]?.also { bet ->
 
-
                 basketList.map {
                     if (it.bet == bet) {
                         itemView.market_btn.isChecked = true
                     }
                 }
-//                basketModel?.also { basketMod ->
-//                    if (basketMod.bet == bet) {
-//                        itemView.market_btn.isChecked = true
-//                    }
-//                }
-
-
-
 
                 var betWinName = ""
                 when (marketName) {

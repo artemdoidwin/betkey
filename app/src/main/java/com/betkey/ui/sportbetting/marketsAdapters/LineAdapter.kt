@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.betkey.R
 import com.betkey.models.SportBetBasketModel
-import com.betkey.network.models.Bet
 import com.betkey.network.models.Line
 import com.betkey.network.models.Team
 import kotlinx.android.synthetic.main.item_sportbetting_line.view.*

@@ -28,7 +28,7 @@ class DetailsSportBitingFragment : BaseFragment() {
 
     private val viewModel by sharedViewModel<MainViewModel>()
     private lateinit var adapter: MarketsAdapter
-    private lateinit var currentEvernt: Event
+    private lateinit var currentEvent: Event
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,7 +57,7 @@ class DetailsSportBitingFragment : BaseFragment() {
         )
         viewModel.marketsRest.observe(myLifecycleOwner, Observer { event ->
             event?.also {
-                currentEvernt = it
+                currentEvent = it
                 viewModel.basketList.value?.also { list ->
                     initAdapter(it, list)
                 }
@@ -72,34 +72,28 @@ class DetailsSportBitingFragment : BaseFragment() {
         viewModel.basketList.observe(myLifecycleOwner, Observer {
             it?.also { detail_basket.text = it.size.toString() }
 
-//            activity?.supportFragmentManager?.fragments?.also { fragmentList ->
-//                fragmentList.filter { frag -> frag.isVisible }
-//                val fragment = fragmentList[fragmentList.size - 1]
-//                if (fragment !is DetailsSportBitingFragment) {
-                    initAdapter(currentEvernt, it)
-//                }
-//            }
+            initAdapter(currentEvent, it)
         })
     }
 
     private fun initAdapter(
-        e: Event,
+        event: Event,
         basketList: MutableList<SportBetBasketModel>
     ) {
         val openListPosition = mutableListOf(0, 1)
         adapter = MarketsAdapter(
             basketList,
-            e.markets.toMutableMap(),
-            e.teams,
-            e.id!!,
-            e.league?.name!!,
-            e.startTime!!.toFullDate().dateToString3()
+            event.markets.toMutableMap(),
+            event.teams,
+            event.id!!,
+            event.league?.name!!,
+            event.startTime!!.toFullDate().dateToString3()
         ) { basketModel ->
             changeBasketList(basketModel)
-            adapter.setItems(e.markets.keys.toMutableList(), openListPosition)
+            adapter.setItems(event.markets.keys.toMutableList(), openListPosition)
         }
         recycler_markets.adapter = adapter
-        adapter.setItems(e.markets.keys.toMutableList(), openListPosition)
+        adapter.setItems(event.markets.keys.toMutableList(), openListPosition)
     }
 
     private fun changeBasketList(model: SportBetBasketModel) {

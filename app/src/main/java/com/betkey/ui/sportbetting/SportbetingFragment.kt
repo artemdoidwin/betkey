@@ -39,7 +39,6 @@ class SportbetingFragment : BaseFragment() {
                 })
             }
         )
-
         compositeDisposable.add(
             sp_tomorrow_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 subscribe( viewModel.sportBetTomorrow(), {
@@ -49,11 +48,19 @@ class SportbetingFragment : BaseFragment() {
                 })
             }
         )
-
         compositeDisposable.add(
             sp_today_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 subscribe( viewModel.sportBetToday(), {
                     addFragment(TodayEventsFragment.newInstance(), R.id.container_for_fragments, TodayEventsFragment.TAG)
+                }, {
+                    toast(it.message.toString())
+                })
+            }
+        )
+        compositeDisposable.add(
+            sp_lookup_booking__btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
+                subscribe( viewModel.sportBetToday(), {
+                    addFragment(LookupFragment.newInstance(), R.id.container_for_fragments, LookupFragment.TAG)
                 }, {
                     toast(it.message.toString())
                 })
