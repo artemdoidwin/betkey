@@ -26,6 +26,7 @@ class BasketFragment : BaseFragment() {
     }
 
     private val viewModel by sharedViewModel<MainViewModel>()
+    private var totalOdds :Double = 0.0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -85,14 +86,16 @@ class BasketFragment : BaseFragment() {
 
     private fun calculateTotalOdds(list: MutableList<SportBetBasketModel>) {
         if (list.size == 0){
+            totalOdds = 0.0
             total_odds.text = "0"
             place_bet_btn.isEnabled = false
         }else{
-            total_odds.text = list.map { it.odds }
+             totalOdds = list.map { it.odds }
                 .map { it.toDouble() }
                 .reduce { acc, d ->
                     acc.times(d)
-                }.roundOffDecimal()
+                }
+            total_odds.text = String.format("%.2f", totalOdds)
         }
 
         if (amount_ET.text.toString().isNotEmpty()){
@@ -101,7 +104,7 @@ class BasketFragment : BaseFragment() {
     }
 
     private fun fillAllFields(stake: Double){
-        val win = total_odds.text.toString().toDouble() * stake
+        val win = totalOdds * stake
         viewModel.wallets.value?.get(0)?.currency?.also {
             val potentWin = "$win $it"
             potential_win.text = potentWin
