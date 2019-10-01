@@ -11,8 +11,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-
-            android:focusableInTouchMode="true">
+            android:focusableInTouchMode="true"
+            android:paddingBottom="16dp">
 
         <TextView
                 android:id="@+id/detail_basket"
@@ -63,17 +63,17 @@
                 android:id="@+id/recycler_markets"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                android:background="@color/white"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:orientation="vertical"
-                tools:listitem="@layout/item_details_sportbetting"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="20dp"
+                android:background="@color/white"
+                android:nestedScrollingEnabled="false"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toTopOf="@+id/details_back_btn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/details_date" />
+                app:layout_constraintTop_toBottomOf="@+id/details_date"
+                tools:listitem="@layout/item_details_sportbetting" />
 
         <Button
                 android:id="@+id/details_back_btn"
@@ -81,15 +81,14 @@
                 android:layout_width="@dimen/small_btn_width"
                 android:layout_height="@dimen/big_btn_height"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:text="@string/back_btn"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_markets"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_markets" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

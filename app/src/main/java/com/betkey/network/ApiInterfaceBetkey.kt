@@ -8,7 +8,10 @@ interface ApiInterfaceBetkey {
 
     @FormUrlEncoded
     @POST("agents/authenticate")
-    fun authenticateAgent(@Field("agent[username]") userName: String, @Field("agent[password]") password: String): Single<AuthenticateAgent>
+    fun authenticateAgent(
+        @Field("agent[username]") userName: String,
+        @Field("agent[password]") password: String
+    ): Single<AuthenticateAgent>
 
     @FormUrlEncoded
     @POST("agents/authenticate/token")

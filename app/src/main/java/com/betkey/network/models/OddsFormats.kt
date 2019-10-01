@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class OddsFormats (
     @SerializedName("dec")
-    var dec: String = "",
+    var dec: String = "", // Maybe Double
 
     @SerializedName("us")
     var us: String = ""

@@ -65,4 +65,20 @@ interface ApiInterfaceMarginfox {
         @Query("lang") lang: String,
         @Query("api_key") apiKey: String
     ): Single<Event>
+
+    @FormUrlEncoded
+    @POST("betkey/agents/betslips")
+    fun sprotBettingPlaceBet(
+        @Query("api_key") apiKey: String,
+        @FieldMap events: HashMap<String, String>,
+        @Field("betkeyData[agent_token]") token: String
+    ): Single<StatusBetslip>
+
+    @FormUrlEncoded
+    @POST("betkey/agent_profile")
+    fun getAgentProfile(
+        @Query("api_key") apiKey: String,
+        @Field("betkey_agent_profile[instance]") instance: String,
+        @Field("betkey_agent_profile[token]") token: String
+    ): Single<AgentProfileRest>
 }

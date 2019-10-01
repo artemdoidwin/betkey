@@ -7,10 +7,9 @@ data class Shop(
     var id: String = "",
 
     @SerializedName("short_id")
-
     var shortId: String = "",
-    @SerializedName("code")
 
+    @SerializedName("code")
     var code: String = "",
 
     @SerializedName("name")

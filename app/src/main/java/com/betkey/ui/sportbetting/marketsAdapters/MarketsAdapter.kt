@@ -53,7 +53,7 @@ class MarketsAdapter(
 
     inner class GameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun updateItem(name: String) {
+        fun updateItem(marketKey: String) {
             if (listPosition.contains(adapterPosition)) {
                 itemView.bs_block_adapter.visibility = View.VISIBLE
                 itemView.sp_expand.rotation = 180F
@@ -70,10 +70,10 @@ class MarketsAdapter(
                     listPosition.add(adapterPosition)
                 }
             }
-            mapMarkets[name]?.also {
+            mapMarkets[marketKey]?.also {
                 val namesLine = it.lines.keys.toMutableList()
-                val adapter = LineAdapter(basketList, it.lines.toMutableMap(), teams, name) { basketMod ->
-                    gameListener(basketMod.copy(idEvent = idEvent, league = league, date = date), listPosition)
+                val adapter = LineAdapter(basketList, it.lines.toMutableMap(), teams, marketKey) { basketMod ->
+                    gameListener(basketMod.copy(idEvent = idEvent, league = league, date = date, marketName = it.name), listPosition)
                 }
                 itemView.bs_block_adapter.adapter = adapter
                 adapter.setItems(namesLine)

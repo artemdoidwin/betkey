@@ -76,6 +76,8 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:hint="0"
+                    android:imeOptions="actionDone"
+                    android:maxLength="9"
                     android:inputType="number"
                     tools:ignore="Autofill,TextFields" />
 
@@ -109,7 +111,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/potential_win_title"
-                app:layout_constraintStart_toStartOf="@+id/place_bet_btn" />
+                app:layout_constraintStart_toStartOf="@+id/payout_title" />
 
         <TextView
                 android:id="@+id/total_odds"
@@ -117,12 +119,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:gravity="center"
+                android:layout_marginEnd="35dp"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/potential_win"
-                app:layout_constraintStart_toStartOf="@+id/payout"
+              app:layout_constraintEnd_toEndOf="@+id/payout"
                 android:text="0" />
 
         <TextView
@@ -244,7 +247,6 @@
                 android:id="@+id/payout_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:text="@string/sportbetting_payout"
@@ -253,6 +255,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/place_bet_btn"
+                app:layout_constraintEnd_toStartOf="@+id/place_bet_btn"
                 app:layout_constraintStart_toStartOf="@+id/place_bet_btn" />
 
         <TextView
@@ -274,7 +277,6 @@
                 style="@style/ButtonGreenTheme"
                 android:layout_width="@dimen/big_btn_width"
                 android:layout_height="@dimen/big_btn_height"
-                android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
                 android:enabled="false"
                 android:gravity="center"
@@ -288,7 +290,7 @@
 
         <Button
                 android:id="@+id/clear_all_bets_btn"
-                style="@style/ButtonGreenTheme"
+                style="@style/ButtonRedTheme"
                 android:layout_width="@dimen/big_btn_width"
                 android:layout_height="@dimen/big_btn_height"
                 android:layout_marginTop="16dp"
@@ -308,21 +310,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
+                android:paddingBottom="10dp"
                 android:text="@string/sportbetting_back"
-                android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
-
-        <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/jackpot_titles_barrier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="end"
-                app:constraint_referenced_ids="potential_win_title,bonus_title,total_win_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

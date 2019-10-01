@@ -7,6 +7,7 @@ import com.betkey.network.models.*
 import com.betkey.network.models.SportBetting.Companion.toSportBetting
 import com.betkey.repository.ModelRepository
 import com.betkey.utils.AGENT_HHT
+import com.google.gson.Gson
 import io.reactivex.Single
 
 class MarginfoxDataManager(
@@ -24,6 +25,8 @@ class MarginfoxDataManager(
     val sportBetToday = modelRepository.sportBetToday
     val marketsRest = modelRepository.marketsRest
     val basketList = modelRepository.basketList
+    val sportBettingStatus = modelRepository.sportBetStatus
+    val sportBetSuccess = modelRepository.sportBetSuccess
 
     fun getJackpotInfo(): Single<JackpotInfo> {
         return apiMarginfox.getJacpotInfo()
@@ -86,9 +89,6 @@ class MarginfoxDataManager(
         return apiMarginfox.getSportbetting("en", "MRFT", "exaloc_kong_key")
             .flatMap {
                 val sb = toSportBetting(it)
-//                sb.startingSoon["football"]!!["China - Chinese Super League"]!![0]!!.markets["MRFT"]!!.lines["NA"]!!.bets["1"]?.id?.also {id ->
-//                    Log.d("MYBET", " StartingSoon $id")
-//                }
                 modelRepository.sportBetStartingSoon.postValue(sb.startingSoon)
                 Single.just(sb.startingSoon)
             }
@@ -97,12 +97,47 @@ class MarginfoxDataManager(
     fun getSportbettingMarkets(eventId: String): Single<Event> {
         return apiMarginfox.getSportbettingMarkets(eventId, "en", "exaloc_kong_key")
             .flatMap {
-//                it.markets["MRFT"]!!.lines["NA"]!!.bets["1"]?.id?.also {id ->
-//                    Log.d("MYBET", " markets $id")
-//                }
-
                 modelRepository.marketsRest.postValue(it)
                 Single.just(it)
             }
+    }
+
+    fun getAgentProfile(): Single<AgentProfileRest> {
+        return prefManager.getToken().let { token ->
+            apiMarginfox.getAgentProfile("exaloc_kong_key", "exaloc", token)
+                .flatMap {
+                    Single.just(it)
+                }
+        }
+    }
+
+    fun sprotBettingPlaceBet(stake: String, agentId: Int): Single<SBPlaceBetSuccess?> {
+        val events: HashMap<String, String> = hashMapOf()
+        basketList.value?.also { basketList ->
+            basketList.map { event ->
+                events["betslip[events][${event.idEvent}][market]"] = event.marketKey
+                events["betslip[events][${event.idEvent}][line]"] = event.lineName
+                events["betslip[events][${event.idEvent}][bet]"] = event.betKey
+                events["betslip[events][${event.idEvent}][odds]"] = event.odds
+                events["betslip[events][${event.idEvent}][market_name]"] = event.marketName
+            }
+            events["betslip[stake]"] = stake
+            events["betslip[source]"] = "HHT"
+            events["betslip[instance]"] = "exaloc"
+            events["betslip[live]"] = "0"
+            events["betkeyData[agent_id]"] = agentId.toString()
+        }
+        return prefManager.getToken().let { token ->
+            apiMarginfox.sprotBettingPlaceBet("exaloc_kong_key", events, token)
+                .flatMap {
+                    val model = SBPlaceBetSuccess.checkStatus(it)
+                    if (model == null) {
+                        modelRepository.sportBetStatus.postValue(it.status)
+                    } else {
+                        modelRepository.sportBetSuccess.postValue(model)
+                    }
+                    Single.just(model)
+                }
+        }
     }
 }

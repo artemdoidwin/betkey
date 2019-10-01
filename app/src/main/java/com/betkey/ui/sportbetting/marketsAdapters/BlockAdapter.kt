@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.betkey.R
 import com.betkey.models.SportBetBasketModel
 import com.betkey.network.models.Bet
+import com.betkey.network.models.Event
 import com.betkey.network.models.Team
 import com.betkey.ui.sportbetting.DetailsSportBitingFragment
 import kotlinx.android.synthetic.main.item_detail_stake.view.*
@@ -16,7 +17,7 @@ class BlockAdapter(
     private val basketList: MutableList<SportBetBasketModel>,
     private val mapBets: MutableMap<String, Bet>,
     private val teams: Map<String, Team>,
-    private val marketName: String,
+    private val marketKey: String,
     private val clickListener: (SportBetBasketModel) -> Unit
 ) : RecyclerView.Adapter<BlockAdapter.GameViewHolder>() {
 
@@ -44,54 +45,59 @@ class BlockAdapter(
     }
 
     inner class GameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun updateItem(name: String, gameListener: (SportBetBasketModel) -> Unit) {
-            mapBets[name]?.also { bet ->
-
-                basketList.map {
-                    if (it.bet == bet) {
-                        itemView.market_btn.isChecked = true
-                    }
+        fun updateItem(betKey: String, gameListener: (SportBetBasketModel) -> Unit) {
+            mapBets[betKey]?.also { bet ->
+                if (bet.id.toDoubleOrNull() == null){
+                    Log.d("","")
                 }
-
-                var betWinName = ""
-                when (marketName) {
-                    "MRFT" -> {
-                        when (name) {
-                            "1" -> {
-                                val nameBtn = "${teams["1"]?.name}: ${bet.odds}"
-                                itemView.market_btn.text = nameBtn
-                                betWinName = teams["1"]?.name!!
-                            }
-                            "X" -> {
-                                val nameBtn = "X: ${bet.odds}"
-                                itemView.market_btn.text = nameBtn
-                                betWinName = bet.name
-                            }
-                            "2" -> {
-                                val nameBtn = "${teams["2"]?.name}: ${bet.odds}"
-                                itemView.market_btn.text = nameBtn
-                                betWinName = teams["2"]?.name!!
-                            }
+                bet.id.toDoubleOrNull()?.also {
+                    basketList.map {
+                        if (it.bet == bet) {
+                            itemView.market_btn.isChecked = true
                         }
                     }
-                    else -> {
-                        val nameBtn = "${bet.name}: ${bet.odds}"
-                        itemView.market_btn.text = nameBtn
-                        betWinName = bet.name
-                    }
-                }
 
-                itemView.market_btn.setOnClickListener {
-                    val teamsName = "${teams["1"]?.name} - ${teams["2"]?.name}"
-                    gameListener(
-                        SportBetBasketModel(
-                            teamsName = teamsName,
-                            marketName = marketName,
-                            betWinName = betWinName,
-                            odds = bet.odds,
-                            bet = bet
+                    var betWinName = ""
+                    when (marketKey) {
+                        "MRFT" -> {
+                            when (betKey) {
+                                "1" -> {
+                                    val nameBtn = "${teams["1"]?.name}: ${bet.odds}"
+                                    itemView.market_btn.text = nameBtn
+                                    betWinName = teams["1"]?.name!!
+                                }
+                                "X" -> {
+                                    val nameBtn = "X: ${bet.odds}"
+                                    itemView.market_btn.text = nameBtn
+                                    betWinName = bet.name
+                                }
+                                "2" -> {
+                                    val nameBtn = "${teams["2"]?.name}: ${bet.odds}"
+                                    itemView.market_btn.text = nameBtn
+                                    betWinName = teams["2"]?.name!!
+                                }
+                            }
+                        }
+                        else -> {
+                            val nameBtn = "${bet.name}: ${bet.odds}"
+                            itemView.market_btn.text = nameBtn
+                            betWinName = bet.name
+                        }
+                    }
+
+                    itemView.market_btn.setOnClickListener {
+                        val teamsName = "${teams["1"]?.name} - ${teams["2"]?.name}"
+                        gameListener(
+                            SportBetBasketModel(
+                                teamsName = teamsName,
+                                marketKey = marketKey,
+                                betWinName = betWinName,
+                                odds = bet.odds,
+                                betKey = betKey,
+                                bet = bet
+                            )
                         )
-                    )
+                    }
                 }
             }
             Log.d("TIMER", "${System.currentTimeMillis() - DetailsSportBitingFragment.time}")

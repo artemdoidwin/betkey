@@ -52,7 +52,7 @@ data class Event(
     var odds: Double? = null,
 
     @SerializedName("odds_formats")
-    var odds_formats: Any? = null,
+    var odds_formats: OddsFormats? = null,
 
     @SerializedName("bet_time_info")
     var bet_time_info: Any? = null,

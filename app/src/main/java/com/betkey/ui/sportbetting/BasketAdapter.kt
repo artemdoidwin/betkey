@@ -44,7 +44,7 @@ class BasketAdapter(
             itemView.ligue.text = model.league
             itemView.command_name.text = model.teamsName
             itemView.date.text = model.date
-            itemView.match_result.text = model.marketName
+            itemView.match_result.text = model.marketKey
             val commandWinName =
                 "${itemView.context.resources.getString(R.string.sportbetting_bet)} ${model.betWinName}"
             itemView.bet_command_name.text = commandWinName

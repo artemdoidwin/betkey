@@ -33,6 +33,8 @@ class MainViewModel(
     val sportBetStartingSoon = marginfoxDataManager.sportBetStartingSoon
     val marketsRest = marginfoxDataManager.marketsRest
     val basketList = marginfoxDataManager.basketList
+    val sportBettingStatus = marginfoxDataManager.sportBettingStatus
+    val sportBetSuccess = marginfoxDataManager.sportBetSuccess
 
     var phoneNumberCountryCode = 237
 
@@ -62,6 +64,14 @@ class MainViewModel(
 
     fun getSportbettingMarkets(eventId: String): Single<Event> {
         return marginfoxDataManager.getSportbettingMarkets(eventId)
+    }
+
+    fun sprotBettingPlaceBet(stake: String, agentId: Int): Single<SBPlaceBetSuccess?> {
+        return marginfoxDataManager.sprotBettingPlaceBet(stake, agentId)
+    }
+
+    fun getAgentProfile(): Single<AgentProfileRest> {
+        return marginfoxDataManager.getAgentProfile()
     }
 
     fun jackpotAgentBetting(

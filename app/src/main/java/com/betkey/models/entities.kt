@@ -20,9 +20,11 @@ data class SportBetBasketModel(
     var league: String = "",
     var teamsName: String = "",
     var date: String = "",
+    var marketKey: String = "",
     var marketName: String = "",
     var betWinName: String = "",
     var odds: String = "",
     var bet: Bet? = null,
+    var betKey: String = "",
     var lineName: String = ""
 )

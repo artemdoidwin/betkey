@@ -17,10 +17,7 @@ import android.view.KeyEvent
 import com.betkey.R
 import com.betkey.base.BaseActivity
 import com.betkey.network.models.Event
-import com.betkey.utils.dateString
-import com.betkey.utils.dateToString2
-import com.betkey.utils.roundOffDecimal
-import com.betkey.utils.toFullDate2
+import com.betkey.utils.*
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
@@ -89,6 +86,7 @@ class UsbPrinterActivity : BaseActivity() {
         const val DEPOSIT = 2
         const val LOTTERY = 3
         const val PICK_3 = 4
+        const val SPORTBETTING = 5
 
         fun start(sender: Activity, operation: Int) {
             val intent = Intent(sender, UsbPrinterActivity::class.java).apply {
@@ -223,6 +221,7 @@ class UsbPrinterActivity : BaseActivity() {
                     DEPOSIT -> depositPrint()
                     LOTTERY -> lotteryPrint()
                     PICK_3 -> pickPrint()
+                    SPORTBETTING -> sportBettingPrint()
                 }
 
                 mUsbThermalPrinter.walkPaper(10)
@@ -455,6 +454,41 @@ class UsbPrinterActivity : BaseActivity() {
         //qr
         printQR( viewModel.agentBet.value!!.message_data?.betCode!!)
     }
+
+    private fun sportBettingPrint() {
+        printMyLogo(R.drawable.marginfox_logo)   //picture
+        initStyleContent() //init context
+
+        //print content
+        dottedLine()
+        printHeadRow(
+            resources.getString(R.string.jackpot_confirmation_ticket_number).toUpperCase(),
+            viewModel.sportBetSuccess.value!!.id
+        )
+        printHeadRow(
+            resources.getString(R.string.jackpot_game_code).toUpperCase(),
+            viewModel.sportBetSuccess.value!!.code
+        )
+        printHeadRow(
+            resources.getString(R.string.jackpot_game_date_time).toUpperCase(),
+            viewModel.sportBetSuccess.value!!.created.toFullDate().dateToString()
+        )
+        printHeadRow(
+            resources.getString(R.string.scan_detail_type).toUpperCase(),
+            viewModel.ticket.value!!.platformUnit!!.name!!
+        )
+        dottedLine()
+        printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details).toUpperCase())
+        for (i in viewModel.sportBetSuccess.value!!.events!!.indices) {
+            dottedLine()
+            createBetList(viewModel.sportBetSuccess.value!!.events!![i])
+        }
+        printStake(viewModel.ticket.value!!.stake!!, viewModel.ticket.value!!.currency!!)
+
+        //qr
+        printQR( viewModel.sportBetSuccess.value!!.code)
+    }
+
 
     private fun printQR(textQr: String) {
 //        mUsbThermalPrinter.reset()

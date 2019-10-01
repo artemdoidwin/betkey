@@ -14,7 +14,7 @@ class LineAdapter(
     private val basketList: MutableList<SportBetBasketModel>,
     private val mapLines: MutableMap<String, Line>,
     private val teams: Map<String, Team>,
-    private val marketName: String,
+    private val marketKey: String,
     private val clickListener: (SportBetBasketModel) -> Unit
 ) : RecyclerView.Adapter<LineAdapter.GameViewHolder>() {
 
@@ -49,12 +49,12 @@ class LineAdapter(
             }
 
             mapLines[name]?.also {
-                val namesBets = it.bets.keys.toMutableList()
-                val adapter = BlockAdapter(basketList, it.bets.toMutableMap(), teams, marketName) {basketMod ->
+                val namesKeys = it.bets.keys.toMutableList()
+                val adapter = BlockAdapter(basketList, it.bets.toMutableMap(), teams, marketKey) { basketMod ->
                     clickListener(basketMod.copy(lineName = name))
                 }
                 itemView.recycler_lines.adapter = adapter
-                adapter.setItems(namesBets)
+                adapter.setItems(namesKeys)
             }
         }
     }
