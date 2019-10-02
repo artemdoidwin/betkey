@@ -25,6 +25,7 @@ import com.telpo.tps550.api.TelpoException
 import com.telpo.tps550.api.printer.UsbThermalPrinter
 import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 class UsbPrinterActivity : BaseActivity() {
     private val NOPAPER = 3
@@ -252,7 +253,7 @@ class UsbPrinterActivity : BaseActivity() {
         printMyLogo(R.drawable.logo_for_print)   //picture
         initStyleContent()
 
-        val textMiddle = "${resources.getString(R.string.lottery_head).toUpperCase()}\n"
+        val textMiddle = "${resources.getString(R.string.lottery_head).toUpperCase(Locale.getDefault())}\n"
         printMiddleText(textMiddle)
 
         val price = "${resources.getString(R.string.jackpot_ticket_price_title)} " +
@@ -261,14 +262,14 @@ class UsbPrinterActivity : BaseActivity() {
                 viewModel.lotteryOrPick.value!!.round
         val draw = "${resources.getString(R.string.pick_draw_print)} " +
                 viewModel.lotteryOrPick.value!!.draw
-        mUsbThermalPrinter.addString(price.toUpperCase())
-        mUsbThermalPrinter.addString(round.toUpperCase())
-        mUsbThermalPrinter.addString(draw.toUpperCase())
+        mUsbThermalPrinter.addString(price.toUpperCase(Locale.getDefault()))
+        mUsbThermalPrinter.addString(round.toUpperCase(Locale.getDefault()))
+        mUsbThermalPrinter.addString(draw.toUpperCase(Locale.getDefault()))
         mUsbThermalPrinter.printString()
 
         val numbersTitle = "\n${resources.getString(R.string.lottery_your_numbers)} "
         mUsbThermalPrinter.setFontSize(1)
-        mUsbThermalPrinter.addString(numbersTitle.toUpperCase())
+        mUsbThermalPrinter.addString(numbersTitle.toUpperCase(Locale.getDefault()))
         mUsbThermalPrinter.printString()
 
         mUsbThermalPrinter.setFontSize(3)
@@ -286,7 +287,7 @@ class UsbPrinterActivity : BaseActivity() {
         printMyLogo(R.drawable.logo_for_print)   //picture
         initStyleContent()
 
-        val textMiddle = "${resources.getString(R.string.pick).toUpperCase()}\n"
+        val textMiddle = "${resources.getString(R.string.pick).toUpperCase(Locale.getDefault())}\n"
         printMiddleText(textMiddle)
 
         val price = "${resources.getString(R.string.jackpot_ticket_price_title)} " +
@@ -295,14 +296,14 @@ class UsbPrinterActivity : BaseActivity() {
                 viewModel.lotteryOrPick.value!!.round
         val draw = "${resources.getString(R.string.pick_draw_print)} " +
                 viewModel.lotteryOrPick.value!!.draw
-        mUsbThermalPrinter.addString(price.toUpperCase())
-        mUsbThermalPrinter.addString(round.toUpperCase())
-        mUsbThermalPrinter.addString(draw.toUpperCase())
+        mUsbThermalPrinter.addString(price.toUpperCase(Locale.getDefault()))
+        mUsbThermalPrinter.addString(round.toUpperCase(Locale.getDefault()))
+        mUsbThermalPrinter.addString(draw.toUpperCase(Locale.getDefault()))
         mUsbThermalPrinter.printString()
 
         val numbersTitle = "\n${resources.getString(R.string.lottery_your_numbers)} "
         mUsbThermalPrinter.setFontSize(1)
-        mUsbThermalPrinter.addString(numbersTitle.toUpperCase())
+        mUsbThermalPrinter.addString(numbersTitle.toUpperCase(Locale.getDefault()))
         mUsbThermalPrinter.printString()
 
         mUsbThermalPrinter.setFontSize(3)
@@ -320,7 +321,7 @@ class UsbPrinterActivity : BaseActivity() {
         mUsbThermalPrinter.setFontSize(1)
         val titleWinningNum =
             "\n${resources.getString(R.string.pick_print_winning_num)}         ${resources.getString(R.string.pick_print_multiply_stake)}"
-        mUsbThermalPrinter.addString(titleWinningNum.toUpperCase())
+        mUsbThermalPrinter.addString(titleWinningNum.toUpperCase(Locale.getDefault()))
         mUsbThermalPrinter.printString()
 
         for (i in list.lastIndex downTo 0) {
@@ -334,7 +335,7 @@ class UsbPrinterActivity : BaseActivity() {
         printMyLogo(R.drawable.logo_for_print)   //picture
         initStyleContent()
 
-        val textMiddle = "${resources.getString(R.string.deposit_deposit).toUpperCase()}\n"
+        val textMiddle = "${resources.getString(R.string.deposit_deposit).toUpperCase(Locale.getDefault())}\n"
         printMiddleText(textMiddle)
 
         val number = "${resources.getString(R.string.withdrawal_number)} " +
@@ -343,24 +344,24 @@ class UsbPrinterActivity : BaseActivity() {
                 "${viewModel.player.value?.first_name} ${viewModel.player.value?.last_name}"
         val time = "${resources.getString(R.string.withdrawal_time)} " +
                 dateString(viewModel.agentDeposit.value!!.player_deposit?.payment?.created!!)
-        val id = "${resources.getString(R.string.withdrawal_id).toUpperCase()} " +
+        val id = "${resources.getString(R.string.withdrawal_id).toUpperCase(Locale.getDefault())} " +
                 viewModel.agentDeposit.value!!.player_deposit?.payment?.shortId
-        mUsbThermalPrinter.addString(number.toUpperCase())
-        mUsbThermalPrinter.addString(name.toUpperCase())
-        mUsbThermalPrinter.addString(time.toUpperCase())
+        mUsbThermalPrinter.addString(number.toUpperCase(Locale.getDefault()))
+        mUsbThermalPrinter.addString(name.toUpperCase(Locale.getDefault()))
+        mUsbThermalPrinter.addString(time.toUpperCase(Locale.getDefault()))
         mUsbThermalPrinter.addString(id)
         mUsbThermalPrinter.printString()
 
         mUsbThermalPrinter.setFontSize(1)
         mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
-        mUsbThermalPrinter.addString("\n${resources.getString(R.string.deposit_amount_text).toUpperCase()}")
+        mUsbThermalPrinter.addString("\n${resources.getString(R.string.deposit_amount_text).toUpperCase(Locale.getDefault())}")
         mUsbThermalPrinter.printString()
 
         mUsbThermalPrinter.setFontSize(3)
         val am =
             "${viewModel.agentDeposit.value!!.player_deposit?.payment?.amount?.toDouble()?.roundOffDecimal()} "
         val amount = am + "${viewModel.agentDeposit.value!!.player_deposit?.payment?.currency}"
-        mUsbThermalPrinter.addString(amount.toUpperCase())
+        mUsbThermalPrinter.addString(amount.toUpperCase(Locale.getDefault()))
         mUsbThermalPrinter.printString()
 
         printBottomText()
@@ -370,7 +371,7 @@ class UsbPrinterActivity : BaseActivity() {
         printMyLogo(R.drawable.logo_for_print)   //picture
         initStyleContent()
 
-        val textMiddle = "${resources.getString(R.string.withdrawal).toUpperCase()}\n"
+        val textMiddle = "${resources.getString(R.string.withdrawal).toUpperCase(Locale.getDefault())}\n"
         printMiddleText(textMiddle)
 
         val number = "${resources.getString(R.string.withdrawal_number)} " +
@@ -379,18 +380,18 @@ class UsbPrinterActivity : BaseActivity() {
                 "${viewModel.player.value?.first_name} ${viewModel.player.value?.last_name}"
         val time = "${resources.getString(R.string.withdrawal_time)} " +
                 dateString(viewModel.withdrawalConfirm.value!!.confirm?.a2pDeposit?.payment?.created!!)
-        val id = "${resources.getString(R.string.withdrawal_id).toUpperCase()} " +
+        val id = "${resources.getString(R.string.withdrawal_id).toUpperCase(Locale.getDefault())} " +
                 viewModel.withdrawalConfirm.value!!.confirm?.a2pDeposit?.payment?.shortId
 
-        mUsbThermalPrinter.addString(number.toUpperCase())
-        mUsbThermalPrinter.addString(name.toUpperCase())
-        mUsbThermalPrinter.addString(time.toUpperCase())
+        mUsbThermalPrinter.addString(number.toUpperCase(Locale.getDefault()))
+        mUsbThermalPrinter.addString(name.toUpperCase(Locale.getDefault()))
+        mUsbThermalPrinter.addString(time.toUpperCase(Locale.getDefault()))
         mUsbThermalPrinter.addString(id)
         mUsbThermalPrinter.printString()
 
         mUsbThermalPrinter.setFontSize(1)
         mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
-        mUsbThermalPrinter.addString("\n${resources.getString(R.string.deposit_amount_text).toUpperCase()}")
+        mUsbThermalPrinter.addString("\n${resources.getString(R.string.deposit_amount_text).toUpperCase(Locale.getDefault())}")
         mUsbThermalPrinter.printString()
 
         mUsbThermalPrinter.setFontSize(3)
@@ -398,7 +399,7 @@ class UsbPrinterActivity : BaseActivity() {
             "${viewModel.withdrawalConfirm.value!!.confirm?.a2pDeposit?.payment?.amount?.toDouble()?.roundOffDecimal()} "
         val amount =
             am + "${viewModel.withdrawalConfirm.value!!.confirm?.a2pDeposit?.payment?.currency}"
-        mUsbThermalPrinter.addString(amount.toUpperCase())
+        mUsbThermalPrinter.addString(amount.toUpperCase(Locale.getDefault()))
         mUsbThermalPrinter.printString()
 
         printBottomText()
@@ -409,14 +410,14 @@ class UsbPrinterActivity : BaseActivity() {
 
         mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_LEFT)
         val bottomText =
-            "\n${resources.getString(R.string.withdrawal_text_bottom_looking).toUpperCase()}\n\n" +
-                    resources.getString(R.string.withdrawal_text_bottom_contact).toUpperCase()
+            "\n${resources.getString(R.string.withdrawal_text_bottom_looking).toUpperCase(Locale.getDefault())}\n\n" +
+                    resources.getString(R.string.withdrawal_text_bottom_contact).toUpperCase(Locale.getDefault())
         mUsbThermalPrinter.addString(bottomText)
         mUsbThermalPrinter.printString()
 
         mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
         mUsbThermalPrinter.setBold(true)
-        mUsbThermalPrinter.addString("\n${resources.getString(R.string.withdrawal_site).toUpperCase()}")
+        mUsbThermalPrinter.addString("\n${resources.getString(R.string.withdrawal_site).toUpperCase(Locale.getDefault())}")
         mUsbThermalPrinter.printString()
         mUsbThermalPrinter.clearString()
     }
@@ -428,23 +429,23 @@ class UsbPrinterActivity : BaseActivity() {
         //print content
         dottedLine()
         printHeadRow(
-            resources.getString(R.string.jackpot_confirmation_ticket_number).toUpperCase(),
+            resources.getString(R.string.jackpot_confirmation_ticket_number).toUpperCase(Locale.getDefault()),
             viewModel.agentBet.value!!.message_data?.couponId.toString()
         )
         printHeadRow(
-            resources.getString(R.string.jackpot_game_code).toUpperCase(),
+            resources.getString(R.string.jackpot_game_code).toUpperCase(Locale.getDefault()),
             viewModel.agentBet.value!!.message_data?.betCode!!
         )
         printHeadRow(
-            resources.getString(R.string.jackpot_game_date_time).toUpperCase(),
+            resources.getString(R.string.jackpot_game_date_time).toUpperCase(Locale.getDefault()),
             dateString(viewModel.agentBet.value!!.created!!)
         )
         printHeadRow(
-            resources.getString(R.string.scan_detail_type).toUpperCase(),
+            resources.getString(R.string.scan_detail_type).toUpperCase(Locale.getDefault()),
             viewModel.ticket.value!!.platformUnit!!.name!!
         )
         dottedLine()
-        printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details).toUpperCase())
+        printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details).toUpperCase(Locale.getDefault()))
         for (i in viewModel.lookupBets.value!!.events!!.indices) {
             dottedLine()
             createBetList(viewModel.lookupBets.value!!.events!![i])
@@ -462,23 +463,23 @@ class UsbPrinterActivity : BaseActivity() {
         //print content
         dottedLine()
         printHeadRow(
-            resources.getString(R.string.jackpot_confirmation_ticket_number).toUpperCase(),
+            resources.getString(R.string.jackpot_confirmation_ticket_number).toUpperCase(Locale.getDefault()),
             viewModel.sportBetSuccess.value!!.id
         )
         printHeadRow(
-            resources.getString(R.string.jackpot_game_code).toUpperCase(),
+            resources.getString(R.string.jackpot_game_code).toUpperCase(Locale.getDefault()),
             viewModel.sportBetSuccess.value!!.code
         )
         printHeadRow(
-            resources.getString(R.string.jackpot_game_date_time).toUpperCase(),
+            resources.getString(R.string.jackpot_game_date_time).toUpperCase(Locale.getDefault()),
             viewModel.sportBetSuccess.value!!.created.toFullDate().dateToString()
         )
         printHeadRow(
-            resources.getString(R.string.scan_detail_type).toUpperCase(),
+            resources.getString(R.string.scan_detail_type).toUpperCase(Locale.getDefault()),
             viewModel.ticket.value!!.platformUnit!!.name!!
         )
         dottedLine()
-        printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details).toUpperCase())
+        printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details).toUpperCase(Locale.getDefault()))
         for (i in viewModel.sportBetSuccess.value!!.events!!.indices) {
             dottedLine()
             createBetList(viewModel.sportBetSuccess.value!!.events!![i])
@@ -489,10 +490,7 @@ class UsbPrinterActivity : BaseActivity() {
         printQR( viewModel.sportBetSuccess.value!!.code)
     }
 
-
     private fun printQR(textQr: String) {
-//        mUsbThermalPrinter.reset()
-//        mUsbThermalPrinter.setGray(printGray)
         val bitmap =
             createCode(
                 textQr,
@@ -529,8 +527,8 @@ class UsbPrinterActivity : BaseActivity() {
         val league = event.league!!.name
         val team1Name = (event.teams["1"])!!.name
         val team2Name = (event.teams["2"])!!.name
-        val marketName = event.market_name!!
-        val bet = event.bet!!
+        val marketName = event.market_name
+        val bet = event.bet
 
         val contentBet = "$date\n" +
                 "$friendlyId $league\n" +
@@ -569,7 +567,7 @@ class UsbPrinterActivity : BaseActivity() {
 
     private fun printStake(price: String, currency: String) {
         mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_RIGHT)
-        val stake = "${price.toDouble().roundOffDecimal()} ${currency.toUpperCase()}"
+        val stake = "${price.toDouble().roundOffDecimal()} ${currency.toUpperCase(Locale.getDefault())}"
         mUsbThermalPrinter.addString(stake)
         mUsbThermalPrinter.printString()
     }
@@ -586,6 +584,7 @@ class UsbPrinterActivity : BaseActivity() {
         viewModel.agentBet.value = null
         viewModel.lookupBets.value = null
         viewModel.lotteryOrPick.value = null
+        viewModel.sportBetSuccess.value = null
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {

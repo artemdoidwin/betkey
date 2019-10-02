@@ -13,6 +13,7 @@ import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_sportbetting_lookup_booking.*
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import retrofit2.HttpException
 import java.util.concurrent.TimeUnit
 
 class LookupFragment : BaseFragment() {
@@ -38,15 +39,13 @@ class LookupFragment : BaseFragment() {
 
         compositeDisposable.add(
             lookup_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
-                subscribe(viewModel.sportBetToday(), {
+                subscribe(viewModel.publicBetslips(lookup_code_ET.text.toString()), {
                     addFragment(
                         BasketFragment.newInstance(),
                         R.id.container_for_fragments,
                         BasketFragment.TAG
                     )
-                }, {
-                    toast(it.message.toString())
-                })
+                }, { (it as? HttpException)?.also { ex -> toast(ex.message()) } })
             }
         )
 

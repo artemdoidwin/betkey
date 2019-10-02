@@ -46,7 +46,7 @@ data class Event(
     var marketsCount: Int? = null,
 
     @SerializedName("bet")
-    var bet: String? = null,
+    var bet: String = "",
 
     @SerializedName("odds")
     var odds: Double? = null,
@@ -58,13 +58,13 @@ data class Event(
     var bet_time_info: Any? = null,
 
     @SerializedName("market")
-    var market: String? = null,
+    var market: String = "",
 
     @SerializedName("market_name")
-    var market_name: String? = null,
+    var market_name: String = "",
 
     @SerializedName("line")
-    var line: String? = null,
+    var line: String = "",
 
     @SerializedName("time")
     var time: TimeObj? = null,

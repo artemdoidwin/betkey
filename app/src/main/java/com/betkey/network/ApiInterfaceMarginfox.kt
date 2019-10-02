@@ -81,4 +81,10 @@ interface ApiInterfaceMarginfox {
         @Field("betkey_agent_profile[instance]") instance: String,
         @Field("betkey_agent_profile[token]") token: String
     ): Single<AgentProfileRest>
+
+    @GET("public/betslips/{public_code}")
+    fun publicBetslips(
+        @Path("public_code")
+        publicCode: String
+    ): Single<BetLookupObj>
 }

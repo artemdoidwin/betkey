@@ -59,11 +59,7 @@ class SportbetingFragment : BaseFragment() {
         )
         compositeDisposable.add(
             sp_lookup_booking__btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
-                subscribe( viewModel.sportBetToday(), {
-                    addFragment(LookupFragment.newInstance(), R.id.container_for_fragments, LookupFragment.TAG)
-                }, {
-                    toast(it.message.toString())
-                })
+                addFragment(LookupFragment.newInstance(), R.id.container_for_fragments, LookupFragment.TAG)
             }
         )
 

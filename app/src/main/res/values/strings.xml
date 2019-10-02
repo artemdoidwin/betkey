@@ -116,6 +116,7 @@
     <string name="sportbetting_back"><u>BACK</u></string>
     <string name="sportbetting_clear_bets">Clear all bets</string>
     <string name="sportbetting_enter_code">Enter booking code:</string>
+    <string name="sportbetting_draw">draw</string>
 
     <string name="lottery_id">Round id:</string>
     <string name="lottery_next_draw">Next draw:</string>

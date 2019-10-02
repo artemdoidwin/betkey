@@ -66,12 +66,16 @@ class MainViewModel(
         return marginfoxDataManager.getSportbettingMarkets(eventId)
     }
 
-    fun sprotBettingPlaceBet(stake: String, agentId: Int): Single<SBPlaceBetSuccess?> {
+    fun sprotBettingPlaceBet(stake: String, agentId: Int): Single<BetLookupObj?> {
         return marginfoxDataManager.sprotBettingPlaceBet(stake, agentId)
     }
 
     fun getAgentProfile(): Single<AgentProfileRest> {
         return marginfoxDataManager.getAgentProfile()
+    }
+
+    fun publicBetslips(publicCode: String): Single<BetLookupObj> {
+        return marginfoxDataManager.publicBetslips(publicCode)
     }
 
     fun jackpotAgentBetting(

@@ -3,7 +3,6 @@ package com.betkey.ui.sportbetting
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +10,10 @@ import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.models.SportBetBasketModel
+import com.betkey.network.models.BetLookupObj
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.UsbPrinterActivity
-import com.betkey.ui.jackpot.JackpotConfirmationFragment
-import com.betkey.utils.roundOffDecimalComma
-import com.betkey.utils.roundOffDecimalWithComma
+import com.betkey.utils.*
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_sportbetting_basket.*
 import org.jetbrains.anko.support.v4.toast
@@ -56,14 +54,16 @@ class BasketFragment : BaseFragment() {
                             it?.also {
                                 subscribe(viewModel.checkTicket(it.code), { ticket ->
 
-                                                                        toast("Success!!!!")
-//                                    UsbPrinterActivity.start(
-//                                        activity!!,
-//                                        UsbPrinterActivity.SPORTBETTING
-//                                    )
+//                                    toast("Success!!!!")
+                                    UsbPrinterActivity.start(
+                                        activity!!,
+                                        UsbPrinterActivity.SPORTBETTING
+                                    )
                                 }, { toast(it.message.toString()) })
                             }
-                        }, { toast(it.message.toString()) })
+                        }, {
+                            toast(it.message.toString())
+                        })
                 }, { toast(it.message.toString()) })
             }
         )
@@ -81,22 +81,66 @@ class BasketFragment : BaseFragment() {
         amount_ET.addTextChangedListener(textWatcher)
 
         viewModel.basketList.observe(myLifecycleOwner, Observer { list ->
-            basket_adapter.adapter = BasketAdapter(list) { idEvent ->
-                val newList = mutableListOf<SportBetBasketModel>()
-                newList.addAll(list)
-                list.forEach { modelInList ->
-                    if (modelInList.idEvent == idEvent) {
-                        newList.remove(modelInList)
-                    }
-                }
-                viewModel.basketList.value = newList
-            }
-            calculateTotalOdds(list)
+            list?.also { initAdapter(list) }
         })
         viewModel.sportBettingStatus.observe(myLifecycleOwner, Observer { status ->
-            status?.also { toast("Place bet error $status") }
+            status?.also {
+                toast("Place bet error $status")
+                viewModel.sportBettingStatus.value = null
+            }
+        })
+        viewModel.lookupBets.observe(myLifecycleOwner, Observer { lookupBets ->
+            lookupBets?.also { lookup -> createBasketList(lookup) }
         })
         clearFields()
+    }
+
+    private fun initAdapter(list: MutableList<SportBetBasketModel>) {
+        basket_adapter.adapter = BasketAdapter(list) { idEvent ->
+            val newList = mutableListOf<SportBetBasketModel>()
+            newList.addAll(list)
+            list.forEach { modelInList ->
+                if (modelInList.idEvent == idEvent) {
+                    newList.remove(modelInList)
+                }
+            }
+            viewModel.basketList.value = newList
+        }
+        calculateTotalOdds(list)
+    }
+
+    private fun createBasketList(bets: BetLookupObj) {
+        bets.events?.also { list ->
+            val basketList = mutableListOf<SportBetBasketModel>()
+            for (i in list.indices) {
+                val event = list[i]
+                val teamsName = "${event.teams["1"]?.name} - ${event.teams["2"]?.name}"
+                var date = ""
+                event.time!!.date?.also { date = it.toFullDate2().dateToString3() }
+                var betWinName = ""
+                when (event.bet) {
+                    "1" -> event.teams["1"]?.name?.also { name -> betWinName = name }
+                    "X" -> betWinName = resources.getString(R.string.sportbetting_draw)
+                    "2" -> event.teams["1"]?.name?.also { name -> betWinName = name }
+                }
+                basketList.add(
+                    SportBetBasketModel(
+                        idEvent = event.id!!,
+                        league = event.league!!.name,
+                        teamsName = teamsName,
+                        date = date,
+                        marketKey = event.market,
+                        marketName = event.market_name,
+                        betWinName = betWinName,
+                        odds = event.odds.toString(),
+                        betKey = event.bet,
+                        lineName = event.line
+                    )
+                )
+            }
+            amount_ET.setText(bets.stake.toString())
+            initAdapter(basketList)
+        }
     }
 
     private fun clearFields() {
@@ -118,9 +162,7 @@ class BasketFragment : BaseFragment() {
         } else {
             totalOdds = list.map { it.odds }
                 .map { it.toDouble() }
-                .reduce { acc, d ->
-                    acc.times(d)
-                }
+                .reduce { acc, d -> acc.times(d) }
             val oddsText = totalOdds.roundOffDecimalComma()
             total_odds.text = oddsText
         }
@@ -148,6 +190,10 @@ class BasketFragment : BaseFragment() {
                     searchText.isNotEmpty() && searchText.toString().toDouble() > 0 && it > 0
             }
 
+            viewModel.lookupBets.value?.also {
+                isEnabledFlag = searchText.isNotEmpty() && searchText.toString().toDouble() > 0
+            }
+
             place_bet_btn.isEnabled = isEnabledFlag
             if (searchText.isNotEmpty() && searchText.toString().toDouble() == 0.0) {
                 amount_ET.setText("")
@@ -159,5 +205,10 @@ class BasketFragment : BaseFragment() {
 
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
         override fun afterTextChanged(s: Editable) {}
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.lookupBets.value = null
     }
 }

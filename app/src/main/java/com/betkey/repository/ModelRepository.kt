@@ -29,7 +29,7 @@ class ModelRepository {
     val lotteryOrPickRequest = MutableLiveData<String>().apply { value = null }
     val marketsRest = MutableLiveData<Event>().apply { value = null }
     val sportBetStatus = MutableLiveData<Int>().apply { value = null }
-    val sportBetSuccess = MutableLiveData<SBPlaceBetSuccess>().apply { value = null }
+    val sportBetSuccess = MutableLiveData<BetLookupObj>().apply { value = null }
     val basketList = MutableLiveData<MutableList<SportBetBasketModel>>().apply { value = mutableListOf()}
 }
 

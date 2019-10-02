@@ -111,7 +111,7 @@ class MarginfoxDataManager(
         }
     }
 
-    fun sprotBettingPlaceBet(stake: String, agentId: Int): Single<SBPlaceBetSuccess?> {
+    fun sprotBettingPlaceBet(stake: String, agentId: Int): Single<BetLookupObj?> {
         val events: HashMap<String, String> = hashMapOf()
         basketList.value?.also { basketList ->
             basketList.map { event ->
@@ -130,7 +130,7 @@ class MarginfoxDataManager(
         return prefManager.getToken().let { token ->
             apiMarginfox.sprotBettingPlaceBet("exaloc_kong_key", events, token)
                 .flatMap {
-                    val model = SBPlaceBetSuccess.checkStatus(it)
+                    val model = BetLookupObj.checkStatus(it)
                     if (model == null) {
                         modelRepository.sportBetStatus.postValue(it.status)
                     } else {
@@ -139,5 +139,13 @@ class MarginfoxDataManager(
                     Single.just(model)
                 }
         }
+    }
+
+    fun publicBetslips(publicCode: String): Single<BetLookupObj> {
+        return apiMarginfox.publicBetslips(publicCode)
+            .flatMap {
+                modelRepository.lookupBets.postValue(it)
+                Single.just(it)
+            }
     }
 }
