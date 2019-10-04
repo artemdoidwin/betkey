@@ -11,6 +11,7 @@ import com.betkey.models.SportBetBasketModel
 import com.betkey.network.models.Event
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.sportbetting.eventsAdapters.EventsAdapter
+import com.betkey.ui.sportbetting.eventsAdapters.SportBettingListener
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_sportbetting_todays.*
 import org.jetbrains.anko.support.v4.toast

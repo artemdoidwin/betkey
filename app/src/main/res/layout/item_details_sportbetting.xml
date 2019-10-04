@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="match result fuul time"
+            tools:text="match result fuul time"
             android:textAllCaps="true"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/sp_expand"
@@ -32,19 +32,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_expand_more"
             tools:ignore="ContentDescription" />
-
-
-    <!--    <RadioGroup-->
-    <!--            android:id="@+id/stake_items_group"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_margin="3dp"-->
-    <!--            android:background="@color/white"-->
-    <!--            android:orientation="vertical"-->
-    <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--            app:layout_constraintEnd_toEndOf="parent"-->
-    <!--            app:layout_constraintStart_toStartOf="parent"-->
-    <!--            app:layout_constraintTop_toBottomOf="@+id/sp_expand" />-->
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/bs_block_adapter"

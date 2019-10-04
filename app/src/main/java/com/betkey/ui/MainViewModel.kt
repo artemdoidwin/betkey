@@ -5,6 +5,8 @@ import com.betkey.data.BetKeyDataManager
 import com.betkey.data.MarginfoxDataManager
 import com.betkey.data.PSPDataManager
 import com.betkey.network.models.*
+import com.betkey.utils.PHONE_CODE
+import com.betkey.utils.PHONE_CODE2
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -36,7 +38,7 @@ class MainViewModel(
     val sportBettingStatus = marginfoxDataManager.sportBettingStatus
     val sportBetSuccess = marginfoxDataManager.sportBetSuccess
 
-    var phoneNumberCountryCode = 237
+    var phoneNumberCountryCode = PHONE_CODE
 
     fun login(userName: String, password: String): Completable {
         return betkeydataManager.login(userName, password)

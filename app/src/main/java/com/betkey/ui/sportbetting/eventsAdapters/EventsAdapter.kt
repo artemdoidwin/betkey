@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.betkey.R
 import com.betkey.models.SportBetBasketModel
 import com.betkey.network.models.Event
-import com.betkey.ui.sportbetting.SportBettingListener
 import kotlinx.android.synthetic.main.item_sportbeting.view.*
 
 class EventsAdapter(

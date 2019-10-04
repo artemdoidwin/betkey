@@ -1,6 +1,8 @@
 package com.betkey.ui.sportbetting
 
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +17,9 @@ import com.betkey.utils.dateToString3
 import com.betkey.utils.toFullDate
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_sportbetting_details.*
+import org.jetbrains.anko.doAsync
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class DetailsSportBitingFragment : BaseFragment() {
@@ -29,6 +33,7 @@ class DetailsSportBitingFragment : BaseFragment() {
     private val viewModel by sharedViewModel<MainViewModel>()
     private lateinit var adapter: MarketsAdapter
     private lateinit var currentEvent: Event
+    private var openListPosition =  mutableListOf(0, 1)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,9 +63,7 @@ class DetailsSportBitingFragment : BaseFragment() {
         viewModel.marketsRest.observe(myLifecycleOwner, Observer { event ->
             event?.also {
                 currentEvent = it
-                viewModel.basketList.value?.also { list ->
-                    initAdapter(it, list)
-                }
+                Handler().post { initAdapter() }
 
                 val commandName = "${it.teams["1"]?.name} - ${it.teams["2"]?.name}"
                 details_head_text.text = commandName
@@ -71,32 +74,27 @@ class DetailsSportBitingFragment : BaseFragment() {
         })
         viewModel.basketList.observe(myLifecycleOwner, Observer {
             it?.also { detail_basket.text = it.size.toString() }
-
-            initAdapter(currentEvent, it)
+            Log.d("TIMER", "${System.currentTimeMillis() - time} basketList")
+            Handler().post { initAdapter() }
         })
     }
 
-    private fun initAdapter(
-        event: Event,
-        basketList: MutableList<SportBetBasketModel>
-    ) {
-        var openListPosition = mutableListOf(0, 1)
+    private fun initAdapter() {
         adapter = MarketsAdapter(
-            basketList,
-            event.markets.toMutableMap(),
-            event.teams,
-            event.id!!,
-            event.league?.name!!,
-            event.startTime!!.toFullDate().dateToString3()
+            openListPosition,
+            viewModel.basketList.value!!,
+            currentEvent.markets.toMutableMap(),
+            currentEvent.teams,
+            currentEvent.id!!,
+            currentEvent.league?.name!!,
+            currentEvent.startTime!!.toFullDate().dateToString3()
         ) { basketModel, newListPos ->
+            time = System.currentTimeMillis()
             changeBasketList(basketModel)
             openListPosition = newListPos
-            adapter.setItems(event.markets.keys.toMutableList(), openListPosition)
         }
         recycler_markets.adapter = adapter
         time = System.currentTimeMillis()
-        adapter.setItems(event.markets.keys.toMutableList(), openListPosition)
-
     }
 
     private fun changeBasketList(model: SportBetBasketModel) {

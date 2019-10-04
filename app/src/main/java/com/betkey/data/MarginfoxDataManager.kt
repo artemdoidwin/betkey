@@ -1,13 +1,11 @@
 package com.betkey.data
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.betkey.network.ApiInterfaceMarginfox
 import com.betkey.network.models.*
 import com.betkey.network.models.SportBetting.Companion.toSportBetting
 import com.betkey.repository.ModelRepository
 import com.betkey.utils.AGENT_HHT
-import com.google.gson.Gson
 import io.reactivex.Single
 
 class MarginfoxDataManager(

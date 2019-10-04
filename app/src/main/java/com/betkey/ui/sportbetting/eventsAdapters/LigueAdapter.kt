@@ -1,6 +1,5 @@
 package com.betkey.ui.sportbetting.eventsAdapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.betkey.R
 import com.betkey.models.SportBetBasketModel
 import com.betkey.network.models.Event
-import com.betkey.ui.sportbetting.SportBettingListener
 import com.betkey.utils.dateToString3
 import com.betkey.utils.toFullDate
 import kotlinx.android.synthetic.main.item_sportbeting_ligue.view.*

@@ -1,4 +1,4 @@
-package com.betkey.ui.sportbetting
+package com.betkey.ui.sportbetting.eventsAdapters
 
 import com.betkey.models.SportBetBasketModel
 

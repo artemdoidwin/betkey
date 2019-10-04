@@ -21,7 +21,7 @@ class BlockAdapter(
     private val clickListener: (SportBetBasketModel) -> Unit
 ) : RecyclerView.Adapter<BlockAdapter.GameViewHolder>() {
 
-    private val list = mutableListOf<String>()
+    private var list: MutableList<String> = mapBets.keys.toMutableList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
         return GameViewHolder(
@@ -30,12 +30,6 @@ class BlockAdapter(
                     R.layout.item_detail_stake, parent, false
                 )
         )
-    }
-
-    fun setItems(entities: MutableList<String>) {
-        list.clear()
-        list.addAll(entities)
-        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = list.size
@@ -47,9 +41,6 @@ class BlockAdapter(
     inner class GameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun updateItem(betKey: String, gameListener: (SportBetBasketModel) -> Unit) {
             mapBets[betKey]?.also { bet ->
-                if (bet.id.toDoubleOrNull() == null){
-                    Log.d("","")
-                }
                 bet.id.toDoubleOrNull()?.also {
                     basketList.map {
                         if (it.bet == bet) {

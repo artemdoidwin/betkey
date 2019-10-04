@@ -18,19 +18,13 @@ class LineAdapter(
     private val clickListener: (SportBetBasketModel) -> Unit
 ) : RecyclerView.Adapter<LineAdapter.GameViewHolder>() {
 
-    private val list = mutableListOf<String>()
+    private val list =  mapLines.keys.toMutableList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
         return GameViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_sportbetting_line, parent, false)
         )
-    }
-
-    fun setItems(entities: MutableList<String>) {
-        list.clear()
-        list.addAll(entities)
-        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = list.size
@@ -49,12 +43,10 @@ class LineAdapter(
             }
 
             mapLines[name]?.also {
-                val namesKeys = it.bets.keys.toMutableList()
                 val adapter = BlockAdapter(basketList, it.bets.toMutableMap(), teams, marketKey) { basketMod ->
                     clickListener(basketMod.copy(lineName = name))
                 }
                 itemView.recycler_lines.adapter = adapter
-                adapter.setItems(namesKeys)
             }
         }
     }

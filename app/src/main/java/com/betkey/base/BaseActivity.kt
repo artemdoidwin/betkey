@@ -29,8 +29,8 @@ abstract class BaseActivity : AppCompatActivity(){
     fun showLoading(){
         if (progressDialog == null){
             progressDialog = LoadingUiHelper.showProgress()
+            progressDialog?.show(supportFragmentManager, LoadingUiHelper.ProgressDialogFragment.TAG)
         }
-        progressDialog?.show(supportFragmentManager, LoadingUiHelper.ProgressDialogFragment.TAG)
     }
 
     fun hideLoading(){

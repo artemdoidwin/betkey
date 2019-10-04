@@ -3,6 +3,7 @@ package com.betkey.ui.sportbetting
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_sportbetting_basket.*
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class BasketFragment : BaseFragment() {
@@ -44,27 +46,11 @@ class BasketFragment : BaseFragment() {
 
         compositeDisposable.add(
             place_bet_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
-
-                subscribe(viewModel.getAgentProfile(), { profile ->
-                    subscribe(
-                        viewModel.sprotBettingPlaceBet(
-                            amount_ET.text.toString(),
-                            profile.message?.agentDocument?.id!!
-                        ), {
-                            it?.also {
-                                subscribe(viewModel.checkTicket(it.code), { ticket ->
-
-//                                    toast("Success!!!!")
-                                    UsbPrinterActivity.start(
-                                        activity!!,
-                                        UsbPrinterActivity.SPORTBETTING
-                                    )
-                                }, { toast(it.message.toString()) })
-                            }
-                        }, {
-                            toast(it.message.toString())
-                        })
-                }, { toast(it.message.toString()) })
+                if (viewModel.lookupBets.value == null) {
+                    placeBetAgent()
+                } else {
+                    placeBetPlayer()
+                }
             }
         )
         compositeDisposable.add(
@@ -93,6 +79,49 @@ class BasketFragment : BaseFragment() {
             lookupBets?.also { lookup -> createBasketList(lookup) }
         })
         clearFields()
+    }
+
+
+    private fun placeBetPlayer() {
+        subscribe(viewModel.getAgentProfile(), { profile ->
+            //            val agentId = profile.message?.agentDocument?.id!!
+//            val username = profile.message?.agentDocument?.username!!
+//            val created = Calendar.getInstance().time.dateToString4()
+//
+//
+//            val i = (created).toMD5String()
+//            val u = getMd5Base64((created))
+//            val nonceMD5 = created.getMD5()
+//            val passwordSHA1 = "$nonceMD5${created}U*LpMSk4y(pFw~Y=".getSHA1()
+//            val passwordDigest = Base64.encodeToString(passwordSHA1.toByteArray(Charsets.UTF_8), 16)
+//            val nonce = Base64.encodeToString(nonceMD5.toByteArray(Charsets.UTF_8), 16)
+//            val idEvent = viewModel.lookupBets.value!!.id
+//            val XWSSE =
+//                "UsernameToken Username=\"$username\", PasswordDigest=\"$passwordDigest\", Nonce=\"$nonce\", Created=\"$created\""
+        }, { toast(it.message.toString()) })
+
+    }
+
+    private fun placeBetAgent() {
+        subscribe(viewModel.getAgentProfile(), { profile ->
+            subscribe(
+                viewModel.sprotBettingPlaceBet(
+                    amount_ET.text.toString(),
+                    profile.message?.agentDocument?.id!!
+                ), {
+                    it?.also {
+                        subscribe(viewModel.checkTicket(it.code), { ticket ->
+                            toast("Success!!!!")
+                            UsbPrinterActivity.start(
+                                activity!!,
+                                UsbPrinterActivity.SPORTBETTING
+                            )
+                        }, { toast(it.message.toString()) })
+                    }
+                }, {
+                    toast(it.message.toString())
+                })
+        }, { toast(it.message.toString()) })
     }
 
     private fun initAdapter(list: MutableList<SportBetBasketModel>) {
