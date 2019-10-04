@@ -33,7 +33,7 @@ class DetailsSportBitingFragment : BaseFragment() {
     private val viewModel by sharedViewModel<MainViewModel>()
     private lateinit var adapter: MarketsAdapter
     private lateinit var currentEvent: Event
-    private var openListPosition =  mutableListOf(0, 1)
+    private var openListPosition = mutableListOf(0, 1)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,7 +63,7 @@ class DetailsSportBitingFragment : BaseFragment() {
         viewModel.marketsRest.observe(myLifecycleOwner, Observer { event ->
             event?.also {
                 currentEvent = it
-                Handler().post { initAdapter() }
+                initAdapter()
 
                 val commandName = "${it.teams["1"]?.name} - ${it.teams["2"]?.name}"
                 details_head_text.text = commandName
