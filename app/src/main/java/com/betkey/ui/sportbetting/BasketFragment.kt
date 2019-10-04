@@ -111,7 +111,7 @@ class BasketFragment : BaseFragment() {
                 ), {
                     it?.also {
                         subscribe(viewModel.checkTicket(it.code), { ticket ->
-                            toast("Success!!!!")
+//                            toast("Success!!!!")
                             UsbPrinterActivity.start(
                                 activity!!,
                                 UsbPrinterActivity.SPORTBETTING

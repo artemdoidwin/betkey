@@ -153,5 +153,8 @@
     <string name="bl_dy">Print</string>
     <string name="idcard_czz">Proceeding...</string>
     <string name="operation_fail">Operation failed</string>
+    <string name="error_device">Change the device like a printer</string>
+    <string name="unidentified_error">Unidentified error</string>
+    <string name="printer_off_error">Please, make sure, the printer is on</string>
 
 </resources>

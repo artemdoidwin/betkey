@@ -13,6 +13,7 @@ import android.os.BatteryManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.util.Log
 import android.view.KeyEvent
 import com.betkey.R
 import com.betkey.base.BaseActivity
@@ -21,13 +22,14 @@ import com.betkey.utils.*
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
-import com.telpo.tps550.api.TelpoException
+import com.telpo.tps550.api.*
 import com.telpo.tps550.api.printer.UsbThermalPrinter
 import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
 class UsbPrinterActivity : BaseActivity() {
+    private var time: Long = 0
     private val NOPAPER = 3
     private val LOWBATTERY = 4
     private val PRINTVERSION = 5
@@ -104,7 +106,8 @@ class UsbPrinterActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.usbprint_text)
-
+        time = System.currentTimeMillis()
+        Log.d("TIMER", "${System.currentTimeMillis() - time} init")
         handler = MyHandler()
 
         val pIntentFilter = IntentFilter()
@@ -122,27 +125,32 @@ class UsbPrinterActivity : BaseActivity() {
         dialog.setCancelable(false)
         dialog.show()
 
-        Thread(Runnable {
-            try {
-                mUsbThermalPrinter.start(0)
-                mUsbThermalPrinter.reset()
-                printVersion = mUsbThermalPrinter.version
-            } catch (e: TelpoException) {
-                e.printStackTrace()
-            } finally {
-                if (printVersion != null) {
-                    val message = Message()
-                    message.what = PRINTVERSION
-                    message.obj = "1"
-                    handler.sendMessage(message)
-                } else {
-                    val message = Message()
-                    message.what = PRINTVERSION
-                    message.obj = "0"
-                    handler.sendMessage(message)
-                }
-            }
-        }).start()
+        val message = Message()
+        message.what = PRINTVERSION
+        message.obj = "1"
+        handler.sendMessage(message)
+
+//        Thread(Runnable {
+//            try {
+//                mUsbThermalPrinter.start(0)
+//                mUsbThermalPrinter.reset()
+//                printVersion = mUsbThermalPrinter.version
+//            } catch (e: TelpoException) {
+//                e.printStackTrace()
+//            } finally {
+//                if (printVersion != null) {
+//                    val message = Message()
+//                    message.what = PRINTVERSION
+//                    message.obj = "1"
+//                    handler.sendMessage(message)
+//                } else {
+//                    val message = Message()
+//                    message.what = PRINTVERSION
+//                    message.obj = "0"
+//                    handler.sendMessage(message)
+//                }
+//            }
+//        }).start()
     }
 
     private inner class MyHandler : Handler() {
@@ -178,8 +186,13 @@ class UsbPrinterActivity : BaseActivity() {
                     overHeatDialog.setPositiveButton(getString(R.string.dialog_comfirm)) { _, _ -> }
                     overHeatDialog.show()
                 }
-                else -> {
+                PRINTERR -> {
+                    msg.obj
                     toast(msg.obj.toString())
+                    finish()
+                }
+                else -> {
+                    toast(R.string.unidentified_error)
                     finish()
                 }
             }
@@ -216,6 +229,10 @@ class UsbPrinterActivity : BaseActivity() {
         override fun run() {
             super.run()
             try {
+                Log.d("TIMER", "${System.currentTimeMillis() - time} init start")
+                mUsbThermalPrinter.start(0)
+                mUsbThermalPrinter.reset()
+                Log.d("TIMER", "${System.currentTimeMillis() - time}  start print")
                 when (operation) {
                     JACKPOT -> jackpotPrint()
                     WITHDRAWAL -> withdrawalPrint()
@@ -226,16 +243,44 @@ class UsbPrinterActivity : BaseActivity() {
                 }
 
                 mUsbThermalPrinter.walkPaper(10)
+                Log.d("TIMER", "${System.currentTimeMillis() - time} stop print")
                 finish()
             } catch (e: Exception) {
                 e.printStackTrace()
                 result = e.toString()
+                Log.d("TIMER", "${System.currentTimeMillis() - time} error")
                 when (result) {
+                    "com.telpo.tps550.api.InternalErrorException" -> handler.sendMessage(
+                        handler.obtainMessage(PRINTERR, 1, 0, InternalErrorException().description)
+                    )
+                    "com.telpo.tps550.api.DeviceAlreadyOpenException" -> handler.sendMessage(
+                        handler.obtainMessage(PRINTERR, 1, 0, DeviceAlreadyOpenException().description)
+                    )
+                    "com.telpo.tps550.api.DeviceNotFoundException" -> handler.sendMessage(
+                        handler.obtainMessage(PRINTERR, 1, 0, DeviceNotFoundException().description)
+                    )
+                    "com.telpo.tps550.api.DeviceNotOpenException" -> handler.sendMessage(
+                        handler.obtainMessage(PRINTERR, 1, 0, DeviceNotOpenException().description)
+                    )
+                    "com.telpo.tps550.api.DeviceOverFlowException" -> handler.sendMessage(
+                        handler.obtainMessage(PRINTERR, 1, 0, DeviceOverFlowException().description)
+                    )
+                    "com.telpo.tps550.api.NotSupportYetException" -> handler.sendMessage(
+                        handler.obtainMessage(PRINTERR, 1, 0, NotSupportYetException().description)
+                    )
+                    "com.telpo.tps550.api.TimeoutException" -> handler.sendMessage(
+                        handler.obtainMessage(PRINTERR, 1, 0, TimeoutException().description)
+                    )
+                    "com.telpo.tps550.api.PermissionDenyException" -> handler.sendMessage(
+                        handler.obtainMessage(PRINTERR, 1, 0, PermissionDenyException().description)
+                    )
                     "com.telpo.tps550.api.printer.NoPaperException" -> nopaper = true
                     "com.telpo.tps550.api.printer.OverHeatException" -> handler.sendMessage(
                         handler.obtainMessage(OVERHEAT, 1, 0, null)
                     )
-                    else -> handler.sendMessage(handler.obtainMessage(PRINTERR, 1, 0, null))
+                    "com.telpo.tps550.api.TelpoException" -> handler.sendMessage(
+                        handler.obtainMessage(PRINTERR, 1, 0, resources.getString(R.string.printer_off_error)))
+                    else -> handler.sendMessage(handler.obtainMessage(PRINTERR, 1, 0, R.string.unidentified_error))
                 }
             } finally {
                 handler.sendMessage(handler.obtainMessage(CANCELPROMPT, 1, 0, null))
@@ -244,7 +289,6 @@ class UsbPrinterActivity : BaseActivity() {
                     nopaper = false
                     return
                 }
-                mUsbThermalPrinter.stop()
             }
         }
     }
@@ -319,8 +363,9 @@ class UsbPrinterActivity : BaseActivity() {
 
     private fun printMultiplyStake(list: List<String>) {
         mUsbThermalPrinter.setFontSize(1)
-        val titleWinningNum =
-            "\n${resources.getString(R.string.pick_print_winning_num)}         ${resources.getString(R.string.pick_print_multiply_stake)}"
+        val titleWinningNum = "\n${resources.getString(R.string.pick_print_winning_num)}         ${resources.getString(
+                R.string.pick_print_multiply_stake
+            )}"
         mUsbThermalPrinter.addString(titleWinningNum.toUpperCase(Locale.getDefault()))
         mUsbThermalPrinter.printString()
 
@@ -345,7 +390,7 @@ class UsbPrinterActivity : BaseActivity() {
         val time = "${resources.getString(R.string.withdrawal_time)} " +
                 dateString(viewModel.agentDeposit.value!!.player_deposit?.payment?.created!!)
         val id = "${resources.getString(R.string.withdrawal_id).toUpperCase(Locale.getDefault())} " +
-                viewModel.agentDeposit.value!!.player_deposit?.payment?.shortId
+                    viewModel.agentDeposit.value!!.player_deposit?.payment?.shortId
         mUsbThermalPrinter.addString(number.toUpperCase(Locale.getDefault()))
         mUsbThermalPrinter.addString(name.toUpperCase(Locale.getDefault()))
         mUsbThermalPrinter.addString(time.toUpperCase(Locale.getDefault()))
@@ -381,7 +426,7 @@ class UsbPrinterActivity : BaseActivity() {
         val time = "${resources.getString(R.string.withdrawal_time)} " +
                 dateString(viewModel.withdrawalConfirm.value!!.confirm?.a2pDeposit?.payment?.created!!)
         val id = "${resources.getString(R.string.withdrawal_id).toUpperCase(Locale.getDefault())} " +
-                viewModel.withdrawalConfirm.value!!.confirm?.a2pDeposit?.payment?.shortId
+                    viewModel.withdrawalConfirm.value!!.confirm?.a2pDeposit?.payment?.shortId
 
         mUsbThermalPrinter.addString(number.toUpperCase(Locale.getDefault()))
         mUsbThermalPrinter.addString(name.toUpperCase(Locale.getDefault()))
@@ -453,7 +498,7 @@ class UsbPrinterActivity : BaseActivity() {
         printStake(viewModel.ticket.value!!.stake!!, viewModel.ticket.value!!.currency!!)
 
         //qr
-        printQR( viewModel.agentBet.value!!.message_data?.betCode!!)
+        printQR(viewModel.agentBet.value!!.message_data?.betCode!!)
     }
 
     private fun sportBettingPrint() {
@@ -487,7 +532,7 @@ class UsbPrinterActivity : BaseActivity() {
         printStake(viewModel.ticket.value!!.stake!!, viewModel.ticket.value!!.currency!!)
 
         //qr
-        printQR( viewModel.sportBetSuccess.value!!.code)
+        printQR(viewModel.sportBetSuccess.value!!.code)
     }
 
     private fun printQR(textQr: String) {
@@ -567,7 +612,8 @@ class UsbPrinterActivity : BaseActivity() {
 
     private fun printStake(price: String, currency: String) {
         mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_RIGHT)
-        val stake = "${price.toDouble().roundOffDecimal()} ${currency.toUpperCase(Locale.getDefault())}"
+        val stake =
+            "${price.toDouble().roundOffDecimal()} ${currency.toUpperCase(Locale.getDefault())}"
         mUsbThermalPrinter.addString(stake)
         mUsbThermalPrinter.printString()
     }
@@ -579,7 +625,12 @@ class UsbPrinterActivity : BaseActivity() {
             progressDialog = null
         }
         unregisterReceiver(printReceive)
-        mUsbThermalPrinter.stop()
+        try {
+            mUsbThermalPrinter.stop()
+        } catch (e: java.lang.NullPointerException) {
+            Log.d("printer", "Printer can't stop")
+        }
+
         viewModel.ticket.value = null
         viewModel.agentBet.value = null
         viewModel.lookupBets.value = null
