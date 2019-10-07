@@ -3,7 +3,6 @@ package com.betkey.ui.sportbetting
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,12 +13,14 @@ import com.betkey.models.SportBetBasketModel
 import com.betkey.network.models.BetLookupObj
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.UsbPrinterActivity
-import com.betkey.utils.*
+import com.betkey.utils.dateToString3
+import com.betkey.utils.roundOffDecimalComma
+import com.betkey.utils.roundOffDecimalWithComma
+import com.betkey.utils.toFullDate2
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_sportbetting_basket.*
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 class BasketFragment : BaseFragment() {
@@ -83,7 +84,7 @@ class BasketFragment : BaseFragment() {
 
 
     private fun placeBetPlayer() {
-        subscribe(viewModel.getAgentProfile(), { profile ->
+        subscribe(viewModel.getAgentProfile(amount_ET.text.toString()), { profile ->
             //            val agentId = profile.message?.agentDocument?.id!!
 //            val username = profile.message?.agentDocument?.username!!
 //            val created = Calendar.getInstance().time.dateToString4()
@@ -99,28 +100,12 @@ class BasketFragment : BaseFragment() {
 //            val XWSSE =
 //                "UsernameToken Username=\"$username\", PasswordDigest=\"$passwordDigest\", Nonce=\"$nonce\", Created=\"$created\""
         }, { toast(it.message.toString()) })
-
     }
 
     private fun placeBetAgent() {
-        subscribe(viewModel.getAgentProfile(), { profile ->
-            subscribe(
-                viewModel.sprotBettingPlaceBet(
-                    amount_ET.text.toString(),
-                    profile.message?.agentDocument?.id!!
-                ), {
-                    it?.also {
-                        subscribe(viewModel.checkTicket(it.code), { ticket ->
-//                            toast("Success!!!!")
-                            UsbPrinterActivity.start(
-                                activity!!,
-                                UsbPrinterActivity.SPORTBETTING
-                            )
-                        }, { toast(it.message.toString()) })
-                    }
-                }, {
-                    toast(it.message.toString())
-                })
+        subscribe(viewModel.getAgentProfile(amount_ET.text.toString()), {
+//            toast("Success!!!!")
+            UsbPrinterActivity.start(activity!!, UsbPrinterActivity.SPORTBETTING)
         }, { toast(it.message.toString()) })
     }
 

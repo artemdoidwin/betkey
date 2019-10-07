@@ -6,7 +6,6 @@ import com.betkey.data.MarginfoxDataManager
 import com.betkey.data.PSPDataManager
 import com.betkey.network.models.*
 import com.betkey.utils.PHONE_CODE
-import com.betkey.utils.PHONE_CODE2
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -66,15 +65,13 @@ class MainViewModel(
     }
 
     fun getSportbettingMarkets(eventId: String): Single<Event> {
-        return marginfoxDataManager.getSportbettingMarkets(eventId)
+        return marginfoxDataManager.getSportBettingMarkets(eventId)
     }
 
-    fun sprotBettingPlaceBet(stake: String, agentId: Int): Single<BetLookupObj?> {
-        return marginfoxDataManager.sprotBettingPlaceBet(stake, agentId)
-    }
-
-    fun getAgentProfile(): Single<AgentProfileRest> {
-        return marginfoxDataManager.getAgentProfile()
+    fun getAgentProfile(stake: String): Single<TicketRestObj> {
+        return marginfoxDataManager.getAgentProfile(stake).flatMap{
+             checkTicket(it.code)
+         }
     }
 
     fun publicBetslips(publicCode: String): Single<BetLookupObj> {

@@ -10,6 +10,7 @@ import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.network.models.Bet
 import com.betkey.network.models.Event
+import com.betkey.network.models.JackpotInfo
 import com.betkey.ui.MainViewModel
 import com.betkey.utils.dateToString
 import com.betkey.utils.toFullDate
@@ -91,34 +92,36 @@ class JackpotFragment : BaseFragment() {
         )
 
         subscribe(viewModel.getJacpotInfo(), {
-            it.coupon?.stakes?.also { stakes ->
-                jackpot_stake_sp.adapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, stakes)
+            setJackpotInfo(it)
+        }, { toast(it.message.toString()) })
+    }
 
-                it.coupon?.defaultStake?.also { defStake ->
-                    stake = defStake
-                    jackpot_stake_sp.setSelection(stakes.indexOfFirst { st -> st == defStake.toString() })
-                }
+    private fun setJackpotInfo(jackpotInfo: JackpotInfo) {
+        jackpotInfo.coupon?.stakes?.also { stakes ->
+            jackpot_stake_sp.adapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, stakes)
+
+            jackpotInfo.coupon?.defaultStake?.also { defStake ->
+                stake = defStake
+                jackpot_stake_sp.setSelection(stakes.indexOfFirst { st -> st == defStake.toString() })
             }
+        }
 
-            val listEvents = mutableListOf<Event>()
-            listEvents.addAll(it.events!!.values)
+        val listEvents = mutableListOf<Event>()
+        listEvents.addAll(jackpotInfo.events!!.values)
 
-            it.altEvents?.also { events ->
-                events.forEach { (t, u) ->
-                    listEvents.add(u.apply { isAltGame = true })
-                }
+        jackpotInfo.altEvents?.also { events ->
+            events.forEach { (t, u) ->
+                listEvents.add(u.apply { isAltGame = true })
             }
+        }
 
-            gamesAdapter.setItems(listEvents)
-            it.coupon?.also { coupon ->
-                jackpot_coupon_id.text = coupon.coupon?.id.toString()
+        gamesAdapter.setItems(listEvents)
+        jackpotInfo.coupon?.also { coupon ->
+            jackpot_coupon_id.text = coupon.coupon?.id.toString()
 
-                val date = coupon.coupon?.expires?.toFullDate()!!.dateToString()
-                jackpot_coupon_last_entry.text = date
-            }
-        }, {
-            toast(it.message.toString())
-        })
+            val date = coupon.coupon?.expires?.toFullDate()!!.dateToString()
+            jackpot_coupon_last_entry.text = date
+        }
     }
 
     private fun sendRequest(listPair: ArrayList<Pair<String, String>>) {

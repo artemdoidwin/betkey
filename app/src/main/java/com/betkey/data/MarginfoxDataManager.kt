@@ -92,7 +92,7 @@ class MarginfoxDataManager(
             }
     }
 
-    fun getSportbettingMarkets(eventId: String): Single<Event> {
+    fun getSportBettingMarkets(eventId: String): Single<Event> {
         return apiMarginfox.getSportbettingMarkets(eventId, "en", "exaloc_kong_key")
             .flatMap {
                 modelRepository.marketsRest.postValue(it)
@@ -100,16 +100,16 @@ class MarginfoxDataManager(
             }
     }
 
-    fun getAgentProfile(): Single<AgentProfileRest> {
+    fun getAgentProfile(stake: String): Single<BetLookupObj?> {
         return prefManager.getToken().let { token ->
             apiMarginfox.getAgentProfile("exaloc_kong_key", "exaloc", token)
                 .flatMap {
-                    Single.just(it)
+                    sportBettingPlaceBet(stake, it.message?.agentDocument?.id!!)
                 }
         }
     }
 
-    fun sprotBettingPlaceBet(stake: String, agentId: Int): Single<BetLookupObj?> {
+    private fun sportBettingPlaceBet(stake: String, agentId: Int): Single<BetLookupObj?> {
         val events: HashMap<String, String> = hashMapOf()
         basketList.value?.also { basketList ->
             basketList.map { event ->
