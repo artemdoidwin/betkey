@@ -17,6 +17,7 @@ class PSPDataManager(
     val withdrawalConfirm = modelRepository.withdrawalConfirm
     val withdrawalRequest = modelRepository.withdrawalRequest
     val link = modelRepository.link
+    val restartScan = modelRepository.restartScan
 
     fun agentDeposit(paymentId: Int, playerId: String, currency: String, amount: Int): Completable {
         return prefManager.getToken().let { token ->

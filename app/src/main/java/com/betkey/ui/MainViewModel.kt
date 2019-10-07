@@ -23,6 +23,7 @@ class MainViewModel(
     val withdrawalConfirm = pspDataManager.withdrawalConfirm
     val withdrawalRequest = pspDataManager.withdrawalRequest
     val link = pspDataManager.link
+    val restartScan = pspDataManager.restartScan
     val agentBet = marginfoxDataManager.agentBet
     val jackpotInfo = marginfoxDataManager.jackpotInfo
     val ticket = betkeydataManager.ticket

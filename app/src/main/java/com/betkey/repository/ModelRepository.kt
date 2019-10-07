@@ -15,6 +15,7 @@ class ModelRepository {
     val withdrawalConfirm = MutableLiveData<AgentWithdrawal>().apply { value = null }
     val withdrawalRequest = MutableLiveData<WithdrawalRequest>().apply { value = null }
     val link = SingleLiveEvent<String>().apply { value = null }
+    val restartScan = SingleLiveEvent<Any>().apply { value = null }
     val agentBet = MutableLiveData<AgentBettingResult>().apply { value = null }
     val sportBetStartingSoon =
         MutableLiveData<Map<String, Map<String, List<Event>>>>().apply { value = null }

@@ -6,15 +6,15 @@
         android:background="@color/white"
         android:keepScreenOn="true">
 
-    <com.betkey.ui.scanTickets.scaner.CameraSourcePreview
-            android:id="@+id/preview"
+    <LinearLayout
+            android:id="@+id/previewLL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="40dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="vertical" />
 
     <View
             android:layout_width="match_parent"
@@ -67,13 +67,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.30" />
+            app:layout_constraintGuide_percent="0.23" />
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/scan_guideline_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.70" />
+            app:layout_constraintGuide_percent="0.77" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

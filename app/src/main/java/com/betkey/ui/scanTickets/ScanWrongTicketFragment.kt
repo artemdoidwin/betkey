@@ -40,5 +40,6 @@ class ScanWrongTicketFragment  : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.link.value = null
+        viewModel.restartScan.call()
     }
 }

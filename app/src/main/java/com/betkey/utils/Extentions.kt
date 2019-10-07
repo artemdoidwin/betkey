@@ -1,21 +1,12 @@
 package com.betkey.utils
 
+import android.util.Base64
+import java.math.BigInteger
 import java.math.RoundingMode
-import java.nio.charset.Charset
 import java.security.MessageDigest
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoField
 import java.util.*
-import kotlin.experimental.and
-import kotlin.experimental.or
-import android.util.Base64
-import com.google.android.gms.common.util.Hex
-import android.R.string
-import android.provider.SyncStateContract.Helpers.update
-import java.math.BigInteger
-import java.security.NoSuchAlgorithmException
 
 
 fun Double.roundOffDecimal(): String? {
@@ -102,13 +93,13 @@ fun Date.dateToString4(): String {
         .format(this)
 }
 
-fun String.toMD5String(): String {
-    val messageDigest = MessageDigest.getInstance("MD5")
-    messageDigest.reset()
-    messageDigest.update(this.toByteArray(Charsets.UTF_8))
-    val resultByte = messageDigest.digest()
-    return Hex.bytesToStringUppercase(resultByte)
-}
+//fun String.toMD5String(): String {
+//    val messageDigest = MessageDigest.getInstance("MD5")
+//    messageDigest.reset()
+//    messageDigest.update(this.toByteArray(Charsets.UTF_8))
+//    val resultByte = messageDigest.digest()
+//    return Hex.bytesToStringUppercase(resultByte)
+//}
 
 fun getMd5Base64(encTarget: String): String {
     val mdEnc = MessageDigest.getInstance("MD5")

@@ -3,19 +3,15 @@ package com.betkey.ui.scanTickets
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseActivity
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.login.LoginOkFragment
-import com.betkey.ui.scanTickets.scaner.BarcodeGraphicTracker
-import com.google.android.gms.vision.barcode.Barcode
 import kotlinx.android.synthetic.main.view_toolbar.*
-import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ScanTicketsActivity : BaseActivity(), BarcodeGraphicTracker.BarcodeUpdateListener {
+class ScanTicketsActivity : BaseActivity() {
 
     companion object {
         fun start(activity: Activity) {
@@ -43,14 +39,6 @@ class ScanTicketsActivity : BaseActivity(), BarcodeGraphicTracker.BarcodeUpdateL
                 text_toolbar.text = text
             }
         })
-    }
-
-    override fun onBarcodeDetected(barcode: Barcode?) {
-        barcode?.displayValue?.also { link ->
-            if (viewModel.link.value == null) {
-                viewModel.link.postWithValue(link)
-            }
-        }
     }
 
     override fun onBackPressed() {
