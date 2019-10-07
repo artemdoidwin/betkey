@@ -36,17 +36,13 @@ class ScanFragment : BaseFragment(), ZBarScannerView.ResultHandler  {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.v("KKKKKK", "onCreateView")
         return inflater.inflate(R.layout.fragment_scan_tickets, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mScannerView = ZBarScannerView(context)
-        mScannerView.setFormats(listOf(BarcodeFormat.QRCODE))
-        previewLL.addView(mScannerView)
-        Log.v("KKKKKK", "onViewCreated")
+       initScanner()
 
         compositeDisposable.add(
             scan_back_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
@@ -89,8 +85,6 @@ class ScanFragment : BaseFragment(), ZBarScannerView.ResultHandler  {
     }
 
     private fun ticket(ticket: Ticket?) {
-        Log.d("SCANS", "Ticket outcome: ${ticket?.outcome}")
-
         ticket?.also {
             when (it.outcome) {
                 0 -> {
@@ -154,16 +148,20 @@ class ScanFragment : BaseFragment(), ZBarScannerView.ResultHandler  {
         }
     }
 
+    private fun initScanner(){
+        mScannerView = ZBarScannerView(context)
+        mScannerView.setFormats(listOf(BarcodeFormat.QRCODE))
+        mScannerView.setResultHandler(this)
+        previewLL.addView(mScannerView)
+    }
+
     override fun onResume() {
         super.onResume()
-        Log.v("KKKKKK", "onResume")
-        mScannerView.setResultHandler(this)
         mScannerView.startCamera()
     }
 
     override fun onPause() {
         super.onPause()
-        Log.v("KKKKKK", "onPause")
         mScannerView.stopCamera()
     }
 }
