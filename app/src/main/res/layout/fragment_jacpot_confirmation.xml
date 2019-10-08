@@ -1,294 +1,296 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-        android:background="@color/white"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:clickable="true"
+        android:focusable="true">
 
     <TextView
             android:id="@+id/deposit_confirm_head_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:gravity="center"
+            android:text="@string/jackpot_confirmation_title"
+            android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:textAllCaps="true"
             android:textStyle="bold"
-            android:layout_marginTop="16dp"
-            android:text="@string/jackpot_confirmation_title"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
             android:id="@+id/confirmation_jackpot_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textAllCaps="true"
-            android:text="@string/jackpot_jackpot_title"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="30dp"
             android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/deposit_confirm_head_text"/>
+            android:gravity="center"
+            android:text="@string/jackpot_jackpot_title"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/deposit_confirm_head_text" />
 
     <TextView
             android:id="@+id/confirmation_jackpot"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="start"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            android:text="10 000 000 EUR"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginStart="32dp"
+            android:gravity="start"
+            android:text="10 000 000 EUR"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/confirmation_titles_barrier"
-            app:layout_constraintTop_toBottomOf="@+id/deposit_confirm_head_text"/>
+            app:layout_constraintTop_toBottomOf="@+id/deposit_confirm_head_text" />
 
     <TextView
             android:id="@+id/confirmation_coupon_id_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textAllCaps="true"
-            android:text="@string/jackpot_round_title"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="30dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/confirmation_jackpot_title"/>
+            android:gravity="center"
+            android:text="@string/jackpot_round_title"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/confirmation_jackpot_title" />
 
     <TextView
             android:id="@+id/confirmation_coupon_id"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="8dp"
             android:gravity="start"
+            android:text="@string/wait"
+            android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:textAllCaps="true"
             android:textStyle="bold"
-            android:text="@string/wait"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="32dp"
             app:layout_constraintStart_toEndOf="@+id/confirmation_titles_barrier"
-            app:layout_constraintTop_toTopOf="@+id/confirmation_coupon_id_title"/>
+            app:layout_constraintTop_toTopOf="@+id/confirmation_coupon_id_title" />
 
     <TextView
             android:id="@+id/confirmation_last_entry_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="8dp"
             android:gravity="center"
+            android:text="@string/jackpot_last_entry_title"
+            android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:textAllCaps="true"
-            android:text="@string/jackpot_last_entry_title"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="30dp"
-            app:layout_constraintTop_toBottomOf="@+id/confirmation_coupon_id_title"/>
+            app:layout_constraintTop_toBottomOf="@+id/confirmation_coupon_id_title" />
 
     <TextView
             android:id="@+id/confirmation_last_entry"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="8dp"
             android:gravity="start"
+            android:text="@string/wait"
+            android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:textAllCaps="true"
             android:textStyle="bold"
-            android:text="@string/wait"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="32dp"
             app:layout_constraintStart_toEndOf="@+id/confirmation_titles_barrier"
-            app:layout_constraintTop_toTopOf="@+id/confirmation_last_entry_title"/>
+            app:layout_constraintTop_toTopOf="@+id/confirmation_last_entry_title" />
 
     <TextView
             android:id="@+id/confirmation_ticket_price_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="8dp"
             android:gravity="center"
+            android:text="@string/jackpot_confirmation_ticket_price"
+            android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:textAllCaps="true"
-            android:text="@string/jackpot_confirmation_ticket_price"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="30dp"
-            app:layout_constraintTop_toBottomOf="@+id/confirmation_last_entry_title"/>
+            app:layout_constraintTop_toBottomOf="@+id/confirmation_last_entry_title" />
 
     <TextView
             android:id="@+id/confirmation_ticket_price"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="8dp"
             android:gravity="start"
+            android:text="@string/wait"
+            android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:textAllCaps="true"
             android:textStyle="bold"
-            android:text="@string/wait"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="32dp"
             app:layout_constraintStart_toEndOf="@+id/confirmation_titles_barrier"
-            app:layout_constraintTop_toTopOf="@+id/confirmation_ticket_price_title"/>
+            app:layout_constraintTop_toTopOf="@+id/confirmation_ticket_price_title" />
 
     <ImageView
             android:id="@+id/dotted_line1"
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:src="@drawable/dotted"
-            android:layerType="software"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/confirmation_ticket_price_title"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layerType="software"
+            android:src="@drawable/dotted"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:ignore="ContentDescription"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/confirmation_ticket_price_title"
+            tools:ignore="ContentDescription" />
 
     <TextView
             android:id="@+id/confirmation_ticket_number_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="8dp"
             android:gravity="center"
+            android:text="@string/jackpot_confirmation_ticket_number"
+            android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:layout_marginTop="8dp"
-            android:textAllCaps="true"
-            android:text="@string/jackpot_confirmation_ticket_number"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="28dp"
-            app:layout_constraintTop_toBottomOf="@+id/dotted_line1"/>
+            app:layout_constraintTop_toBottomOf="@+id/dotted_line1" />
 
     <TextView
             android:id="@+id/confirmation_ticket_number"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:gravity="start"
+            android:text="@string/wait"
+            android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:textAllCaps="true"
             android:textStyle="bold"
-            android:layout_marginTop="8dp"
-            android:text="@string/wait"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="32dp"
-            app:layout_constraintStart_toEndOf="@+id/confirmation_titles_barrier"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintTop_toBottomOf="@+id/dotted_line1"/>
+            app:layout_constraintStart_toEndOf="@+id/confirmation_titles_barrier"
+            app:layout_constraintTop_toBottomOf="@+id/dotted_line1" />
 
     <TextView
             android:id="@+id/confirmation_ticket_code_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textAllCaps="true"
-            android:text="@string/jackpot_confirmation_ticket_code"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="28dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/confirmation_ticket_number_title"/>
+            android:gravity="center"
+            android:text="@string/jackpot_confirmation_ticket_code"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/confirmation_ticket_number_title" />
 
     <TextView
             android:id="@+id/confirmation_ticket_code"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:gravity="start"
+            android:text="@string/wait"
+            android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:textAllCaps="true"
             android:textStyle="bold"
-            android:text="@string/wait"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="32dp"
-            app:layout_constraintStart_toEndOf="@+id/confirmation_titles_barrier"
             app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/confirmation_ticket_number"/>
+            app:layout_constraintStart_toEndOf="@+id/confirmation_titles_barrier"
+            app:layout_constraintTop_toBottomOf="@+id/confirmation_ticket_number" />
 
 
     <TextView
             android:id="@+id/confirmation_ticket_created_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textAllCaps="true"
-            android:text="@string/jackpot_confirmation_ticket_created"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="28dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/confirmation_ticket_code_title"/>
+            android:gravity="center"
+            android:text="@string/jackpot_confirmation_ticket_created"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/confirmation_ticket_code_title" />
 
     <TextView
             android:id="@+id/confirmation_ticket_created"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:gravity="start"
+            android:text="@string/wait"
+            android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:textAllCaps="true"
             android:textStyle="bold"
-            android:text="@string/wait"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="32dp"
-            app:layout_constraintStart_toEndOf="@+id/confirmation_titles_barrier"
             app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/confirmation_ticket_code"/>
+            app:layout_constraintStart_toEndOf="@+id/confirmation_titles_barrier"
+            app:layout_constraintTop_toBottomOf="@+id/confirmation_ticket_code" />
 
     <ImageView
             android:id="@+id/dotted_line2"
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:src="@drawable/dotted"
-            android:layerType="software"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/confirmation_ticket_created_title"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layerType="software"
+            android:src="@drawable/dotted"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:ignore="ContentDescription"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/confirmation_ticket_created_title"
+            tools:ignore="ContentDescription" />
 
     <TextView
             android:id="@+id/confirmation_bet_details_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:gravity="center"
+            android:text="@string/jackpot_confirmation_bet_details"
+            android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:textAllCaps="true"
             android:textStyle="bold"
-            android:layout_marginTop="16dp"
-            android:text="@string/jackpot_confirmation_bet_details"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dotted_line2"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dotted_line2" />
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/bet_adapter"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_margin="8dp"
-            tools:listitem="@layout/item_bet_detail"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/confirmation_home_btn"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/confirmation_bet_details_title"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/confirmation_bet_details_title"
+            tools:listitem="@layout/item_bet_detail" />
 
     <Button
             android:id="@+id/confirmation_home_btn"
@@ -298,8 +300,8 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
             android:gravity="center"
-            android:textAllCaps="true"
             android:text="@string/home_btn"
+            android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -320,7 +322,7 @@
             confirmation_jackpot_title,
             confirmation_coupon_id_title,
              confirmation_last_entry_title"
-            tools:layout_editor_absoluteX="119dp"/>
+            tools:layout_editor_absoluteX="119dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
