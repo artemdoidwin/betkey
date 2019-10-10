@@ -47,10 +47,8 @@ class LotteryWaitFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val num = if (list?.size == 6) {
-            "${list?.get(0)} - ${list?.get(1)} - ${list?.get(2)} - ${list?.get(3)} - ${list?.get(4)} - ${list?.get(
-                5
-            )}"
+        val num = if (list?.size == 5) {
+            "${list?.get(0)} - ${list?.get(1)} - ${list?.get(2)} - ${list?.get(3)} - ${list?.get(4)}"
         } else {
             "${list?.get(0)} - ${list?.get(1)} - ${list?.get(2)}"
         }
@@ -79,7 +77,6 @@ class LotteryWaitFragment : BaseFragment() {
                     winsCombinations.add("X 100")
                     winsCombinations.add("X 1000")
                     winsCombinations.add("X 10 000")
-                    winsCombinations.add("X 100 000")
 
                     viewModel.lotteryOrPick.value =
                         LotteryOrPickModel(

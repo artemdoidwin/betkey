@@ -80,7 +80,7 @@ class LotteryFragment : BaseFragment() {
             }
         )
         viewModel.lotteryOrPickRequest.observe(this, Observer { model ->
-            model?.also { m ->
+            model?.also {
                 lottery_price_sp.setSelection(0)
                 initList()
                 adapter.setItems(list)
@@ -92,8 +92,8 @@ class LotteryFragment : BaseFragment() {
     private fun autoPeak() {
         doAsync {
             var filteredList = listOf<LotteryModel>()
-            while (filteredList.size != 6) {
-                val index = (0..48).random()
+            while (filteredList.size != 5) {
+                val index = (0..49).random()
                 list.removeAt(index)
                 list.add(index, LotteryModel(number = index + 1, isSelected = true))
                 filteredList = list.filter { model -> model.isSelected }
@@ -109,7 +109,7 @@ class LotteryFragment : BaseFragment() {
         initList()
         adapter = NumberAdapter {
             val filteredList = list.filter { model -> model.isSelected }
-            if (filteredList.size != 6 || filteredList.contains(it)) {
+            if (filteredList.size != 5 || filteredList.contains(it)) {
                 list.removeAt(it.number - 1)
                 if (it.isSelected) {
                     list.add(it.number - 1, it.copy(isSelected = false))
@@ -117,7 +117,7 @@ class LotteryFragment : BaseFragment() {
                     list.add(it.number - 1, it.copy(isSelected = true))
                 }
                 adapter.setItems(list)
-                lottery_bet_btn.isEnabled = list.filter { model -> model.isSelected }.size == 6
+                lottery_bet_btn.isEnabled = list.filter { model -> model.isSelected }.size == 5
             }
         }
         adapter.setItems(list)
@@ -126,7 +126,7 @@ class LotteryFragment : BaseFragment() {
 
     private fun initList() {
         list = mutableListOf()
-        for (i in 1..49) {
+        for (i in 1..50) {
             list.add(LotteryModel(false, i))
         }
     }

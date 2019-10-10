@@ -123,8 +123,8 @@
     <string name="lottery_id">Round id:</string>
     <string name="lottery_next_draw">Next draw:</string>
     <string name="lottery_bet_btn">Place bet</string>
-    <string name="lottery_head">Lottery 6/49</string>
-    <string name="lottery_numbers_head">Select 6 numbers</string>
+    <string name="lottery_head">Lottery 5/50</string>
+    <string name="lottery_numbers_head">Select 5 numbers</string>
     <string name="lottery_your_numbers">Your numbers:</string>
     <string name="lottery">Lottery</string>
     <string name="lottery_autopick">Auto pick</string>

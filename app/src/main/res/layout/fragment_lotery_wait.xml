@@ -143,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="center"
-                android:text="5 - 16 - 24 - 34 - 44 - 48"
+                android:text="5 - 16 - 24 - 34 - 44"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"
