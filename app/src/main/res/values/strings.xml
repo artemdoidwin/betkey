@@ -26,6 +26,7 @@
     <string name="scan_payout_play_player">!! Please play player !!</string>
     <string name="scan_detail_type">Type:</string>
     <string name="scan_ticket_details">Ticket details</string>
+    <string name="scan_enter_code">Enter code</string>
 
     <string name="back_btn">Back</string>
     <string name="home_btn">Home</string>
