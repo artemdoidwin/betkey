@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
+import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.container_for_activity.*
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -43,7 +44,7 @@ class LoginFragment : BaseFragment() {
                     if (it.message == null){
                         toast(resources.getString(R.string.enter_password))
                     }else{
-                        toast(it.message.toString())
+                        context?.also {con -> toast(setMessage(it, con))}
                     }
                 })
             }

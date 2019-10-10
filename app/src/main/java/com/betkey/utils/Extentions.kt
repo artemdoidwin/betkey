@@ -1,5 +1,6 @@
 package com.betkey.utils
 
+import android.content.Context
 import android.util.Base64
 import java.math.BigInteger
 import java.math.RoundingMode
@@ -7,6 +8,12 @@ import java.security.MessageDigest
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import android.content.Context.CONNECTIVITY_SERVICE
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import com.betkey.R
+import retrofit2.HttpException
+import java.net.UnknownHostException
 
 
 fun Double.roundOffDecimal(): String? {
@@ -107,10 +114,40 @@ fun getMd5Base64(encTarget: String): String {
     return Base64.encodeToString(md5Base16.toByteArray(), 16).trim()
 }
 
-fun String.getMD5(): String{
-   return String.format("%032x", BigInteger(1, MessageDigest.getInstance("MD5").digest(this.toByteArray(Charsets.UTF_8))))
+fun String.getMD5(): String {
+    return String.format(
+        "%032x",
+        BigInteger(1, MessageDigest.getInstance("MD5").digest(this.toByteArray(Charsets.UTF_8)))
+    )
 }
 
-fun String.getSHA1(): String{
-    return String.format("%032x", BigInteger(1, MessageDigest.getInstance("SHA-1").digest(this.toByteArray(Charsets.UTF_8))))
+fun String.getSHA1(): String {
+    return String.format(
+        "%032x",
+        BigInteger(1, MessageDigest.getInstance("SHA-1").digest(this.toByteArray(Charsets.UTF_8)))
+    )
+}
+
+fun isOnline(context: Context): Boolean {
+    val cm = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+    val n = cm.activeNetwork
+    if (n != null) {
+        val nc = cm.getNetworkCapabilities(n)
+        return nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || nc.hasTransport(
+            NetworkCapabilities.TRANSPORT_WIFI
+        )
+    }
+    return false
+}
+
+fun setMessage(it: Throwable, con: Context): String {
+    return when (it) {
+        is UnknownHostException -> con.resources.getString(R.string.no_internet)
+        is HttpException -> {
+            var text = "error"
+            it.response()?.also { resp -> text = resp.message() }
+            return text
+        }
+        else -> it.message.toString()
+    }
 }

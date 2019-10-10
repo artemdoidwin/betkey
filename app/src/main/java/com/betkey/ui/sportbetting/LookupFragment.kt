@@ -9,11 +9,11 @@ import android.view.ViewGroup
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
+import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_sportbetting_lookup_booking.*
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import retrofit2.HttpException
 import java.util.concurrent.TimeUnit
 
 class LookupFragment : BaseFragment() {
@@ -45,7 +45,8 @@ class LookupFragment : BaseFragment() {
                         R.id.container_for_fragments,
                         BasketFragment.TAG
                     )
-                }, { (it as? HttpException)?.also { ex -> toast(ex.message()) } })
+//                 }, { (it as? HttpException)?.also { ex -> toast(ex.message()) } })
+                 }, {context?.also {con -> toast(setMessage(it, con))} })
             }
         )
 

@@ -11,6 +11,7 @@ import com.betkey.base.BaseFragment
 import com.betkey.network.models.ErrorObj
 import com.betkey.network.models.Ticket
 import com.betkey.ui.MainViewModel
+import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_scan_tickets.*
 import me.dm7.barcodescanner.zbar.BarcodeFormat
@@ -62,7 +63,7 @@ class ScanFragment : BaseFragment(), ZBarScannerView.ResultHandler  {
                     if (it.message == null) {
                         toast(resources.getString(R.string.enter_password))
                     } else {
-                        toast(it.message.toString())
+                        context?.also {con -> toast(setMessage(it, con))}
                     }
                 })
             }

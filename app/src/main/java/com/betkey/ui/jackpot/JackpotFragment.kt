@@ -13,6 +13,7 @@ import com.betkey.network.models.Event
 import com.betkey.network.models.JackpotInfo
 import com.betkey.ui.MainViewModel
 import com.betkey.utils.dateToString
+import com.betkey.utils.setMessage
 import com.betkey.utils.toFullDate
 import com.google.gson.Gson
 import com.jakewharton.rxbinding3.view.clicks
@@ -93,7 +94,7 @@ class JackpotFragment : BaseFragment() {
 
         subscribe(viewModel.getJacpotInfo(), {
             setJackpotInfo(it)
-        }, { toast(it.message.toString()) })
+        }, {context?.also {con -> toast(setMessage(it, con))}})
     }
 
     private fun setJackpotInfo(jackpotInfo: JackpotInfo) {
@@ -148,11 +149,11 @@ class JackpotFragment : BaseFragment() {
                             JackpotConfirmationFragment.TAG
                         )
                     }, {
-                        toast(it.message.toString())
+                        context?.also {con -> toast(setMessage(it, con))}
                     })
 
                 }, {
-                    toast(it.message.toString())
+                    context?.also {con -> toast(setMessage(it, con))}
                 })
 
             } else {
@@ -160,7 +161,7 @@ class JackpotFragment : BaseFragment() {
             }
 
         }, {
-            toast(it.message.toString())
+            context?.also {con -> toast(setMessage(it, con))}
         })
     }
 

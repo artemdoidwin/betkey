@@ -12,6 +12,7 @@ import com.betkey.network.models.Event
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.sportbetting.eventsAdapters.EventsAdapter
 import com.betkey.ui.sportbetting.eventsAdapters.SportBettingListener
+import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_sportbetting_todays.*
 import org.jetbrains.anko.support.v4.toast
@@ -117,9 +118,7 @@ class TodayEventsFragment : BaseFragment() {
                         R.id.container_for_fragments,
                         DetailsSportBitingFragment.TAG
                     )
-                }, {
-                    toast(it.message.toString())
-                })
+                }, { context?.also {con -> toast(setMessage(it, con))} })
             }
         }
     }

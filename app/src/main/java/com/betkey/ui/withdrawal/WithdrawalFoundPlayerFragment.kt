@@ -12,6 +12,7 @@ import com.betkey.base.BaseFragment
 import com.betkey.network.models.WithdrawalRequest
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.deposit.ConfirmDepositFragment
+import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_found_player_withdrawal.*
 import org.jetbrains.anko.support.v4.toast
@@ -44,10 +45,13 @@ class WithdrawalFoundPlayerFragment : BaseFragment() {
         compositeDisposable.add(
             withdrawal_found_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 if (withdrawal_found_amount_ET.text.isNotEmpty()) {
-                    subscribe(viewModel.agentWithdrawalRequest(withdrawal_found_amount_ET.text.toString()), {
-                        checkErrors(it)
-                        }, {
-                            toast(it.message.toString())
+                    subscribe(
+                        viewModel.agentWithdrawalRequest(withdrawal_found_amount_ET.text.toString()),
+                        {
+                            checkErrors(it)
+                        },
+                        {
+                            context?.also { con -> toast(setMessage(it, con)) }
                         }
                     )
                 }

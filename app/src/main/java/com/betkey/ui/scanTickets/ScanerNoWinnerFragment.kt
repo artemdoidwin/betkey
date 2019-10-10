@@ -1,7 +1,6 @@
 package com.betkey.ui.scanTickets
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import com.betkey.base.BaseFragment
 import com.betkey.network.models.Ticket
 import com.betkey.ui.MainViewModel
 import com.betkey.utils.dateString
+import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_scan_winner.*
 import org.jetbrains.anko.support.v4.toast
@@ -59,9 +59,7 @@ class ScanerNoWinnerFragment : BaseFragment() {
                             R.id.container_for_fragments,
                             ScanTikcetDetailsFragment.TAG
                         )
-                    }, {
-                        toast(it.message.toString())
-                    })
+                    }, { context?.also {con -> toast(setMessage(it, con))} })
                 }
             }
         )

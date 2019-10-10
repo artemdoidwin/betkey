@@ -10,6 +10,7 @@ import com.betkey.base.BaseFragment
 import com.betkey.network.models.AgentWithdrawal
 import com.betkey.network.models.Player
 import com.betkey.ui.MainViewModel
+import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_confirm_deposite.*
 import org.jetbrains.anko.support.v4.toast
@@ -64,9 +65,7 @@ class ConfirmDepositFragment : BaseFragment() {
                             if (checkErrors(it)) {
                                 updateWallets()
                             }
-                        }, {
-                            toast(it.message.toString())
-                        })
+                        }, {context?.also {con -> toast(setMessage(it, con))}})
                     }
                 )
             }
@@ -75,9 +74,7 @@ class ConfirmDepositFragment : BaseFragment() {
                     deposit_confirm_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                         subscribe(viewModel.agentDeposit(playerId, currency, sum!!.toInt()), {
                             updateWallets()
-                        }, {
-                            toast(it.message.toString())
-                        })
+                        }, {context?.also {con -> toast(setMessage(it, con))}})
                     }
                 )
             }
@@ -133,9 +130,7 @@ class ConfirmDepositFragment : BaseFragment() {
                 R.id.container_for_fragments,
                 SuccessFragment.TAG
             )
-        }, {
-            toast(it.message.toString())
-        })
+        }, {context?.also {con -> toast(setMessage(it, con))}})
     }
 
     override fun onDestroyView() {

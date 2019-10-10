@@ -19,6 +19,7 @@ import com.betkey.ui.pick3.PickActivity
 import com.betkey.ui.scanTickets.ScanTicketsActivity
 import com.betkey.ui.sportbetting.SportBettingActivity
 import com.betkey.ui.withdrawal.WithdrawalActivity
+import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_login_ok.*
 import kotlinx.android.synthetic.main.view_toolbar.*
@@ -111,7 +112,7 @@ class LoginOkFragment : BaseFragment() {
                     clearStack()
                     showFragment(LoginFragment.newInstance(), R.id.container_for_fragments, LoginFragment.TAG)
                 }, {
-                    toast(it.message.toString())
+                    context?.also {con -> toast(setMessage(it, con))}
                 })
             }
         )

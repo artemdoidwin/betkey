@@ -8,6 +8,7 @@ import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.withdrawal.WithdrawalFoundPlayerFragment
+import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_find_player.*
 import org.jetbrains.anko.support.v4.toast
@@ -48,7 +49,7 @@ class FindPlayerFragment : BaseFragment() {
                             checkFragment()
                         }
                     }, {
-                        toast(it.message.toString())
+                        context?.also {con -> toast(setMessage(it, con))}
                     }
                 )
             }

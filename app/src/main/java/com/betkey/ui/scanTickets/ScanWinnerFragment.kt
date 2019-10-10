@@ -9,6 +9,7 @@ import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
 import com.betkey.utils.dateString
+import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_scan_winner.*
 import org.jetbrains.anko.support.v4.toast
@@ -51,7 +52,7 @@ class ScanWinnerFragment : BaseFragment() {
                             ScanTikcetDetailsFragment.TAG
                         )
                     }, {
-                        toast(it.message.toString())
+                        context?.also {con -> toast(setMessage(it, con))}
                     })
                 }
             }

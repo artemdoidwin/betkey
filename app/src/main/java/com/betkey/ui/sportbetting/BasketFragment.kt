@@ -13,10 +13,7 @@ import com.betkey.models.SportBetBasketModel
 import com.betkey.network.models.BetLookupObj
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.UsbPrinterActivity
-import com.betkey.utils.dateToString3
-import com.betkey.utils.roundOffDecimalComma
-import com.betkey.utils.roundOffDecimalWithComma
-import com.betkey.utils.toFullDate2
+import com.betkey.utils.*
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_sportbetting_basket.*
 import org.jetbrains.anko.support.v4.toast
@@ -99,14 +96,14 @@ class BasketFragment : BaseFragment() {
 //            val idEvent = viewModel.lookupBets.value!!.id
 //            val XWSSE =
 //                "UsernameToken Username=\"$username\", PasswordDigest=\"$passwordDigest\", Nonce=\"$nonce\", Created=\"$created\""
-        }, { toast(it.message.toString()) })
+        }, { context?.also {con -> toast(setMessage(it, con))} })
     }
 
     private fun placeBetAgent() {
         subscribe(viewModel.getAgentProfile(amount_ET.text.toString()), {
 //            toast("Success!!!!")
             UsbPrinterActivity.start(activity!!, UsbPrinterActivity.SPORTBETTING)
-        }, { toast(it.message.toString()) })
+        }, {context?.also {con -> toast(setMessage(it, con))} })
     }
 
     private fun initAdapter(list: MutableList<SportBetBasketModel>) {
