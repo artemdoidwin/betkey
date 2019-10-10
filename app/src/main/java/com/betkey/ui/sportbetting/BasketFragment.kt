@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseFragment
+import com.betkey.models.PrintObj
 import com.betkey.models.SportBetBasketModel
 import com.betkey.network.models.BetLookupObj
 import com.betkey.ui.MainViewModel
@@ -96,14 +97,21 @@ class BasketFragment : BaseFragment() {
 //            val idEvent = viewModel.lookupBets.value!!.id
 //            val XWSSE =
 //                "UsernameToken Username=\"$username\", PasswordDigest=\"$passwordDigest\", Nonce=\"$nonce\", Created=\"$created\""
-        }, { context?.also {con -> toast(setMessage(it, con))} })
+        }, { context?.also { con -> toast(setMessage(it, con)) } })
     }
 
     private fun placeBetAgent() {
         subscribe(viewModel.getAgentProfile(amount_ET.text.toString()), {
-//            toast("Success!!!!")
+            //            toast("Success!!!!")
+            viewModel.printObj.value = PrintObj(
+                totalOdds = total_odds.text.toString(),
+                bonus = bonus.text.toString(),
+                potentialWin = potential_win.text.toString(),
+                potentialTax = tax.text.toString(),
+                netWinning = payout.text.toString()
+            )
             UsbPrinterActivity.start(activity!!, UsbPrinterActivity.SPORTBETTING)
-        }, {context?.also {con -> toast(setMessage(it, con))} })
+        }, { context?.also { con -> toast(setMessage(it, con)) } })
     }
 
     private fun initAdapter(list: MutableList<SportBetBasketModel>) {

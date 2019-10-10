@@ -529,8 +529,37 @@ class UsbPrinterActivity : BaseActivity() {
             dottedLine()
             createBetList(viewModel.sportBetSuccess.value!!.events!![i])
         }
-        printStake(viewModel.ticket.value!!.stake!!, viewModel.ticket.value!!.currency!!)
+//        printStake(viewModel.ticket.value!!.stake!!, viewModel.ticket.value!!.currency!!)
+        dottedLine()
+        val stake =
+            "${viewModel.ticket.value!!.stake!!.toDouble().roundOffDecimal()} " +
+                    viewModel.ticket.value!!.currency!!.toUpperCase(Locale.getDefault())
+        printHeadRow(
+            resources.getString(R.string.sportbetting_place_).toUpperCase(Locale.getDefault()),
+            " -  ${viewModel.sportBetSuccess.value!!.events!!.size}/${viewModel.sportBetSuccess.value!!.events!!.size}  -  $stake"
+        )
+        printHeadRow(
+            resources.getString(R.string.sportbetting_odds).toUpperCase(Locale.getDefault()),
+            viewModel.printObj.value!!.totalOdds
+        )
+        printHeadRow(
+            resources.getString(R.string.sportbetting_bonus).toUpperCase(Locale.getDefault()),
+            viewModel.printObj.value!!.bonus
+        )
+        printHeadRow(
+            resources.getString(R.string.sportbetting_potential_win).toUpperCase(Locale.getDefault()),
+            viewModel.printObj.value!!.potentialWin
+        )
+        printHeadRow(
+            resources.getString(R.string.sportbetting_potint_tax).toUpperCase(Locale.getDefault()),
+            viewModel.printObj.value!!.potentialTax
+        )
+        printHeadRow(
+            resources.getString(R.string.sportbetting_winning).toUpperCase(Locale.getDefault()),
+            viewModel.printObj.value!!.netWinning
+        )
 
+        dottedLine()
         //qr
         printQR(viewModel.sportBetSuccess.value!!.code)
     }
@@ -636,6 +665,7 @@ class UsbPrinterActivity : BaseActivity() {
         viewModel.lookupBets.value = null
         viewModel.lotteryOrPick.value = null
         viewModel.sportBetSuccess.value = null
+        viewModel.printObj.value = null
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {

@@ -37,6 +37,7 @@ class MainViewModel(
     val basketList = marginfoxDataManager.basketList
     val sportBettingStatus = marginfoxDataManager.sportBettingStatus
     val sportBetSuccess = marginfoxDataManager.sportBetSuccess
+    val printObj = marginfoxDataManager.printObj
 
     var phoneNumberCountryCode = PHONE_CODE
 

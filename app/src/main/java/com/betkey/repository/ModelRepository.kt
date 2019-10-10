@@ -2,6 +2,7 @@ package com.betkey.repository
 
 import androidx.lifecycle.MutableLiveData
 import com.betkey.models.LotteryOrPickModel
+import com.betkey.models.PrintObj
 import com.betkey.models.SportBetBasketModel
 import com.betkey.network.models.*
 import com.betkey.utils.SingleLiveEvent
@@ -32,6 +33,7 @@ class ModelRepository {
     val sportBetStatus = MutableLiveData<Int>().apply { value = null }
     val sportBetSuccess = MutableLiveData<BetLookupObj>().apply { value = null }
     val basketList = MutableLiveData<MutableList<SportBetBasketModel>>().apply { value = mutableListOf()}
+    val printObj = SingleLiveEvent<PrintObj>().apply { value = null }
 }
 
 
