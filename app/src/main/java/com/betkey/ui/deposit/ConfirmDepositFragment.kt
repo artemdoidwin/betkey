@@ -10,6 +10,7 @@ import com.betkey.base.BaseFragment
 import com.betkey.network.models.AgentWithdrawal
 import com.betkey.network.models.Player
 import com.betkey.ui.MainViewModel
+import com.betkey.utils.isLowBattery
 import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_confirm_deposite.*
@@ -61,20 +62,24 @@ class ConfirmDepositFragment : BaseFragment() {
                 deposit_confirm_btn.text = context!!.resources.getString(R.string.withdrawal_confirm)
                 compositeDisposable.add(
                     deposit_confirm_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
-                        subscribe(viewModel.agentWithdrawal(code!!), {
-                            if (checkErrors(it)) {
-                                updateWallets()
-                            }
-                        }, {context?.also {con -> toast(setMessage(it, con))}})
+                        if (!isLowBattery(context!!)){
+                            subscribe(viewModel.agentWithdrawal(code!!), {
+                                if (checkErrors(it)) {
+                                    updateWallets()
+                                }
+                            }, {context?.also {con -> toast(setMessage(it, con))}})
+                        }
                     }
                 )
             }
             "ui.deposit.DepositActivity" -> {
                 compositeDisposable.add(
                     deposit_confirm_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
-                        subscribe(viewModel.agentDeposit(playerId, currency, sum!!.toInt()), {
-                            updateWallets()
-                        }, {context?.also {con -> toast(setMessage(it, con))}})
+                        if (!isLowBattery(context!!)){
+                            subscribe(viewModel.agentDeposit(playerId, currency, sum!!.toInt()), {
+                                updateWallets()
+                            }, {context?.also {con -> toast(setMessage(it, con))}})
+                        }
                     }
                 )
             }

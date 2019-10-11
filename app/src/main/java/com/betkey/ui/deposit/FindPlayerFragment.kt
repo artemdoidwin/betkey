@@ -37,8 +37,8 @@ class FindPlayerFragment : BaseFragment() {
         compositeDisposable.add(
             deposit_find_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 subscribe(
-                    viewModel.findPlayer(deposit_find_amount_ET.text.toString()), {
-//                                                viewModel.findPlayer("35621001240"), {
+//                    viewModel.findPlayer(deposit_find_amount_ET.text.toString()), {
+                                                viewModel.findPlayer("35621001240"), {
                         if (it.errors.isNotEmpty() && it.errors[0].code == 33) {
                             addFragment(
                                 NoPlayerFoundFragment.newInstance(),

@@ -52,7 +52,7 @@ data class Payment(
     var psp_error_message: String? = null,
 
     @SerializedName("created")
-    var created: Long? = null,
+    var created: Long = 0,
 
     @SerializedName("updated")
     var updated: Long? = null,

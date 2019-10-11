@@ -1,5 +1,6 @@
 package com.betkey.utils
 
+import android.app.AlertDialog
 import android.content.Context
 import android.util.Base64
 import java.math.BigInteger
@@ -8,12 +9,13 @@ import java.security.MessageDigest
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import android.content.Context.CONNECTIVITY_SERVICE
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
+import android.os.BatteryManager
 import com.betkey.R
 import retrofit2.HttpException
 import java.net.UnknownHostException
+import android.content.Intent
+import android.content.IntentFilter
+import android.widget.Toast
 
 
 fun Double.roundOffDecimal(): String? {
@@ -128,17 +130,17 @@ fun String.getSHA1(): String {
     )
 }
 
-fun isOnline(context: Context): Boolean {
-    val cm = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-    val n = cm.activeNetwork
-    if (n != null) {
-        val nc = cm.getNetworkCapabilities(n)
-        return nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || nc.hasTransport(
-            NetworkCapabilities.TRANSPORT_WIFI
-        )
-    }
-    return false
-}
+//fun isOnline(context: Context): Boolean {
+//    val cm = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+//    val n = cm.activeNetwork
+//    if (n != null) {
+//        val nc = cm.getNetworkCapabilities(n)
+//        return nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || nc.hasTransport(
+//            NetworkCapabilities.TRANSPORT_WIFI
+//        )
+//    }
+//    return false
+//}
 
 fun setMessage(it: Throwable, con: Context): String {
     return when (it) {
@@ -150,4 +152,35 @@ fun setMessage(it: Throwable, con: Context): String {
         }
         else -> it.message.toString()
     }
+}
+
+fun isLowBattery(con: Context): Boolean {
+    val iFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+    val batteryStatus = con.registerReceiver(null, iFilter)
+
+    var lowBattery = false
+    batteryStatus?.also {
+        val status = it.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
+        val isCharging =
+            status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL
+
+        val level = it.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
+        val scale = it.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
+
+        lowBattery = if (isCharging) {
+            Toast.makeText(con, "charge", Toast.LENGTH_LONG).show()
+            false
+        } else {
+            Toast.makeText(con, "not charge", Toast.LENGTH_LONG).show()
+            level * 10 <= scale
+        }
+    }
+    if (lowBattery){
+        val alertDialog = AlertDialog.Builder(con)
+        alertDialog.setTitle(R.string.operation_result)
+        alertDialog.setMessage(con.resources.getString(R.string.LowBattery))
+        alertDialog.setPositiveButton(con.resources.getString(R.string.dialog_comfirm)) { _, _ ->}
+        alertDialog.show()
+    }
+    return lowBattery
 }

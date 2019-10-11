@@ -13,6 +13,7 @@ import com.betkey.network.models.Event
 import com.betkey.network.models.JackpotInfo
 import com.betkey.ui.MainViewModel
 import com.betkey.utils.dateToString
+import com.betkey.utils.isLowBattery
 import com.betkey.utils.setMessage
 import com.betkey.utils.toFullDate
 import com.google.gson.Gson
@@ -74,21 +75,19 @@ class JackpotFragment : BaseFragment() {
 
         compositeDisposable.add(
             jackpot_create_ticket_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
+                if (!isLowBattery(context!!)){
+                    val listPair = betDetailsMap.toList() as ArrayList<Pair<String, String>>
+                    listPair.sortWith(Comparator { o1, o2 ->
+                        when {
+                            o1.first > o2.first -> 1
+                            o1.first == o2.first -> 0
+                            else -> -1
+                        }
+                    })
 
-                val listPair = betDetailsMap.toList() as ArrayList<Pair<String, String>>
-                listPair.sortWith(Comparator { o1, o2 ->
-                    when {
-                        o1.first > o2.first -> 1
-                        o1.first == o2.first -> 0
-                        else -> -1
-                    }
-                })
-                listPair.forEach {
-                    Log.d("PAIRS", "First: ${it.first}, second: ${it.second}")
+                    stake = jackpot_stake_sp.selectedItem.toString().toInt()
+                    sendRequest(listPair)
                 }
-
-                stake = jackpot_stake_sp.selectedItem.toString().toInt()
-                sendRequest(listPair)
             }
         )
 

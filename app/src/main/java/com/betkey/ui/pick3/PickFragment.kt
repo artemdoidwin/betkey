@@ -11,6 +11,7 @@ import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.lottery.LotteryWaitFragment
+import com.betkey.utils.isLowBattery
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_lottery.*
 import kotlinx.android.synthetic.main.fragment_pick.*
@@ -44,14 +45,16 @@ class PickFragment : BaseFragment() {
 
         compositeDisposable.add(
             pick_bet_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
-                addFragment(
-                    LotteryWaitFragment.newInstance(
-                        pick_price_sp.selectedItem.toString(),
-                        addNumbers()
-                    ),
-                    R.id.container_for_fragments,
-                    LotteryWaitFragment.TAG
-                )
+                if (!isLowBattery(context!!)){
+                    addFragment(
+                        LotteryWaitFragment.newInstance(
+                            pick_price_sp.selectedItem.toString(),
+                            addNumbers()
+                        ),
+                        R.id.container_for_fragments,
+                        LotteryWaitFragment.TAG
+                    )
+                }
             }
         )
         compositeDisposable.add(

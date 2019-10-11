@@ -10,10 +10,10 @@ class Ticket (
     var ticketId: String? = null,
 
     @SerializedName("stake")
-    var stake: String? = null,
+    var stake: String = "",
 
     @SerializedName("currency")
-    var currency: String? = null,
+    var currency: String = "",
 
     @SerializedName("source")
     var source: String? = null,
@@ -25,7 +25,7 @@ class Ticket (
     var platform: Platform? = null,
 
     @SerializedName("platform_unit")
-    var platformUnit: PlatformUnit? = null,
+    var platformUnit: PlatformUnit = PlatformUnit(),
 
     @SerializedName("status")
     var status: Int? = null,

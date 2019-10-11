@@ -43,8 +43,8 @@ class LoginFragment : BaseFragment() {
                 },{
                     if (it.message == null){
                         toast(resources.getString(R.string.enter_password))
-                    }else{
-                        context?.also {con -> toast(setMessage(it, con))}
+                    } else {
+                        context?.also { con -> toast(setMessage(it, con)) }
                     }
                 })
             }

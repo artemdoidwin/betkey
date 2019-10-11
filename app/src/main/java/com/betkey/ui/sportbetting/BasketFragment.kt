@@ -101,17 +101,19 @@ class BasketFragment : BaseFragment() {
     }
 
     private fun placeBetAgent() {
-        subscribe(viewModel.getAgentProfile(amount_ET.text.toString()), {
-            //            toast("Success!!!!")
-            viewModel.printObj.value = PrintObj(
-                totalOdds = total_odds.text.toString(),
-                bonus = bonus.text.toString(),
-                potentialWin = potential_win.text.toString(),
-                potentialTax = tax.text.toString(),
-                netWinning = payout.text.toString()
-            )
-            UsbPrinterActivity.start(activity!!, UsbPrinterActivity.SPORTBETTING)
-        }, { context?.also { con -> toast(setMessage(it, con)) } })
+        if (!isLowBattery(context!!)){
+            subscribe(viewModel.getAgentProfile(amount_ET.text.toString()), {
+                //            toast("Success!!!!")
+                viewModel.printObj.value = PrintObj(
+                    totalOdds = total_odds.text.toString(),
+                    bonus = bonus.text.toString(),
+                    potentialWin = potential_win.text.toString(),
+                    potentialTax = tax.text.toString(),
+                    netWinning = payout.text.toString()
+                )
+                UsbPrinterActivity.start(activity!!, UsbPrinterActivity.SPORTBETTING)
+            }, { context?.also { con -> toast(setMessage(it, con)) } })
+        }
     }
 
     private fun initAdapter(list: MutableList<SportBetBasketModel>) {

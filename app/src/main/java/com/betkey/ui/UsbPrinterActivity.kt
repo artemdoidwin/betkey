@@ -3,13 +3,9 @@ package com.betkey.ui
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.BatteryManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -32,11 +28,9 @@ class UsbPrinterActivity : BaseActivity() {
     private var time: Long = 0
     private val NOPAPER = 3
     private val LOWBATTERY = 4
-    private val PRINTVERSION = 5
     private val CANCELPROMPT = 10
     private val PRINTERR = 11
     private val OVERHEAT = 12
-    private val NOBLACKBLOCK = 15
     private val PRINT_TREAD = 1
 
     private lateinit var handler: MyHandler
@@ -48,41 +42,11 @@ class UsbPrinterActivity : BaseActivity() {
     private var printGray: Int = 1// 1-20, default is 8
     private var charSpace: Int = 10 //(0-255)
     private var progressDialog: ProgressDialog? = null
-    private lateinit var dialog: ProgressDialog
     private var mUsbThermalPrinter = UsbThermalPrinter(this@UsbPrinterActivity)
 
     private val viewModel by viewModel<MainViewModel>()
 
-    private val printReceive = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val action = intent.action
-            if (action == Intent.ACTION_BATTERY_CHANGED) {
-                val status = intent.getIntExtra(
-                    BatteryManager.EXTRA_STATUS,
-                    BatteryManager.BATTERY_STATUS_NOT_CHARGING
-                )
-                val level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0)
-                val scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, 0)
-                //TPS390 can not print,while in low battery,whether is charging or not charging
-                lowBattery = if (status != BatteryManager.BATTERY_STATUS_CHARGING) {
-                    level * 5 <= scale
-                } else {
-                    false
-                }
-            } else if (action == "android.intent.action.BATTERY_CAPACITY_EVENT") {
-                val status = intent.getIntExtra("action", 0)
-                val level = intent.getIntExtra("level", 0)
-                lowBattery = if (status == 0) {
-                    level < 1
-                } else {
-                    false
-                }
-            }//Only use for TPS550MTK devices
-        }
-    }
-
     companion object {
-        private var printVersion: String? = null
         const val OPERATION = "operation"
         const val JACKPOT = 0
         const val WITHDRAWAL = 1
@@ -110,47 +74,7 @@ class UsbPrinterActivity : BaseActivity() {
         Log.d("TIMER", "${System.currentTimeMillis() - time} init")
         handler = MyHandler()
 
-        val pIntentFilter = IntentFilter()
-        pIntentFilter.addAction(Intent.ACTION_BATTERY_CHANGED)
-        pIntentFilter.addAction("android.intent.action.BATTERY_CAPACITY_EVENT")
-        registerReceiver(printReceive, pIntentFilter)
-
-        checkDrawer()
-    }
-
-    private fun checkDrawer() {
-        dialog = ProgressDialog(this@UsbPrinterActivity)
-        dialog.setTitle(R.string.idcard_czz)
-        dialog.setMessage(getText(R.string.watting))
-        dialog.setCancelable(false)
-        dialog.show()
-
-        val message = Message()
-        message.what = PRINTVERSION
-        message.obj = "1"
-        handler.sendMessage(message)
-
-//        Thread(Runnable {
-//            try {
-//                mUsbThermalPrinter.start(0)
-//                mUsbThermalPrinter.reset()
-//                printVersion = mUsbThermalPrinter.version
-//            } catch (e: TelpoException) {
-//                e.printStackTrace()
-//            } finally {
-//                if (printVersion != null) {
-//                    val message = Message()
-//                    message.what = PRINTVERSION
-//                    message.obj = "1"
-//                    handler.sendMessage(message)
-//                } else {
-//                    val message = Message()
-//                    message.what = PRINTVERSION
-//                    message.obj = "0"
-//                    handler.sendMessage(message)
-//                }
-//            }
-//        }).start()
+        checkOperations()
     }
 
     private inner class MyHandler : Handler() {
@@ -162,18 +86,8 @@ class UsbPrinterActivity : BaseActivity() {
                     val alertDialog = AlertDialog.Builder(this@UsbPrinterActivity)
                     alertDialog.setTitle(R.string.operation_result)
                     alertDialog.setMessage(getString(R.string.LowBattery))
-                    alertDialog.setPositiveButton(getString(R.string.dialog_comfirm)) { _, _ -> }
+                    alertDialog.setPositiveButton(getString(R.string.dialog_comfirm)) { _, _ -> finish() }
                     alertDialog.show()
-                }
-                NOBLACKBLOCK -> toast(getString(R.string.maker_not_find))
-                PRINTVERSION -> {
-                    dialog.dismiss()
-                    if (msg.obj == "1") {
-                        checkOperations()
-                    } else {
-                        toast(getString(R.string.operation_fail))
-                        finish()
-                    }
                 }
                 CANCELPROMPT -> if (progressDialog != null && !this@UsbPrinterActivity.isFinishing) {
                     progressDialog!!.dismiss()
@@ -200,20 +114,12 @@ class UsbPrinterActivity : BaseActivity() {
     }
 
     private fun checkOperations() {
-        if (lowBattery) {
-            handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null))
-        } else {
-            if (!nopaper) {
-                progressDialog = ProgressDialog.show(
-                    this@UsbPrinterActivity,
-                    getString(R.string.bl_dy),
-                    getString(R.string.printing_wait)
-                )
-                handler.sendMessage(handler.obtainMessage(PRINT_TREAD, 1, 0, null))
-            } else {
-                toast(getString(R.string.ptintInit))
-            }
-        }
+        progressDialog = ProgressDialog.show(
+            this@UsbPrinterActivity,
+            getString(R.string.bl_dy),
+            getString(R.string.printing_wait)
+        )
+        handler.sendMessage(handler.obtainMessage(PRINT_TREAD, 1, 0, null))
     }
 
     private fun noPaperDlg() {
@@ -232,19 +138,24 @@ class UsbPrinterActivity : BaseActivity() {
                 Log.d("TIMER", "${System.currentTimeMillis() - time} init start")
                 mUsbThermalPrinter.start(0)
                 mUsbThermalPrinter.reset()
-                Log.d("TIMER", "${System.currentTimeMillis() - time}  start print")
-                when (operation) {
-                    JACKPOT -> jackpotPrint()
-                    WITHDRAWAL -> withdrawalPrint()
-                    DEPOSIT -> depositPrint()
-                    LOTTERY -> lotteryPrint()
-                    PICK_3 -> pickPrint()
-                    SPORTBETTING -> sportBettingPrint()
-                }
+                if (lowBattery) {
+                    progressDialog?.also { it.dismiss() }
+                    handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null))
+                } else {
+                    Log.d("TIMER", "${System.currentTimeMillis() - time}  start print")
+                    when (operation) {
+                        JACKPOT -> jackpotPrint()
+                        WITHDRAWAL -> withdrawalPrint()
+                        DEPOSIT -> depositPrint()
+                        LOTTERY -> lotteryPrint()
+                        PICK_3 -> pickPrint()
+                        SPORTBETTING -> sportBettingPrint()
+                    }
 
-                mUsbThermalPrinter.walkPaper(10)
-                Log.d("TIMER", "${System.currentTimeMillis() - time} stop print")
-                finish()
+                    mUsbThermalPrinter.walkPaper(10)
+                    Log.d("TIMER", "${System.currentTimeMillis() - time} stop print")
+                    finish()
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
                 result = e.toString()
@@ -254,7 +165,9 @@ class UsbPrinterActivity : BaseActivity() {
                         handler.obtainMessage(PRINTERR, 1, 0, InternalErrorException().description)
                     )
                     "com.telpo.tps550.api.DeviceAlreadyOpenException" -> handler.sendMessage(
-                        handler.obtainMessage(PRINTERR, 1, 0, DeviceAlreadyOpenException().description)
+                        handler.obtainMessage(
+                            PRINTERR, 1, 0, DeviceAlreadyOpenException().description
+                        )
                     )
                     "com.telpo.tps550.api.DeviceNotFoundException" -> handler.sendMessage(
                         handler.obtainMessage(PRINTERR, 1, 0, DeviceNotFoundException().description)
@@ -279,8 +192,16 @@ class UsbPrinterActivity : BaseActivity() {
                         handler.obtainMessage(OVERHEAT, 1, 0, null)
                     )
                     "com.telpo.tps550.api.TelpoException" -> handler.sendMessage(
-                        handler.obtainMessage(PRINTERR, 1, 0, resources.getString(R.string.printer_off_error)))
-                    else -> handler.sendMessage(handler.obtainMessage(PRINTERR, 1, 0, R.string.unidentified_error))
+                        handler.obtainMessage(
+                            PRINTERR,
+                            1,
+                            0,
+                            resources.getString(R.string.printer_off_error)
+                        )
+                    )
+                    else -> handler.sendMessage(
+                        handler.obtainMessage(PRINTERR, 1, 0, R.string.unidentified_error)
+                    )
                 }
             } finally {
                 handler.sendMessage(handler.obtainMessage(CANCELPROMPT, 1, 0, null))
@@ -296,33 +217,30 @@ class UsbPrinterActivity : BaseActivity() {
     private fun lotteryPrint() {
         printMyLogo(R.drawable.logo_for_print)   //picture
         initStyleContent()
+        printMiddleText("${resources.getString(R.string.lottery_head)}\n")
 
-        val textMiddle = "${resources.getString(R.string.lottery_head).toUpperCase(Locale.getDefault())}\n"
-        printMiddleText(textMiddle)
+        viewModel.lotteryOrPick.value?.also { lottery ->
+            val price =
+                "${resources.getString(R.string.jackpot_ticket_price_title)} " + "${lottery.price} EUR"
+            val round = "\n${resources.getString(R.string.lottery_id)} " + lottery.round
+            val draw = "${resources.getString(R.string.pick_draw_print)} " + lottery.draw
+            mUsbThermalPrinter.addString(price.toUpperCase(Locale.getDefault()))
+            mUsbThermalPrinter.addString(round.toUpperCase(Locale.getDefault()))
+            mUsbThermalPrinter.addString(draw.toUpperCase(Locale.getDefault()))
+            mUsbThermalPrinter.printString()
 
-        val price = "${resources.getString(R.string.jackpot_ticket_price_title)} " +
-                "${viewModel.lotteryOrPick.value!!.price} EUR"
-        val round = "\n${resources.getString(R.string.lottery_id)} " +
-                viewModel.lotteryOrPick.value!!.round
-        val draw = "${resources.getString(R.string.pick_draw_print)} " +
-                viewModel.lotteryOrPick.value!!.draw
-        mUsbThermalPrinter.addString(price.toUpperCase(Locale.getDefault()))
-        mUsbThermalPrinter.addString(round.toUpperCase(Locale.getDefault()))
-        mUsbThermalPrinter.addString(draw.toUpperCase(Locale.getDefault()))
-        mUsbThermalPrinter.printString()
+            val numbersTitle = "\n${resources.getString(R.string.lottery_your_numbers)} "
+            mUsbThermalPrinter.setFontSize(1)
+            mUsbThermalPrinter.addString(numbersTitle.toUpperCase(Locale.getDefault()))
+            mUsbThermalPrinter.printString()
 
-        val numbersTitle = "\n${resources.getString(R.string.lottery_your_numbers)} "
-        mUsbThermalPrinter.setFontSize(1)
-        mUsbThermalPrinter.addString(numbersTitle.toUpperCase(Locale.getDefault()))
-        mUsbThermalPrinter.printString()
+            mUsbThermalPrinter.setFontSize(3)
+            mUsbThermalPrinter.setBold(true)
+            printMiddleText(lottery.numbers)
+            mUsbThermalPrinter.setBold(false)
 
-        mUsbThermalPrinter.setFontSize(3)
-        mUsbThermalPrinter.setBold(true)
-        printMiddleText(viewModel.lotteryOrPick.value!!.numbers)
-        mUsbThermalPrinter.setBold(false)
-
-        printMultiplyStake(viewModel.lotteryOrPick.value!!.winsCombinations)
-
+            printMultiplyStake(lottery.winsCombinations)
+        }
         printQR("text")
         printBottomText()
     }
@@ -331,42 +249,42 @@ class UsbPrinterActivity : BaseActivity() {
         printMyLogo(R.drawable.logo_for_print)   //picture
         initStyleContent()
 
-        val textMiddle = "${resources.getString(R.string.pick).toUpperCase(Locale.getDefault())}\n"
+        val textMiddle = "${resources.getString(R.string.pick)}\n"
         printMiddleText(textMiddle)
 
-        val price = "${resources.getString(R.string.jackpot_ticket_price_title)} " +
-                "${viewModel.lotteryOrPick.value!!.price} EUR"
-        val round = "\n${resources.getString(R.string.lottery_id)} " +
-                viewModel.lotteryOrPick.value!!.round
-        val draw = "${resources.getString(R.string.pick_draw_print)} " +
-                viewModel.lotteryOrPick.value!!.draw
-        mUsbThermalPrinter.addString(price.toUpperCase(Locale.getDefault()))
-        mUsbThermalPrinter.addString(round.toUpperCase(Locale.getDefault()))
-        mUsbThermalPrinter.addString(draw.toUpperCase(Locale.getDefault()))
-        mUsbThermalPrinter.printString()
+        viewModel.lotteryOrPick.value?.also { lottery ->
+            val price =
+                "${resources.getString(R.string.jackpot_ticket_price_title)} " + "${lottery.price} EUR"
+            val round = "\n${resources.getString(R.string.lottery_id)} " + lottery.round
+            val draw = "${resources.getString(R.string.pick_draw_print)} " + lottery.draw
+            mUsbThermalPrinter.addString(price.toUpperCase(Locale.getDefault()))
+            mUsbThermalPrinter.addString(round.toUpperCase(Locale.getDefault()))
+            mUsbThermalPrinter.addString(draw.toUpperCase(Locale.getDefault()))
+            mUsbThermalPrinter.printString()
 
-        val numbersTitle = "\n${resources.getString(R.string.lottery_your_numbers)} "
-        mUsbThermalPrinter.setFontSize(1)
-        mUsbThermalPrinter.addString(numbersTitle.toUpperCase(Locale.getDefault()))
-        mUsbThermalPrinter.printString()
+            val numbersTitle = "\n${resources.getString(R.string.lottery_your_numbers)} "
+            mUsbThermalPrinter.setFontSize(1)
+            mUsbThermalPrinter.addString(numbersTitle.toUpperCase(Locale.getDefault()))
+            mUsbThermalPrinter.printString()
 
-        mUsbThermalPrinter.setFontSize(3)
-        mUsbThermalPrinter.setBold(true)
-        printMiddleText(viewModel.lotteryOrPick.value!!.numbers)
-        mUsbThermalPrinter.setBold(false)
+            mUsbThermalPrinter.setFontSize(3)
+            mUsbThermalPrinter.setBold(true)
+            printMiddleText(lottery.numbers)
+            mUsbThermalPrinter.setBold(false)
 
-        printMultiplyStake(viewModel.lotteryOrPick.value!!.winsCombinations)
-
+            printMultiplyStake(lottery.winsCombinations)
+        }
         printQR("text")
         printBottomText()
     }
 
     private fun printMultiplyStake(list: List<String>) {
         mUsbThermalPrinter.setFontSize(1)
-        val titleWinningNum = "\n${resources.getString(R.string.pick_print_winning_num)}         ${resources.getString(
+        val titleWinningNum =
+            "\n${resources.getString(R.string.pick_print_winning_num)}         ${resources.getString(
                 R.string.pick_print_multiply_stake
             )}"
-        mUsbThermalPrinter.addString(titleWinningNum.toUpperCase(Locale.getDefault()))
+        mUsbThermalPrinter.addString(titleWinningNum)
         mUsbThermalPrinter.printString()
 
         for (i in list.lastIndex downTo 0) {
@@ -380,35 +298,37 @@ class UsbPrinterActivity : BaseActivity() {
         printMyLogo(R.drawable.logo_for_print)   //picture
         initStyleContent()
 
-        val textMiddle = "${resources.getString(R.string.deposit_deposit).toUpperCase(Locale.getDefault())}\n"
+        val textMiddle = "${resources.getString(R.string.deposit_deposit)}\n"
         printMiddleText(textMiddle)
 
-        val number = "${resources.getString(R.string.withdrawal_number)} " +
-                "${viewModel.agentDeposit.value!!.player_deposit?.payment?.psp_payment_id}"
-        val name = "${resources.getString(R.string.deposit_player_name)} " +
-                "${viewModel.player.value?.first_name} ${viewModel.player.value?.last_name}"
-        val time = "${resources.getString(R.string.withdrawal_time)} " +
-                dateString(viewModel.agentDeposit.value!!.player_deposit?.payment?.created!!)
-        val id = "${resources.getString(R.string.withdrawal_id).toUpperCase(Locale.getDefault())} " +
-                    viewModel.agentDeposit.value!!.player_deposit?.payment?.shortId
-        mUsbThermalPrinter.addString(number.toUpperCase(Locale.getDefault()))
-        mUsbThermalPrinter.addString(name.toUpperCase(Locale.getDefault()))
-        mUsbThermalPrinter.addString(time.toUpperCase(Locale.getDefault()))
-        mUsbThermalPrinter.addString(id)
-        mUsbThermalPrinter.printString()
+        viewModel.agentDeposit.value!!.player_deposit?.payment?.also { payment ->
+            val number = "${resources.getString(R.string.withdrawal_number)} " +
+                    "${payment.psp_payment_id}"
+            var name = ""
+            viewModel.player.value?.also { player ->
+                name = "${resources.getString(R.string.deposit_player_name)} " +
+                        "${player.first_name} ${player.last_name}"
+            }
+            val time = "${resources.getString(R.string.withdrawal_time)} " +
+                    dateString(payment.created)
+            val id = "${resources.getString(R.string.withdrawal_id)} " + payment.shortId
+            mUsbThermalPrinter.addString(number.toUpperCase(Locale.getDefault()))
+            mUsbThermalPrinter.addString(name.toUpperCase(Locale.getDefault()))
+            mUsbThermalPrinter.addString(time.toUpperCase(Locale.getDefault()))
+            mUsbThermalPrinter.addString(id)
+            mUsbThermalPrinter.printString()
 
-        mUsbThermalPrinter.setFontSize(1)
-        mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
-        mUsbThermalPrinter.addString("\n${resources.getString(R.string.deposit_amount_text).toUpperCase(Locale.getDefault())}")
-        mUsbThermalPrinter.printString()
+            mUsbThermalPrinter.setFontSize(1)
+            mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
+            mUsbThermalPrinter.addString("\n${resources.getString(R.string.deposit_amount_text)}")
+            mUsbThermalPrinter.printString()
 
-        mUsbThermalPrinter.setFontSize(3)
-        val am =
-            "${viewModel.agentDeposit.value!!.player_deposit?.payment?.amount?.toDouble()?.roundOffDecimal()} "
-        val amount = am + "${viewModel.agentDeposit.value!!.player_deposit?.payment?.currency}"
-        mUsbThermalPrinter.addString(amount.toUpperCase(Locale.getDefault()))
-        mUsbThermalPrinter.printString()
-
+            mUsbThermalPrinter.setFontSize(3)
+            val am = "${payment.amount.toDouble().roundOffDecimal()} "
+            val amount = am + payment.currency
+            mUsbThermalPrinter.addString(amount.toUpperCase(Locale.getDefault()))
+            mUsbThermalPrinter.printString()
+        }
         printBottomText()
     }
 
@@ -416,37 +336,38 @@ class UsbPrinterActivity : BaseActivity() {
         printMyLogo(R.drawable.logo_for_print)   //picture
         initStyleContent()
 
-        val textMiddle = "${resources.getString(R.string.withdrawal).toUpperCase(Locale.getDefault())}\n"
+        val textMiddle = "${resources.getString(R.string.withdrawal)}\n"
         printMiddleText(textMiddle)
 
-        val number = "${resources.getString(R.string.withdrawal_number)} " +
-                "${viewModel.withdrawalConfirm.value!!.confirm?.a2pDeposit?.payment?.psp_payment_id}"
-        val name = "${resources.getString(R.string.deposit_player_name)} " +
-                "${viewModel.player.value?.first_name} ${viewModel.player.value?.last_name}"
-        val time = "${resources.getString(R.string.withdrawal_time)} " +
-                dateString(viewModel.withdrawalConfirm.value!!.confirm?.a2pDeposit?.payment?.created!!)
-        val id = "${resources.getString(R.string.withdrawal_id).toUpperCase(Locale.getDefault())} " +
-                    viewModel.withdrawalConfirm.value!!.confirm?.a2pDeposit?.payment?.shortId
+        viewModel.withdrawalConfirm.value?.confirm?.a2pDeposit?.payment?.also { payment ->
+            val number = "${resources.getString(R.string.withdrawal_number)} " +
+                    "${payment.psp_payment_id}"
+            var name = ""
+            viewModel.player.value?.also { player ->
+                name = "${resources.getString(R.string.deposit_player_name)} " +
+                        "${player.first_name} ${player.last_name}"
+            }
+            val time = "${resources.getString(R.string.withdrawal_time)} " +
+                    dateString(payment.created!!)
+            val id = "${resources.getString(R.string.withdrawal_id)} " + payment.shortId
 
-        mUsbThermalPrinter.addString(number.toUpperCase(Locale.getDefault()))
-        mUsbThermalPrinter.addString(name.toUpperCase(Locale.getDefault()))
-        mUsbThermalPrinter.addString(time.toUpperCase(Locale.getDefault()))
-        mUsbThermalPrinter.addString(id)
-        mUsbThermalPrinter.printString()
+            mUsbThermalPrinter.addString(number.toUpperCase(Locale.getDefault()))
+            mUsbThermalPrinter.addString(name.toUpperCase(Locale.getDefault()))
+            mUsbThermalPrinter.addString(time.toUpperCase(Locale.getDefault()))
+            mUsbThermalPrinter.addString(id)
+            mUsbThermalPrinter.printString()
 
-        mUsbThermalPrinter.setFontSize(1)
-        mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
-        mUsbThermalPrinter.addString("\n${resources.getString(R.string.deposit_amount_text).toUpperCase(Locale.getDefault())}")
-        mUsbThermalPrinter.printString()
+            mUsbThermalPrinter.setFontSize(1)
+            mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
+            mUsbThermalPrinter.addString("\n${resources.getString(R.string.deposit_amount_text)}")
+            mUsbThermalPrinter.printString()
 
-        mUsbThermalPrinter.setFontSize(3)
-        val am =
-            "${viewModel.withdrawalConfirm.value!!.confirm?.a2pDeposit?.payment?.amount?.toDouble()?.roundOffDecimal()} "
-        val amount =
-            am + "${viewModel.withdrawalConfirm.value!!.confirm?.a2pDeposit?.payment?.currency}"
-        mUsbThermalPrinter.addString(amount.toUpperCase(Locale.getDefault()))
-        mUsbThermalPrinter.printString()
-
+            mUsbThermalPrinter.setFontSize(3)
+            val am = "${payment.amount.toDouble().roundOffDecimal()} "
+            val amount = am + payment.currency
+            mUsbThermalPrinter.addString(amount.toUpperCase(Locale.getDefault()))
+            mUsbThermalPrinter.printString()
+        }
         printBottomText()
     }
 
@@ -455,14 +376,14 @@ class UsbPrinterActivity : BaseActivity() {
 
         mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_LEFT)
         val bottomText =
-            "\n${resources.getString(R.string.withdrawal_text_bottom_looking).toUpperCase(Locale.getDefault())}\n\n" +
-                    resources.getString(R.string.withdrawal_text_bottom_contact).toUpperCase(Locale.getDefault())
+            "\n${resources.getString(R.string.withdrawal_text_bottom_looking)}\n\n" +
+                    resources.getString(R.string.withdrawal_text_bottom_contact)
         mUsbThermalPrinter.addString(bottomText)
         mUsbThermalPrinter.printString()
 
         mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
         mUsbThermalPrinter.setBold(true)
-        mUsbThermalPrinter.addString("\n${resources.getString(R.string.withdrawal_site).toUpperCase(Locale.getDefault())}")
+        mUsbThermalPrinter.addString("\n${resources.getString(R.string.withdrawal_site)}")
         mUsbThermalPrinter.printString()
         mUsbThermalPrinter.clearString()
     }
@@ -473,32 +394,33 @@ class UsbPrinterActivity : BaseActivity() {
 
         //print content
         dottedLine()
-        printHeadRow(
-            resources.getString(R.string.jackpot_confirmation_ticket_number).toUpperCase(Locale.getDefault()),
-            viewModel.agentBet.value!!.message_data?.couponId.toString()
-        )
-        printHeadRow(
-            resources.getString(R.string.jackpot_game_code).toUpperCase(Locale.getDefault()),
-            viewModel.agentBet.value!!.message_data?.betCode!!
-        )
-        printHeadRow(
-            resources.getString(R.string.jackpot_game_date_time).toUpperCase(Locale.getDefault()),
-            dateString(viewModel.agentBet.value!!.created!!)
-        )
-        printHeadRow(
-            resources.getString(R.string.scan_detail_type).toUpperCase(Locale.getDefault()),
-            viewModel.ticket.value!!.platformUnit!!.name!!
-        )
-        dottedLine()
-        printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details).toUpperCase(Locale.getDefault()))
-        for (i in viewModel.lookupBets.value!!.events!!.indices) {
-            dottedLine()
-            createBetList(viewModel.lookupBets.value!!.events!![i])
+        viewModel.agentBet.value?.also { agentBet ->
+            printHeadRow(
+                resources.getString(R.string.jackpot_confirmation_ticket_number),
+                agentBet.message_data.couponId.toString()
+            )
+            printHeadRow(
+                resources.getString(R.string.jackpot_game_code), agentBet.message_data.betCode
+            )
+            printHeadRow(
+                resources.getString(R.string.jackpot_game_date_time), dateString(agentBet.created)
+            )
+            viewModel.ticket.value?.also { ticket ->
+                printHeadRow(
+                    resources.getString(R.string.scan_detail_type), ticket.platformUnit.name
+                )
+                dottedLine()
+                printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details))
+                viewModel.lookupBets.value?.events?.also { events ->
+                    for (i in events.indices) {
+                        dottedLine()
+                        createBetList(events[i])
+                    }
+                }
+                printStake(ticket.stake, ticket.currency)
+            }
+            printQR(agentBet.message_data.betCode)
         }
-        printStake(viewModel.ticket.value!!.stake!!, viewModel.ticket.value!!.currency!!)
-
-        //qr
-        printQR(viewModel.agentBet.value!!.message_data?.betCode!!)
     }
 
     private fun sportBettingPrint() {
@@ -507,76 +429,57 @@ class UsbPrinterActivity : BaseActivity() {
 
         //print content
         dottedLine()
-        printHeadRow(
-            resources.getString(R.string.jackpot_confirmation_ticket_number).toUpperCase(Locale.getDefault()),
-            viewModel.sportBetSuccess.value!!.id
-        )
-        printHeadRow(
-            resources.getString(R.string.jackpot_game_code).toUpperCase(Locale.getDefault()),
-            viewModel.sportBetSuccess.value!!.code
-        )
-        printHeadRow(
-            resources.getString(R.string.jackpot_game_date_time).toUpperCase(Locale.getDefault()),
-            viewModel.sportBetSuccess.value!!.created.toFullDate().dateToString()
-        )
-        printHeadRow(
-            resources.getString(R.string.scan_detail_type).toUpperCase(Locale.getDefault()),
-            viewModel.ticket.value!!.platformUnit!!.name!!
-        )
-        dottedLine()
-        printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details).toUpperCase(Locale.getDefault()))
-        for (i in viewModel.sportBetSuccess.value!!.events!!.indices) {
-            dottedLine()
-            createBetList(viewModel.sportBetSuccess.value!!.events!![i])
-        }
-//        printStake(viewModel.ticket.value!!.stake!!, viewModel.ticket.value!!.currency!!)
-        dottedLine()
-        val stake =
-            "${viewModel.ticket.value!!.stake!!.toDouble().roundOffDecimal()} " +
-                    viewModel.ticket.value!!.currency!!.toUpperCase(Locale.getDefault())
-        printHeadRow(
-            resources.getString(R.string.sportbetting_place_).toUpperCase(Locale.getDefault()),
-            " -  ${viewModel.sportBetSuccess.value!!.events!!.size}/${viewModel.sportBetSuccess.value!!.events!!.size}  -  $stake"
-        )
-        printHeadRow(
-            resources.getString(R.string.sportbetting_odds).toUpperCase(Locale.getDefault()),
-            viewModel.printObj.value!!.totalOdds
-        )
-        printHeadRow(
-            resources.getString(R.string.sportbetting_bonus).toUpperCase(Locale.getDefault()),
-            viewModel.printObj.value!!.bonus
-        )
-        printHeadRow(
-            resources.getString(R.string.sportbetting_potential_win).toUpperCase(Locale.getDefault()),
-            viewModel.printObj.value!!.potentialWin
-        )
-        printHeadRow(
-            resources.getString(R.string.sportbetting_potint_tax).toUpperCase(Locale.getDefault()),
-            viewModel.printObj.value!!.potentialTax
-        )
-        printHeadRow(
-            resources.getString(R.string.sportbetting_winning).toUpperCase(Locale.getDefault()),
-            viewModel.printObj.value!!.netWinning
-        )
 
-        dottedLine()
-        //qr
-        printQR(viewModel.sportBetSuccess.value!!.code)
+        viewModel.sportBetSuccess.value?.also { sbSuccess ->
+            printHeadRow(
+                resources.getString(R.string.jackpot_confirmation_ticket_number), sbSuccess.id
+            )
+            printHeadRow(resources.getString(R.string.jackpot_game_code), sbSuccess.code)
+            printHeadRow(
+                resources.getString(R.string.jackpot_game_date_time),
+                sbSuccess.created.toFullDate().dateToString()
+            )
+
+            viewModel.ticket.value?.also { ticket ->
+                ticket.platformUnit?.name?.also { name ->
+                    printHeadRow(resources.getString(R.string.scan_detail_type), name)
+                }
+                dottedLine()
+                sbSuccess.events?.also { events ->
+                    printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details))
+                    for (i in events.indices) {
+                        dottedLine()
+                        createBetList(events[i])
+                    }
+                    dottedLine()
+                    val stake = "${ticket.stake.toDouble().roundOffDecimal()} " +
+                            ticket.currency.toUpperCase(Locale.getDefault())
+                    printHeadRow(
+                        resources.getString(R.string.sportbetting_place_),
+                        " -  ${events.size}/${events.size}  -  $stake"
+                    )
+                }
+            }
+            viewModel.printObj.value?.also {
+                printHeadRow(resources.getString(R.string.sportbetting_odds), it.totalOdds)
+                printHeadRow(resources.getString(R.string.sportbetting_bonus), it.bonus)
+                printHeadRow(
+                    resources.getString(R.string.sportbetting_potential_win), it.potentialWin
+                )
+                printHeadRow(resources.getString(R.string.sportbetting_potint_tax), it.potentialTax)
+                printHeadRow(resources.getString(R.string.sportbetting_winning), it.netWinning)
+            }
+            dottedLine()
+            printQR(sbSuccess.code)
+        }
     }
 
     private fun printQR(textQr: String) {
-        val bitmap =
-            createCode(
-                textQr,
-                BarcodeFormat.QR_CODE,
-                256,
-                256
-            )
+        val bitmap = createCode(textQr, BarcodeFormat.QR_CODE, 256, 256)
         mUsbThermalPrinter.printLogo(bitmap, false)
     }
 
     private fun printMyLogo(drawableLogo: Int) {
-        //picture
         mUsbThermalPrinter.reset()
         mUsbThermalPrinter.setGray(printGray)
         mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
@@ -601,20 +504,14 @@ class UsbPrinterActivity : BaseActivity() {
         val league = event.league!!.name
         val team1Name = (event.teams["1"])!!.name
         val team2Name = (event.teams["2"])!!.name
-        val marketName = event.market_name
-        val bet = event.bet
 
-        val contentBet = "$date\n" +
-                "$friendlyId $league\n" +
-                "$team1Name -\n" +
-                team2Name
+        val contentBet = "$date\n$friendlyId $league\n$team1Name -\n$team2Name"
         mUsbThermalPrinter.addString(contentBet)
         mUsbThermalPrinter.printString()
         mUsbThermalPrinter.clearString()
 
-        val result = "$marketName $bet"
         mUsbThermalPrinter.setBold(true)
-        mUsbThermalPrinter.addString(result)
+        mUsbThermalPrinter.addString("${event.market_name} ${event.bet}")
         mUsbThermalPrinter.printString()
         mUsbThermalPrinter.clearString()
         mUsbThermalPrinter.setBold(false)
@@ -653,7 +550,6 @@ class UsbPrinterActivity : BaseActivity() {
             progressDialog!!.dismiss()
             progressDialog = null
         }
-        unregisterReceiver(printReceive)
         try {
             mUsbThermalPrinter.stop()
         } catch (e: java.lang.NullPointerException) {

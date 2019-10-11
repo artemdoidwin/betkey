@@ -11,6 +11,7 @@ import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.models.LotteryModel
 import com.betkey.ui.MainViewModel
+import com.betkey.utils.isLowBattery
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_lottery.*
 import org.jetbrains.anko.doAsync
@@ -51,14 +52,16 @@ class LotteryFragment : BaseFragment() {
 
         compositeDisposable.add(
             lottery_bet_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
-                addFragment(
-                    LotteryWaitFragment.newInstance(
-                        lottery_price_sp.selectedItem.toString(),
-                        list.filter { model -> model.isSelected }.map { it.number }
-                    ),
-                    R.id.container_for_fragments,
-                    LotteryWaitFragment.TAG
-                )
+                if (!isLowBattery(context!!)){
+                    addFragment(
+                        LotteryWaitFragment.newInstance(
+                            lottery_price_sp.selectedItem.toString(),
+                            list.filter { model -> model.isSelected }.map { it.number }
+                        ),
+                        R.id.container_for_fragments,
+                        LotteryWaitFragment.TAG
+                    )
+                }
             }
         )
         compositeDisposable.add(
