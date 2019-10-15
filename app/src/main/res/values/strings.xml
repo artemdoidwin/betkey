@@ -154,7 +154,7 @@
     <string name="overTemp">over temp!</string>
     <string name="dialog_comfirm">Confirm</string>
     <string name="operation_result">Result</string>
-    <string name="bl_dy">Print</string>
+    <string name="print">Print</string>
     <string name="idcard_czz">Proceeding...</string>
     <string name="error_device">Change the device like a printer</string>
     <string name="unidentified_error">Unidentified error</string>

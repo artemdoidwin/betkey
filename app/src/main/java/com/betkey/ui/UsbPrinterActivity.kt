@@ -2,7 +2,6 @@ package com.betkey.ui
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -28,7 +27,6 @@ class UsbPrinterActivity : BaseActivity() {
     private var time: Long = 0
     private val NOPAPER = 3
     private val LOWBATTERY = 4
-    private val CANCELPROMPT = 10
     private val PRINTERR = 11
     private val OVERHEAT = 12
     private val PRINT_TREAD = 1
@@ -40,7 +38,7 @@ class UsbPrinterActivity : BaseActivity() {
     private var lineDistance: Int = 0 //(0-255)
     private var printGray: Int = 1// 1-20, default is 8
     private var charSpace: Int = 10 //(0-255)
-    private var progressDialog: ProgressDialog? = null
+    private lateinit var progressDialog: AlertDialog
     private var mUsbThermalPrinter = UsbThermalPrinter(this)
 
     private val viewModel by viewModel<MainViewModel>()
@@ -73,32 +71,16 @@ class UsbPrinterActivity : BaseActivity() {
         Log.d("TIMER", "${System.currentTimeMillis() - time} init")
         handler = MyHandler()
 
-        checkOperations()
+        setProgressDialog()
     }
 
     private inner class MyHandler : Handler() {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
                 PRINT_TREAD -> PrintThread().start()
-                NOPAPER -> noPaperDlg()
-                LOWBATTERY -> {
-                    val alertDialog = AlertDialog.Builder(this@UsbPrinterActivity)
-                    alertDialog.setTitle(R.string.operation_result)
-                    alertDialog.setMessage(getString(R.string.LowBattery))
-                    alertDialog.setPositiveButton(getString(R.string.dialog_comfirm)) { _, _ -> finish() }
-                    alertDialog.show()
-                }
-                CANCELPROMPT -> if (progressDialog != null && !isFinishing) {
-                    progressDialog!!.dismiss()
-                    progressDialog = null
-                }
-                OVERHEAT -> {
-                    val overHeatDialog = AlertDialog.Builder(this@UsbPrinterActivity)
-                    overHeatDialog.setTitle(R.string.operation_result)
-                    overHeatDialog.setMessage(getString(R.string.overTemp))
-                    overHeatDialog.setPositiveButton(getString(R.string.dialog_comfirm)) { _, _ -> }
-                    overHeatDialog.show()
-                }
+                NOPAPER -> setDialog(R.string.noPaper, R.string.noPaperNotice)
+                LOWBATTERY -> setDialog(R.string.operation_result, R.string.LowBattery)
+                OVERHEAT -> setDialog(R.string.operation_result, R.string.overTemp)
                 PRINTERR -> {
                     toast(msg.obj.toString())
                     finish()
@@ -111,19 +93,20 @@ class UsbPrinterActivity : BaseActivity() {
         }
     }
 
-    private fun checkOperations() {
-        progressDialog = ProgressDialog.show(
-            this,
-            getString(R.string.bl_dy),
-            getString(R.string.printing_wait)
-        )
+    private fun setProgressDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setView(R.layout.view_progress_print)
+        builder.setCancelable(false)
+        progressDialog = builder.create()
+        progressDialog.show()
+
         handler.sendMessage(handler.obtainMessage(PRINT_TREAD, 1, 0, null))
     }
 
-    private fun noPaperDlg() {
+    private fun setDialog(title: Int, message: Int) {
         val dlg = AlertDialog.Builder(this)
-        dlg.setTitle(getString(R.string.noPaper))
-        dlg.setMessage(getString(R.string.noPaperNotice))
+        dlg.setTitle(getString(title))
+        dlg.setMessage(getString(message))
         dlg.setCancelable(false)
         dlg.setPositiveButton(R.string.sure) { _, _ -> finish() }
         dlg.show()
@@ -137,7 +120,7 @@ class UsbPrinterActivity : BaseActivity() {
                 mUsbThermalPrinter.start(0)
                 mUsbThermalPrinter.reset()
                 if (lowBattery) {
-                    progressDialog?.also { it.dismiss() }
+                    progressDialog.dismiss()
                     handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null))
                 } else {
                     Log.d("TIMER", "${System.currentTimeMillis() - time}  start print")
@@ -152,12 +135,12 @@ class UsbPrinterActivity : BaseActivity() {
 
                     mUsbThermalPrinter.walkPaper(10)
                     Log.d("TIMER", "${System.currentTimeMillis() - time} stop print")
-                    progressDialog?.also { it.dismiss() }
+                    progressDialog.dismiss()
                     finish()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                progressDialog?.also { it.dismiss() }
+                progressDialog.dismiss()
                 Log.d("TIMER", "${System.currentTimeMillis() - time} error")
                 when (e.toString()) {
                     "com.telpo.tps550.api.InternalErrorException" -> handler.sendMessage(
@@ -203,7 +186,6 @@ class UsbPrinterActivity : BaseActivity() {
                     )
                 }
             } finally {
-                handler.sendMessage(handler.obtainMessage(CANCELPROMPT, 1, 0, null))
                 if (nopaper) {
                     handler.sendMessage(handler.obtainMessage(NOPAPER, 1, 0, null))
                     nopaper = false
@@ -347,7 +329,7 @@ class UsbPrinterActivity : BaseActivity() {
                         "${player.first_name} ${player.last_name}"
             }
             val time = "${resources.getString(R.string.withdrawal_time)} " +
-                    dateString(payment.created!!)
+                    dateString(payment.created)
             val id = "${resources.getString(R.string.withdrawal_id)} " + payment.shortId
 
             mUsbThermalPrinter.addString(number.toUpperCase(Locale.getDefault()))
@@ -440,9 +422,11 @@ class UsbPrinterActivity : BaseActivity() {
             )
 
             viewModel.ticket.value?.also { ticket ->
-                ticket.platformUnit?.name?.also { name ->
-                    printHeadRow(resources.getString(R.string.scan_detail_type), name)
-                }
+                printHeadRow(
+                    resources.getString(R.string.scan_detail_type),
+                    ticket.platformUnit.name
+                )
+
                 dottedLine()
                 sbSuccess.events?.also { events ->
                     printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details))
