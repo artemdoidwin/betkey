@@ -34,7 +34,6 @@ class UsbPrinterActivity : BaseActivity() {
     private val PRINT_TREAD = 1
 
     private lateinit var handler: MyHandler
-    private var result: String? = null
     private var nopaper: Boolean = false
     private var lowBattery = false
     private var leftDistance = 0 //(0-255)
@@ -42,7 +41,7 @@ class UsbPrinterActivity : BaseActivity() {
     private var printGray: Int = 1// 1-20, default is 8
     private var charSpace: Int = 10 //(0-255)
     private var progressDialog: ProgressDialog? = null
-    private var mUsbThermalPrinter = UsbThermalPrinter(this@UsbPrinterActivity)
+    private var mUsbThermalPrinter = UsbThermalPrinter(this)
 
     private val viewModel by viewModel<MainViewModel>()
 
@@ -89,7 +88,7 @@ class UsbPrinterActivity : BaseActivity() {
                     alertDialog.setPositiveButton(getString(R.string.dialog_comfirm)) { _, _ -> finish() }
                     alertDialog.show()
                 }
-                CANCELPROMPT -> if (progressDialog != null && !this@UsbPrinterActivity.isFinishing) {
+                CANCELPROMPT -> if (progressDialog != null && !isFinishing) {
                     progressDialog!!.dismiss()
                     progressDialog = null
                 }
@@ -101,7 +100,6 @@ class UsbPrinterActivity : BaseActivity() {
                     overHeatDialog.show()
                 }
                 PRINTERR -> {
-                    msg.obj
                     toast(msg.obj.toString())
                     finish()
                 }
@@ -115,7 +113,7 @@ class UsbPrinterActivity : BaseActivity() {
 
     private fun checkOperations() {
         progressDialog = ProgressDialog.show(
-            this@UsbPrinterActivity,
+            this,
             getString(R.string.bl_dy),
             getString(R.string.printing_wait)
         )
@@ -123,7 +121,7 @@ class UsbPrinterActivity : BaseActivity() {
     }
 
     private fun noPaperDlg() {
-        val dlg = AlertDialog.Builder(this@UsbPrinterActivity)
+        val dlg = AlertDialog.Builder(this)
         dlg.setTitle(getString(R.string.noPaper))
         dlg.setMessage(getString(R.string.noPaperNotice))
         dlg.setCancelable(false)
@@ -154,13 +152,14 @@ class UsbPrinterActivity : BaseActivity() {
 
                     mUsbThermalPrinter.walkPaper(10)
                     Log.d("TIMER", "${System.currentTimeMillis() - time} stop print")
+                    progressDialog?.also { it.dismiss() }
                     finish()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                result = e.toString()
+                progressDialog?.also { it.dismiss() }
                 Log.d("TIMER", "${System.currentTimeMillis() - time} error")
-                when (result) {
+                when (e.toString()) {
                     "com.telpo.tps550.api.InternalErrorException" -> handler.sendMessage(
                         handler.obtainMessage(PRINTERR, 1, 0, InternalErrorException().description)
                     )
@@ -546,10 +545,6 @@ class UsbPrinterActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (progressDialog != null && !this@UsbPrinterActivity.isFinishing) {
-            progressDialog!!.dismiss()
-            progressDialog = null
-        }
         try {
             mUsbThermalPrinter.stop()
         } catch (e: java.lang.NullPointerException) {

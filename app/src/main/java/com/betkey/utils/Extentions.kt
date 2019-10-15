@@ -15,8 +15,6 @@ import retrofit2.HttpException
 import java.net.UnknownHostException
 import android.content.Intent
 import android.content.IntentFilter
-import android.widget.Toast
-
 
 fun Double.roundOffDecimal(): String? {
     val df = DecimalFormat("#.##")
@@ -102,13 +100,6 @@ fun Date.dateToString4(): String {
         .format(this)
 }
 
-//fun String.toMD5String(): String {
-//    val messageDigest = MessageDigest.getInstance("MD5")
-//    messageDigest.reset()
-//    messageDigest.update(this.toByteArray(Charsets.UTF_8))
-//    val resultByte = messageDigest.digest()
-//    return Hex.bytesToStringUppercase(resultByte)
-//}
 
 fun getMd5Base64(encTarget: String): String {
     val mdEnc = MessageDigest.getInstance("MD5")
@@ -168,10 +159,8 @@ fun isLowBattery(con: Context): Boolean {
         val scale = it.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
 
         lowBattery = if (isCharging) {
-            Toast.makeText(con, "charge", Toast.LENGTH_LONG).show()
             false
         } else {
-            Toast.makeText(con, "not charge", Toast.LENGTH_LONG).show()
             level * 10 <= scale
         }
     }

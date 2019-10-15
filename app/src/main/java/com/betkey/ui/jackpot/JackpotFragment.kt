@@ -25,7 +25,6 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.HashMap
 
-
 class JackpotFragment : BaseFragment() {
 
     private val viewModel by sharedViewModel<MainViewModel>()
@@ -136,11 +135,9 @@ class JackpotFragment : BaseFragment() {
             stake!!,
             convertFieldToKey(listPair[7].second)
         ), { result ->
-            Log.d("PAIRS", "Result: ${Gson().toJson(result)}")
-            Log.d("PAIRS", "Date: ${Date((result.created ?: 0) * 1000).dateToString()}")
             if (result.error_message.isEmpty()) {
-                subscribe(viewModel.betLookup(result.message_data!!.betCode), {
-                    subscribe(viewModel.checkTicket(result.message_data!!.betCode), {
+                subscribe(viewModel.betLookup(result.message_data.betCode), {
+                    subscribe(viewModel.checkTicket(result.message_data.betCode), {
                         viewModel.betsDetailsList.value = listPair
                         showFragment(
                             JackpotConfirmationFragment.newInstance(),
