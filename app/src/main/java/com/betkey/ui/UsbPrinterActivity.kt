@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.os.Message
 import android.util.Log
 import android.view.KeyEvent
@@ -27,11 +28,10 @@ class UsbPrinterActivity : BaseActivity() {
     private var time: Long = 0
     private val NOPAPER = 3
     private val LOWBATTERY = 4
-    private val PRINTERR = 11
+    private val PRINTER = 11
     private val OVERHEAT = 12
-    private val PRINT_TREAD = 1
+    private val PRINT_START = 1
 
-    private lateinit var handler: MyHandler
     private var nopaper: Boolean = false
     private var lowBattery = false
     private var leftDistance = 0 //(0-255)
@@ -50,7 +50,7 @@ class UsbPrinterActivity : BaseActivity() {
         const val DEPOSIT = 2
         const val LOTTERY = 3
         const val PICK_3 = 4
-        const val SPORTBETTING = 5
+        const val SPORT_BETTING = 5
 
         fun start(sender: Activity, operation: Int) {
             val intent = Intent(sender, UsbPrinterActivity::class.java).apply {
@@ -69,19 +69,18 @@ class UsbPrinterActivity : BaseActivity() {
         setContentView(R.layout.usbprint_text)
         time = System.currentTimeMillis()
         Log.d("TIMER", "${System.currentTimeMillis() - time} init")
-        handler = MyHandler()
 
         setProgressDialog()
     }
 
-    private inner class MyHandler : Handler() {
+    private val handler: Handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
-                PRINT_TREAD -> PrintThread().start()
+                PRINT_START -> PrintThread().start()
                 NOPAPER -> setDialog(R.string.noPaper, R.string.noPaperNotice)
                 LOWBATTERY -> setDialog(R.string.operation_result, R.string.LowBattery)
                 OVERHEAT -> setDialog(R.string.operation_result, R.string.overTemp)
-                PRINTERR -> {
+                PRINTER -> {
                     toast(msg.obj.toString())
                     finish()
                 }
@@ -100,7 +99,7 @@ class UsbPrinterActivity : BaseActivity() {
         progressDialog = builder.create()
         progressDialog.show()
 
-        handler.sendMessage(handler.obtainMessage(PRINT_TREAD, 1, 0, null))
+        handler.sendMessage(handler.obtainMessage(PRINT_START, 1, 0, null))
     }
 
     private fun setDialog(title: Int, message: Int) {
@@ -130,7 +129,7 @@ class UsbPrinterActivity : BaseActivity() {
                         DEPOSIT -> depositPrint()
                         LOTTERY -> lotteryPrint()
                         PICK_3 -> pickPrint()
-                        SPORTBETTING -> sportBettingPrint()
+                        SPORT_BETTING -> sportBettingPrint()
                     }
 
                     mUsbThermalPrinter.walkPaper(10)
@@ -144,30 +143,30 @@ class UsbPrinterActivity : BaseActivity() {
                 Log.d("TIMER", "${System.currentTimeMillis() - time} error")
                 when (e.toString()) {
                     "com.telpo.tps550.api.InternalErrorException" -> handler.sendMessage(
-                        handler.obtainMessage(PRINTERR, 1, 0, InternalErrorException().description)
+                        handler.obtainMessage(PRINTER, 1, 0, InternalErrorException().description)
                     )
                     "com.telpo.tps550.api.DeviceAlreadyOpenException" -> handler.sendMessage(
                         handler.obtainMessage(
-                            PRINTERR, 1, 0, DeviceAlreadyOpenException().description
+                            PRINTER, 1, 0, DeviceAlreadyOpenException().description
                         )
                     )
                     "com.telpo.tps550.api.DeviceNotFoundException" -> handler.sendMessage(
-                        handler.obtainMessage(PRINTERR, 1, 0, DeviceNotFoundException().description)
+                        handler.obtainMessage(PRINTER, 1, 0, DeviceNotFoundException().description)
                     )
                     "com.telpo.tps550.api.DeviceNotOpenException" -> handler.sendMessage(
-                        handler.obtainMessage(PRINTERR, 1, 0, DeviceNotOpenException().description)
+                        handler.obtainMessage(PRINTER, 1, 0, DeviceNotOpenException().description)
                     )
                     "com.telpo.tps550.api.DeviceOverFlowException" -> handler.sendMessage(
-                        handler.obtainMessage(PRINTERR, 1, 0, DeviceOverFlowException().description)
+                        handler.obtainMessage(PRINTER, 1, 0, DeviceOverFlowException().description)
                     )
                     "com.telpo.tps550.api.NotSupportYetException" -> handler.sendMessage(
-                        handler.obtainMessage(PRINTERR, 1, 0, NotSupportYetException().description)
+                        handler.obtainMessage(PRINTER, 1, 0, NotSupportYetException().description)
                     )
                     "com.telpo.tps550.api.TimeoutException" -> handler.sendMessage(
-                        handler.obtainMessage(PRINTERR, 1, 0, TimeoutException().description)
+                        handler.obtainMessage(PRINTER, 1, 0, TimeoutException().description)
                     )
                     "com.telpo.tps550.api.PermissionDenyException" -> handler.sendMessage(
-                        handler.obtainMessage(PRINTERR, 1, 0, PermissionDenyException().description)
+                        handler.obtainMessage(PRINTER, 1, 0, PermissionDenyException().description)
                     )
                     "com.telpo.tps550.api.printer.NoPaperException" -> nopaper = true
                     "com.telpo.tps550.api.printer.OverHeatException" -> handler.sendMessage(
@@ -175,14 +174,14 @@ class UsbPrinterActivity : BaseActivity() {
                     )
                     "com.telpo.tps550.api.TelpoException" -> handler.sendMessage(
                         handler.obtainMessage(
-                            PRINTERR,
+                            PRINTER,
                             1,
                             0,
                             resources.getString(R.string.printer_off_error)
                         )
                     )
                     else -> handler.sendMessage(
-                        handler.obtainMessage(PRINTERR, 1, 0, R.string.unidentified_error)
+                        handler.obtainMessage(PRINTER, 1, 0, R.string.unidentified_error)
                     )
                 }
             } finally {

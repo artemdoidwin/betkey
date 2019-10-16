@@ -111,7 +111,7 @@ class BasketFragment : BaseFragment() {
                     potentialTax = tax.text.toString(),
                     netWinning = payout.text.toString()
                 )
-                UsbPrinterActivity.start(activity!!, UsbPrinterActivity.SPORTBETTING)
+                UsbPrinterActivity.start(activity!!, UsbPrinterActivity.SPORT_BETTING)
             }, { context?.also { con -> toast(setMessage(it, con)) } })
         }
     }
