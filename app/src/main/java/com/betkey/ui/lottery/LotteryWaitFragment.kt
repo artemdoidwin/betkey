@@ -69,7 +69,7 @@ class LotteryWaitFragment : BaseFragment() {
 
         val winsCombinations = mutableListOf<String>()
 
-        viewModel.player.observe(this, Observer { link ->
+        viewModel.player.observe(myLifecycleOwner, Observer {
             when (activity!!.localClassName) {
                 "ui.lottery.LotteryActivity" -> {
                     winsCombinations.add("X 1")

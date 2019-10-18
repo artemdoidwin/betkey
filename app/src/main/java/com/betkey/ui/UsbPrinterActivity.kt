@@ -27,13 +27,11 @@ import java.util.*
 class UsbPrinterActivity : BaseActivity() {
     private var time: Long = 0
     private val NOPAPER = 3
-    private val LOWBATTERY = 4
     private val PRINTER = 11
     private val OVERHEAT = 12
     private val PRINT_START = 1
 
     private var nopaper: Boolean = false
-    private var lowBattery = false
     private var leftDistance = 0 //(0-255)
     private var lineDistance: Int = 0 //(0-255)
     private var printGray: Int = 1// 1-20, default is 8
@@ -78,7 +76,6 @@ class UsbPrinterActivity : BaseActivity() {
             when (msg.what) {
                 PRINT_START -> PrintThread().start()
                 NOPAPER -> setDialog(R.string.noPaper, R.string.noPaperNotice)
-                LOWBATTERY -> setDialog(R.string.operation_result, R.string.LowBattery)
                 OVERHEAT -> setDialog(R.string.operation_result, R.string.overTemp)
                 PRINTER -> {
                     toast(msg.obj.toString())
@@ -118,25 +115,20 @@ class UsbPrinterActivity : BaseActivity() {
                 Log.d("TIMER", "${System.currentTimeMillis() - time} init start")
                 mUsbThermalPrinter.start(0)
                 mUsbThermalPrinter.reset()
-                if (lowBattery) {
-                    progressDialog.dismiss()
-                    handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null))
-                } else {
-                    Log.d("TIMER", "${System.currentTimeMillis() - time}  start print")
-                    when (operation) {
-                        JACKPOT -> jackpotPrint()
-                        WITHDRAWAL -> withdrawalPrint()
-                        DEPOSIT -> depositPrint()
-                        LOTTERY -> lotteryPrint()
-                        PICK_3 -> pickPrint()
-                        SPORT_BETTING -> sportBettingPrint()
-                    }
-
-                    mUsbThermalPrinter.walkPaper(10)
-                    Log.d("TIMER", "${System.currentTimeMillis() - time} stop print")
-                    progressDialog.dismiss()
-                    finish()
+                Log.d("TIMER", "${System.currentTimeMillis() - time}  start print")
+                when (operation) {
+                    JACKPOT -> jackpotPrint()
+                    WITHDRAWAL -> withdrawalPrint()
+                    DEPOSIT -> depositPrint()
+                    LOTTERY -> lotteryPrint()
+                    PICK_3 -> pickPrint()
+                    SPORT_BETTING -> sportBettingPrint()
                 }
+
+                mUsbThermalPrinter.walkPaper(10)
+                Log.d("TIMER", "${System.currentTimeMillis() - time} stop print")
+                progressDialog.dismiss()
+                finish()
             } catch (e: Exception) {
                 e.printStackTrace()
                 progressDialog.dismiss()
@@ -281,7 +273,7 @@ class UsbPrinterActivity : BaseActivity() {
         val textMiddle = "${resources.getString(R.string.deposit_deposit)}\n"
         printMiddleText(textMiddle)
 
-        viewModel.agentDeposit.value!!.player_deposit?.payment?.also { payment ->
+        viewModel.agentDeposit.value?.player_deposit?.payment?.also { payment ->
             val number = "${resources.getString(R.string.withdrawal_number)} " +
                     "${payment.psp_payment_id}"
             var name = ""
