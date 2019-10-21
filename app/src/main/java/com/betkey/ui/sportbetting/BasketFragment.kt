@@ -80,23 +80,8 @@ class BasketFragment : BaseFragment() {
         clearFields()
     }
 
-
     private fun placeBetPlayer() {
         subscribe(viewModel.getAgentProfile(amount_ET.text.toString()), { profile ->
-            //            val agentId = profile.message?.agentDocument?.id!!
-//            val username = profile.message?.agentDocument?.username!!
-//            val created = Calendar.getInstance().time.dateToString4()
-//
-//
-//            val i = (created).toMD5String()
-//            val u = getMd5Base64((created))
-//            val nonceMD5 = created.getMD5()
-//            val passwordSHA1 = "$nonceMD5${created}U*LpMSk4y(pFw~Y=".getSHA1()
-//            val passwordDigest = Base64.encodeToString(passwordSHA1.toByteArray(Charsets.UTF_8), 16)
-//            val nonce = Base64.encodeToString(nonceMD5.toByteArray(Charsets.UTF_8), 16)
-//            val idEvent = viewModel.lookupBets.value!!.id
-//            val XWSSE =
-//                "UsernameToken Username=\"$username\", PasswordDigest=\"$passwordDigest\", Nonce=\"$nonce\", Created=\"$created\""
         }, { context?.also { con -> toast(setMessage(it, con)) } })
     }
 

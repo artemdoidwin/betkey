@@ -35,12 +35,7 @@ class LoginOkFragment : BaseFragment() {
         const val TAG = "LoginOkFragment"
         const val REQUEST_CODE = 12345
 
-        fun newInstance() = LoginOkFragment().apply {
-            arguments = Bundle().apply {
-                //                    putInt("pos", id)
-//                    putString("name", name)
-            }
-        }
+        fun newInstance() = LoginOkFragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
