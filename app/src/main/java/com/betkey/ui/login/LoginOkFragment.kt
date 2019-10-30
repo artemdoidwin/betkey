@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import com.betkey.R
@@ -19,6 +20,8 @@ import com.betkey.ui.pick3.PickActivity
 import com.betkey.ui.scanTickets.ScanTicketsActivity
 import com.betkey.ui.sportbetting.SportBettingActivity
 import com.betkey.ui.withdrawal.WithdrawalActivity
+import com.betkey.utils.LANGUAGE_EN
+import com.betkey.utils.LANGUAGE_FR
 import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_login_ok.*
@@ -26,15 +29,18 @@ import kotlinx.android.synthetic.main.view_toolbar.*
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.concurrent.TimeUnit
+import android.content.Intent
+import kotlinx.android.synthetic.main.fragment_login_ok.include_toolbar
+
 
 class LoginOkFragment : BaseFragment() {
 
     private val viewModel by sharedViewModel<MainViewModel>()
-
+    private var restartActivity = false
     companion object {
         const val TAG = "LoginOkFragment"
         const val REQUEST_CODE = 12345
-
+        const val RESTART_ACTIVITY = "RESTART_ACTIVITY"
         fun newInstance() = LoginOkFragment()
     }
 
@@ -47,6 +53,8 @@ class LoginOkFragment : BaseFragment() {
 
         initButtons()
 
+        activity?.include_toolbar?.visibility = View.GONE
+
         viewModel.wallets.observe(myLifecycleOwner, Observer { wallets ->
             wallets?.also {
                 val nameToDisplay = when {
@@ -58,6 +66,7 @@ class LoginOkFragment : BaseFragment() {
                 text_toolbar.text = text
             }
         })
+
     }
 
     private fun initButtons() {
@@ -111,6 +120,37 @@ class LoginOkFragment : BaseFragment() {
                 })
             }
         )
+
+        when(viewModel.getLocale()) {
+            LANGUAGE_EN -> language_spinner.setSelection(0)
+            LANGUAGE_FR -> language_spinner.setSelection(1)
+        }
+
+        language_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) { }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int,
+                                        id: Long) {
+                val languages = resources.getStringArray(R.array.languages)
+                when(languages[position]) {
+                    LANGUAGE_EN -> context?.also { switchLocale(it, LANGUAGE_EN) }
+                    LANGUAGE_FR -> context?.also { switchLocale(it, LANGUAGE_FR) }
+                }
+            }
+        }
+    }
+
+    private fun switchLocale(context: Context, language: String) {
+        viewModel.setNewLocale(context, language)
+        if (restartActivity) {
+
+            val i = Intent(context, LoginActivity::class.java)
+            i.putExtra(RESTART_ACTIVITY, true)
+
+            startActivity(i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                    Intent.FLAG_ACTIVITY_NEW_TASK))
+        }
+        restartActivity = true
     }
 
     private fun hasPermissions(context: Context, vararg permissions: String): Boolean = permissions.all {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.betkey.R
 import com.betkey.base.BaseActivity
 import com.betkey.ui.MainViewModel
+import com.betkey.ui.login.LoginOkFragment.Companion.RESTART_ACTIVITY
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : BaseActivity() {
@@ -14,7 +15,13 @@ class LoginActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.container_for_activity)
 
-        showFragment(LoginFragment.newInstance(), R.id.container_for_fragments, LoginFragment.TAG)
+        val isActivityReloaded = intent.extras?.getBoolean(RESTART_ACTIVITY)
+        if(isActivityReloaded == true) {
+            //if language was changed
+            showFragment(LoginOkFragment.newInstance(), R.id.container_for_fragments, LoginFragment.TAG)
+        } else {
+            showFragment(LoginFragment.newInstance(), R.id.container_for_fragments, LoginFragment.TAG)
+        }
     }
 
     override fun onBackPressed() {

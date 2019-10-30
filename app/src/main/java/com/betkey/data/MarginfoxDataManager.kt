@@ -6,6 +6,7 @@ import com.betkey.network.models.*
 import com.betkey.network.models.SportBetting.Companion.toSportBetting
 import com.betkey.repository.ModelRepository
 import com.betkey.utils.AGENT_HHT
+import com.betkey.utils.API_KEY_MARGINFOX
 import io.reactivex.Single
 
 class MarginfoxDataManager(
@@ -67,7 +68,7 @@ class MarginfoxDataManager(
     }
 
     fun sportBetToday(): Single<Map<String, Map<String, List<Event>>>> {
-        return apiMarginfox.getSportbetting("en", "MRFT", "exaloc_kong_key")
+        return apiMarginfox.getSportbetting("en", "MRFT", API_KEY_MARGINFOX)
             .flatMap {
                 val sb = toSportBetting(it)
                 modelRepository.sportBetToday.postValue(sb.today)
@@ -76,7 +77,7 @@ class MarginfoxDataManager(
     }
 
     fun sportBetTomorrow(): Single<Map<String, Map<String, List<Event>>>> {
-        return apiMarginfox.getSportbetting("en", "MRFT", "exaloc_kong_key")
+        return apiMarginfox.getSportbetting("en", "MRFT", API_KEY_MARGINFOX)
             .flatMap {
                 val sb = toSportBetting(it)
                 modelRepository.sportBetTomorrow.postValue(sb.tomorrow)
@@ -85,7 +86,7 @@ class MarginfoxDataManager(
     }
 
     fun sportBetStartingSoon(): Single<Map<String, Map<String, List<Event>>>> {
-        return apiMarginfox.getSportbetting("en", "MRFT", "exaloc_kong_key")
+        return apiMarginfox.getSportbetting("en", "MRFT", API_KEY_MARGINFOX)
             .flatMap {
                 val sb = toSportBetting(it)
                 modelRepository.sportBetStartingSoon.postValue(sb.startingSoon)
@@ -94,7 +95,7 @@ class MarginfoxDataManager(
     }
 
     fun getSportBettingMarkets(eventId: String): Single<Event> {
-        return apiMarginfox.getSportbettingMarkets(eventId, "en", "exaloc_kong_key")
+        return apiMarginfox.getSportbettingMarkets(eventId, "en", API_KEY_MARGINFOX)
             .flatMap {
                 modelRepository.marketsRest.postValue(it)
                 Single.just(it)

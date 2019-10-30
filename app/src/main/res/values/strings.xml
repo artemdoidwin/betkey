@@ -2,13 +2,13 @@
     <string name="app_name">Betkey</string>
 
     <string name="no_permission">Permissions not granted</string>
-    <string name="wait">...</string>
+    <string name="wait" translatable="false">...</string>
     <string name="enter_password">Please enter correct username or password</string>
     <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
     <string name="no_internet">Please check your internet connection</string>
 
 
-    <string name="login_title">Betkey agent pos</string>
+    <string name="login_title" translatable="false">Betkey agent pos</string>
     <string name="login_username_hint">Username</string>
     <string name="login_password_hint">Password</string>
     <string name="login_btn">Login</string>
@@ -69,14 +69,14 @@
     <string name="deposit_player_name">NAME:</string>
     <string name="deposit_amount">Amount</string>
     <string name="deposit_amount_text">AMOUNT:</string>
-    <string name="deposit_deposit">DEPOSITE</string>
+    <string name="deposit_deposit">DEPOSIT</string>
     <string name="deposit_confirm_deposit">Confirm deposit</string>
     <string name="deposit_confirm">Confirm</string>
     <string name="deposit_success">Deposit success</string>
     <string name="deposit_successful">Deposit is successful</string>
-    <string name="deposit_instantly">Player is account is instantly updated!</string>
+    <string name="deposit_instantly">Player account is instantly updated!</string>
     <string name="deposit_no_found">No player found</string>
-    <string name="deposit_phone_number_hint">%dXXXXXX</string>
+    <string name="deposit_phone_number_hint" translatable="false">%dXXXXXX</string>
     <string name="withdrawal_funds">Withdrawal funds</string>
     <string name="withdrawal">WITHDRAWAL</string>
     <string name="withdrawal_number">NUMBER:</string>
@@ -84,7 +84,7 @@
     <string name="withdrawal_id">ID:</string>
     <string name="withdrawal_text_bottom_looking">LOOKING FOR A RELIABLE AGENT SYSTEM?</string>
     <string name="withdrawal_text_bottom_contact">CONTACT US TODAY FOR MORE INFORMATION</string>
-    <string name="withdrawal_site">WWW.BETKEY.BET</string>
+    <string name="withdrawal_site" translatable="false">WWW.BETKEY.BET</string>
     <string name="withdrawal_pin">Withdrawal pin</string>
     <string name="withdrawal_hint_pin">pin</string>
     <string name="withdrawal_confirm">Confirm withdrawal</string>
@@ -144,7 +144,7 @@
 
     <!-- Print -->
     <string name="print_text">Print Text</string>
-    <string name="printing_wait">Printing, please wait……</string>
+    <string name="printing_wait">Printing, please wait…</string>
     <string name="input_print_data">Please input print data</string>
     <string name="sure">sure</string>
     <string name="watting">Please wait while checking driver version</string>
@@ -155,7 +155,7 @@
     <string name="dialog_comfirm">Confirm</string>
     <string name="operation_result">Result</string>
     <string name="print">Print</string>
-    <string name="idcard_czz">Proceeding...</string>
+    <string name="idcard_czz">Proceeding…</string>
     <string name="error_device">Change the device like a printer</string>
     <string name="unidentified_error">Unidentified error</string>
     <string name="printer_off_error">Please, make sure, the printer is on</string>

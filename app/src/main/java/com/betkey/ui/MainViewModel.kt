@@ -1,7 +1,10 @@
 package com.betkey.ui
 
+import android.content.Context
+import android.content.res.Resources
 import com.betkey.base.BaseViewModel
 import com.betkey.data.BetKeyDataManager
+import com.betkey.data.LocaleManager
 import com.betkey.data.MarginfoxDataManager
 import com.betkey.data.PSPDataManager
 import com.betkey.network.models.*
@@ -12,7 +15,8 @@ import io.reactivex.Single
 class MainViewModel(
     private val betkeydataManager: BetKeyDataManager,
     private val marginfoxDataManager: MarginfoxDataManager,
-    private val pspDataManager: PSPDataManager
+    private val pspDataManager: PSPDataManager,
+    private val localManager: LocaleManager
 ) : BaseViewModel() {
 
     val betsDetailsList = marginfoxDataManager.betsDetailsList
@@ -127,4 +131,10 @@ class MainViewModel(
     }
 
     fun getOutcomes() = betkeydataManager.outcomes
+
+    fun setNewLocale(c: Context, language: String) {
+        localManager.setNewLocale(c, language)
+    }
+
+    fun getLocale() = localManager.getLocale()
 }

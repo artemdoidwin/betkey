@@ -118,7 +118,8 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/withdrawal_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/withdrawal_btn"
+            android:visibility="gone"/>
 
     <Button
             android:id="@+id/pick_btn"
@@ -133,7 +134,8 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lottery_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/lottery_btn"
+            android:visibility="gone"/>
 
 
     <Button
@@ -157,7 +159,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.36" />
+            app:layout_constraintGuide_begin="270dp" />
 
     <Spinner
             android:id="@+id/language_spinner"
@@ -167,6 +169,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/include_toolbar"
-            android:entries="@array/languages" />
+            android:entries="@array/languages"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

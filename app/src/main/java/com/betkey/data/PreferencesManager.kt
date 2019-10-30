@@ -1,10 +1,7 @@
 package com.betkey.data
 
 import android.content.SharedPreferences
-import com.betkey.utils.AGENT_AGENTID
-import com.betkey.utils.AGENT_ID
-import com.betkey.utils.AGENT_USERNAME
-import com.betkey.utils.TOKEN
+import com.betkey.utils.*
 
 class PreferencesManager(private val pref: SharedPreferences) {
 
@@ -20,5 +17,13 @@ class PreferencesManager(private val pref: SharedPreferences) {
             it.putInt(AGENT_AGENTID, agentId)
             it.putString(AGENT_USERNAME, userName)
         }.apply()
+    }
+
+    fun getLanguage(): String? {
+        return pref.getString(LANGUAGE_KEY, LANGUAGE_EN)
+    }
+
+    fun persistLanguage(language: String) {
+        pref.edit().putString(LANGUAGE_KEY, language).apply()
     }
 }

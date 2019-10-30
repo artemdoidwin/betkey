@@ -37,8 +37,8 @@ class FindPlayerFragment : BaseFragment() {
         compositeDisposable.add(
             deposit_find_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 subscribe(
-//                    viewModel.findPlayer(deposit_find_amount_ET.text.toString()), {
-                                                viewModel.findPlayer("35621001240"), {
+                    viewModel.findPlayer(deposit_find_amount_ET.text.toString()), {
+//                                                viewModel.findPlayer("237699000004"), {
                         if (it.errors.isNotEmpty() && it.errors[0].code == 33) {
                             addFragment(
                                 NoPlayerFoundFragment.newInstance(),
@@ -64,14 +64,14 @@ class FindPlayerFragment : BaseFragment() {
 
     private fun checkFragment() {
         when (activity!!.localClassName) {
-            "ui.withdrawal.WithdrawalActivity" -> {
+            "com.betkey.ui.withdrawal.WithdrawalActivity" -> {
                 addFragment(
                     WithdrawalFoundPlayerFragment.newInstance(),
                     R.id.container_for_fragments,
                     WithdrawalFoundPlayerFragment.TAG
                 )
             }
-            "ui.deposit.DepositActivity" -> {
+            "com.betkey.ui.deposit.DepositActivity" -> {
                 addFragment(
                     FoundFragment.newInstance(),
                     R.id.container_for_fragments,

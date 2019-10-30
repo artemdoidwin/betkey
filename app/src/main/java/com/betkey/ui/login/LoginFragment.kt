@@ -37,8 +37,8 @@ class LoginFragment : BaseFragment() {
 
         compositeDisposable.add(
             login_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
-                subscribe(viewModel.login("test1", "12345"), {
-//                subscribe(viewModel.login(login_user_name.text.toString().trim(), login_password.text.toString().trim()), {
+//                subscribe(viewModel.login("test_agent_1", "12345"), {
+                subscribe(viewModel.login(login_user_name.text.toString().trim(), login_password.text.toString().trim()), {
                     showFragment(LoginOkFragment.newInstance(), R.id.container_for_fragments, LoginOkFragment.TAG)
                 },{
                     if (it.message == null){

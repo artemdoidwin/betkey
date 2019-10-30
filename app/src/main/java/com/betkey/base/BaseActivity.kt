@@ -8,9 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.betkey.R
 import com.betkey.utils.LoadingUiHelper
 
-abstract class BaseActivity : AppCompatActivity(){
+abstract class BaseActivity : AppCompatActivity() {
+
     private var currentFragment: BaseFragment? = null
     private var progressDialog: LoadingUiHelper.ProgressDialogFragment? = null
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase)
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

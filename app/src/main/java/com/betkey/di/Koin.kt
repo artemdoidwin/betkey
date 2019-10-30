@@ -1,10 +1,7 @@
 package com.betkey.di
 
 import android.content.Context
-import com.betkey.data.BetKeyDataManager
-import com.betkey.data.MarginfoxDataManager
-import com.betkey.data.PSPDataManager
-import com.betkey.data.PreferencesManager
+import com.betkey.data.*
 import com.betkey.network.ApiInterfaceBetkey
 import com.betkey.network.ApiInterfaceMarginfox
 import com.betkey.network.ApiInterfacePSP
@@ -22,7 +19,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 private val viewModelModule = module {
-    viewModel { MainViewModel(get(), get(), get()) }
+    viewModel { MainViewModel(get(), get(), get(), get()) }
 }
 
 private val networkModule = module {
@@ -77,6 +74,7 @@ private val dataModule = module {
     single { ModelRepository() }
     factory { TokenAuthenticator(get(), get()) }
     single { OkHttpClient.Builder() }
+    single { LocaleManager(get()) }
 }
 
 private val apiModule = module {

@@ -40,15 +40,15 @@
             android:id="@+id/deposit_find_amount_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:gravity="center"
+            android:text="@string/deposit_mob_num"
+            android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:textAllCaps="true"
-            android:text="@string/deposit_mob_num"
+            app:layout_constraintEnd_toStartOf="@+id/deposit_find_amount_view"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@+id/deposit_find_head_text"/>
+            app:layout_constraintTop_toBottomOf="@+id/deposit_find_head_text" />
 
 
     <RelativeLayout
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:inputType="number"
-                tools:ignore="Autofill,TextFields"/>
+                tools:ignore="Autofill,TextFields" />
 
     </RelativeLayout>
 

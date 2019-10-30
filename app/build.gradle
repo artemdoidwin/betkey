@@ -30,6 +30,16 @@ android {
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
+
+    flavorDimensions "version"
+    productFlavors {
+        demo {
+            dimension "version"
+            applicationIdSuffix ".demo"
+            versionNameSuffix "-demo"
+        }
+    }
+
 }
 
 dependencies {
