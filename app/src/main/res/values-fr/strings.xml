@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Betkey</string>
+    <string name="app_name">Betoo</string>
     <string name="login_btn">CONNEXION</string>
     <string name="login_ok_deposits_btn">DEPOT</string>
     <string name="login_ok_jackpot_btn">JACKPOT</string>

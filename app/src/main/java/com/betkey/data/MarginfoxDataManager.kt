@@ -68,7 +68,7 @@ class MarginfoxDataManager(
     }
 
     fun sportBetToday(): Single<Map<String, Map<String, List<Event>>>> {
-        return apiMarginfox.getSportbetting("en", "MRFT", API_KEY_MARGINFOX)
+        return apiMarginfox.getSportbetting(prefManager.getLanguage(), "MRFT", API_KEY_MARGINFOX)
             .flatMap {
                 val sb = toSportBetting(it)
                 modelRepository.sportBetToday.postValue(sb.today)
@@ -77,7 +77,7 @@ class MarginfoxDataManager(
     }
 
     fun sportBetTomorrow(): Single<Map<String, Map<String, List<Event>>>> {
-        return apiMarginfox.getSportbetting("en", "MRFT", API_KEY_MARGINFOX)
+        return apiMarginfox.getSportbetting(prefManager.getLanguage(), "MRFT", API_KEY_MARGINFOX)
             .flatMap {
                 val sb = toSportBetting(it)
                 modelRepository.sportBetTomorrow.postValue(sb.tomorrow)
@@ -86,7 +86,7 @@ class MarginfoxDataManager(
     }
 
     fun sportBetStartingSoon(): Single<Map<String, Map<String, List<Event>>>> {
-        return apiMarginfox.getSportbetting("en", "MRFT", API_KEY_MARGINFOX)
+        return apiMarginfox.getSportbetting(prefManager.getLanguage(), "MRFT", API_KEY_MARGINFOX)
             .flatMap {
                 val sb = toSportBetting(it)
                 modelRepository.sportBetStartingSoon.postValue(sb.startingSoon)
@@ -95,7 +95,7 @@ class MarginfoxDataManager(
     }
 
     fun getSportBettingMarkets(eventId: String): Single<Event> {
-        return apiMarginfox.getSportbettingMarkets(eventId, "en", API_KEY_MARGINFOX)
+        return apiMarginfox.getSportbettingMarkets(eventId, prefManager.getLanguage(), API_KEY_MARGINFOX)
             .flatMap {
                 modelRepository.marketsRest.postValue(it)
                 Single.just(it)
@@ -104,7 +104,7 @@ class MarginfoxDataManager(
 
     fun getAgentProfile(stake: String): Single<BetLookupObj?> {
         return prefManager.getToken().let { token ->
-            apiMarginfox.getAgentProfile("exaloc_kong_key", "exaloc", token)
+            apiMarginfox.getAgentProfile(API_KEY_MARGINFOX, "exaloc", token)
                 .flatMap {
                     sportBettingPlaceBet(stake, it.message?.agentDocument?.id!!)
                 }
@@ -128,7 +128,7 @@ class MarginfoxDataManager(
             events["betkeyData[agent_id]"] = agentId.toString()
         }
         return prefManager.getToken().let { token ->
-            apiMarginfox.sprotBettingPlaceBet("exaloc_kong_key", events, token)
+            apiMarginfox.sprotBettingPlaceBet(API_KEY_MARGINFOX, events, token)
                 .flatMap {
                     val model = BetLookupObj.checkStatus(it)
                     if (model == null) {

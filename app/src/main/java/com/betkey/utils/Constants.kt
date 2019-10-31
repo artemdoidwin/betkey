@@ -5,9 +5,8 @@ const val BASE_URSL_BETKEY2 = "https://api.betshop.online/"
 const val API_KEY_BETKEY = "QDXVK3qN2CGW4pi6" //"exaloc_kong_key" - old api key
 const val API_KEY_BETKEY2 = "tEzenFNzWh252R"
 
-const val BASE_URSL_MARGINFOX = "http://api.exaloc.org"  // "http://api.exaloc.org/v1/" - old url
-const val BASE_URSL_MARGINFOX2 = "http://api.exaloc.net/v1/"
-const val INSTANCE_MARGINFOX = "Betoo" //"exaloc" - old instance
+const val BASE_URSL_MARGINFOX = "http://api.exaloc.org/v1/"
+const val INSTANCE_MARGINFOX = "betoo" //"exaloc" - old instance
 const val API_KEY_MARGINFOX = "exaloc_kong_key"
 
 const val BASE_URSL_PSP = "http://betoo-payment-psp.betkey.net/" //"http://exaloc-payment-psp.betkey.net/" - old url

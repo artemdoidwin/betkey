@@ -19,8 +19,8 @@ class PreferencesManager(private val pref: SharedPreferences) {
         }.apply()
     }
 
-    fun getLanguage(): String? {
-        return pref.getString(LANGUAGE_KEY, LANGUAGE_EN)
+    fun getLanguage(): String {
+        return pref.getString(LANGUAGE_KEY, LANGUAGE_EN)!!
     }
 
     fun persistLanguage(language: String) {
