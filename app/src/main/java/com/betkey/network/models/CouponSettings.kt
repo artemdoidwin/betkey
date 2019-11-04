@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 class CouponSettings (
     @SerializedName("pool")
-    var pool: Int? = null,
+    var pool: Double? = null,
 
     @SerializedName("profit")
     var profit: Int? = null,

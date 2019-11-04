@@ -361,7 +361,7 @@ class UsbPrinterActivity : BaseActivity() {
     }
 
     private fun jackpotPrint() {
-        printMyLogo(R.drawable.marginfox_logo)   //picture
+        printMyLogo(R.drawable.logo_for_print)   //picture
         initStyleContent() //init context
 
         //print content
@@ -396,7 +396,7 @@ class UsbPrinterActivity : BaseActivity() {
     }
 
     private fun sportBettingPrint() {
-        printMyLogo(R.drawable.marginfox_logo)   //picture
+        printMyLogo(R.drawable.logo_for_print)   //picture
         initStyleContent() //init context
 
         //print content
@@ -409,7 +409,8 @@ class UsbPrinterActivity : BaseActivity() {
             printHeadRow(resources.getString(R.string.jackpot_game_code), sbSuccess.code)
             printHeadRow(
                 resources.getString(R.string.jackpot_game_date_time),
-                sbSuccess.created.toFullDate().dateToString()
+                sbSuccess.created?.date?.toFullDate()!!.dateToString()
+
             )
 
             viewModel.ticket.value?.also { ticket ->

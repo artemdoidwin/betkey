@@ -69,7 +69,7 @@ class JackpotGamesAdapter(private val gameListener: GameListener) :
                 itemView.jackpot_items.clearCheck()
             }
 
-            Log.e("qwert", "Model 123456789  ${model.btnChecked == 1}")
+            Log.e(" qwert", "Model 123456789  ${model.btnChecked == 1}")
 
             itemView.item_winner_command_left_btn.text = command1
             itemView.item_winner_command_left_btn.setOnClickListener {

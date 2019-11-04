@@ -8,6 +8,8 @@ import com.betkey.repository.ModelRepository
 import com.betkey.utils.AGENT_HHT
 import com.betkey.utils.API_KEY_MARGINFOX
 import io.reactivex.Single
+import org.jetbrains.anko.collections.forEachReversedWithIndex
+import org.jetbrains.anko.collections.forEachWithIndex
 
 class MarginfoxDataManager(
     private val prefManager: PreferencesManager,
@@ -45,20 +47,20 @@ class MarginfoxDataManager(
     }
 
     fun jackpotAgentBetting(
-        selection0: String,
-        selection1: String,
-        selection2: String,
-        selection3: String,
-        selection4: String,
-        selection5: String,
-        selection6: String,
+        selections: ArrayList<String>,
         stake: Int,
         alternativeSelections: String
     ): Single<AgentBettingResult> {
+
+        val map = linkedMapOf<String,String>()
+
+        selections.forEachWithIndex { index, value ->
+            map["jackpot[selections][${index}]"] = value
+        }
+
         return prefManager.getToken().let { token ->
             apiMarginfox.jackpotAgentBetting(
-                token, selection0, selection1, selection2, selection3, selection4,
-                selection5, selection6, stake, AGENT_HHT, alternativeSelections
+                token, map, stake, AGENT_HHT, alternativeSelections
             )
                 .flatMap {
                     modelRepository.agentBet.postValue(it)
@@ -104,7 +106,7 @@ class MarginfoxDataManager(
 
     fun getAgentProfile(stake: String): Single<BetLookupObj?> {
         return prefManager.getToken().let { token ->
-            apiMarginfox.getAgentProfile(API_KEY_MARGINFOX, "exaloc", token)
+            apiMarginfox.getAgentProfile(API_KEY_MARGINFOX, "betoo", token)
                 .flatMap {
                     sportBettingPlaceBet(stake, it.message?.agentDocument?.id!!)
                 }

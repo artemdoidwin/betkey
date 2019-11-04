@@ -84,19 +84,12 @@ class MainViewModel(
     }
 
     fun jackpotAgentBetting(
-        selection0: String,
-        selection1: String,
-        selection2: String,
-        selection3: String,
-        selection4: String,
-        selection5: String,
-        selection6: String,
+        selections : ArrayList<String>,
         stake: Int,
         alternativeSelections: String
     ): Single<AgentBettingResult> {
         return marginfoxDataManager.jackpotAgentBetting(
-            selection0, selection1, selection2, selection3, selection4,
-            selection5, selection6, stake, alternativeSelections
+            selections, stake, alternativeSelections
         )
     }
 

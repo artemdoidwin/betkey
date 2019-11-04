@@ -1,7 +1,6 @@
 package com.betkey.ui.jackpot
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,13 +15,14 @@ import com.betkey.utils.dateToString
 import com.betkey.utils.isLowBattery
 import com.betkey.utils.setMessage
 import com.betkey.utils.toFullDate
-import com.google.gson.Gson
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_jackpot.*
+import org.jetbrains.anko.collections.forEachWithIndex
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class JackpotFragment : BaseFragment() {
@@ -124,16 +124,13 @@ class JackpotFragment : BaseFragment() {
     }
 
     private fun sendRequest(listPair: ArrayList<Pair<String, String>>) {
+
+        val list = convertMapToList(listPair)
+
         subscribe(viewModel.jackpotAgentBetting(
-            convertFieldToKey(listPair[0].second),
-            convertFieldToKey(listPair[1].second),
-            convertFieldToKey(listPair[2].second),
-            convertFieldToKey(listPair[3].second),
-            convertFieldToKey(listPair[4].second),
-            convertFieldToKey(listPair[5].second),
-            convertFieldToKey(listPair[6].second),
+            list,
             stake!!,
-            convertFieldToKey(listPair[7].second)
+            convertFieldToKey(listPair.last().second)
         ), { result ->
             if (result.error_message.isEmpty()) {
                 subscribe(viewModel.betLookup(result.message_data.betCode), {
@@ -161,13 +158,21 @@ class JackpotFragment : BaseFragment() {
         })
     }
 
-    private fun convertFieldToKey(field: String): String {
-        var key = ""
-        when (field) {
-            "Home" -> key = "1"
-            "Draw" -> key = "X"
-            "Away" -> key = "2"
+    private fun convertMapToList(listPair: ArrayList<Pair<String, String>>) : ArrayList<String> {
+        val list = arrayListOf<String>()
+        listPair.forEachWithIndex { i, pair ->
+            if ( i != listPair.size - 1) {
+                list.add(convertFieldToKey(pair.second))
+            }
         }
-        return key
+        return list
+    }
+
+    private fun convertFieldToKey(field: String): String {
+        return when (field) {
+            "Home"  -> "1"
+            "Draw"  -> "X"
+            else    -> "2"
+        }
     }
 }
