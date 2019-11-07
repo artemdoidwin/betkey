@@ -93,7 +93,6 @@ class BasketFragment : BaseFragment() {
                     totalOdds = total_odds.text.toString(),
                     bonus = bonus.text.toString(),
                     potentialWin = potential_win.text.toString(),
-                    potentialTax = tax.text.toString(),
                     netWinning = payout.text.toString()
                 )
                 UsbPrinterActivity.start(activity!!, UsbPrinterActivity.SPORT_BETTING)
@@ -153,7 +152,6 @@ class BasketFragment : BaseFragment() {
         viewModel.wallets.value?.get(0)?.currency?.also {
             val default = "0 $it"
             bonus.text = default
-            tax.text = default
             potential_win.text = default
             total_win.text = default
             payout.text = default

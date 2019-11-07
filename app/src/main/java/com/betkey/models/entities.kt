@@ -33,6 +33,5 @@ data class PrintObj(
     var totalOdds: String = "",
     var bonus: String = "",
     var potentialWin: String = "",
-    var potentialTax: String = "",
     var netWinning: String = ""
 )

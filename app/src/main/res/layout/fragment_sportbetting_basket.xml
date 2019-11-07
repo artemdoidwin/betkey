@@ -188,15 +188,17 @@
                 android:id="@+id/total_win_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="4dp"
                 android:gravity="center"
                 android:text="@string/sportbetting_total_win"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/tax_title"
-                app:layout_constraintStart_toStartOf="@+id/tax_title" />
+                app:layout_constraintBottom_toTopOf="@+id/payout_title"
+                app:layout_constraintStart_toStartOf="@+id/payout_title" />
 
         <TextView
                 android:id="@+id/total_win"
@@ -208,40 +210,12 @@
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/tax"
-                app:layout_constraintEnd_toEndOf="@+id/tax"
-                android:text="0 CFA"  />
-
-        <TextView
-                android:id="@+id/tax_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="4dp"
-                android:gravity="center"
-                android:text="@string/sportbetting_tax"
-                android:textAllCaps="true"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/payout_title"
-                app:layout_constraintStart_toStartOf="@+id/payout_title" />
-
-        <TextView
-                android:id="@+id/tax"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="4dp"
-                android:gravity="center"
-                android:textAllCaps="true"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/payout"
                 app:layout_constraintEnd_toEndOf="@+id/place_bet_btn"
-                android:text="0 CFA" />
+                android:text="0 CFA"  />
+
+
+
 
         <TextView
                 android:id="@+id/payout_title"

@@ -346,13 +346,6 @@ class UsbPrinterActivity : BaseActivity() {
     private fun printBottomText() {
         printMyLogo(R.drawable.line)
 
-        mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_LEFT)
-        val bottomText =
-            "\n${resources.getString(R.string.withdrawal_text_bottom_looking)}\n\n" +
-                    resources.getString(R.string.withdrawal_text_bottom_contact)
-        mUsbThermalPrinter.addString(bottomText)
-        mUsbThermalPrinter.printString()
-
         mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
         mUsbThermalPrinter.setBold(true)
         mUsbThermalPrinter.addString("\n${resources.getString(R.string.withdrawal_site)}")
@@ -441,7 +434,6 @@ class UsbPrinterActivity : BaseActivity() {
                 printHeadRow(
                     resources.getString(R.string.sportbetting_potential_win), it.potentialWin
                 )
-                printHeadRow(resources.getString(R.string.sportbetting_potint_tax), it.potentialTax)
                 printHeadRow(resources.getString(R.string.sportbetting_winning), it.netWinning)
             }
             dottedLine()
