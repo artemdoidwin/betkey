@@ -14,6 +14,7 @@ import com.betkey.models.SportBetBasketModel
 import com.betkey.network.models.BetLookupObj
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.UsbPrinterActivity
+import com.betkey.ui.login.LoginOkFragment
 import com.betkey.utils.*
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_sportbetting_basket.*
@@ -96,6 +97,7 @@ class BasketFragment : BaseFragment() {
                     netWinning = payout.text.toString()
                 )
                 UsbPrinterActivity.start(activity!!, UsbPrinterActivity.SPORT_BETTING)
+                activity?.finish()
             }, { context?.also { con -> toast(setMessage(it, con)) } })
         }
     }

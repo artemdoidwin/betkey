@@ -42,7 +42,6 @@ class ScanerNoWinnerFragment : BaseFragment() {
         viewModel.ticket.observe(myLifecycleOwner, Observer { ticket ->
             ticket?.also {
                 createScreen(it)
-
                 winner_created.text = dateString(it.created!!.toLong())
                 winner_type.text = it.platformUnit!!.name
                 winner_ticket_id.text = it.ticketId
@@ -52,8 +51,7 @@ class ScanerNoWinnerFragment : BaseFragment() {
         compositeDisposable.add(
             winner_ticket_detail_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 viewModel.ticket.value?.also { ticket ->
-
-                    subscribe(viewModel.betLookup(ticket.ticketId!!), {
+                    subscribe(viewModel.betLookup(ticket), {
                         addFragment(
                             ScanTikcetDetailsFragment.newInstance(),
                             R.id.container_for_fragments,

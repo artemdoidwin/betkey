@@ -122,7 +122,7 @@ data class BetLookupObj(
             return placeBetSuccess
         }
 
-        private fun parse(jsonObj: Any?): BetLookupObj? {
+        fun parse(jsonObj: Any?): BetLookupObj? {
             var obj: BetLookupObj? = null
 
             try {
@@ -135,36 +135,40 @@ data class BetLookupObj(
                 val dummy = Gson().fromJson(
                     Gson().toJson(jsonObj),
                     DummyBetLookupObj::class.java)
-                obj = BetLookupObj(
-                    dummy.id,
-                    dummy.code,
-                    dummy.stake,
-                    dummy.events,
-                    Created(dummy.created!!, 0, ""),
-                    Updated(dummy.updated!!, 0, ""),
-                    dummy.status,
-                    dummy.liveStatus,
-                    dummy.winStatus,
-                    dummy.tax,
-                    dummy.approved,
-                    dummy.instance,
-                    dummy.payoutInfo,
-                    dummy.totalWin,
-                    dummy.couponPayoutAmounts,
-                    dummy.payout,
-                    dummy.cancelReason,
-                    dummy.totalOdds,
-                    dummy.totalOddsFormats,
-                    dummy.grossWin,
-                    dummy.instanceName,
-                    dummy.campaign,
-                    dummy.userId,
-                    dummy.shopId,
-                    dummy.shopName
-                )
+                obj = toBetLookup(dummy)
             } finally {
                 return obj
             }
+        }
+
+        fun toBetLookup(dummy: DummyBetLookupObj) : BetLookupObj {
+            return  BetLookupObj(
+                dummy.id,
+                dummy.code,
+                dummy.stake,
+                dummy.events,
+                Created(dummy.created!!, 0, ""),
+                Updated(dummy.updated!!, 0, ""),
+                dummy.status,
+                dummy.liveStatus,
+                dummy.winStatus,
+                dummy.tax,
+                dummy.approved,
+                dummy.instance,
+                dummy.payoutInfo,
+                dummy.totalWin,
+                dummy.couponPayoutAmounts,
+                dummy.payout,
+                dummy.cancelReason,
+                dummy.totalOdds,
+                dummy.totalOddsFormats,
+                dummy.grossWin,
+                dummy.instanceName,
+                dummy.campaign,
+                dummy.userId,
+                dummy.shopId,
+                dummy.shopName
+            )
         }
     }
 }

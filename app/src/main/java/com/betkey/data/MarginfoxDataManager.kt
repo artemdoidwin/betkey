@@ -8,7 +8,6 @@ import com.betkey.repository.ModelRepository
 import com.betkey.utils.AGENT_HHT
 import com.betkey.utils.API_KEY_MARGINFOX
 import io.reactivex.Single
-import org.jetbrains.anko.collections.forEachReversedWithIndex
 import org.jetbrains.anko.collections.forEachWithIndex
 
 class MarginfoxDataManager(
@@ -38,11 +37,20 @@ class MarginfoxDataManager(
             }
     }
 
-    fun betLookup(ticketId: String): Single<BetLookupObj> {
-        return apiMarginfox.betLookup(ticketId)
+    fun betLookupJackpot(ticketId: String): Single<BetLookupObj> {
+        return apiMarginfox.betLookupJackpot(ticketId)
             .flatMap {
                 modelRepository.lookupBets.postValue(it)
                 Single.just(it)
+            }
+    }
+
+    fun betLookupBetslip(ticketId: String): Single<BetLookupObj> {
+        return apiMarginfox.betLookupBetslip(ticketId)
+            .flatMap {dummy ->
+                val obj = BetLookupObj.toBetLookup(dummy)
+                modelRepository.lookupBets.postValue(obj)
+                Single.just(obj)
             }
     }
 

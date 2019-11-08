@@ -28,10 +28,17 @@ interface ApiInterfaceMarginfox {
     ): Single<AgentBettingResult>
 
     @GET("jackpot_bet/lookup/{betslip_code}")
-    fun betLookup(
+    fun betLookupJackpot(
         @Path("betslip_code")
         betslip_code: String
     ): Single<BetLookupObj>
+
+    @GET("public/betslips/{id}")
+    fun betLookupBetslip(
+        @Path("id")
+        id: String
+    ): Single<DummyBetLookupObj>
+
 
     @GET("prelive/static/pages")
     fun getSportbetting(

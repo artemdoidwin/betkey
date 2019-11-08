@@ -1,7 +1,6 @@
 package com.betkey.ui
 
 import android.content.Context
-import android.content.res.Resources
 import com.betkey.base.BaseViewModel
 import com.betkey.data.BetKeyDataManager
 import com.betkey.data.LocaleManager
@@ -101,8 +100,16 @@ class MainViewModel(
         return betkeydataManager.checkTicket(ticketCode)
     }
 
+    fun betLookup(ticket: Ticket): Single<BetLookupObj> {
+        return if(ticket.platformUnit.code != "jackpot") {
+            marginfoxDataManager.betLookupBetslip(ticket.ticketId!!)
+        } else {
+            marginfoxDataManager.betLookupJackpot(ticket.ticketId!!)
+        }
+    }
+
     fun betLookup(ticketId: String): Single<BetLookupObj> {
-        return marginfoxDataManager.betLookup(ticketId)
+        return marginfoxDataManager.betLookupJackpot(ticketId)
     }
 
     fun getAgentWallets(): Completable {

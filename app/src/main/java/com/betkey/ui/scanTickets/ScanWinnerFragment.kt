@@ -45,7 +45,7 @@ class ScanWinnerFragment : BaseFragment() {
         compositeDisposable.add(
             winner_ticket_detail_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 viewModel.ticket.value?.also { ticket ->
-                    subscribe(viewModel.betLookup(ticket.ticketId!!), {
+                    subscribe(viewModel.betLookup(ticket), {
                         addFragment(
                             ScanTikcetDetailsFragment.newInstance(),
                             R.id.container_for_fragments,
