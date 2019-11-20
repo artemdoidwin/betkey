@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@color/white">
+
+
+
+    <ImageView
+            android:id="@+id/sp_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toTopOf="@+id/sp_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:srcCompat="@drawable/ball"
+            tools:ignore="ContentDescription" />
+
+    <TextView
+            android:id="@+id/sp_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="Bet found"
+            android:textAllCaps="true"
+            android:textColor="@color/green"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/bet_details"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sp_logo"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+    <include
+            android:id="@+id/bet_details"
+            layout="@layout/item_sportbetting_basket"
+            android:layout_width="@dimen/big_btn_width"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/guide_line"
+            app:layout_constraintEnd_toEndOf="@+id/btn_add_bet"
+            app:layout_constraintStart_toStartOf="@+id/btn_add_bet" />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.44" />
+
+    <Button
+            android:id="@+id/btn_add_bet"
+            android:layout_width="@dimen/big_btn_width"
+            android:layout_height="@dimen/big_btn_height"
+            android:text="@string/sportbetting_add_bet"
+            android:textColor="@color/white"
+            android:textAllCaps="true"
+            android:layout_marginTop="16dp"
+            style="@style/ButtonBlueTheme"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/guide_line"/>
+
+    <Button
+            android:id="@+id/btn_go_to_betslip"
+            style="@style/ButtonGreenTheme"
+            android:text="@string/go_to_betslip"
+            android:textColor="@color/white"
+            android:layout_width="@dimen/big_btn_width"
+            android:layout_height="@dimen/big_btn_height"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn_lookup"/>
+
+    <Button
+            android:id="@+id/btn_lookup"
+            style="@style/ButtonGreenTheme"
+            android:text="@string/sportbetting_lookup"
+            android:textColor="@color/white"
+            android:layout_width="@dimen/big_btn_width"
+            android:layout_height="@dimen/big_btn_height"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn_back"/>
+
+    <Button
+            android:id="@+id/btn_back"
+            android:layout_width="@dimen/big_btn_width"
+            android:layout_height="@dimen/big_btn_height"
+            style="@style/ButtonRedTheme"
+            android:text="@string/back_btn"
+            android:textColor="@color/white"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

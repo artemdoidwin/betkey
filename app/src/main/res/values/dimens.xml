@@ -9,6 +9,7 @@
     <dimen name="little_btn_height">30dp</dimen>
 
     <dimen name="item_offset">10</dimen>
+    <dimen name="enter_code_height">70dp</dimen>
 
     <integer name="google_play_services_version">12451000</integer>
 </resources>

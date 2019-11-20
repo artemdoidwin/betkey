@@ -1,6 +1,7 @@
 package com.betkey.di
 
 import android.content.Context
+import com.betkey.BuildConfig
 import com.betkey.data.*
 import com.betkey.network.ApiInterfaceBetkey
 import com.betkey.network.ApiInterfaceMarginfox
@@ -9,8 +10,12 @@ import com.betkey.repository.ModelRepository
 import com.betkey.ui.MainViewModel
 import com.betkey.utils.*
 import com.google.gson.Gson
+import com.ihsanbal.logging.Level
+import com.ihsanbal.logging.LoggingInterceptor
 import io.reactivex.schedulers.Schedulers
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.internal.platform.Platform
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -35,6 +40,7 @@ private val networkModule = module {
                         ).build()
                     )
                 }
+                .addInterceptor(get())
                 .build())
             .addConverterFactory(GsonConverterFactory.create(Gson()))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
@@ -51,6 +57,7 @@ private val networkModule = module {
                         ).build()
                     )
                 }
+                .addInterceptor(get())
                 .build())
             .addConverterFactory(GsonConverterFactory.create(Gson()))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
@@ -61,6 +68,20 @@ private val networkModule = module {
             .baseUrl(BASE_URSL_PSP)
             .addConverterFactory(GsonConverterFactory.create(Gson()))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+            .client(get())
+            .build()
+    }
+    factory<OkHttpClient> {
+        OkHttpClient.Builder()
+            .addInterceptor(get())
+            .build()
+    }
+    factory<Interceptor> {
+        LoggingInterceptor.Builder()
+            .loggable(BuildConfig.DEBUG)
+            .setLevel(Level.BASIC)
+            .log(Platform.INFO)
+            .tag("RETROFIT")
             .build()
     }
 }

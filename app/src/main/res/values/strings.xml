@@ -159,5 +159,9 @@
     <string name="error_device">Change the device like a printer</string>
     <string name="unidentified_error">Unidentified error</string>
     <string name="printer_off_error">Please, make sure, the printer is on</string>
+    <string name="enter_bet_code">Enter bet code</string>
+    <string name="enter_market_code">Enter market code:</string>
+    <string name="event_code">Event code:</string>
+    <string name="go_to_betslip">Go to betslip</string>
 
 </resources>

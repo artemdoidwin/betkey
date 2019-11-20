@@ -43,7 +43,7 @@
             style="@style/ButtonBlueTheme"
             android:layout_width="@dimen/big_btn_width"
             android:layout_height="@dimen/big_btn_height"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="32dp"
             android:gravity="center"
             android:textAllCaps="true"
             android:text="@string/sportbetting_featured_events"
@@ -84,36 +84,51 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
     <Button
+            android:id="@+id/sp_enter_bet_code_btn"
+            style="@style/ButtonYellowTheme"
+            android:layout_width="@dimen/big_btn_width"
+            android:layout_height="@dimen/big_btn_height"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="@string/enter_bet_code"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sp_tomorrow_btn" />
+
+    <Button
             android:id="@+id/sp_lookup_booking__btn"
             style="@style/ButtonYellowTheme"
             android:layout_width="@dimen/big_btn_width"
             android:layout_height="@dimen/big_btn_height"
-            android:layout_marginBottom="40dp"
+            android:layout_marginTop="16dp"
             android:gravity="center"
             android:text="@string/sportbetting_lookup_booking"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/sp_back_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:visibility="gone"/>
-
+            app:layout_constraintTop_toBottomOf="@+id/sp_enter_bet_code_btn" />
 
     <Button
             android:id="@+id/sp_back_btn"
             style="@style/ButtonRedTheme"
             android:layout_width="@dimen/small_btn_width"
             android:layout_height="@dimen/small_btn_height"
-            android:layout_marginBottom="30dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
             android:gravity="center"
-            android:textAllCaps="true"
             android:text="@string/back_btn"
+            android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sp_lookup_booking__btn" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -121,6 +136,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5"/>
+            app:layout_constraintGuide_percent="0.5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

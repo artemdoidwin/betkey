@@ -90,4 +90,8 @@ dependencies {
 
     implementation 'me.dm7.barcodescanner:zbar:1.9.13'
 //    implementation 'cn.bertsir.zbarLibary:zbarlibary:1.3.8'
+
+    implementation('com.github.ihsanbal:LoggingInterceptor:3.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
 }
