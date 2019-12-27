@@ -10,8 +10,10 @@ import com.betkey.base.BaseFragment
 import com.betkey.models.LotteryOrPickModel
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.UsbPrinterActivity
+import com.betkey.ui.pick3.PickActivity
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_lotery_wait.*
+import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
@@ -69,9 +71,11 @@ class LotteryWaitFragment : BaseFragment() {
 
         val winsCombinations = mutableListOf<String>()
 
+        toast("onViewCreated ${viewModel.player}")
+
         viewModel.player.observe(myLifecycleOwner, Observer {
-            when (activity!!.localClassName) {
-                "ui.lottery.LotteryActivity" -> {
+            when (activity!!::class.java.name) {
+                LotteryActivity::class.java.name -> {
                     winsCombinations.add("X 1")
                     winsCombinations.add("X 10")
                     winsCombinations.add("X 100")
@@ -88,7 +92,7 @@ class LotteryWaitFragment : BaseFragment() {
                         )
                     UsbPrinterActivity.start(activity!!, UsbPrinterActivity.LOTTERY)
                 }
-                "ui.pick3.PickActivity" -> {
+                PickActivity::class.java.name -> {
                     winsCombinations.add("X 1")
                     winsCombinations.add("X 10")
                     winsCombinations.add("X 300")
