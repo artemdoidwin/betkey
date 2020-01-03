@@ -33,13 +33,37 @@ android {
 
     flavorDimensions "version"
     productFlavors {
-        demo {
+        betkey {
             dimension "version"
-            applicationIdSuffix ".demo"
-            versionNameSuffix "-demo"
+            applicationIdSuffix ".betkey"
+            versionNameSuffix "-betkey"
+            buildConfigField 'String', 'BASE_URSL_BETKEY', '"http://exaloc-kong.betkey.net:8000/"'
+            buildConfigField 'String', 'API_KEY_BETKEY', '"exaloc_kong_key"'
+            buildConfigField 'String', 'INSTANCE_MARGINFOX', '"exaloc"'
+            buildConfigField 'String', 'BASE_URSL_PSP', '"http://exaloc-payment-psp.betkey.net/"'
+        }
+
+        betoo {
+            dimension "version"
+            applicationIdSuffix ".betoo"
+            versionNameSuffix "-betoo"
+            buildConfigField 'String', 'BASE_URSL_BETKEY', '"http://betoo-api.betkey.net:8000"'
+            buildConfigField 'String', 'API_KEY_BETKEY', '"QDXVK3qN2CGW4pi6"'
+            buildConfigField 'String', 'INSTANCE_MARGINFOX', '"betoo"'
+            buildConfigField 'String', 'BASE_URSL_PSP', '"http://betoo-payment-psp.betkey.net/"'
         }
     }
 
+    sourceSets {
+
+        betkey {
+            java.srcDirs = ['src/main/java']
+        }
+
+        betoo {
+            java.srcDirs = ['src/main/java', 'src/betoo/java']
+        }
+    }
 }
 
 dependencies {

@@ -47,6 +47,14 @@ interface ApiInterfaceMarginfox {
         @Query("api_key") apiKey: String
     ): Single<SportBettingRest>
 
+    @GET("iframes_settings/exaloc")
+    fun getFeaturedEventIds(): Single<FeaturedEventIds>
+
+    @GET("prelive/events/{ids}")
+    fun getEventsById(
+        @Path("ids") ids: String,
+        @Query("lang") lang: String): Single<List<Event>>
+
     @GET("prelive/events/{event_id}")
     fun getSportbettingMarkets(
         @Path("event_id") eventId: String,

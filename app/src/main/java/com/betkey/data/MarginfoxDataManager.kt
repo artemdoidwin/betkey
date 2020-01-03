@@ -3,6 +3,7 @@ package com.betkey.data
 import androidx.lifecycle.MutableLiveData
 import com.betkey.network.ApiInterfaceMarginfox
 import com.betkey.network.models.*
+import com.betkey.network.models.SportBetting.Companion.toFeaturedEvents
 import com.betkey.network.models.SportBetting.Companion.toSportBetting
 import com.betkey.repository.ModelRepository
 import com.betkey.utils.AGENT_HHT
@@ -96,11 +97,17 @@ class MarginfoxDataManager(
     }
 
     fun sportBetStartingSoon(): Single<Map<String, Map<String, List<Event>>>> {
-        return apiMarginfox.getSportbetting(prefManager.getLanguage(), "MRFT", API_KEY_MARGINFOX)
+        return apiMarginfox.getFeaturedEventIds()
             .flatMap {
-                val sb = toSportBetting(it)
-                modelRepository.sportBetStartingSoon.postValue(sb.startingSoon)
-                Single.just(sb.startingSoon)
+                val ids = it.result?.frontPage?.featuredMatchesIds?.toString()
+                    ?.replace("[", "")
+                    ?.replace("]", "")
+                    ?.replace(" ", "") ?: ""
+                apiMarginfox.getEventsById( ids , prefManager.getLanguage())
+            }.flatMap {
+                val fe = toFeaturedEvents(it)
+                modelRepository.sportBetStartingSoon.postValue(fe.startingSoon)
+                Single.just(fe.startingSoon)
             }
     }
 

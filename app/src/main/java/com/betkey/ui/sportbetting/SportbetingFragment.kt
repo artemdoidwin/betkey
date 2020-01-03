@@ -1,16 +1,12 @@
 package com.betkey.ui.sportbetting
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
-import com.jakewharton.rxbinding3.view.clicks
-import kotlinx.android.synthetic.demo.fragment_sportbetting.*
-import kotlinx.android.synthetic.main.fragment_sportbetting.*
 import kotlinx.android.synthetic.main.fragment_sportbetting.sp_back_btn
 import kotlinx.android.synthetic.main.fragment_sportbetting.sp_featured_btn
 import kotlinx.android.synthetic.main.fragment_sportbetting.sp_lookup_booking__btn
@@ -18,7 +14,6 @@ import kotlinx.android.synthetic.main.fragment_sportbetting.sp_today_btn
 import kotlinx.android.synthetic.main.fragment_sportbetting.sp_tomorrow_btn
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import java.util.concurrent.TimeUnit
 
 class SportbetingFragment : BaseFragment() {
 
@@ -68,8 +63,5 @@ class SportbetingFragment : BaseFragment() {
             activity?.also { it.finish() }
         }
 
-        sp_enter_bet_code_btn.setOnClickListener {
-            addFragment(EnterBetCodeFragment.newInstance(), R.id.container_for_fragments, EnterBetCodeFragment.TAG)
-        }
     }
 }

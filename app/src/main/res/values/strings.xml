@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Betoo</string>
+    <string name="app_name">Betkey</string>
 
     <string name="no_permission">Permissions not granted</string>
     <string name="wait" translatable="false">...</string>

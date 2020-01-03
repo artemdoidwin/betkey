@@ -13,3 +13,5 @@ data class SportBettingRest(
     @SerializedName("today")
     var today: Map<String, Map<String, List<LinkedTreeMap<String, String>>>> = mapOf()
 )
+
+//sportsMap<SportName, leaguesMap<LeagueName, List<Event>>>
