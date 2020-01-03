@@ -74,20 +74,20 @@ class JackpotGamesAdapter(private val gameListener: GameListener) :
             itemView.item_winner_command_left_btn.text = command1
             itemView.item_winner_command_left_btn.setOnClickListener {
                 val bet = model.markets["MRFT"]?.lines?.get("NA")?.bets?.get("1")
-                bet?.also { gameListener.onCommandLeft("$prefix ${adapterPosition + 1} - $commandsName", it, "1") }
+                bet?.also { gameListener.onCommandLeft("$prefix ${adapterPosition + 1} - $commandsName", it, "1", model.isAltGame) }
                 list[adapterPosition].btnChecked = 0
             }
 
             itemView.item_winner_draw_btn.setOnClickListener {
                 val bet = model.markets["MRFT"]?.lines?.get("NA")?.bets?.get("X")
-                bet?.also { gameListener.onIDraw("$prefix ${adapterPosition + 1} - $commandsName", it, "X") }
+                bet?.also { gameListener.onIDraw("$prefix ${adapterPosition + 1} - $commandsName", it, "X", model.isAltGame) }
                 list[adapterPosition].btnChecked = 1
             }
 
             itemView.item_winner_command_right_btn.text = command2
             itemView.item_winner_command_right_btn.setOnClickListener {
                 val bet = model.markets["MRFT"]?.lines?.get("NA")?.bets?.get("2")
-                bet?.also { gameListener.onCommandRight("$prefix ${adapterPosition + 1} - $commandsName", it, "2") }
+                bet?.also { gameListener.onCommandRight("$prefix ${adapterPosition + 1} - $commandsName", it, "2", model.isAltGame) }
                 list[adapterPosition].btnChecked = 2
             }
 

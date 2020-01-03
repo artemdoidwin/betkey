@@ -23,8 +23,10 @@ interface ApiInterfaceMarginfox {
         stake: Int,
         @Field("jackpot[source]")
         source: String,
-        @Field("jackpot[alternativeSelections][0]")
-        alternativeSelections: String
+        @FieldMap
+        alternativeSelections: HashMap<String, String>
+//        @Field("jackpot[alternativeSelections][0]")
+//        alternativeSelections: String
     ): Single<AgentBettingResult>
 
     @GET("jackpot_bet/lookup/{betslip_code}")

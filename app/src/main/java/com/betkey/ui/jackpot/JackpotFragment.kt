@@ -17,7 +17,6 @@ import com.betkey.utils.setMessage
 import com.betkey.utils.toFullDate
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_jackpot.*
-import org.jetbrains.anko.collections.forEachWithIndex
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
@@ -38,6 +37,8 @@ class JackpotFragment : BaseFragment() {
     private lateinit var gamesAdapter: JackpotGamesAdapter
     private lateinit var productsListener: GameListener
     private var betDetailsMap = HashMap<String, String>()
+    private var altDetailsMap = HashMap<String, String>()
+
     private var stake: Int? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -48,23 +49,35 @@ class JackpotFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         productsListener = object : GameListener {
-            override fun onCommandLeft(commandName: String, bet: Bet, selection: String) {
-                betDetailsMap[commandName] = bet.name
-                if (betDetailsMap.size == gamesAdapter.itemCount) {
+            override fun onCommandLeft(commandName: String, bet: Bet, selection: String, isAlternativeEvent: Boolean) {
+                if(isAlternativeEvent) {
+                    altDetailsMap[commandName] = bet.name
+                } else {
+                    betDetailsMap[commandName] = bet.name
+                }
+                if (betDetailsMap.size + altDetailsMap.size == gamesAdapter.itemCount) {
                     jackpot_create_ticket_btn.isEnabled = true
                 }
             }
 
-            override fun onIDraw(commandName: String, bet: Bet, selection: String) {
-                betDetailsMap[commandName] = bet.name
-                if (betDetailsMap.size == gamesAdapter.itemCount) {
+            override fun onIDraw(commandName: String, bet: Bet, selection: String, isAlternativeEvent: Boolean) {
+                if(isAlternativeEvent) {
+                    altDetailsMap[commandName] = bet.name
+                } else {
+                    betDetailsMap[commandName] = bet.name
+                }
+                if (betDetailsMap.size + altDetailsMap.size == gamesAdapter.itemCount) {
                     jackpot_create_ticket_btn.isEnabled = true
                 }
             }
 
-            override fun onCommandRight(commandName: String, bet: Bet, selection: String) {
-                betDetailsMap[commandName] = bet.name
-                if (betDetailsMap.size == gamesAdapter.itemCount) {
+            override fun onCommandRight(commandName: String, bet: Bet, selection: String, isAlternativeEvent: Boolean) {
+                if(isAlternativeEvent) {
+                    altDetailsMap[commandName] = bet.name
+                } else {
+                    betDetailsMap[commandName] = bet.name
+                }
+                if (betDetailsMap.size + altDetailsMap.size == gamesAdapter.itemCount) {
                     jackpot_create_ticket_btn.isEnabled = true
                 }
             }
@@ -75,17 +88,22 @@ class JackpotFragment : BaseFragment() {
         compositeDisposable.add(
             jackpot_create_ticket_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 if (!isLowBattery(context!!)){
-                    val listPair = betDetailsMap.toList() as ArrayList<Pair<String, String>>
-                    listPair.sortWith(Comparator { o1, o2 ->
-                        when {
-                            o1.first > o2.first -> 1
-                            o1.first == o2.first -> 0
-                            else -> -1
+                    val comparator = Comparator<Pair<String, String>> { o1, o2 ->
+                            when {
+                                o1.first > o2.first -> 1
+                                o1.first == o2.first -> 0
+                                else -> -1
+                            }
                         }
-                    })
+
+                    val eventsList = betDetailsMap.toList() as ArrayList<Pair<String, String>>
+                    eventsList.sortWith(comparator)
+
+                    val altEventsList = altDetailsMap.toList() as ArrayList<Pair<String, String>>
+                    eventsList.sortWith(comparator)
 
                     stake = jackpot_stake_sp.selectedItem.toString().toInt()
-                    sendRequest(listPair)
+                    sendRequest(eventsList, altEventsList)
                 }
             }
         )
@@ -123,19 +141,17 @@ class JackpotFragment : BaseFragment() {
         }
     }
 
-    private fun sendRequest(listPair: ArrayList<Pair<String, String>>) {
-
-        val list = convertMapToList(listPair)
+    private fun sendRequest(eventsList: ArrayList<Pair<String, String>>, altEventsList: ArrayList<Pair<String, String>>) {
 
         subscribe(viewModel.jackpotAgentBetting(
-            list,
+            convertMapToList(eventsList),
             stake!!,
-            convertFieldToKey(listPair.last().second)
+            convertMapToList(altEventsList)
         ), { result ->
             if (result.error_message.isEmpty()) {
                 subscribe(viewModel.betLookup(result.message_data.betCode), {
                     subscribe(viewModel.checkTicket(result.message_data.betCode), {
-                        viewModel.betsDetailsList.value = listPair
+                        viewModel.betsDetailsList.value = eventsList
                         showFragment(
                             JackpotConfirmationFragment.newInstance(),
                             R.id.container_for_fragments,
@@ -160,10 +176,8 @@ class JackpotFragment : BaseFragment() {
 
     private fun convertMapToList(listPair: ArrayList<Pair<String, String>>) : ArrayList<String> {
         val list = arrayListOf<String>()
-        listPair.forEachWithIndex { i, pair ->
-            if ( i != listPair.size - 1) {
-                list.add(convertFieldToKey(pair.second))
-            }
+        listPair.forEach { pair ->
+            list.add(convertFieldToKey(pair.second))
         }
         return list
     }

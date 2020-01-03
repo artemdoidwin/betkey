@@ -58,18 +58,22 @@ class MarginfoxDataManager(
     fun jackpotAgentBetting(
         selections: ArrayList<String>,
         stake: Int,
-        alternativeSelections: String
+        alternativeSelections: ArrayList<String>
     ): Single<AgentBettingResult> {
 
         val map = linkedMapOf<String,String>()
-
         selections.forEachWithIndex { index, value ->
             map["jackpot[selections][${index}]"] = value
         }
 
+        val alternativesMap = linkedMapOf<String,String>()
+        alternativeSelections.forEachWithIndex { index, value ->
+            alternativesMap["jackpot[alternativeSelections][${index}]"] = value
+        }
+
         return prefManager.getToken().let { token ->
             apiMarginfox.jackpotAgentBetting(
-                token, map, stake, AGENT_HHT, alternativeSelections
+                token, map, stake, AGENT_HHT, alternativesMap
             )
                 .flatMap {
                     modelRepository.agentBet.postValue(it)
