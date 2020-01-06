@@ -78,7 +78,7 @@ class BetKeyDataManager(
 
     fun checkTicket(ticketCode: String): Single<TicketRestObj> {
         return prefManager.getToken().let { token ->
-            apiBetkey.checkTicket(token, ticketCode)
+            apiBetkey.checkTicket(/*token,*/ ticketCode)
                 .flatMap {
                     outcomes = it.outcomes
                     it.ticket?.also { ticket ->

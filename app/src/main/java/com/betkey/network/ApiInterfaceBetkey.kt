@@ -40,10 +40,11 @@ interface ApiInterfaceBetkey {
     @POST("players/lookup")
     fun findPlayer(@Field("player[lookup]") phone: String): Single<PlayerRestObject>
 
-    @GET("tickets/agents_tickets/{ticket_id}")
+//    @GET("tickets/agents_tickets/{ticket_id}")
+    @GET("tickets/{ticket_id}")
     fun checkTicket(
-        @Header("X-AUTH-TOKEN")
-        token: String,
+        /*@Header("X-AUTH-TOKEN")
+        token: String,*/
 
         @Path("ticket_id")
         ticketId: String

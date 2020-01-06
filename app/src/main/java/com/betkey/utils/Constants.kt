@@ -25,6 +25,7 @@ const val TOKEN = "token"
 const val AGENT_ID = "agent_id"
 const val AGENT_AGENTID = "agent_agentid"
 const val AGENT_USERNAME = "agent_username"
+const val ID = "id"
 
 const val BETKEY = "betKey"
 const val MARGINFOX = "marginfox"

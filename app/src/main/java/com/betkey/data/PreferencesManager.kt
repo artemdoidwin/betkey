@@ -11,6 +11,8 @@ class PreferencesManager(private val pref: SharedPreferences) {
 
     fun getToken() = pref.getString(TOKEN, "")!!
 
+    fun getId() = pref.getInt(AGENT_AGENTID, 0)
+
     fun saveAgent(id: String, agentId: Int, userName: String) {
         pref.edit().also {
             it.putString(AGENT_ID, id)

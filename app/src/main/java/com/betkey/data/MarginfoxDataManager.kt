@@ -124,12 +124,15 @@ class MarginfoxDataManager(
     }
 
     fun getAgentProfile(stake: String): Single<BetLookupObj?> {
-        return prefManager.getToken().let { token ->
-            apiMarginfox.getAgentProfile(API_KEY_MARGINFOX, "betoo", token)
-                .flatMap {
-                    sportBettingPlaceBet(stake, it.message?.agentDocument?.id!!)
-                }
-        }
+//        return prefManager.getToken().let { token ->
+//            apiMarginfox.getAgentProfile(API_KEY_MARGINFOX, "betoo", token)
+//                .flatMap {
+//                    sportBettingPlaceBet(stake, it.message?.agentDocument?.id!!)
+//                }
+//            apiMarginfox.
+//        }
+        val id =  prefManager.getId()
+        return sportBettingPlaceBet(stake, id)
     }
 
     private fun sportBettingPlaceBet(stake: String, agentId: Int): Single<BetLookupObj?> {
