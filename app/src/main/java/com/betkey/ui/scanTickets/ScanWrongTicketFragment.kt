@@ -42,4 +42,8 @@ class ScanWrongTicketFragment  : BaseFragment() {
         viewModel.link.value = null
         viewModel.restartScan.call()
     }
+
+    override fun onTranslationReceived(dictionary: Map<String?, String?>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

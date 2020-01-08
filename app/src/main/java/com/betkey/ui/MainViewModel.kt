@@ -41,6 +41,7 @@ class MainViewModel(
     val sportBettingStatus = marginfoxDataManager.sportBettingStatus
     val sportBetSuccess = marginfoxDataManager.sportBetSuccess
     val printObj = marginfoxDataManager.printObj
+    val languages = localManager.languages
 
     var phoneNumberCountryCode = PHONE_CODE
 
@@ -132,9 +133,7 @@ class MainViewModel(
 
     fun getOutcomes() = betkeydataManager.outcomes
 
-    fun setNewLocale(c: Context, language: String) {
-        localManager.setNewLocale(c, language)
+    fun setNewLocale(/*c: Context,*/ language: String) {
+        localManager.setNewLocale(/*c,*/ language)
     }
-
-    fun getLocale() = localManager.getLocale()
 }

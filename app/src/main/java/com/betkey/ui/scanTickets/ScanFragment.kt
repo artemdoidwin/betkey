@@ -13,6 +13,7 @@ import com.betkey.base.BaseFragment
 import com.betkey.network.models.ErrorObj
 import com.betkey.network.models.Ticket
 import com.betkey.ui.MainViewModel
+import com.betkey.utils.Translation
 import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_found_player.*
@@ -189,5 +190,11 @@ class ScanFragment : BaseFragment(), ZBarScannerView.ResultHandler {
     override fun onPause() {
         super.onPause()
         mScannerView.stopCamera()
+    }
+
+    override fun onTranslationReceived(dictionary: Map<String?, String?>) {
+        title.text = dictionary[Translation.Scan.TITLE]
+        code_ET.hint = dictionary[Translation.Scan.ENTER_CODE_HINT]
+        scan_back_btn.text = dictionary[Translation.Scan.BACK]
     }
 }

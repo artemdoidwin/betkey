@@ -20,32 +20,34 @@ import com.betkey.ui.pick3.PickActivity
 import com.betkey.ui.scanTickets.ScanTicketsActivity
 import com.betkey.ui.sportbetting.SportBettingActivity
 import com.betkey.ui.withdrawal.WithdrawalActivity
-import com.betkey.utils.LANGUAGE_EN
-import com.betkey.utils.LANGUAGE_FR
 import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
-import kotlinx.android.synthetic.main.fragment_login_ok.*
+import kotlinx.android.synthetic.main.fragment_main_menu.*
 import kotlinx.android.synthetic.main.view_toolbar.*
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.concurrent.TimeUnit
 import android.content.Intent
-import kotlinx.android.synthetic.main.fragment_login_ok.include_toolbar
+import android.widget.ArrayAdapter
+import com.betkey.utils.Translation
+import kotlinx.android.synthetic.main.fragment_main_menu.include_toolbar
 
 
-class LoginOkFragment : BaseFragment() {
+class MainMenuFragment : BaseFragment() {
 
     private val viewModel by sharedViewModel<MainViewModel>()
-    private var restartActivity = false
+    private var isSelectedByUser = false
     companion object {
         const val TAG = "LoginOkFragment"
         const val REQUEST_CODE = 12345
         const val RESTART_ACTIVITY = "RESTART_ACTIVITY"
-        fun newInstance() = LoginOkFragment()
+        fun newInstance() = MainMenuFragment()
     }
 
+    private val languages = mutableListOf<String>()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_login_ok, container, false)
+        return inflater.inflate(R.layout.fragment_main_menu, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,6 +69,18 @@ class LoginOkFragment : BaseFragment() {
             }
         })
 
+    }
+
+    override fun onTranslationReceived(dictionary: Map<String?, String?>) {
+        main_menu_tv.text = dictionary[Translation.MainMenu.TITLE]
+        scan_btn.text = dictionary[Translation.MainMenu.SCAN_TICKET]
+        sport_betting_btn.text = dictionary[Translation.MainMenu.SPORTS_BETTING]
+        jackpot_btn.text = dictionary[Translation.MainMenu.JACKPOT]
+        deposits_btn.text = dictionary[Translation.MainMenu.DEPOSIT]
+        withdrawal_btn.text = dictionary[Translation.MainMenu.WITHDRAWAL]
+        lottery_btn.text = dictionary[Translation.MainMenu.LOTTERY]
+        pick_btn.text = dictionary[Translation.MainMenu.PICK]
+        logout_btn.text = dictionary[Translation.MainMenu.LOGOUT]
     }
 
     private fun initButtons() {
@@ -121,28 +135,31 @@ class LoginOkFragment : BaseFragment() {
             }
         )
 
-        when(viewModel.getLocale()) {
-            LANGUAGE_EN -> language_spinner.setSelection(0)
-            LANGUAGE_FR -> language_spinner.setSelection(1)
-        }
+        viewModel.languages.observe(this, Observer {
+            languages.addAll(it)
+            context?.also { context ->
+                language_spinner.adapter = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, languages)
+            }
+        })
+
+
 
         language_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) { }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int,
                                         id: Long) {
-                val languages = resources.getStringArray(R.array.languages)
-                when(languages[position]) {
-                    LANGUAGE_EN -> context?.also { switchLocale(it, LANGUAGE_EN) }
-                    LANGUAGE_FR -> context?.also { switchLocale(it, LANGUAGE_FR) }
+                if(isSelectedByUser) {
+                    viewModel.setNewLocale(languages[position])
                 }
+                isSelectedByUser = true
             }
         }
     }
 
-    private fun switchLocale(context: Context, language: String) {
-        viewModel.setNewLocale(context, language)
-        if (restartActivity) {
+    private fun switchLocale(/*context: Context,*/ language: String) {
+        viewModel.setNewLocale(/*context,*/ language)
+        if (isSelectedByUser) {
 
             val i = Intent(context, LoginActivity::class.java)
             i.putExtra(RESTART_ACTIVITY, true)
@@ -150,7 +167,7 @@ class LoginOkFragment : BaseFragment() {
             startActivity(i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or
                     Intent.FLAG_ACTIVITY_NEW_TASK))
         }
-        restartActivity = true
+        isSelectedByUser = true
     }
 
     private fun hasPermissions(context: Context, vararg permissions: String): Boolean = permissions.all {

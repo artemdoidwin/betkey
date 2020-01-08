@@ -23,7 +23,7 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
-            android:id="@+id/new_photo"
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

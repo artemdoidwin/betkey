@@ -142,4 +142,8 @@ class ConfirmDepositFragment : BaseFragment() {
         super.onDestroyView()
         viewModel.withdrawalRequest.value = null
     }
+
+    override fun onTranslationReceived(dictionary: Map<String?, String?>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

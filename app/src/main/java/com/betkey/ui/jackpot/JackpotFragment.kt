@@ -113,6 +113,10 @@ class JackpotFragment : BaseFragment() {
         }, {context?.also {con -> toast(setMessage(it, con))}})
     }
 
+    override fun onTranslationReceived(dictionary: Map<String?, String?>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     private fun setJackpotInfo(jackpotInfo: JackpotInfo) {
         jackpotInfo.coupon?.stakes?.also { stakes ->
             jackpot_stake_sp.adapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, stakes)

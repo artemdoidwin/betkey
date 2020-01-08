@@ -79,4 +79,8 @@ class JackpotConfirmationFragment : BaseFragment() {
         viewModel.betsDetailsList.value = null
         super.onDestroyView()
     }
+
+    override fun onTranslationReceived(dictionary: Map<String?, String?>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

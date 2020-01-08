@@ -14,7 +14,6 @@ import com.betkey.models.SportBetBasketModel
 import com.betkey.network.models.BetLookupObj
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.UsbPrinterActivity
-import com.betkey.ui.login.LoginOkFragment
 import com.betkey.utils.*
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_sportbetting_basket.*
@@ -216,5 +215,9 @@ class BasketFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.lookupBets.value = null
+    }
+
+    override fun onTranslationReceived(dictionary: Map<String?, String?>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

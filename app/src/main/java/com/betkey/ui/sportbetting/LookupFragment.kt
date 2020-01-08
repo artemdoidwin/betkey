@@ -58,6 +58,10 @@ class LookupFragment : BaseFragment() {
         lookup_code_ET.addTextChangedListener(textWatcher)
     }
 
+    override fun onTranslationReceived(dictionary: Map<String?, String?>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     private val textWatcher = object : TextWatcher {
         override fun onTextChanged(searchText: CharSequence, start: Int, before: Int, count: Int) {
             lookup_btn.isEnabled = searchText.isNotEmpty()

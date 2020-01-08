@@ -4,6 +4,7 @@ import android.util.Log
 import com.betkey.network.ApiInterfaceBetkey
 import com.betkey.network.models.PlayerRestObject
 import com.betkey.network.models.TicketRestObj
+import com.betkey.network.models.TranslationResponse
 import com.betkey.repository.ModelRepository
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -87,5 +88,9 @@ class BetKeyDataManager(
                     Single.just(it)
                 }
         }
+    }
+
+    fun loadTranslation(language: String? = null): Single<TranslationResponse> {
+        return apiBetkey.loadTranslation("en-GB,fr-FR,de-DE")
     }
 }

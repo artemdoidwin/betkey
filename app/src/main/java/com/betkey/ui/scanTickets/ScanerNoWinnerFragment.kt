@@ -10,6 +10,7 @@ import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.network.models.Ticket
 import com.betkey.ui.MainViewModel
+import com.betkey.utils.Translation
 import com.betkey.utils.dateString
 import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
@@ -28,6 +29,9 @@ class ScanerNoWinnerFragment : BaseFragment() {
     }
 
     private val viewModel by sharedViewModel<MainViewModel>()
+
+    private var pending: String? = ""
+    private var noWinner: String? = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_scan_winner, container, false)
@@ -73,13 +77,13 @@ class ScanerNoWinnerFragment : BaseFragment() {
         when (ticket.outcome) {
             0 -> {
                 winner_logo.setImageResource(R.drawable.ic_pending)
-                winner_head_text.text = resources.getString(R.string.winner_head_pending)
+                winner_head_text.text = pending
                 winner_head_text.textColor = ContextCompat.getColor(context!!, R.color.pending)
                 return
             }// "open"
             2 -> {
                 winner_logo.setImageResource(R.drawable.no_winner)
-                winner_head_text.text = resources.getString(R.string.winner_head_no_winner)
+                winner_head_text.text = noWinner
                 winner_head_text.textColor = ContextCompat.getColor(context!!, R.color.red)
                 return
             }//"lost"
@@ -90,5 +94,17 @@ class ScanerNoWinnerFragment : BaseFragment() {
         super.onDestroyView()
         viewModel.link.value = null
         viewModel.restartScan.call()
+    }
+
+    override fun onTranslationReceived(dictionary: Map<String?, String?>) {
+        pending = dictionary[Translation.NoWinner.PENDING_TICKET]
+        noWinner = dictionary[Translation.NoWinner.NO_WINNER]
+        winner_head_text.text = dictionary[Translation.NoWinner.WINNER]
+        winner_created_title.text = dictionary[Translation.NoWinner.CREATED]
+        winner_type_title.text = dictionary[Translation.NoWinner.TYPE]
+        winner_ticket_id_title.text = dictionary[Translation.NoWinner.TICKET_ID]
+        winner_payout_btn.text = dictionary[Translation.NoWinner.PAYOUT_TICKET]
+        winner_ticket_detail_btn.text = dictionary[Translation.NoWinner.TICKET_DETAILS]
+        winner_back_btn.text = dictionary[Translation.NoWinner.BACK]
     }
 }

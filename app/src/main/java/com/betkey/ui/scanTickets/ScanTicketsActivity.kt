@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseActivity
 import com.betkey.ui.MainViewModel
-import com.betkey.ui.login.LoginOkFragment
+import com.betkey.ui.login.MainMenuFragment
 import kotlinx.android.synthetic.main.view_toolbar.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -44,7 +44,7 @@ class ScanTicketsActivity : BaseActivity() {
     override fun onBackPressed() {
         val listFragments = supportFragmentManager.fragments.filter { frag -> frag.isVisible }
         val fragment = listFragments[listFragments.size - 1]
-        if (fragment is LoginOkFragment) {
+        if (fragment is MainMenuFragment) {
             super.onBackPressed()
         } else {
             finish()

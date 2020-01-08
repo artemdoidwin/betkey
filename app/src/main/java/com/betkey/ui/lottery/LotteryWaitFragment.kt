@@ -110,4 +110,8 @@ class LotteryWaitFragment : BaseFragment() {
         super.onDestroyView()
         viewModel.lotteryOrPickRequest.value = "l"
     }
+
+    override fun onTranslationReceived(dictionary: Map<String?, String?>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.betkey.R
 import com.betkey.base.BaseActivity
 import com.betkey.ui.MainViewModel
-import com.betkey.ui.login.LoginOkFragment.Companion.RESTART_ACTIVITY
+import com.betkey.ui.login.MainMenuFragment.Companion.RESTART_ACTIVITY
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : BaseActivity() {
@@ -18,7 +18,7 @@ class LoginActivity : BaseActivity() {
         val isActivityReloaded = intent.extras?.getBoolean(RESTART_ACTIVITY)
         if(isActivityReloaded == true) {
             //if language was changed
-            showFragment(LoginOkFragment.newInstance(), R.id.container_for_fragments, LoginFragment.TAG)
+            showFragment(MainMenuFragment.newInstance(), R.id.container_for_fragments, LoginFragment.TAG)
         } else {
             showFragment(LoginFragment.newInstance(), R.id.container_for_fragments, LoginFragment.TAG)
         }
@@ -27,7 +27,7 @@ class LoginActivity : BaseActivity() {
     override fun onBackPressed() {
         val listFragments = supportFragmentManager.fragments.filter { frag -> frag.isVisible }
         val fragment = listFragments[listFragments.size - 1]
-        if (fragment is LoginOkFragment) {
+        if (fragment is MainMenuFragment) {
             super.onBackPressed()
         } else {
             finish()

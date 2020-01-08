@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.Observer
 import com.betkey.data.LocaleManager
 import io.reactivex.Completable
 import io.reactivex.Single
-import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.android.ext.android.inject
@@ -23,18 +23,21 @@ abstract class BaseFragment : Fragment() {
     private lateinit var baseActivity: BaseActivity
     protected val myLifecycleOwner = MyLifecycleOwner()
     val compositeDisposable = CompositeDisposable()
-    val localeManager : LocaleManager by inject()
+    protected val localeManager : LocaleManager by inject()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         myLifecycleOwner.lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
+        localeManager.dictionary.observe(this, Observer {
+            onTranslationReceived(it)
+        })
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         this.baseActivity = context as BaseActivity
-        localeManager.setLocale(context)
+//        localeManager.setLocale(context)
     }
 
     override fun onStart() {
@@ -149,6 +152,9 @@ abstract class BaseFragment : Fragment() {
             Log.d("", "")
         }))
     }
+
+    abstract fun onTranslationReceived(dictionary: Map<String?, String?>)
+
 }
 
 class MyLifecycleOwner : LifecycleOwner {

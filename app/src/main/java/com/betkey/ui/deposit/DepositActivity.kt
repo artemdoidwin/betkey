@@ -7,8 +7,6 @@ import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseActivity
 import com.betkey.ui.MainViewModel
-import com.betkey.ui.login.LoginOkFragment
-import com.betkey.ui.scanTickets.ScanFragment
 import kotlinx.android.synthetic.main.view_toolbar.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

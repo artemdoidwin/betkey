@@ -73,6 +73,10 @@ class WithdrawalFoundPlayerFragment : BaseFragment() {
         })
     }
 
+    override fun onTranslationReceived(dictionary: Map<String?, String?>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     private fun checkErrors(request: WithdrawalRequest) {
         if (request.errors.isNotEmpty()) {
             when (request.errors[0].code) {

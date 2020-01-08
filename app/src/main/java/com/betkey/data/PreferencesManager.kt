@@ -22,7 +22,7 @@ class PreferencesManager(private val pref: SharedPreferences) {
     }
 
     fun getLanguage(): String {
-        return pref.getString(LANGUAGE_KEY, LANGUAGE_EN)!!
+        return pref.getString(LANGUAGE_KEY, LocaleManager.DEFAULT_LANGUAGE) ?: LocaleManager.DEFAULT_LANGUAGE
     }
 
     fun persistLanguage(language: String) {

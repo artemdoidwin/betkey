@@ -95,7 +95,7 @@ private val dataModule = module {
     single { ModelRepository() }
     factory { TokenAuthenticator(get(), get()) }
     single { OkHttpClient.Builder() }
-    single { LocaleManager(get()) }
+    single { LocaleManager(get(), get()) }
 }
 
 private val apiModule = module {

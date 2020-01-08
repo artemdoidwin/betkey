@@ -63,6 +63,7 @@ android {
         betoo {
             java.srcDirs = ['src/main/java', 'src/betoo/java']
         }
+        main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] }
     }
 }
 

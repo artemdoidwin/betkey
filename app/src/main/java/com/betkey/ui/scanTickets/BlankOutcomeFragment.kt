@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
+import com.betkey.utils.Translation
 import kotlinx.android.synthetic.main.fragment_outcome_blank.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -46,5 +47,10 @@ class BlankOutcomeFragment : BaseFragment(){
         super.onDestroyView()
         viewModel.link.value = null
         viewModel.restartScan.call()
+    }
+
+    override fun onTranslationReceived(dictionary: Map<String?, String?>) {
+        outcome_name.text = dictionary[Translation.BlankOutcome.TITLE]
+        back_btn.text = dictionary[Translation.BlankOutcome.BACK]
     }
 }

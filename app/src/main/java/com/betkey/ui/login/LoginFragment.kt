@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
+import com.betkey.utils.Translation
 import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.container_for_activity.*
@@ -35,11 +36,13 @@ class LoginFragment : BaseFragment() {
         activity!!.include_toolbar.visibility = View.GONE
         login_user_name.requestFocus()
 
+        localeManager.loadTranslation()
+
         compositeDisposable.add(
             login_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
 //                subscribe(viewModel.login("test_agent_1", "12345"), {
                 subscribe(viewModel.login(login_user_name.text.toString().trim(), login_password.text.toString().trim()), {
-                    showFragment(LoginOkFragment.newInstance(), R.id.container_for_fragments, LoginOkFragment.TAG)
+                    showFragment(MainMenuFragment.newInstance(), R.id.container_for_fragments, MainMenuFragment.TAG)
                 },{
                     if (it.message == null){
                         toast(resources.getString(R.string.enter_password))
@@ -49,5 +52,12 @@ class LoginFragment : BaseFragment() {
                 })
             }
         )
+    }
+
+    override fun onTranslationReceived(dictionary: Map<String?, String?>) {
+        title.text = dictionary[Translation.Login.TITLE]
+        login_user_name.hint = dictionary[Translation.Login.USERNAME_HINT]
+        login_password.hint = dictionary[Translation.Login.PASSWORD_HINT]
+        login_btn.text = dictionary[Translation.Login.BUTTON]
     }
 }

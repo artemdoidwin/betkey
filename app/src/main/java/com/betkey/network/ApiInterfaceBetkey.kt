@@ -50,4 +50,8 @@ interface ApiInterfaceBetkey {
         ticketId: String
     ): Single<TicketRestObj>
 
+    @GET("/instances/translations/module/10/languages/{languages}")
+    fun loadTranslation(
+        @Path("languages") languages: String
+    ): Single<TranslationResponse>
 }

@@ -87,4 +87,8 @@ class SuccessFragment : BaseFragment() {
         viewModel.withdrawalConfirm.value = null
         viewModel.agentDeposit.value = null
     }
+
+    override fun onTranslationReceived(dictionary: Map<String?, String?>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }
