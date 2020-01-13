@@ -2,12 +2,14 @@ package com.betkey.ui.login
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import com.betkey.R
@@ -25,12 +27,12 @@ import com.betkey.utils.LANGUAGE_FR
 import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_login_ok.*
+import kotlinx.android.synthetic.main.view_spiner_flag.view.*
 import kotlinx.android.synthetic.main.view_toolbar.*
+import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.concurrent.TimeUnit
-import android.content.Intent
-import kotlinx.android.synthetic.main.fragment_login_ok.include_toolbar
 
 
 class LoginOkFragment : BaseFragment() {
@@ -126,15 +128,18 @@ class LoginOkFragment : BaseFragment() {
             LANGUAGE_FR -> language_spinner.setSelection(1)
         }
 
+        val language = resources.getStringArray(R.array.languages)
+        val adapter = CountryAdapter(context!!, R.layout.view_spiner_flag, language)
+        language_spinner.adapter = adapter
+
         language_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) { }
 
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int,
-                                        id: Long) {
-                val languages = resources.getStringArray(R.array.languages)
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val languages = arrayOf(R.drawable.france, R.drawable.eng)
                 when(languages[position]) {
-                    LANGUAGE_EN -> context?.also { switchLocale(it, LANGUAGE_EN) }
-                    LANGUAGE_FR -> context?.also { switchLocale(it, LANGUAGE_FR) }
+                    R.drawable.eng -> context?.also { switchLocale(it, LANGUAGE_EN) }
+                    R.drawable.france -> context?.also { switchLocale(it, LANGUAGE_FR) }
                 }
             }
         }
@@ -162,6 +167,25 @@ class LoginOkFragment : BaseFragment() {
             ScanTicketsActivity.start(activity!!)
         } else {
             toast(R.string.no_permission)
+        }
+    }
+
+    class CountryAdapter(context: Context, textViewResourceId: Int, objects: Array<String?>) :
+        ArrayAdapter<String?>(context, textViewResourceId, objects) {
+
+        private val languages = arrayOf(R.drawable.france, R.drawable.eng)
+        override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
+            return getCustomView(position, convertView, parent)
+        }
+
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+            return getCustomView(position, convertView, parent)
+        }
+
+        private fun getCustomView(position: Int, convertView: View?, parent: ViewGroup?): View {
+            val row: View = context.layoutInflater.inflate(R.layout.view_spiner_flag, parent, false)
+            row.icon.setImageResource(languages[position])
+            return row
         }
     }
 }
