@@ -10,6 +10,7 @@ import com.betkey.base.BaseFragment
 import com.betkey.models.LotteryOrPickModel
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.UsbPrinterActivity
+import com.betkey.utils.Translation
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_lotery_wait.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -112,6 +113,12 @@ class LotteryWaitFragment : BaseFragment() {
     }
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        lottery_wait_head_text.text = dictionary[Translation.Lottery.TITLE]
+        lottery_wait_price_title.text = dictionary[Translation.Lottery.TICKET_PRICE]
+        lottery_wait_round_title.text = dictionary[Translation.Lottery.ROUND_ID]
+        lottery_wait_draw_title.text = dictionary[Translation.Lottery.NEXT_DRAW]
+        lottery_wait_head_numbers.text = dictionary[Translation.Lottery.YOUR_NUMBERS]
+        lottery_wait_play_again_btn.text = dictionary[Translation.Lottery.PLAY_AGAIN]
+        lottery_wait_home_btn.text = dictionary[Translation.HOME]
     }
 }

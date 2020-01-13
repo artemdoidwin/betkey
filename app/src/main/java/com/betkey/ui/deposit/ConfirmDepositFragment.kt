@@ -10,6 +10,7 @@ import com.betkey.base.BaseFragment
 import com.betkey.network.models.AgentWithdrawal
 import com.betkey.network.models.Player
 import com.betkey.ui.MainViewModel
+import com.betkey.utils.Translation
 import com.betkey.utils.isLowBattery
 import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
@@ -144,6 +145,10 @@ class ConfirmDepositFragment : BaseFragment() {
     }
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        deposit_confirm_head_text.text = dictionary[Translation.ConfirmDeposit.TITLE]
+        deposit_confirm_name_title.text = dictionary[Translation.ConfirmDeposit.NAME]
+        deposit_confirm_phone_title.text = dictionary[Translation.ConfirmDeposit.MOBILE_NUMBER]
+        deposit_confirm_btn.text = dictionary[Translation.ConfirmDeposit.CONFIRM]
+        deposit_confirm_back_btn.text = dictionary[Translation.BACK]
     }
 }

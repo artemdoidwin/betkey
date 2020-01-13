@@ -11,10 +11,7 @@ import com.betkey.network.models.Bet
 import com.betkey.network.models.Event
 import com.betkey.network.models.JackpotInfo
 import com.betkey.ui.MainViewModel
-import com.betkey.utils.dateToString
-import com.betkey.utils.isLowBattery
-import com.betkey.utils.setMessage
-import com.betkey.utils.toFullDate
+import com.betkey.utils.*
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_jackpot.*
 import org.jetbrains.anko.support.v4.toast
@@ -114,7 +111,11 @@ class JackpotFragment : BaseFragment() {
     }
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        jackpot_head_text.text = dictionary[Translation.Jackpot.STAKE]
+        jackpot_title.text = dictionary[Translation.Jackpot.TITLE]
+        jackpot_coupon_id_title.text = dictionary[Translation.Jackpot.ROUND]
+        jackpot_coupon_last_entry_title.text = dictionary[Translation.Jackpot.LAST_ENTRY]
+        jackpot_create_ticket_btn.text = dictionary[Translation.Jackpot.CREATE_TICKET]
     }
 
     private fun setJackpotInfo(jackpotInfo: JackpotInfo) {

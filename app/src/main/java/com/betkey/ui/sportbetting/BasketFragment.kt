@@ -218,6 +218,15 @@ class BasketFragment : BaseFragment() {
     }
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        head_text.text = dictionary[Translation.Basket.TITLE]
+        amount_title.text = dictionary[Translation.Basket.AMOUNT]
+        total_odds_title.text = dictionary[Translation.Basket.TOTAL_ODDS]
+        potential_win_title.text = dictionary[Translation.Basket.POTENTIAL_WIN]
+        bonus_title.text = dictionary[Translation.Basket.BONUS]
+        total_win_title.text = dictionary[Translation.Basket.TOTAL_WIN]
+        payout_title.text = dictionary[Translation.Basket.PAYOUT]
+        place_bet_btn.text = dictionary[Translation.PLACE_BET]
+        clear_all_bets_btn.text = dictionary[Translation.Basket.CLEAR_ALL_BETS]
+        back.text = dictionary[Translation.BACK]
     }
 }

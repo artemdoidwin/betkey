@@ -11,6 +11,7 @@ import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.models.LotteryModel
 import com.betkey.ui.MainViewModel
+import com.betkey.utils.Translation
 import com.betkey.utils.isLowBattery
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_lottery.*
@@ -93,7 +94,14 @@ class LotteryFragment : BaseFragment() {
     }
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        lottery_head_text.text = dictionary[Translation.Lottery.TITLE]
+        lottery_price_title.text = dictionary[Translation.Lottery.TICKET_PRICE]
+        lottery_round_title.text = dictionary[Translation.Lottery.ROUND_ID]
+        lottery_newt_draw_title.text = dictionary[Translation.Lottery.NEXT_DRAW]
+        lottery_clear_btn.text = dictionary[Translation.Lottery.CLEAR]
+        lottery_autopick_btn.text = dictionary[Translation.Lottery.AUTO_PICK]
+        lottery_bet_btn.text = dictionary[Translation.PLACE_BET]
+        lottery_back_btn.text = dictionary[Translation.BACK]
     }
 
     private fun autoPeak() {

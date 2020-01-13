@@ -51,6 +51,6 @@ class BlankOutcomeFragment : BaseFragment(){
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
         outcome_name.text = dictionary[Translation.BlankOutcome.TITLE]
-        back_btn.text = dictionary[Translation.BlankOutcome.BACK]
+        back_btn.text = dictionary[Translation.BACK]
     }
 }

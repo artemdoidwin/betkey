@@ -10,6 +10,7 @@ import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.UsbPrinterActivity
+import com.betkey.utils.Translation
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_deposit_success.*
 import org.jetbrains.anko.textColor
@@ -37,17 +38,6 @@ class SuccessFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        when (activity!!.localClassName) {
-            "ui.withdrawal.WithdrawalActivity" -> {
-                deposit_success_head_text.text =
-                    context!!.resources.getString(R.string.withdrawal_success)
-                deposit_success.text = context!!.resources.getString(R.string.withdrawal_successful)
-                deposit_instantly.text =
-                    context!!.resources.getString(R.string.scan_payout_play_player)
-                deposit_instantly.textColor = ContextCompat.getColor(context!!, R.color.red)
-                deposit_instantly.textSize = 22F
-            }
-        }
 
         compositeDisposable.add(
             deposit_success_back_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
@@ -89,6 +79,17 @@ class SuccessFragment : BaseFragment() {
     }
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        when (activity!!.localClassName) {
+            "ui.withdrawal.WithdrawalActivity" -> {
+                deposit_success_head_text.text = dictionary[Translation.Deposit.WITHDRAWAL_SUCCESS]
+                deposit_success.text = dictionary[Translation.Deposit.WITHDRAWAL_IS_SUCCESSFUL]
+                deposit_instantly.text = dictionary[Translation.Deposit.PLAY_PLAYER]
+                deposit_instantly.textColor = ContextCompat.getColor(context!!, R.color.red)
+                deposit_instantly.textSize = 22F
+            }
+        }
+        deposit_success_name_title.text = dictionary[Translation.ConfirmDeposit.NAME]
+        deposit_success_phone_title.text = dictionary[Translation.ConfirmDeposit.MOBILE_NUMBER]
+        deposit_success_back_btn.text = dictionary[Translation.HOME]
     }
 }

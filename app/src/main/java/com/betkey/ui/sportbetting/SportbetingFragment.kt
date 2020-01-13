@@ -7,11 +7,8 @@ import android.view.ViewGroup
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
-import kotlinx.android.synthetic.main.fragment_sportbetting.sp_back_btn
-import kotlinx.android.synthetic.main.fragment_sportbetting.sp_featured_btn
-import kotlinx.android.synthetic.main.fragment_sportbetting.sp_lookup_booking__btn
-import kotlinx.android.synthetic.main.fragment_sportbetting.sp_today_btn
-import kotlinx.android.synthetic.main.fragment_sportbetting.sp_tomorrow_btn
+import com.betkey.utils.Translation
+import kotlinx.android.synthetic.main.fragment_sportbetting.*
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -66,6 +63,11 @@ class SportbetingFragment : BaseFragment() {
     }
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        sp_title.text = dictionary[Translation.SportBetting.TITLE]
+        sp_featured_btn.text = dictionary[Translation.SportBetting.FEATURED_EVENTS]
+        sp_today_btn.text = dictionary[Translation.SportBetting.TODAY]
+        sp_tomorrow_btn.text = dictionary[Translation.SportBetting.TOMORROW]
+        sp_lookup_booking__btn.text = dictionary[Translation.SportBetting.LOOKUP_BOOKING]
+        sp_back_btn.text = dictionary[Translation.BACK]
     }
 }

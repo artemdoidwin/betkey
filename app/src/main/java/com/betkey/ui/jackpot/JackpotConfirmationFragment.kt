@@ -81,6 +81,15 @@ class JackpotConfirmationFragment : BaseFragment() {
     }
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        deposit_confirm_head_text.text = dictionary[Translation.Jackpot.JACKPOT_CONFIRMATION]
+        confirmation_jackpot_title.text = dictionary[Translation.Jackpot.TITLE]
+        confirmation_coupon_id_title.text = dictionary[Translation.Jackpot.ROUND]
+        confirmation_last_entry_title.text = dictionary[Translation.Jackpot.LAST_ENTRY]
+        confirmation_ticket_price_title.text = dictionary[Translation.ScanTicketsDetails.TICKET_PRICE]
+        confirmation_ticket_number_title.text = dictionary[Translation.ScanTicketsDetails.TICKET_NUMBER]
+        confirmation_ticket_code_title.text = dictionary[Translation.ScanTicketsDetails.TICKET_CODE]
+        confirmation_ticket_created_title.text = dictionary[Translation.Ticket.CREATED]
+        confirmation_bet_details_title.text = dictionary[Translation.ScanTicketsDetails.BET_DETAILS]
+        confirmation_home_btn.text = dictionary[Translation.HOME]
     }
 }

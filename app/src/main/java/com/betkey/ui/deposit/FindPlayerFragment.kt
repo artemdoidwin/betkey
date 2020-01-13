@@ -8,6 +8,7 @@ import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.withdrawal.WithdrawalFoundPlayerFragment
+import com.betkey.utils.Translation
 import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_find_player.*
@@ -63,7 +64,10 @@ class FindPlayerFragment : BaseFragment() {
     }
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        deposit_find_head_text.text = dictionary[Translation.FindPlayer.TITLE]
+        deposit_find_amount_title.text = dictionary[Translation.FoundPlayer.MOBILE_NUMBER]
+        deposit_find_btn.text = dictionary[Translation.FindPlayer.TITLE]
+        deposit_find_back_btn.text = dictionary[Translation.BACK]
     }
 
     private fun checkFragment() {

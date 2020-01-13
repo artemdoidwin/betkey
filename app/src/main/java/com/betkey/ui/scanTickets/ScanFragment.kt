@@ -195,6 +195,6 @@ class ScanFragment : BaseFragment(), ZBarScannerView.ResultHandler {
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
         title.text = dictionary[Translation.Scan.TITLE]
         code_ET.hint = dictionary[Translation.Scan.ENTER_CODE_HINT]
-        scan_back_btn.text = dictionary[Translation.Scan.BACK]
+        scan_back_btn.text = dictionary[Translation.BACK]
     }
 }

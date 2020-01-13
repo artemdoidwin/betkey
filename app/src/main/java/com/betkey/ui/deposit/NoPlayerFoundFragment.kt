@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.betkey.R
 import com.betkey.base.BaseFragment
+import com.betkey.utils.Translation
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.frafment_player_no_found.*
 import java.util.concurrent.TimeUnit
@@ -33,6 +34,7 @@ class NoPlayerFoundFragment : BaseFragment() {
     }
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        deposit_no_found_head_text.text = dictionary[Translation.NoPlayerFound.TITLE]
+        deposit_no_found_back_btn.text = dictionary[Translation.BACK]
     }
 }

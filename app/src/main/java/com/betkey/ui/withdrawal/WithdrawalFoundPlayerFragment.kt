@@ -12,6 +12,7 @@ import com.betkey.base.BaseFragment
 import com.betkey.network.models.WithdrawalRequest
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.deposit.ConfirmDepositFragment
+import com.betkey.utils.Translation
 import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_found_player_withdrawal.*
@@ -74,7 +75,12 @@ class WithdrawalFoundPlayerFragment : BaseFragment() {
     }
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        withdrawal_found_head_text.text = dictionary[Translation.FoundPlayer.TITLE]
+        withdrawal_found_name_title.text = dictionary[Translation.FoundPlayer.NAME]
+        withdrawal_found_phone_title.text = dictionary[Translation.FoundPlayer.MOBILE_NUMBER]
+        withdrawal_found_amount_title.text = dictionary[Translation.FoundPlayer.WITHDRAWAL_PIN]
+        withdrawal_found_btn.text = dictionary[Translation.FoundPlayer.WITHDRAWAL_FOUNDS]
+        withdrawal_found_back_btn.text = dictionary[Translation.BACK]
     }
 
     private fun checkErrors(request: WithdrawalRequest) {

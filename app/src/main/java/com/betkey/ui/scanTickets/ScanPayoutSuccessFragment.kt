@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
+import com.betkey.utils.Translation
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_scan_payout_success.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -38,6 +39,10 @@ class ScanPayoutSuccessFragment : BaseFragment() {
     }
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        scan_success_created_title.text = dictionary[Translation.Ticket.CREATED]
+        scan_success_type_title.text = dictionary[Translation.Ticket.TYPE]
+        scan_success_ticket_id_title.text = dictionary[Translation.Ticket.TICKET_ID]
+        scan_success_play_player.text = dictionary[Translation.ScanSuccess.PLAY_PLAYER]
+        scan_success_back_btn.text = dictionary[Translation.HOME]
     }
 }

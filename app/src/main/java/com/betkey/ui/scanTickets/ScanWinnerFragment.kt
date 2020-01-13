@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
+import com.betkey.utils.Translation
 import com.betkey.utils.dateString
 import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
@@ -80,6 +81,12 @@ class ScanWinnerFragment : BaseFragment() {
     }
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        winner_head_text.text = dictionary[Translation.ScanWinner.WINNER]
+        winner_created_title.text = dictionary[Translation.Ticket.CREATED]
+        winner_type_title.text = dictionary[Translation.Ticket.TYPE]
+        winner_ticket_id_title.text = dictionary[Translation.Ticket.TICKET_ID]
+        winner_payout_btn.text = dictionary[Translation.ScanWinner.PAYOUT_TICKET]
+        winner_ticket_detail_btn.text = dictionary[Translation.Ticket.TICKET_DETAILS]
+        winner_back_btn.text = dictionary[Translation.BACK]
     }
 }

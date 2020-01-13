@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.KeyEvent
 import com.betkey.R
 import com.betkey.base.BaseActivity
+import com.betkey.base.TranslationListener
 import com.betkey.network.models.Event
 import com.betkey.utils.*
 import com.google.zxing.BarcodeFormat
@@ -24,7 +25,7 @@ import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
-class UsbPrinterActivity : BaseActivity() {
+class UsbPrinterActivity : BaseActivity(), TranslationListener {
     private var time: Long = 0
     private val NOPAPER = 3
     private val PRINTER = 11
@@ -40,6 +41,15 @@ class UsbPrinterActivity : BaseActivity() {
     private var mUsbThermalPrinter = UsbThermalPrinter(this)
 
     private val viewModel by viewModel<MainViewModel>()
+
+    //translation
+    private var noPaperTitle = ""
+    private var noPaperInfo = ""
+    private var result = ""
+    private var overTemp = ""
+    private var unidentifiedError = ""
+    private var printerOffError = ""
+
 
     companion object {
         const val OPERATION = "operation"
@@ -553,5 +563,11 @@ class UsbPrinterActivity : BaseActivity() {
         bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
         return bitmap
     }
+
+    override fun onTranslationReceived(dictionary: Map<String?, String?>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+
 }
 

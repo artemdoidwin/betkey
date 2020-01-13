@@ -12,6 +12,7 @@ import com.betkey.network.models.Event
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.sportbetting.eventsAdapters.EventsAdapter
 import com.betkey.ui.sportbetting.eventsAdapters.SportBettingListener
+import com.betkey.utils.Translation
 import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_sportbetting_todays.*
@@ -161,6 +162,7 @@ class TodayEventsFragment : BaseFragment() {
     }
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        head_text.text = dictionary[Translation.TodayEvents.TITLE]
+        bs_todays_events_back_btn.text = dictionary[Translation.BACK]
     }
 }

@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
+import com.betkey.utils.Translation
 import com.betkey.utils.dateString
 import com.betkey.utils.roundOffDecimal
 import com.jakewharton.rxbinding3.view.clicks
@@ -24,7 +25,7 @@ class ScanTikcetDetailsFragment : BaseFragment() {
     }
 
     private val viewModel by sharedViewModel<MainViewModel>()
-    private lateinit var betsAdapter: BetAdapter
+    private var betsAdapter = BetAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_scan_tikcet_detail, container, false)
@@ -55,7 +56,7 @@ class ScanTikcetDetailsFragment : BaseFragment() {
         viewModel.lookupBets.observe(myLifecycleOwner, Observer { lookupBets ->
             lookupBets?.also { bets ->
                 bets.events?.also {
-                    betsAdapter = BetAdapter(it)
+                    betsAdapter.setItems(it.toMutableList())
                     scan_detail_bet_adapter.adapter = betsAdapter
                 }
             }
@@ -63,6 +64,15 @@ class ScanTikcetDetailsFragment : BaseFragment() {
     }
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        betsAdapter.onTranslationReceived(dictionary)
+        scan_detail_head_text.text = dictionary[Translation.ScanTicketsDetails.TICKET_DETAILS]
+        scan_detail_type_title.text = dictionary[Translation.Ticket.TYPE]
+        scan_detail_jackpot_title.text = dictionary[Translation.ScanTicketsDetails.JACKPOT]
+        scan_detail_ticket_price_title.text = dictionary[Translation.ScanTicketsDetails.TICKET_PRICE]
+        scan_detail_ticket_number_title.text = dictionary[Translation.ScanTicketsDetails.TICKET_NUMBER]
+        scan_detail_ticket_code_title.text = dictionary[Translation.ScanTicketsDetails.TICKET_CODE]
+        scan_detail_created_title.text = dictionary[Translation.ScanTicketsDetails.TICKET_CREATED]
+        scan_detail_bet_details_title.text = dictionary[Translation.ScanTicketsDetails.BET_DETAILS]
+        scan_detail_home_btn.text = dictionary[Translation.BACK]
     }
 }

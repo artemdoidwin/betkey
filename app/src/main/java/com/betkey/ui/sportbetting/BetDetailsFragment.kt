@@ -8,6 +8,7 @@ import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.models.SportBetBasketModel
 import com.betkey.ui.MainViewModel
+import com.betkey.utils.Translation
 import kotlinx.android.synthetic.main.fragment_bet_details.*
 import kotlinx.android.synthetic.main.item_sportbetting_basket.*
 import kotlinx.android.synthetic.main.item_sportbetting_basket.view.*
@@ -80,7 +81,11 @@ class BetDetailsFragment : BaseFragment() {
     }
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        sp_title.text = dictionary[Translation.BetDetails.BET_FOUND]
+        btn_add_bet.text = dictionary[Translation.BetDetails.ADD_BET]
+        btn_go_to_betslip.text = dictionary[Translation.BetDetails.GO_TO_BETSLIP]
+        btn_lookup.text = dictionary[Translation.LOOKUP]
+        btn_back.text = dictionary[Translation.BACK]
     }
 
 }

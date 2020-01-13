@@ -18,7 +18,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.android.ext.android.inject
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment : Fragment(), TranslationListener {
 
     private lateinit var baseActivity: BaseActivity
     protected val myLifecycleOwner = MyLifecycleOwner()
@@ -152,9 +152,6 @@ abstract class BaseFragment : Fragment() {
             Log.d("", "")
         }))
     }
-
-    abstract fun onTranslationReceived(dictionary: Map<String?, String?>)
-
 }
 
 class MyLifecycleOwner : LifecycleOwner {

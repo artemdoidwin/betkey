@@ -6,11 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.betkey.R
+import com.betkey.base.TranslationListener
 import com.betkey.network.models.Event
+import com.betkey.utils.Translation
 import kotlinx.android.synthetic.main.item_bet_detail.view.*
 
-class BetAdapter(private val list: List<Event>) : RecyclerView.Adapter<BetAdapter.BetsViewHolder>() {
+class BetAdapter(private val list: MutableList<Event> = arrayListOf()) : RecyclerView.Adapter<BetAdapter.BetsViewHolder>(),
+    TranslationListener {
     private lateinit var context: Context
+
+    //translations
+    private var home = ""
+    private var draw = ""
+    private var away = ""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BetsViewHolder {
         context = parent.context
@@ -25,7 +33,13 @@ class BetAdapter(private val list: List<Event>) : RecyclerView.Adapter<BetAdapte
         holder.updateItem(list[position], context)
     }
 
-    class BetsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    fun setItems(items: List<Event>) {
+        list.clear()
+        list.addAll(items)
+        notifyDataSetChanged()
+    }
+
+    inner class BetsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun updateItem(event: Event, context: Context) {
             val refix = context.resources.getString(R.string.jackpot_game)
             val command1 = (event.teams["1"] ?: error("")).name
@@ -38,11 +52,17 @@ class BetAdapter(private val list: List<Event>) : RecyclerView.Adapter<BetAdapte
         private fun convertFieldToKey(field: String): String {
             var key = ""
             when (field) {
-                "1" -> key = "Home"
-                "X" -> key = "Draw"
-                "2" -> key = "Away"
+                "1" -> key = home
+                "X" -> key = draw
+                "2" -> key = away
             }
             return key
         }
+    }
+
+    override fun onTranslationReceived(dictionary: Map<String?, String?>) {
+        home = dictionary[Translation.ScanTicketsDetails.HOME] ?: ""
+        draw = dictionary[Translation.ScanTicketsDetails.DRAW] ?: ""
+        away = dictionary[Translation.ScanTicketsDetails.AWAY] ?: ""
     }
 }

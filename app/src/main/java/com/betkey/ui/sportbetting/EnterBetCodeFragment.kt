@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
+import com.betkey.utils.Translation
 import kotlinx.android.synthetic.main.fragment_enter_bet_code.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -44,7 +45,11 @@ class EnterBetCodeFragment : BaseFragment() {
     }
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        sp_title.text = dictionary[Translation.EnterBetCode.TITLE]
+        sp_title2.text = dictionary[Translation.EnterBetCode.EVENT_CODE]
+        sp_title3.text = dictionary[Translation.EnterBetCode.MARKET_CODE]
+        lookup_btn.text = dictionary[Translation.LOOKUP]
+        lookup_back_btn.text = dictionary[Translation.BACK]
     }
 
 }

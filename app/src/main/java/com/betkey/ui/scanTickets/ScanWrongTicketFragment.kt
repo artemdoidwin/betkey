@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
+import com.betkey.utils.Translation
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_wrong_ticket.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -44,6 +45,7 @@ class ScanWrongTicketFragment  : BaseFragment() {
     }
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        wrong_head_text.text = dictionary[Translation.ScanWrongTicket.WRONG_TICKET_ID]
+        wrong_back_btn.text = dictionary[Translation.BACK]
     }
 }

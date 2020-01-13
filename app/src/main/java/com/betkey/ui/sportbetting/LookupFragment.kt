@@ -9,8 +9,10 @@ import android.view.ViewGroup
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
+import com.betkey.utils.Translation
 import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
+import kotlinx.android.synthetic.main.fragment_sportbetting_basket.*
 import kotlinx.android.synthetic.main.fragment_sportbetting_lookup_booking.*
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -59,7 +61,10 @@ class LookupFragment : BaseFragment() {
     }
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        sp_title.text = dictionary[Translation.LookUp.TITLE]
+        sp_title2.text = dictionary[Translation.LookUp.ENTER_BOOKING_CODE]
+        lookup_btn.text = dictionary[Translation.LOOKUP]
+        lookup_back_btn.text = dictionary[Translation.BACK]
     }
 
     private val textWatcher = object : TextWatcher {

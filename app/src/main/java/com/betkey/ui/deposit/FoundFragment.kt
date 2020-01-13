@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
+import com.betkey.utils.Translation
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_found_player.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -62,7 +63,12 @@ class FoundFragment : BaseFragment() {
     }
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        deposit_found_head_text.text = dictionary[Translation.FoundPlayer.TITLE]
+        deposit_found_name_title.text = dictionary[Translation.FoundPlayer.NAME]
+        deposit_found_phone_title.text = dictionary[Translation.FoundPlayer.MOBILE_NUMBER]
+        deposit_found_amount_title.text = dictionary[Translation.Deposit.AMOUNT]
+        deposit_found_btn.text = dictionary[Translation.Deposit.TITLE]
+        deposit_found_back_btn.text = dictionary[Translation.BACK]
     }
 
     private val textWatcher = object : TextWatcher {

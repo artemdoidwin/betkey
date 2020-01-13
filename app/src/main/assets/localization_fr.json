@@ -1,0 +1,149 @@
+{
+    "11": {
+        "common": {
+            "home" : "Home",
+            "back": "Back",
+            "lookup": "Lookup",
+            "place_bet": "Place bet"
+        },
+        "login": {
+            "title": "Betkey agent pos",
+            "username_hint": "Username",
+            "password_hint": "Password",
+            "button": "Login"
+        },
+        "main_menu": {
+            "main_menu_title": "Main Menu",
+            "scan_ticket": "Scan ticket",
+            "sports_betting": "Sports betting",
+            "withdrawal": "Withdrawal",
+            "pick": "Pick 3",
+            "logout": "Logout"
+        },
+        "ticket": {
+            "created" : "Created",
+            "type": "Type",
+            "ticket_id": "Ticket ID",
+            "ticket_details": "Ticket Details"
+        },
+        "scan" : {
+            "title": "Please scan ticket",
+            "enter_code_hint": "Enter code"
+        },
+        "blank_outcome" : {
+            "title": "Outcome"
+        },
+        "no_winner": {
+            "winner": "Winner",
+            "no_winner": "No winner",
+            "pending_ticket": "Pending ticket",
+            "payout_ticket": "Payout Ticket",
+            "ticket_details": "Ticket Details"
+        },
+        "scan_success" : {
+            "play_player": "!!Please Play Player!!"
+        },
+        "scan_tickets_details" : {
+            "home": "Home",
+            "draw": "Draw",
+            "away": "Away",
+            "ticket_details": "Ticket details",
+            "ticket_price": "Ticket price",
+            "jackpot": "Jackpot",
+            "ticket_number": "Ticket number",
+            "ticket_code": "Ticket code",
+            "ticket_created": "Ticket created",
+            "bet_details": "Bet details"
+        },
+        "scan_wrong_ticket" : {
+            "wrong_ticket_id": "Wrong ticket id"
+        },
+        "basket": {
+            "betslip": "Betslip",
+            "amount": "Amount",
+            "total_odds": "Total odds",
+            "potential_win": "Potential_win",
+            "bonus": "Bonus",
+            "total_win": "Total win",
+            "payout": "Payout",
+            "place_bet": "Place bet",
+            "clear_all_bets": "Clear all bets"
+        },
+        "bet_details": {
+            "bet_found": "Bet found",
+            "add_bet": "Add bet",
+            "go_to_betslip": "Go to betslip"
+        },
+        "details_sport_biting": {
+            "today": "Today"
+        },
+        "enter_bet_code": {
+            "title": "Enter bet code",
+            "event_code": "Event code",
+            "enter_market_code": "Enter market code"
+        },
+        "lookup": {
+            "title": "Lookup booking",
+            "enter_booking_code": "Enter booking code"
+        },
+        "sport_betting": {
+            "title": "Sportsbetting",
+            "featured_events": "Featured events",
+            "today": "Today",
+            "tomorrow": "Tomorrow",
+            "lookup_booking": "Lookup booking"
+        },
+        "today_event": {
+            "title": "Today's events"
+        },
+        "pick": {
+            "title": "Lottery 5/50",
+            "price": "Ticket price",
+            "round_id": "Round ID",
+            "draw_every_15": "Draw every 15 minutes",
+            "select_numbers": "Select 3 numbers",
+            "place_bet": "Place bet"
+        },
+        "found_player": {
+            "title": "Found Player",
+            "name": "Name",
+            "mobile_number": "Mobile number",
+            "withdrawal_pin": "Withdrawal pin",
+            "withdrawal_founds": "Withdrawal founds"
+        },
+        "lottery": {
+            "title": "Lottery 5/50",
+            "ticket_price": "Ticket price",
+            "round_id": "Round ID",
+            "next_draw": "Next draw",
+            "clear": "Clear",
+            "auto_pick": "Auto pick",
+            "your_numbers": "Your numbers",
+            "play_again": "Play again"
+        },
+        "jackpot": {
+            "title": "Jackpot",
+            "stake": "Stake",
+            "round": "Round",
+            "last_entry": "Last entry",
+            "create_ticket": "Create ticket",
+            "jackpot_confirmation": "Jackpot confirmation"
+        },
+        "confirm_deposit": {
+            "title": "Confirm deposit",
+            "name": "Name",
+            "mobile_number": "Mobile number",
+            "Confirm": "Confirm"
+        },
+        "find_player": {
+            "title": "Find player"
+        },
+        "deposit": {
+            "title": "Deposit",
+            "amount": "Amount"
+        },
+        "no_player_found": {
+            "title": "No player Found"
+        }
+    }
+}

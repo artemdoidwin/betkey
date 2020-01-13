@@ -13,6 +13,7 @@ import com.betkey.models.SportBetBasketModel
 import com.betkey.network.models.Event
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.sportbetting.marketsAdapters.MarketsAdapter
+import com.betkey.utils.Translation
 import com.betkey.utils.dateToString3
 import com.betkey.utils.toFullDate
 import com.jakewharton.rxbinding3.view.clicks
@@ -80,7 +81,8 @@ class DetailsSportBitingFragment : BaseFragment() {
     }
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        details_head_text.text = dictionary[Translation.DetailsSportBiting.TODAY]
+        details_back_btn.text = dictionary[Translation.BACK]
     }
 
     private fun initAdapter() {

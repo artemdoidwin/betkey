@@ -100,11 +100,11 @@ class ScanerNoWinnerFragment : BaseFragment() {
         pending = dictionary[Translation.NoWinner.PENDING_TICKET]
         noWinner = dictionary[Translation.NoWinner.NO_WINNER]
         winner_head_text.text = dictionary[Translation.NoWinner.WINNER]
-        winner_created_title.text = dictionary[Translation.NoWinner.CREATED]
-        winner_type_title.text = dictionary[Translation.NoWinner.TYPE]
-        winner_ticket_id_title.text = dictionary[Translation.NoWinner.TICKET_ID]
+        winner_created_title.text = dictionary[Translation.Ticket.CREATED]
+        winner_type_title.text = dictionary[Translation.Ticket.TYPE]
+        winner_ticket_id_title.text = dictionary[Translation.Ticket.TICKET_ID]
         winner_payout_btn.text = dictionary[Translation.NoWinner.PAYOUT_TICKET]
-        winner_ticket_detail_btn.text = dictionary[Translation.NoWinner.TICKET_DETAILS]
-        winner_back_btn.text = dictionary[Translation.NoWinner.BACK]
+        winner_ticket_detail_btn.text = dictionary[Translation.Ticket.TICKET_DETAILS]
+        winner_back_btn.text = dictionary[Translation.BACK]
     }
 }
