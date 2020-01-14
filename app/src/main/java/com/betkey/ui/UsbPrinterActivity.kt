@@ -467,12 +467,11 @@ class UsbPrinterActivity : BaseActivity() {
 
     private fun createBetList(event: Event) {
         val date = event.time!!.date!!.toFullDate2().dateToString2()
-        val friendlyId = event.friendlyId!!
         val league = event.league!!.name
         val team1Name = (event.teams["1"])!!.name
         val team2Name = (event.teams["2"])!!.name
 
-        val contentBet = "$date\n$friendlyId $league\n$team1Name -\n$team2Name"
+        val contentBet = "$date\n$league\n$team1Name -\n$team2Name"
         mUsbThermalPrinter.addString(contentBet)
         mUsbThermalPrinter.printString()
         mUsbThermalPrinter.clearString()
