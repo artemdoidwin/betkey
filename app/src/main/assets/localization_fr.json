@@ -1,149 +1,188 @@
 {
     "11": {
         "common": {
-            "home" : "Home",
-            "back": "Back",
-            "lookup": "Lookup",
-            "place_bet": "Place bet"
+            "home" : "DOMICILE",
+            "back": "RETOUR",
+            "lookup": "Chercher",
+            "place_bet": "PARIER"
         },
         "login": {
             "title": "Betkey agent pos",
-            "username_hint": "Username",
-            "password_hint": "Password",
-            "button": "Login"
+            "username_hint": "NOM UTILISATEUR",
+            "password_hint": "MOT DE PASSE",
+            "button": "CONNEXION",
+            "enter_password": "Veuillez entrer le nom d'utilisateur ou le mot de passe correct"
         },
         "main_menu": {
-            "main_menu_title": "Main Menu",
-            "scan_ticket": "Scan ticket",
-            "sports_betting": "Sports betting",
-            "withdrawal": "Withdrawal",
-            "pick": "Pick 3",
-            "logout": "Logout"
+            "main_menu_title": "MENU PRINCIPAL",
+            "scan_ticket": "SCANNER LE TICKET",
+            "sports_betting": "PARI SPORTIF",
+            "withdrawal": "RETRAIT",
+            "pick": "CHOISIR 3",
+            "logout": "DECONNEXION"
         },
         "ticket": {
-            "created" : "Created",
-            "type": "Type",
-            "ticket_id": "Ticket ID",
-            "ticket_details": "Ticket Details"
+            "created" : "Créé:",
+            "type": "Type:",
+            "ticket_id": "ID de billets:",
+            "ticket_details": "Détails du billet:"
         },
         "scan" : {
-            "title": "Please scan ticket",
-            "enter_code_hint": "Enter code"
+            "title": "S'il vous plaît scanner le billet",
+            "enter_code_hint": "ENTRER LE CODE"
         },
         "blank_outcome" : {
-            "title": "Outcome"
+            "title": "Résultat"
         },
         "no_winner": {
-            "winner": "Winner",
-            "no_winner": "No winner",
-            "pending_ticket": "Pending ticket",
-            "payout_ticket": "Payout Ticket",
-            "ticket_details": "Ticket Details"
+            "winner": "Gagnant",
+            "no_winner": "Aucun gagnant",
+            "pending_ticket": "Billet en attente",
+            "payout_ticket": "Ticket de paiement",
+            "ticket_details": "Détails du billet"
         },
         "scan_success" : {
-            "play_player": "!!Please Play Player!!"
+            "play_player": "!! SVP PAYEZ LE JOUEUR !!"
         },
         "scan_tickets_details" : {
-            "home": "Home",
-            "draw": "Draw",
-            "away": "Away",
-            "ticket_details": "Ticket details",
-            "ticket_price": "Ticket price",
-            "jackpot": "Jackpot",
-            "ticket_number": "Ticket number",
-            "ticket_code": "Ticket code",
-            "ticket_created": "Ticket created",
-            "bet_details": "Bet details"
+            "home": "DOMICILE",
+            "draw": "Dessiner",
+            "away": "Un moyen",
+            "ticket_details": "Détails du billet",
+            "ticket_price": "Prix du ticket:",
+            "jackpot": "JACKPOT",
+            "ticket_number": "NUMÉRO DE BILLET:",
+            "ticket_code": "Code du billet:",
+            "ticket_created": "Ticket créé:",
+            "bet_details": "Détails du pari"
         },
         "scan_wrong_ticket" : {
-            "wrong_ticket_id": "Wrong ticket id"
+            "wrong_ticket_id": "Mauvais identifiant de billet"
         },
         "basket": {
-            "betslip": "Betslip",
-            "amount": "Amount",
-            "total_odds": "Total odds",
-            "potential_win": "Potential_win",
-            "bonus": "Bonus",
-            "total_win": "Total win",
-            "payout": "Payout",
-            "place_bet": "Place bet",
-            "clear_all_bets": "Clear all bets"
+            "betslip": "TICKET",
+            "amount": "MONTANT",
+            "total_odds": "COTE TOTALE:",
+            "potential_win": "GAIN POTENTIEL:",
+            "bonus": "BONUS:",
+            "total_win": "GAIN TOTAL:",
+            "payout": "PAIEMENT:",
+            "place_bet": "PARIER",
+            "clear_all_bets": "Effacer tous les paris"
         },
         "bet_details": {
-            "bet_found": "Bet found",
-            "add_bet": "Add bet",
-            "go_to_betslip": "Go to betslip"
+            "bet_found": "Pari trouvé",
+            "add_bet": "Ajouter un pari",
+            "go_to_betslip": "Aller sur Betslip"
         },
         "details_sport_biting": {
-            "today": "Today"
+            "today": "AUJOURD'HUI"
         },
         "enter_bet_code": {
-            "title": "Enter bet code",
-            "event_code": "Event code",
-            "enter_market_code": "Enter market code"
+            "title": "Entrez le code de pari",
+            "event_code": "Code d'événement:",
+            "enter_market_code": "Entrez le code du marché"
         },
         "lookup": {
-            "title": "Lookup booking",
-            "enter_booking_code": "Enter booking code"
+            "title": "Recherche de réservation",
+            "enter_booking_code": "Entrez le code de réservation:"
         },
         "sport_betting": {
-            "title": "Sportsbetting",
-            "featured_events": "Featured events",
-            "today": "Today",
-            "tomorrow": "Tomorrow",
-            "lookup_booking": "Lookup booking"
+            "title": "PARI SPORTIF",
+            "featured_events": "Événements en vedette",
+            "today": "AUJOURD'HUI",
+            "tomorrow": "DEMAIN",
+            "lookup_booking": "Recherche de réservation"
         },
         "today_event": {
-            "title": "Today's events"
+            "title": "EVENEMENTS DU JOUR"
         },
         "pick": {
-            "title": "Lottery 5/50",
-            "price": "Ticket price",
-            "round_id": "Round ID",
-            "draw_every_15": "Draw every 15 minutes",
-            "select_numbers": "Select 3 numbers",
-            "place_bet": "Place bet"
+            "title": "Loterie 5/50",
+            "price": "Prix du ticket:",
+            "round_id": "RANG ID:",
+            "draw_every_15": "Dessine toutes les 15 minutes",
+            "select_numbers": "Sélectionnez 3 chiffres",
+            "place_bet": "PARIER"
         },
         "found_player": {
-            "title": "Found Player",
-            "name": "Name",
-            "mobile_number": "Mobile number",
-            "withdrawal_pin": "Withdrawal pin",
-            "withdrawal_founds": "Withdrawal founds"
+            "title": "JOUEUR TROUVE",
+            "name": "NOM:",
+            "mobile_number": "NUMERO DE PORTABLE:",
+            "withdrawal_pin": "Broche de retrait",
+            "withdrawal_founds": "Fonds de retrait"
         },
         "lottery": {
-            "title": "Lottery 5/50",
-            "ticket_price": "Ticket price",
-            "round_id": "Round ID",
-            "next_draw": "Next draw",
-            "clear": "Clear",
-            "auto_pick": "Auto pick",
-            "your_numbers": "Your numbers",
-            "play_again": "Play again"
+            "title": "Loterie 5/50",
+            "ticket_price": "Prix du ticket:",
+            "round_id": "RANG ID:",
+            "next_draw": "Prochain tirage:",
+            "clear": "EFFACER",
+            "auto_pick": "Sélection automatique",
+            "your_numbers": "Vos numéros",
+            "play_again": "Rejouer"
         },
         "jackpot": {
-            "title": "Jackpot",
-            "stake": "Stake",
-            "round": "Round",
-            "last_entry": "Last entry",
-            "create_ticket": "Create ticket",
-            "jackpot_confirmation": "Jackpot confirmation"
+            "title": "JACKPOT",
+            "stake": "Pieu:",
+            "round": "RANG:",
+            "last_entry": "DERNIERE TRANSACTION:",
+            "create_ticket": "Créer un ticket",
+            "jackpot_confirmation": "Confirmation du jackpot",
+            "game": "Jeu",
+            "alternative_game": "Jeu alternatif"
         },
         "confirm_deposit": {
-            "title": "Confirm deposit",
-            "name": "Name",
-            "mobile_number": "Mobile number",
-            "Confirm": "Confirm"
+            "title": "CONFIRMER LE DEPOT",
+            "name": "NOM:",
+            "mobile_number": "NUMERO DE PORTABLE:",
+            "confirm_deposit": "CONFIRMER ",
+            "confirm_withdrawal": "CONFIRMER LE RETRAIT"
         },
         "find_player": {
-            "title": "Find player"
+            "title": "TROUVER LE JOUEUR"
         },
         "deposit": {
             "title": "Deposit",
             "amount": "Amount"
         },
         "no_player_found": {
-            "title": "No player Found"
+            "title": "AUCUN JOUEUR TROUVE"
+        },
+        "printer": {
+            "no_paper_title": "Pas de papier",
+            "no_paper_info": "Pas de papier, veuillez mettre du papier et réessayer",
+            "result": "Résultat",
+            "overheating": "Surchauffe",
+            "unidentified_error": "Erreur non identifiée",
+            "printer_off_error": "Veuillez vous assurer que l'imprimante est allumée",
+            "round_id": "ID RANG:",
+            "draw": "Dessiner:",
+            "ticket_id": "ID de billets:",
+            "ticket_price": "Prix du ticket:",
+            "your_numbers": "VOS NUMÉROS:",
+            "winning_numbers": "NUMÉROS GAGNANTS",
+            "multiply_by_your_stake": "MULTIPLIER PAR VOTRE ENJEU",
+            "number": "NOMBRE:",
+            "name": "NOM:",
+            "time_title": "HEURE:",
+            "id": "ID:",
+            "amount": "MONTANT:",
+            "lottery": "Loterie 5/50",
+            "pick": "PICK 3",
+            "deposit": "DEPOT",
+            "withdrawal": "RETRAIT",
+            "ticket_number": "NUMÉRO DE BILLET:",
+            "code": "CODE:",
+            "date_time": "DATE/HEURE:",
+            "type": "TYPE:",
+            "place": "PLACE",
+            "bet_details": "DETAILS DU PARI",
+            "odds": "COTE:",
+            "bonus": "BONUS:",
+            "potential_wins": "GAIN POTENTIEL:",
+            "new_winning": "GAGNANT NET:",
+            "sure": "Bien sûr"
         }
     }
 }

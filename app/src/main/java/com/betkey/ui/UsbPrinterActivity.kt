@@ -49,7 +49,33 @@ class UsbPrinterActivity : BaseActivity(), TranslationListener {
     private var overTemp = ""
     private var unidentifiedError = ""
     private var printerOffError = ""
-
+    private var ticketPrice = ""
+    private var roundId = ""
+    private var draw = ""
+    private var ticketId = ""
+    private var yourNumbers = ""
+    private var winningNumbers = ""
+    private var multiplyByYourStake = ""
+    private var name = ""
+    private var timeTitle = ""
+    private var id = ""
+    private var amount = ""
+    private var lottery = ""
+    private var pick = ""
+    private var deposit = ""
+    private var number = ""
+    private var withdrawal = ""
+    private var ticketNumber = ""
+    private var code = ""
+    private var dateTime = ""
+    private var type = ""
+    private var place = ""
+    private var betDetails = ""
+    private var odds = ""
+    private var bonus = ""
+    private var potentialWin = ""
+    private var netWinning = ""
+    private var sure = ""
 
     companion object {
         const val OPERATION = "operation"
@@ -85,14 +111,14 @@ class UsbPrinterActivity : BaseActivity(), TranslationListener {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
                 PRINT_START -> PrintThread().start()
-                NOPAPER -> setDialog(R.string.noPaper, R.string.noPaperNotice)
-                OVERHEAT -> setDialog(R.string.operation_result, R.string.overTemp)
+                NOPAPER -> setDialog(noPaperTitle, noPaperInfo)
+                OVERHEAT -> setDialog(result, overTemp)
                 PRINTER -> {
                     toast(msg.obj.toString())
                     finish()
                 }
                 else -> {
-                    toast(R.string.unidentified_error)
+                    toast(unidentifiedError)
                     finish()
                 }
             }
@@ -109,12 +135,12 @@ class UsbPrinterActivity : BaseActivity(), TranslationListener {
         handler.sendMessage(handler.obtainMessage(PRINT_START, 1, 0, null))
     }
 
-    private fun setDialog(title: Int, message: Int) {
+    private fun setDialog(title: String, message: String) {
         val dlg = AlertDialog.Builder(this)
-        dlg.setTitle(getString(title))
-        dlg.setMessage(getString(message))
+        dlg.setTitle(title)
+        dlg.setMessage(message)
         dlg.setCancelable(false)
-        dlg.setPositiveButton(R.string.sure) { _, _ -> finish() }
+        dlg.setPositiveButton(sure) { _, _ -> finish() }
         dlg.show()
     }
 
@@ -179,11 +205,11 @@ class UsbPrinterActivity : BaseActivity(), TranslationListener {
                             PRINTER,
                             1,
                             0,
-                            resources.getString(R.string.printer_off_error)
+                            printerOffError
                         )
                     )
                     else -> handler.sendMessage(
-                        handler.obtainMessage(PRINTER, 1, 0, R.string.unidentified_error)
+                        handler.obtainMessage(PRINTER, 1, 0, unidentifiedError)
                     )
                 }
             } finally {
@@ -199,19 +225,19 @@ class UsbPrinterActivity : BaseActivity(), TranslationListener {
     private fun lotteryPrint() {
         printMyLogo(R.drawable.logo_for_print)   //picture
         initStyleContent()
-        printMiddleText("${resources.getString(R.string.lottery_head)}\n")
+        printMiddleText("${lottery}\n")
 
         viewModel.lotteryOrPick.value?.also { lottery ->
             val price =
-                "${resources.getString(R.string.jackpot_ticket_price_title)} " + "${lottery.price} EUR"
-            val round = "\n${resources.getString(R.string.lottery_id)} " + lottery.round
-            val draw = "${resources.getString(R.string.pick_draw_print)} " + lottery.draw
+                "$ticketPrice " + "${lottery.price} EUR"
+            val round = "\n${roundId} " + lottery.round
+            val draw = "$draw " + lottery.draw
             mUsbThermalPrinter.addString(price.toUpperCase(Locale.getDefault()))
             mUsbThermalPrinter.addString(round.toUpperCase(Locale.getDefault()))
             mUsbThermalPrinter.addString(draw.toUpperCase(Locale.getDefault()))
             mUsbThermalPrinter.printString()
 
-            val numbersTitle = "\n${resources.getString(R.string.lottery_your_numbers)} "
+            val numbersTitle = "\n${yourNumbers} "
             mUsbThermalPrinter.setFontSize(1)
             mUsbThermalPrinter.addString(numbersTitle.toUpperCase(Locale.getDefault()))
             mUsbThermalPrinter.printString()
@@ -231,20 +257,20 @@ class UsbPrinterActivity : BaseActivity(), TranslationListener {
         printMyLogo(R.drawable.logo_for_print)   //picture
         initStyleContent()
 
-        val textMiddle = "${resources.getString(R.string.pick)}\n"
+        val textMiddle = "${pick}\n"
         printMiddleText(textMiddle)
 
         viewModel.lotteryOrPick.value?.also { lottery ->
             val price =
-                "${resources.getString(R.string.jackpot_ticket_price_title)} " + "${lottery.price} EUR"
-            val round = "\n${resources.getString(R.string.lottery_id)} " + lottery.round
-            val draw = "${resources.getString(R.string.pick_draw_print)} " + lottery.draw
+                "$ticketPrice " + "${lottery.price} EUR"
+            val round = "\n${roundId} " + lottery.round
+            val draw = "$draw " + lottery.draw
             mUsbThermalPrinter.addString(price.toUpperCase(Locale.getDefault()))
             mUsbThermalPrinter.addString(round.toUpperCase(Locale.getDefault()))
             mUsbThermalPrinter.addString(draw.toUpperCase(Locale.getDefault()))
             mUsbThermalPrinter.printString()
 
-            val numbersTitle = "\n${resources.getString(R.string.lottery_your_numbers)} "
+            val numbersTitle = "\n${yourNumbers} "
             mUsbThermalPrinter.setFontSize(1)
             mUsbThermalPrinter.addString(numbersTitle.toUpperCase(Locale.getDefault()))
             mUsbThermalPrinter.printString()
@@ -263,9 +289,7 @@ class UsbPrinterActivity : BaseActivity(), TranslationListener {
     private fun printMultiplyStake(list: List<String>) {
         mUsbThermalPrinter.setFontSize(1)
         val titleWinningNum =
-            "\n${resources.getString(R.string.pick_print_winning_num)}         ${resources.getString(
-                R.string.pick_print_multiply_stake
-            )}"
+            "\n${winningNumbers}         $multiplyByYourStake"
         mUsbThermalPrinter.addString(titleWinningNum)
         mUsbThermalPrinter.printString()
 
@@ -280,20 +304,20 @@ class UsbPrinterActivity : BaseActivity(), TranslationListener {
         printMyLogo(R.drawable.logo_for_print)   //picture
         initStyleContent()
 
-        val textMiddle = "${resources.getString(R.string.deposit_deposit)}\n"
+        val textMiddle = "${deposit}\n"
         printMiddleText(textMiddle)
 
         viewModel.agentDeposit.value?.player_deposit?.payment?.also { payment ->
-            val number = "${resources.getString(R.string.withdrawal_number)} " +
+            val number = "${this.number} " +
                     "${payment.psp_payment_id}"
             var name = ""
             viewModel.player.value?.also { player ->
-                name = "${resources.getString(R.string.deposit_player_name)} " +
+                name = "${this.name} " +
                         "${player.first_name} ${player.last_name}"
             }
-            val time = "${resources.getString(R.string.withdrawal_time)} " +
+            val time = "$timeTitle " +
                     dateString(payment.created)
-            val id = "${resources.getString(R.string.withdrawal_id)} " + payment.shortId
+            val id = "$id " + payment.shortId
             mUsbThermalPrinter.addString(number.toUpperCase(Locale.getDefault()))
             mUsbThermalPrinter.addString(name.toUpperCase(Locale.getDefault()))
             mUsbThermalPrinter.addString(time.toUpperCase(Locale.getDefault()))
@@ -302,7 +326,7 @@ class UsbPrinterActivity : BaseActivity(), TranslationListener {
 
             mUsbThermalPrinter.setFontSize(1)
             mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
-            mUsbThermalPrinter.addString("\n${resources.getString(R.string.deposit_amount_text)}")
+            mUsbThermalPrinter.addString("\n${amount}")
             mUsbThermalPrinter.printString()
 
             mUsbThermalPrinter.setFontSize(3)
@@ -318,20 +342,20 @@ class UsbPrinterActivity : BaseActivity(), TranslationListener {
         printMyLogo(R.drawable.logo_for_print)   //picture
         initStyleContent()
 
-        val textMiddle = "${resources.getString(R.string.withdrawal)}\n"
+        val textMiddle = "${withdrawal}\n"
         printMiddleText(textMiddle)
 
         viewModel.withdrawalConfirm.value?.confirm?.a2pDeposit?.payment?.also { payment ->
-            val number = "${resources.getString(R.string.withdrawal_number)} " +
+            val number = "${this.number} " +
                     "${payment.psp_payment_id}"
             var name = ""
             viewModel.player.value?.also { player ->
-                name = "${resources.getString(R.string.deposit_player_name)} " +
+                name = "${this.name} " +
                         "${player.first_name} ${player.last_name}"
             }
-            val time = "${resources.getString(R.string.withdrawal_time)} " +
+            val time = "$timeTitle " +
                     dateString(payment.created)
-            val id = "${resources.getString(R.string.withdrawal_id)} " + payment.shortId
+            val id = "$id " + payment.shortId
 
             mUsbThermalPrinter.addString(number.toUpperCase(Locale.getDefault()))
             mUsbThermalPrinter.addString(name.toUpperCase(Locale.getDefault()))
@@ -341,7 +365,7 @@ class UsbPrinterActivity : BaseActivity(), TranslationListener {
 
             mUsbThermalPrinter.setFontSize(1)
             mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
-            mUsbThermalPrinter.addString("\n${resources.getString(R.string.deposit_amount_text)}")
+            mUsbThermalPrinter.addString("\n${amount}")
             mUsbThermalPrinter.printString()
 
             mUsbThermalPrinter.setFontSize(3)
@@ -371,21 +395,21 @@ class UsbPrinterActivity : BaseActivity(), TranslationListener {
         dottedLine()
         viewModel.agentBet.value?.also { agentBet ->
             printHeadRow(
-                resources.getString(R.string.jackpot_confirmation_ticket_number),
+                ticketNumber,
                 agentBet.message_data.couponId.toString()
             )
             printHeadRow(
-                resources.getString(R.string.jackpot_game_code), agentBet.message_data.betCode
+                code, agentBet.message_data.betCode
             )
             printHeadRow(
-                resources.getString(R.string.jackpot_game_date_time), dateString(agentBet.created)
+                dateTime, dateString(agentBet.created)
             )
             viewModel.ticket.value?.also { ticket ->
                 printHeadRow(
-                    resources.getString(R.string.scan_detail_type), ticket.platformUnit.name
+                    type, ticket.platformUnit.name
                 )
                 dottedLine()
-                printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details))
+                printMiddleText(betDetails)
                 viewModel.lookupBets.value?.events?.also { events ->
                     for (i in events.indices) {
                         dottedLine()
@@ -407,24 +431,24 @@ class UsbPrinterActivity : BaseActivity(), TranslationListener {
 
         viewModel.sportBetSuccess.value?.also { sbSuccess ->
             printHeadRow(
-                resources.getString(R.string.jackpot_confirmation_ticket_number), sbSuccess.id
+                ticketNumber, sbSuccess.id
             )
-            printHeadRow(resources.getString(R.string.jackpot_game_code), sbSuccess.code)
+            printHeadRow(code, sbSuccess.code)
             printHeadRow(
-                resources.getString(R.string.jackpot_game_date_time),
+                dateTime,
                 sbSuccess.created?.date?.toFullDate()!!.dateToString()
 
             )
 
             viewModel.ticket.value?.also { ticket ->
                 printHeadRow(
-                    resources.getString(R.string.scan_detail_type),
+                    type,
                     ticket.platformUnit.name
                 )
 
                 dottedLine()
                 sbSuccess.events?.also { events ->
-                    printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details))
+                    printMiddleText(betDetails)
                     for (i in events.indices) {
                         dottedLine()
                         createBetList(events[i])
@@ -433,18 +457,18 @@ class UsbPrinterActivity : BaseActivity(), TranslationListener {
                     val stake = "${ticket.stake.toDouble().roundOffDecimal()} " +
                             ticket.currency.toUpperCase(Locale.getDefault())
                     printHeadRow(
-                        resources.getString(R.string.sportbetting_place_),
+                        place,
                         " -  ${events.size}/${events.size}  -  $stake"
                     )
                 }
             }
             viewModel.printObj.value?.also {
-                printHeadRow(resources.getString(R.string.sportbetting_odds), it.totalOdds)
-                printHeadRow(resources.getString(R.string.sportbetting_bonus), it.bonus)
+                printHeadRow(odds, it.totalOdds)
+                printHeadRow(bonus, it.bonus)
                 printHeadRow(
-                    resources.getString(R.string.sportbetting_potential_win), it.potentialWin
+                    potentialWin, it.potentialWin
                 )
-                printHeadRow(resources.getString(R.string.sportbetting_winning), it.netWinning)
+                printHeadRow(netWinning, it.netWinning)
             }
             dottedLine()
             printQR(sbSuccess.code)
@@ -565,7 +589,58 @@ class UsbPrinterActivity : BaseActivity(), TranslationListener {
     }
 
     override fun onTranslationReceived(dictionary: Map<String?, String?>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        noPaperTitle =
+            dictionary[Translation.Print.NO_PAPER_TITLE] ?: resources.getString(R.string.noPaper)
+        noPaperInfo = dictionary[Translation.Print.NO_PAPER_INFO]
+            ?: resources.getString(R.string.noPaperNotice)
+        result =
+            dictionary[Translation.Print.RESULT] ?: resources.getString(R.string.operation_result)
+        overTemp =
+            dictionary[Translation.Print.OVERHEATING] ?: resources.getString(R.string.overTemp)
+        unidentifiedError = dictionary[Translation.Print.UNIDENTIFIED_ERROR] ?: resources.getString(
+            R.string.unidentified_error
+        )
+        printerOffError = dictionary[Translation.Print.PRINTER_OFF_ERROR]
+            ?: resources.getString(R.string.printer_off_error)
+        ticketPrice = dictionary[Translation.Print.TICKET_PRICE]
+            ?: resources.getString(R.string.jackpot_ticket_price_title)
+        roundId = dictionary[Translation.Print.ROUND_ID] ?: resources.getString(R.string.lottery_id)
+        draw = dictionary[Translation.Print.DRAW] ?: resources.getString(R.string.pick_draw_print)
+        ticketId = dictionary[Translation.Print.TICKET_ID] ?: resources.getString(R.string.winner_ticket_id)
+        yourNumbers = dictionary[Translation.Print.YOUR_NUMBERS]
+            ?: resources.getString(R.string.lottery_your_numbers)
+        winningNumbers = dictionary[Translation.Print.WINNING_NUMBERS]
+            ?: resources.getString(R.string.pick_print_winning_num)
+        multiplyByYourStake = dictionary[Translation.Print.MULTIPLY_BY_YOUR_STAKE]
+            ?: resources.getString(R.string.pick_print_multiply_stake)
+        number =
+            dictionary[Translation.Print.NUMBER] ?: resources.getString(R.string.withdrawal_number)
+        name = dictionary[Translation.Print.NAME] ?: resources.getString(R.string.deposit_player_name)
+        timeTitle = dictionary[Translation.Print.TIME_TITLE]
+            ?: resources.getString(R.string.withdrawal_time)
+        id = dictionary[Translation.Print.ID] ?: resources.getString(R.string.withdrawal_id)
+        amount = dictionary[Translation.Print.AMOUNT]
+            ?: resources.getString(R.string.deposit_amount_text)
+        lottery =
+            dictionary[Translation.Print.LOTTERY] ?: resources.getString(R.string.lottery_head)
+        pick = dictionary[Translation.Print.PICK] ?: resources.getString(R.string.pick)
+        deposit =
+            dictionary[Translation.Print.DEPOSIT] ?: resources.getString(R.string.deposit_deposit)
+        withdrawal =
+            dictionary[Translation.Print.WITHDRAWAL] ?: resources.getString(R.string.withdrawal)
+        ticketNumber = dictionary[Translation.Print.TICKET_NUMBER]
+            ?: resources.getString(R.string.jackpot_confirmation_ticket_number)
+        code = dictionary[Translation.Print.CODE] ?: resources.getString(R.string.jackpot_game_code)
+        dateTime = dictionary[Translation.Print.DATE_TIME] ?: resources.getString(R.string.jackpot_game_date_time)
+        type = dictionary[Translation.Print.TYPE] ?: resources.getString(R.string.scan_detail_type)
+        place = dictionary[Translation.Print.PLACE] ?: resources.getString(R.string.sportbetting_place_)
+        betDetails = dictionary[Translation.Print.BET_DETAILS] ?: resources.getString(R.string.jackpot_confirmation_bet_details)
+        odds = dictionary[Translation.Print.ODDS] ?: resources.getString(R.string.sportbetting_odds)
+        bonus = dictionary[Translation.Print.BONUS] ?: resources.getString(R.string.sportbetting_bonus)
+        potentialWin =
+            dictionary[Translation.Print.POTENTIAL_WINS] ?: resources.getString(R.string.sportbetting_potential_win)
+        netWinning = dictionary[Translation.Print.NET_WINNING] ?: resources.getString(R.string.sportbetting_winning)
+        sure = dictionary[Translation.Print.SURE] ?: resources.getString(R.string.sure)
     }
 
 

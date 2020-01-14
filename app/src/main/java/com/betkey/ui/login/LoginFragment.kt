@@ -20,6 +20,9 @@ class LoginFragment : BaseFragment() {
 
     private val viewModel by sharedViewModel<MainViewModel>()
 
+    //translation
+    private var enterPassword = ""
+
     companion object {
         const val TAG = "LoginFragment"
 
@@ -45,7 +48,7 @@ class LoginFragment : BaseFragment() {
                     showFragment(MainMenuFragment.newInstance(), R.id.container_for_fragments, MainMenuFragment.TAG)
                 },{
                     if (it.message == null){
-                        toast(resources.getString(R.string.enter_password))
+                        toast(enterPassword)
                     } else {
                         context?.also { con -> toast(setMessage(it, con)) }
                     }
@@ -59,5 +62,6 @@ class LoginFragment : BaseFragment() {
         login_user_name.hint = dictionary[Translation.Login.USERNAME_HINT]
         login_password.hint = dictionary[Translation.Login.PASSWORD_HINT]
         login_btn.text = dictionary[Translation.Login.BUTTON]
+        enterPassword = dictionary[Translation.Login.ENTER_PASSWORD] ?: resources.getString(R.string.enter_password)
     }
 }

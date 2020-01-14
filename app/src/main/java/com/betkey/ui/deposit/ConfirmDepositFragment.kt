@@ -46,6 +46,9 @@ class ConfirmDepositFragment : BaseFragment() {
     private var playerId: String = ""
     private var currency: String = ""
 
+    //translation
+    private var confirmWithdrawal = ""
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -59,8 +62,8 @@ class ConfirmDepositFragment : BaseFragment() {
 
         when (activity!!.localClassName) {
             "com.betkey.ui.withdrawal.WithdrawalActivity" -> {
-                deposit_confirm_head_text.text = context!!.resources.getString(R.string.withdrawal_confirm)
-                deposit_confirm_btn.text = context!!.resources.getString(R.string.withdrawal_confirm)
+                deposit_confirm_head_text.text = confirmWithdrawal
+                deposit_confirm_btn.text = confirmWithdrawal
                 compositeDisposable.add(
                     deposit_confirm_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                         if (!isLowBattery(context!!)){
@@ -148,7 +151,8 @@ class ConfirmDepositFragment : BaseFragment() {
         deposit_confirm_head_text.text = dictionary[Translation.ConfirmDeposit.TITLE]
         deposit_confirm_name_title.text = dictionary[Translation.ConfirmDeposit.NAME]
         deposit_confirm_phone_title.text = dictionary[Translation.ConfirmDeposit.MOBILE_NUMBER]
-        deposit_confirm_btn.text = dictionary[Translation.ConfirmDeposit.CONFIRM]
+        deposit_confirm_btn.text = dictionary[Translation.ConfirmDeposit.CONFIRM_DEPOSIT]
         deposit_confirm_back_btn.text = dictionary[Translation.BACK]
+        confirmWithdrawal = dictionary[Translation.ConfirmDeposit.CONFIRM_WITHDRAWAL] ?: context!!.resources.getString(R.string.withdrawal_confirm)
     }
 }

@@ -31,8 +31,42 @@ class JackpotFragment : BaseFragment() {
         fun newInstance() = JackpotFragment()
     }
 
-    private lateinit var gamesAdapter: JackpotGamesAdapter
-    private lateinit var productsListener: GameListener
+    private var productsListener: GameListener = object : GameListener {
+        override fun onCommandLeft(commandName: String, bet: Bet, selection: String, isAlternativeEvent: Boolean) {
+            if(isAlternativeEvent) {
+                altDetailsMap[commandName] = bet.name
+            } else {
+                betDetailsMap[commandName] = bet.name
+            }
+            if (betDetailsMap.size + altDetailsMap.size == gamesAdapter.itemCount) {
+                jackpot_create_ticket_btn.isEnabled = true
+            }
+        }
+
+        override fun onIDraw(commandName: String, bet: Bet, selection: String, isAlternativeEvent: Boolean) {
+            if(isAlternativeEvent) {
+                altDetailsMap[commandName] = bet.name
+            } else {
+                betDetailsMap[commandName] = bet.name
+            }
+            if (betDetailsMap.size + altDetailsMap.size == gamesAdapter.itemCount) {
+                jackpot_create_ticket_btn.isEnabled = true
+            }
+        }
+
+        override fun onCommandRight(commandName: String, bet: Bet, selection: String, isAlternativeEvent: Boolean) {
+            if(isAlternativeEvent) {
+                altDetailsMap[commandName] = bet.name
+            } else {
+                betDetailsMap[commandName] = bet.name
+            }
+            if (betDetailsMap.size + altDetailsMap.size == gamesAdapter.itemCount) {
+                jackpot_create_ticket_btn.isEnabled = true
+            }
+        }
+    }
+    private var gamesAdapter = JackpotGamesAdapter(productsListener)
+
     private var betDetailsMap = HashMap<String, String>()
     private var altDetailsMap = HashMap<String, String>()
 
@@ -45,43 +79,7 @@ class JackpotFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        productsListener = object : GameListener {
-            override fun onCommandLeft(commandName: String, bet: Bet, selection: String, isAlternativeEvent: Boolean) {
-                if(isAlternativeEvent) {
-                    altDetailsMap[commandName] = bet.name
-                } else {
-                    betDetailsMap[commandName] = bet.name
-                }
-                if (betDetailsMap.size + altDetailsMap.size == gamesAdapter.itemCount) {
-                    jackpot_create_ticket_btn.isEnabled = true
-                }
-            }
-
-            override fun onIDraw(commandName: String, bet: Bet, selection: String, isAlternativeEvent: Boolean) {
-                if(isAlternativeEvent) {
-                    altDetailsMap[commandName] = bet.name
-                } else {
-                    betDetailsMap[commandName] = bet.name
-                }
-                if (betDetailsMap.size + altDetailsMap.size == gamesAdapter.itemCount) {
-                    jackpot_create_ticket_btn.isEnabled = true
-                }
-            }
-
-            override fun onCommandRight(commandName: String, bet: Bet, selection: String, isAlternativeEvent: Boolean) {
-                if(isAlternativeEvent) {
-                    altDetailsMap[commandName] = bet.name
-                } else {
-                    betDetailsMap[commandName] = bet.name
-                }
-                if (betDetailsMap.size + altDetailsMap.size == gamesAdapter.itemCount) {
-                    jackpot_create_ticket_btn.isEnabled = true
-                }
-            }
-        }
-        gamesAdapter = JackpotGamesAdapter(productsListener)
         jackpot_games_adapter.adapter = gamesAdapter
-
         compositeDisposable.add(
             jackpot_create_ticket_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 if (!isLowBattery(context!!)){
@@ -116,6 +114,7 @@ class JackpotFragment : BaseFragment() {
         jackpot_coupon_id_title.text = dictionary[Translation.Jackpot.ROUND]
         jackpot_coupon_last_entry_title.text = dictionary[Translation.Jackpot.LAST_ENTRY]
         jackpot_create_ticket_btn.text = dictionary[Translation.Jackpot.CREATE_TICKET]
+        gamesAdapter.onTranslationReceived(dictionary)
     }
 
     private fun setJackpotInfo(jackpotInfo: JackpotInfo) {

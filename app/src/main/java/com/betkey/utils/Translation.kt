@@ -12,6 +12,7 @@ object Translation {
         const val USERNAME_HINT = "login.username_hint"
         const val PASSWORD_HINT = "login.password_hint"
         const val BUTTON = "login.button"
+        const val ENTER_PASSWORD = "login.enter_password"
     }
 
     object MainMenu {
@@ -153,13 +154,16 @@ object Translation {
         const val LAST_ENTRY = "jackpot.last_entry"
         const val CREATE_TICKET = "jackpot.create_ticket"
         const val JACKPOT_CONFIRMATION = "jackpot.jackpot_confirmation"
+        const val GAME = "jackpot.game"
+        const val ALTERNATIVE_GAME = "jackpot.alternative_game"
     }
 
     object ConfirmDeposit {
         const val TITLE = "confirm_deposit.title"
         const val NAME = "confirm_deposit.name"
         const val MOBILE_NUMBER = "confirm_deposit.mobile_number"
-        const val CONFIRM = "confirm_deposit.confirm"
+        const val CONFIRM_DEPOSIT = "confirm_deposit.confirm_deposit"
+        const val CONFIRM_WITHDRAWAL = "confirm_deposit.confirm_withdrawal"
     }
 
     object FindPlayer {
@@ -177,5 +181,41 @@ object Translation {
 
     object NoPlayerFound{
         const val TITLE = "no_player_found.title"
+    }
+
+    object Print {
+        const val NO_PAPER_TITLE = "print.no_printer_title"
+        const val NO_PAPER_INFO = "print.no_paper_info"
+        const val RESULT = "print.result"
+        const val OVERHEATING = "print.overheating"
+        const val UNIDENTIFIED_ERROR = "print.unidentified_error"
+        const val PRINTER_OFF_ERROR = "print.printer_off_error"
+        const val DRAW = "print.draw"
+        const val TICKET_ID = "print.ticket_id"
+        const val TICKET_PRICE = "print.ticket_price"
+        const val YOUR_NUMBERS = "print.your_numbers"
+        const val WINNING_NUMBERS = "print.winning_numbers"
+        const val MULTIPLY_BY_YOUR_STAKE = "print.multiply_by_your_stake"
+        const val NUMBER = "print.number"
+        const val NAME = "print.name"
+        const val TIME_TITLE = "print.time_title"
+        const val ID = "print.id"
+        const val AMOUNT = "printer.amount"
+        const val LOTTERY = "print.lottery"
+        const val ROUND_ID = "print.round_id"
+        const val PICK = "print.pick"
+        const val DEPOSIT = "print.deposit"
+        const val WITHDRAWAL = "print.withdrawal"
+        const val TICKET_NUMBER = "print.ticket_number"
+        const val CODE = "print.code"
+        const val DATE_TIME = "print.date_time"
+        const val TYPE = "print.type"
+        const val PLACE = "print.place"
+        const val BET_DETAILS = "print.bet_details"
+        const val ODDS = "print.odds"
+        const val BONUS = "print.bonus"
+        const val POTENTIAL_WINS = "print.potential_wins"
+        const val NET_WINNING = "print.new_winning"
+        const val SURE = "print.sure"
     }
 }
