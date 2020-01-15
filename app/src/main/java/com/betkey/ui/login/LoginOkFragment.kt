@@ -123,25 +123,27 @@ class LoginOkFragment : BaseFragment() {
             }
         )
 
-        when(viewModel.getLocale()) {
-            LANGUAGE_EN -> language_spinner.setSelection(0)
-            LANGUAGE_FR -> language_spinner.setSelection(1)
-        }
-
         val language = resources.getStringArray(R.array.languages)
         val adapter = CountryAdapter(context!!, R.layout.view_spiner_flag, language)
         language_spinner.adapter = adapter
+        language_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
 
-        language_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) { }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val languages = arrayOf(R.drawable.france, R.drawable.eng)
-                when(languages[position]) {
-                    R.drawable.eng -> context?.also { switchLocale(it, LANGUAGE_EN) }
-                    R.drawable.france -> context?.also { switchLocale(it, LANGUAGE_FR) }
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                when (language[position]) {
+                    LANGUAGE_EN -> context?.also { switchLocale(it, LANGUAGE_EN) }
+                    LANGUAGE_FR -> context?.also { switchLocale(it, LANGUAGE_FR) }
                 }
             }
+        }
+        when (viewModel.getLocale()) {
+            LANGUAGE_EN -> language_spinner.setSelection(0)
+            LANGUAGE_FR -> language_spinner.setSelection(1)
         }
     }
 
@@ -173,7 +175,7 @@ class LoginOkFragment : BaseFragment() {
     class CountryAdapter(context: Context, textViewResourceId: Int, objects: Array<String?>) :
         ArrayAdapter<String?>(context, textViewResourceId, objects) {
 
-        private val languages = arrayOf(R.drawable.france, R.drawable.eng)
+        private val languages: Array<String?> = objects
         override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
             return getCustomView(position, convertView, parent)
         }
@@ -184,7 +186,10 @@ class LoginOkFragment : BaseFragment() {
 
         private fun getCustomView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val row: View = context.layoutInflater.inflate(R.layout.view_spiner_flag, parent, false)
-            row.icon.setImageResource(languages[position])
+            when(languages[position]){
+                LANGUAGE_EN -> row.icon.setImageResource(R.drawable.eng)
+                LANGUAGE_FR -> row.icon.setImageResource(R.drawable.france)
+            }
             return row
         }
     }
