@@ -32,6 +32,7 @@
     <string name="idcard_czz">En cours …</string>
     <string name="input_print_data">S\'il vous plaît entrer les données d\'impression</string>
     <string name="jackpot_alternative_game">Jeu alternatif</string>
+    <string name="jackpot_alternative_game_alt">Alt</string>
     <string name="jackpot_confirmation_away">Un moyen</string>
     <string name="jackpot_confirmation_bet_details">DETAILS DU PARI</string>
     <string name="jackpot_confirmation_draw">Dessiner</string>

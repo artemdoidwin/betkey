@@ -39,6 +39,8 @@ class UsbPrinterActivity : BaseActivity() {
     private lateinit var progressDialog: AlertDialog
     private var mUsbThermalPrinter = UsbThermalPrinter(this)
 
+    private var count = 0
+
     private val viewModel by viewModel<MainViewModel>()
 
     companion object {
@@ -379,7 +381,7 @@ class UsbPrinterActivity : BaseActivity() {
                 viewModel.lookupBets.value?.events?.also { events ->
                     for (i in events.indices) {
                         dottedLine()
-                        createBetList(events[i])
+                        createBetList(events[i], i)
                     }
                 }
                 printStake(ticket.stake, ticket.currency)
@@ -417,7 +419,7 @@ class UsbPrinterActivity : BaseActivity() {
                     printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details))
                     for (i in events.indices) {
                         dottedLine()
-                        createBetList(events[i])
+                        createBetList(events[i], null)
                     }
                     dottedLine()
                     val stake = "${ticket.stake.toDouble().roundOffDecimal()} " +
@@ -465,13 +467,32 @@ class UsbPrinterActivity : BaseActivity() {
         mUsbThermalPrinter.setGray(printGray)
     }
 
-    private fun createBetList(event: Event) {
+    private fun createBetList(event: Event, position: Int?) {
+        var gameName = ""
+        viewModel.jackpotInfo.value?.altEvents?.also { events ->
+            position?.also {pos ->
+                gameName = "${resources.getString(R.string.jackpot_game)} ${pos + 1}"
+                events.forEach { (t, u) ->
+                    if (u.id == event.id) {
+                        count++
+                        gameName = "${resources.getString(R.string.jackpot_alternative_game_alt)} $count"
+                        return@forEach
+                    }
+                }
+            }
+        }
+
         val date = event.time!!.date!!.toFullDate2().dateToString2()
         val league = event.league!!.name
         val team1Name = (event.teams["1"])!!.name
         val team2Name = (event.teams["2"])!!.name
 
-        val contentBet = "$date\n$league\n$team1Name -\n$team2Name"
+        val contentBet =  if (gameName.isNotEmpty()){
+            "$gameName\n$date\n$league\n$team1Name -\n$team2Name"
+        }else{
+            "$date\n$league\n$team1Name -\n$team2Name"
+        }
+        Log.d("fffff", contentBet)
         mUsbThermalPrinter.addString(contentBet)
         mUsbThermalPrinter.printString()
         mUsbThermalPrinter.clearString()

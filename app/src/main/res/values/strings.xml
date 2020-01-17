@@ -49,6 +49,7 @@
     <string name="jackpot_draw_btn">Draw</string>
     <string name="jackpot_create_ticket_btn">Create ticket</string>
     <string name="jackpot_alternative_game">Alternative Game</string>
+    <string name="jackpot_alternative_game_alt">Alt</string>
 
     <string name="jackpot_confirmation_title">Jackpot confirmation</string>
     <string name="jackpot_confirmation_ticket_price">Ticket price:</string>
