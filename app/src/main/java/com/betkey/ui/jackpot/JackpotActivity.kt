@@ -36,7 +36,7 @@ class JackpotActivity : BaseActivity() {
             }
         })
 
-        showFragment(JackpotFragment.newInstance(), R.id.container_for_fragments, JackpotFragment.TAG)
+        showFragment(JackpotMenuFragment.newInstance(), R.id.container_for_fragments, JackpotMenuFragment.TAG)
     }
 
     override fun onBackPressed() {

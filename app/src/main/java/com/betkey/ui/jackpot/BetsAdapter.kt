@@ -25,7 +25,11 @@ class BetsAdapter (private val list: List<Pair<String, String>>)
     class BetsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun updateItem(name: String, bet: String) {
             itemView.item_bet_game_name.text = name
-            itemView.item_bet_comand_name.text = bet
+            itemView.item_bet_comand_name.text = when(bet){
+                "1"->"HOME"
+                "X"->"DRAW"
+                else -> "AWAY"
+            }
         }
     }
 }

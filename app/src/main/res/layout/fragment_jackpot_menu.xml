@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <ImageView
+            android:id="@+id/sp_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ball"
+            app:layout_constraintBottom_toTopOf="@+id/sp_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="ContentDescription"/>
+
+
+    <TextView
+            android:id="@+id/sp_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:text="@string/jackpot_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sp_logo"
+            />
+
+
+    <Button
+            android:id="@+id/jackpotPlaceButton"
+            style="@style/ButtonGreenTheme"
+            android:layout_width="@dimen/big_btn_width"
+            android:layout_height="@dimen/big_btn_height"
+            android:gravity="center"
+            android:text="@string/jackcpot_place"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/jackpotLookupButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sp_title" />
+
+
+    <Button
+            android:id="@+id/jackpotLookupButton"
+            style="@style/ButtonYellowTheme"
+            android:layout_width="@dimen/big_btn_width"
+            android:layout_height="@dimen/big_btn_height"
+            android:layout_marginBottom="40dp"
+            android:gravity="center"
+            android:text="@string/lookup_jp_booking"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/jackpotPlaceButton"
+            app:layout_constraintBottom_toTopOf="@+id/jackpotBackButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    <Button
+            android:id="@+id/jackpotBackButton"
+            style="@style/ButtonRedTheme"
+            android:layout_width="@dimen/small_btn_width"
+            android:layout_height="@dimen/small_btn_height"
+            android:layout_marginBottom="30dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="@string/back_btn"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/jackpotLookupButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

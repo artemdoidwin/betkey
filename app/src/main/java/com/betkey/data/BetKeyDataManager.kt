@@ -3,6 +3,7 @@ package com.betkey.data
 import android.util.Log
 import com.betkey.network.ApiInterfaceBetkey
 import com.betkey.network.models.PlayerRestObject
+import com.betkey.network.models.StatisticDto
 import com.betkey.network.models.TicketRestObj
 import com.betkey.repository.ModelRepository
 import io.reactivex.Completable
@@ -19,7 +20,7 @@ class BetKeyDataManager(
     val agent = modelRepository.agent
     val lotteryOrPick = modelRepository.lotteryOrPick
     val lotteryOrPickRequest = modelRepository.lotteryOrPickRequest
-
+    val report = modelRepository.report
     var outcomes: Map<String, String>? = null
 
     fun login(userName: String, password: String): Completable {
@@ -35,6 +36,15 @@ class BetKeyDataManager(
                     modelRepository.wallets.postValue(it.wallets!!.toMutableList())
                 }
             }
+    }
+
+    fun getReport(dateTimeFrom:String,dateTimeTo:String):Single<StatisticDto>{
+        return prefManager.getToken().let { token ->
+            apiBetkey.getReport(token,dateTimeFrom,dateTimeTo).flatMap {
+                report.postValue(it)
+                Single.just(it)
+            }
+        }
     }
 
     fun agentLogout(): Completable {

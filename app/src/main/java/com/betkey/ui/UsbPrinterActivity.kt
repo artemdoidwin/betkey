@@ -1,16 +1,18 @@
 package com.betkey.ui
 
+import android.R.attr.textColor
+import android.R.attr.textSize
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.graphics.*
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.util.Log
 import android.view.KeyEvent
+import android.widget.Toast
 import com.betkey.R
 import com.betkey.base.BaseActivity
 import com.betkey.network.models.Event
@@ -23,6 +25,7 @@ import com.telpo.tps550.api.printer.UsbThermalPrinter
 import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
+
 
 class UsbPrinterActivity : BaseActivity() {
     private var time: Long = 0
@@ -49,10 +52,19 @@ class UsbPrinterActivity : BaseActivity() {
         const val LOTTERY = 3
         const val PICK_3 = 4
         const val SPORT_BETTING = 5
+        const val REPORT = 6
 
         fun start(sender: Activity, operation: Int) {
             val intent = Intent(sender, UsbPrinterActivity::class.java).apply {
                 putExtra(OPERATION, operation)
+            }
+            sender.startActivity(intent)
+        }
+        fun startReport(sender: Activity, dateTimeFrom:String,dateTimeTo:String) {
+            val intent = Intent(sender, UsbPrinterActivity::class.java).apply {
+                putExtra("dateFrom", dateTimeFrom)
+                putExtra("dateTo", dateTimeTo)
+                putExtra(OPERATION, REPORT)
             }
             sender.startActivity(intent)
         }
@@ -123,6 +135,7 @@ class UsbPrinterActivity : BaseActivity() {
                     LOTTERY -> lotteryPrint()
                     PICK_3 -> pickPrint()
                     SPORT_BETTING -> sportBettingPrint()
+                    REPORT -> reportPrint(intent.getStringExtra("dateFrom"),intent.getStringExtra("dateTo"))
                 }
 
                 mUsbThermalPrinter.walkPaper(10)
@@ -353,6 +366,37 @@ class UsbPrinterActivity : BaseActivity() {
         mUsbThermalPrinter.clearString()
     }
 
+    private fun reportPrint(dateTimeFrom:String,dateTimeTo:String){
+        printMyLogo(R.drawable.logo_betkey_for_print)
+        viewModel.report.value?.let {
+            mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_LEFT)
+            mUsbThermalPrinter.addString("${it.baseData.firstName.toUpperCase()} ${it.baseData.lastName.toUpperCase()}")
+            mUsbThermalPrinter.printString()
+            mUsbThermalPrinter.addString("$dateTimeFrom - $dateTimeTo")
+            mUsbThermalPrinter.printString()
+            mUsbThermalPrinter.addString("${resources.getString(R.string.report_currency).toUpperCase()} ${it.wallet.currency.toUpperCase()}")
+            mUsbThermalPrinter.printString()
+            dottedLine()
+            printSpredRow(resources.getString(R.string.report_balance).toUpperCase(), it.wallet.balance.toString().toUpperCase())
+            dottedLine()
+            printSpredRow(resources.getString(R.string.report_t_tickets).toUpperCase(), it.soldSportBetsCount.toString().toUpperCase())
+            printSpredRow(resources.getString(R.string.report_t_amount).toUpperCase(), it.soldSportBetsAmount.toString().toUpperCase())
+            printSpredRow(resources.getString(R.string.report_payout_t).toUpperCase(), it.payoutSportBetsCount.toString().toUpperCase())
+            printSpredRow(resources.getString(R.string.report_p_amount).toUpperCase(), it.payoutSportBetsAmount.toString().toUpperCase())
+            printSpredRow(resources.getString(R.string.report_c_tickets).toUpperCase(), it.cancelledSportBetsCount.toString().toUpperCase())
+            printSpredRow(resources.getString(R.string.report_c_amount).toUpperCase(), it.cancelledSportBetsAmount.toString().toUpperCase())
+            dottedLine()
+            printSpredRow(resources.getString(R.string.report_j_tickets).toUpperCase(), it.soldJackpotBetsCount.toString().toUpperCase())
+            printSpredRow(resources.getString(R.string.report_j_amount).toUpperCase(), it.soldJackpotBetsAmount.toString().toUpperCase())
+            dottedLine()
+            printSpredRow(resources.getString(R.string.report_deposits).toUpperCase(), it.depositsCount.toString().toUpperCase())
+            printSpredRow(resources.getString(R.string.report_d_amount).toUpperCase(), it.depositsTotalAmount.toString().toUpperCase())
+            printSpredRow(resources.getString(R.string.report_withdrawals).toUpperCase(), it.withdrawalsCount.toString().toUpperCase())
+            printSpredRow(resources.getString(R.string.report_w_amount).toUpperCase(), it.withdrawalsTotalAmount.toString().toUpperCase())
+        }
+        printSpace()
+    }
+
     private fun jackpotPrint() {
         printMyLogo(R.drawable.logo_for_print)   //picture
         initStyleContent() //init context
@@ -374,14 +418,17 @@ class UsbPrinterActivity : BaseActivity() {
                 printHeadRow(
                     resources.getString(R.string.scan_detail_type), ticket.platformUnit.name
                 )
-                dottedLine()
-                printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details))
-                viewModel.lookupBets.value?.events?.also { events ->
-                    for (i in events.indices) {
-                        dottedLine()
-                        createBetList(events[i])
-                    }
+
+            }
+            dottedLine()
+            printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details))
+            viewModel.lookupBets.value?.events?.also { events ->
+                for (i in events.indices) {
+                    dottedLine()
+                    createBetList(events[i])
                 }
+            }
+            viewModel.ticket.value?.also { ticket ->
                 printStake(ticket.stake, ticket.currency)
             }
             printQR(agentBet.message_data.betCode)
@@ -497,7 +544,40 @@ class UsbPrinterActivity : BaseActivity() {
         mUsbThermalPrinter.clearString()
         mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_LEFT)
     }
+    private fun printSpace() {
+       mUsbThermalPrinter.addString("")
+        mUsbThermalPrinter.clearString()
+        mUsbThermalPrinter.printString()
+    }
+    private fun printSpredRow(res: String, text: String) {
+        try {
 
+            val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+            paint.textSize = DimenUtils.dpToPx(12f).toFloat()
+            paint.color = Color.WHITE
+            paint.textAlign = Paint.Align.LEFT
+            val baseline: Float = -paint.ascent() // ascent() is negative
+
+            val width = BitmapFactory.decodeResource(resources, R.drawable.logo_betkey_for_print).width
+
+            val height = (baseline + paint.descent() + 0.5f).toInt()
+            val image = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+            val canvas = Canvas(image)
+            canvas.drawPaint(paint);
+            paint.color = Color.BLACK
+            canvas.drawText(res, 0f, baseline, paint)
+            paint.textAlign = Paint.Align.RIGHT
+            canvas.drawText(text, width.toFloat(), baseline, paint)
+
+            mUsbThermalPrinter.reset()
+            mUsbThermalPrinter.setGray(printGray)
+            mUsbThermalPrinter.setAlgin(UsbThermalPrinter.ALGIN_MIDDLE)
+            mUsbThermalPrinter.printLogo(image, false)
+
+        }catch (e:Exception){
+         e.printStackTrace()
+        }
+    }
     private fun printHeadRow(res: String, text: String) {
         mUsbThermalPrinter.addString("$res $text")
         mUsbThermalPrinter.printString()

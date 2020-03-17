@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+            android:id="@+id/createReportTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/agent_report"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+
+            app:layout_constraintBottom_toTopOf="@+id/customReportLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/customReportLayout"
+            android:layout_width="0dp"
+
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/frame_black"
+            app:layout_constraintBottom_toTopOf="@+id/reportTodayBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.100000024"
+            app:layout_constraintVertical_chainStyle="packed">
+
+        <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/from"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/datePickerFrom"
+                app:layout_constraintEnd_toEndOf="@+id/datePickerFrom"
+                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintStart_toStartOf="@+id/datePickerFrom" />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/to"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/datePickerTo"
+                app:layout_constraintEnd_toEndOf="@+id/datePickerTo"
+                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintStart_toStartOf="@+id/datePickerTo" />
+
+        <com.betkey.CustomDatePicker
+                android:id="@+id/datePickerFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:layout_marginBottom="30dp"
+                app:layout_constraintBottom_toTopOf="@+id/customReportBtn"
+                app:layout_constraintEnd_toStartOf="@+id/datePickerTo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <com.betkey.CustomDatePicker
+                android:id="@+id/datePickerTo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/datePickerFrom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/datePickerFrom"
+                app:layout_constraintTop_toTopOf="@+id/datePickerFrom" />
+
+        <Button
+                android:id="@+id/customReportBtn"
+                style="@style/ButtonGreenTheme"
+                android:layout_width="@dimen/small_btn_width"
+                android:layout_height="@dimen/big_btn_height"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:text="@string/custom_report_btn"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/datePickerFrom" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+            android:id="@+id/reportTodayBtn"
+            style="@style/ButtonYellowTheme"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/big_btn_height"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:text="@string/today_s_report"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/reportYesterdayBtn"
+            app:layout_constraintEnd_toEndOf="@+id/customReportLayout"
+            app:layout_constraintStart_toStartOf="@+id/customReportLayout"
+            app:layout_constraintTop_toBottomOf="@+id/customReportLayout"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+    <Button
+            android:id="@+id/reportYesterdayBtn"
+            style="@style/ButtonYellowTheme"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/big_btn_height"
+            android:gravity="center"
+            android:text="@string/yesterdey_report"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/reportTodayBtn"
+            app:layout_constraintStart_toStartOf="@+id/reportTodayBtn"
+            app:layout_constraintTop_toBottomOf="@+id/reportTodayBtn" />
+</androidx.constraintlayout.widget.ConstraintLayout>

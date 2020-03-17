@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.betkey.R
+import com.betkey.network.models.Bet
 import com.betkey.network.models.Event
 import kotlinx.android.synthetic.main.item_game.view.*
 
@@ -90,7 +91,22 @@ class JackpotGamesAdapter(private val gameListener: GameListener) :
                 bet?.also { gameListener.onCommandRight("$prefix ${adapterPosition + 1} - $commandsName", it, "2") }
                 list[adapterPosition].btnChecked = 2
             }
+            when(model.bet){
+                "1"->{itemView.item_winner_command_left_btn.performClick()
 
+                        gameListener.onCommandLeft("$prefix ${adapterPosition + 1} - $commandsName",
+                            Bet(name = "Home",id="1",odds = model.odds.toString(),oddsFormats =model.odds_formats ) , "1")
+                    list[adapterPosition].btnChecked = 0}
+                "X"->{itemView.item_winner_draw_btn.performClick()
+                        gameListener.onCommandLeft("$prefix ${adapterPosition + 1} - $commandsName",
+                            Bet(name = "Draw",id="X",odds = model.odds.toString(),oddsFormats =model.odds_formats ) , "X")
+                    list[adapterPosition].btnChecked = 1}
+                "2"->{itemView.item_winner_command_right_btn.performClick()
+
+                        gameListener.onCommandLeft("$prefix ${adapterPosition + 1} - $commandsName",
+                            Bet(name = "Away",id="2",odds = model.odds.toString(),oddsFormats =model.odds_formats ), "2")
+                    list[adapterPosition].btnChecked = 2}
+            }
             Log.d(
                 "qwert",
                 "Model ${model.market_name} position $adapterPosition model ${model.btnChecked} ${itemView.item_winner_command_left_btn.isChecked} ${itemView.item_winner_draw_btn.isChecked} ${itemView.item_winner_command_right_btn.isChecked}"

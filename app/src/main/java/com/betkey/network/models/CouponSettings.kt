@@ -24,6 +24,7 @@ class CouponSettings (
     @SerializedName("min_won_bets")
     var minWonBets: Int? = null,
 
+
     @SerializedName("default_stake")
     var defaultStake:  Int? = null
 )

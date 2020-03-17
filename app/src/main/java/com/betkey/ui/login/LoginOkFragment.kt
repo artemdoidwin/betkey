@@ -30,7 +30,18 @@ import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.concurrent.TimeUnit
 import android.content.Intent
+import com.betkey.ui.report.ReportActivity
+import kotlinx.android.synthetic.demo.fragment_login_ok.*
+import kotlinx.android.synthetic.main.fragment_login_ok.deposits_btn
 import kotlinx.android.synthetic.main.fragment_login_ok.include_toolbar
+import kotlinx.android.synthetic.main.fragment_login_ok.jackpot_btn
+import kotlinx.android.synthetic.main.fragment_login_ok.language_spinner
+import kotlinx.android.synthetic.main.fragment_login_ok.logout_btn
+import kotlinx.android.synthetic.main.fragment_login_ok.lottery_btn
+import kotlinx.android.synthetic.main.fragment_login_ok.pick_btn
+import kotlinx.android.synthetic.main.fragment_login_ok.scan_btn
+import kotlinx.android.synthetic.main.fragment_login_ok.sport_betting_btn
+import kotlinx.android.synthetic.main.fragment_login_ok.withdrawal_btn
 
 
 class LoginOkFragment : BaseFragment() {
@@ -118,6 +129,12 @@ class LoginOkFragment : BaseFragment() {
                 }, {
                     context?.also {con -> toast(setMessage(it, con))}
                 })
+            }
+        )
+
+        compositeDisposable.add(
+            reportBtn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
+                ReportActivity.start(activity!!)
             }
         )
 

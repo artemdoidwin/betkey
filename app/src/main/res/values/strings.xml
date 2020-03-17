@@ -163,5 +163,37 @@
     <string name="enter_market_code">Enter market code:</string>
     <string name="event_code">Event code:</string>
     <string name="go_to_betslip">Go to betslip</string>
+    <string name="jackpot_title">JACKPOT</string>
+    <string name="lookup_jp_booking">LOOKUP JP BOOKING</string>
+    <string name="jackpot_lookup_title">JACKPOT</string>
+    <string name="jackpot_lookup">LOOKUP BOOKING</string>
+    <string name="jackcpot_place">PLACE JACKPOT</string>
+    <string name="from">FROM</string>
+    <string name="to">TO</string>
+    <string name="custom_report_btn">CUSTOM REPORT</string>
+    <string name="report">REPORTS</string>
+    <string name="date_hint">121212</string>
+    <string name="today_s_report">today\'s report</string>
+    <string name="yesterdey_report">Yesterday report</string>
+    <string name="agent_report">AGENT REPORT</string>
+    <string name="report_balance">balance:</string>
+    <string name="report_t_tickets">Total tickets:</string>
+    <string name="report_t_amount">Total amount:</string>
+    <string name="report_payout_t">Payout tickets:</string>
+    <string name="report_p_amount">Payout amount:</string>
+    <string name="report_c_tickets">Cancelled tickets:</string>
+    <string name="report_c_amount">Cancelled amount:</string>
+    <string name="report_j_tickets">Jackpot tickets:</string>
+    <string name="report_j_amount">Jackpot amount:</string>
+    <string name="report_deposits">Deposits:</string>
+    <string name="report_d_amount">Deposit amount:</string>
+    <string name="report_withdrawals">Withdrawals:</string>
+    <string name="report_w_amount">Withdrawal amount:</string>
+    <string name="report_currency">currency:</string>
+    <string name="report_print">Print report</string>
+    <string name="approve_jackpot">Approve jackpot</string>
+    <string name="tax_10">Tax 10%</string>
+    <string name="tax_s">Tax \%d\%%</string>
+    <string name="stack">Stack</string>
 
 </resources>

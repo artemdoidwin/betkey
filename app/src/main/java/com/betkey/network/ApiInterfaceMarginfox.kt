@@ -23,8 +23,8 @@ interface ApiInterfaceMarginfox {
         stake: Int,
         @Field("jackpot[source]")
         source: String,
-        @Field("jackpot[alternativeSelections][0]")
-        alternativeSelections: String
+        @FieldMap
+        alternativeSelections: HashMap<String, String>
     ): Single<AgentBettingResult>
 
     @GET("jackpot_bet/lookup/{betslip_code}")
@@ -44,6 +44,14 @@ interface ApiInterfaceMarginfox {
     fun getSportbetting(
         @Query("lang") lang: String,
         @Query("markets") markets: String,
+        @Query("api_key") apiKey: String
+    ): Single<SportBettingRest>
+
+    @GET("prelive/static/pages")
+    fun getSportbetting(
+        @Query("lang") lang: String,
+        @Query("markets") markets: String,
+        @Query("filter") filter: String,
         @Query("api_key") apiKey: String
     ): Single<SportBettingRest>
 
@@ -74,5 +82,10 @@ interface ApiInterfaceMarginfox {
     fun publicBetslips(
         @Path("public_code")
         publicCode: String
-    ): Single<BetLookupObj>
+    ): Single<BetLookupObj2>
+
+
+    @GET("instances/exaloc")
+    fun getInstances(
+    ): Single<Instance>
 }

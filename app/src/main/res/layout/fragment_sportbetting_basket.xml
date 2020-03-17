@@ -110,7 +110,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/potential_win_title"
+                app:layout_constraintBottom_toTopOf="@+id/stack_title"
                 app:layout_constraintStart_toStartOf="@+id/payout_title" />
 
         <TextView
@@ -124,15 +124,41 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/potential_win"
+                app:layout_constraintBottom_toTopOf="@+id/stakeTv"
               app:layout_constraintEnd_toEndOf="@+id/payout"
                 android:text="0" />
+
+        <TextView
+                android:id="@+id/stack_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/stack"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/tax10_title"
+                app:layout_constraintStart_toStartOf="@+id/tax10_title" />
+
+        <TextView
+                android:id="@+id/stakeTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/tax10"
+                app:layout_constraintEnd_toEndOf="@+id/tax10"
+                android:text="0 CFA" />
 
         <TextView
                 android:id="@+id/potential_win_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:gravity="center"
                 android:text="@string/sportbetting_potential_win"
                 android:textAllCaps="true"
@@ -141,6 +167,33 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/bonus_title"
                 app:layout_constraintStart_toStartOf="@+id/bonus_title" />
+
+        <TextView
+                android:id="@+id/tax10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/potential_win"
+                app:layout_constraintEnd_toEndOf="@+id/potential_win"
+                android:text="0 CFA" />
+        <TextView
+                android:id="@+id/tax10_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="@string/tax_10"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/potential_win_title"
+                app:layout_constraintStart_toStartOf="@+id/potential_win_title" />
 
         <TextView
                 android:id="@+id/potential_win"
@@ -190,14 +243,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="4dp"
                 android:gravity="center"
                 android:text="@string/sportbetting_total_win"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/payout_title"
+                app:layout_constraintBottom_toTopOf="@+id/tax5_title"
                 app:layout_constraintStart_toStartOf="@+id/payout_title" />
 
         <TextView
@@ -210,11 +262,39 @@
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/payout"
+                app:layout_constraintBottom_toTopOf="@+id/tax5"
                 app:layout_constraintEnd_toEndOf="@+id/place_bet_btn"
                 android:text="0 CFA"  />
 
+        <TextView
+                android:id="@+id/tax5_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="4dp"
+                android:gravity="center"
+                android:text="@string/tax_s"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/payout_title"
+                app:layout_constraintStart_toStartOf="@+id/payout_title" />
 
+        <TextView
+                android:id="@+id/tax5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/payout"
+                app:layout_constraintEnd_toEndOf="@+id/place_bet_btn"
+                android:text="0 CFA"  />
 
 
         <TextView

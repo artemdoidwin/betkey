@@ -39,6 +39,9 @@ data class Instance(
     @SerializedName("betslip_bonuses")
     var betslipBonuses: List<BetslipBonus> = listOf(),
 
+    @SerializedName("tax")
+    var tax: Double? = null,
+
     @SerializedName("coupon_settings")
     var couponSettings: CouponSettings? = null
 )
