@@ -36,6 +36,9 @@
                 android:name=".ui.jackpot.JackpotActivity"
                 android:screenOrientation="portrait" />
         <activity
+                android:name=".ui.report.ReportActivity"
+                android:screenOrientation="portrait" />
+        <activity
                 android:name=".ui.deposit.DepositActivity"
                 android:screenOrientation="portrait" />
         <activity

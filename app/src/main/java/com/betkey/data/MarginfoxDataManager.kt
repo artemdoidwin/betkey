@@ -21,6 +21,7 @@ class MarginfoxDataManager(
     val agentBet = modelRepository.agentBet
     val jackpotInfo = modelRepository.jackpotInfo
     val lookupBets = modelRepository.lookupBets
+    val lookupBets2 = modelRepository.lookupBets2
     val sportBetStartingSoon = modelRepository.sportBetStartingSoon
     val sportBetTomorrow = modelRepository.sportBetTomorrow
     val sportBetToday = modelRepository.sportBetToday
@@ -83,7 +84,7 @@ class MarginfoxDataManager(
     }
 
     fun sportBetToday(): Single<Map<String, Map<String, List<Event>>>> {
-        return apiMarginfox.getSportbetting(prefManager.getLanguage(), "MRFT", API_KEY_MARGINFOX)
+        return apiMarginfox.getSportbetting(prefManager.getLanguage(), "MRFT","today", API_KEY_MARGINFOX)
             .flatMap {
                 val sb = toSportBetting(it)
                 modelRepository.sportBetToday.postValue(sb.today)
@@ -92,7 +93,7 @@ class MarginfoxDataManager(
     }
 
     fun sportBetTomorrow(): Single<Map<String, Map<String, List<Event>>>> {
-        return apiMarginfox.getSportbetting(prefManager.getLanguage(), "MRFT", API_KEY_MARGINFOX)
+        return apiMarginfox.getSportbetting(prefManager.getLanguage(), "MRFT","tomorrow", API_KEY_MARGINFOX)
             .flatMap {
                 val sb = toSportBetting(it)
                 modelRepository.sportBetTomorrow.postValue(sb.tomorrow)
@@ -101,17 +102,11 @@ class MarginfoxDataManager(
     }
 
     fun sportBetStartingSoon(): Single<Map<String, Map<String, List<Event>>>> {
-        return apiMarginfox.getFeaturedEventIds()
+        return apiMarginfox.getSportbetting(prefManager.getLanguage(), "MRFT","starting_soon", API_KEY_MARGINFOX)
             .flatMap {
-                val ids = it.result?.frontPage?.featuredMatchesIds?.toString()
-                    ?.replace("[", "")
-                    ?.replace("]", "")
-                    ?.replace(" ", "") ?: ""
-                apiMarginfox.getEventsById( ids , prefManager.getLanguage())
-            }.flatMap {
-                val fe = toFeaturedEvents(it)
-                modelRepository.sportBetStartingSoon.postValue(fe.startingSoon)
-                Single.just(fe.startingSoon)
+                val sb = toSportBetting(it)
+                modelRepository.sportBetTomorrow.postValue(sb.tomorrow)
+                Single.just(sb.tomorrow)
             }
     }
 
@@ -165,11 +160,16 @@ class MarginfoxDataManager(
         }
     }
 
-    fun publicBetslips(publicCode: String): Single<BetLookupObj> {
+    fun publicBetslips(publicCode: String): Single<BetLookupObj2> {
         return apiMarginfox.publicBetslips(publicCode)
             .flatMap {
-                modelRepository.lookupBets.postValue(it)
+                modelRepository.lookupBets2.postValue(it)
                 Single.just(it)
             }
+    }
+
+    fun getInstances(
+    ): Single<Instance>{
+       return apiMarginfox.getInstances()
     }
 }

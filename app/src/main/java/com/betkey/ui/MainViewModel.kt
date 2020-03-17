@@ -1,6 +1,7 @@
 package com.betkey.ui
 
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import com.betkey.base.BaseViewModel
 import com.betkey.data.BetKeyDataManager
 import com.betkey.data.LocaleManager
@@ -30,6 +31,7 @@ class MainViewModel(
     val jackpotInfo = marginfoxDataManager.jackpotInfo
     val ticket = betkeydataManager.ticket
     val lookupBets = marginfoxDataManager.lookupBets
+    val lookupBets2 = marginfoxDataManager.lookupBets2
     val agent = betkeydataManager.agent
     val lotteryOrPick = betkeydataManager.lotteryOrPick
     val lotteryOrPickRequest = betkeydataManager.lotteryOrPickRequest
@@ -41,6 +43,7 @@ class MainViewModel(
     val sportBettingStatus = marginfoxDataManager.sportBettingStatus
     val sportBetSuccess = marginfoxDataManager.sportBetSuccess
     val printObj = marginfoxDataManager.printObj
+    val report = betkeydataManager.report
 
     var phoneNumberCountryCode = PHONE_CODE
 
@@ -78,8 +81,13 @@ class MainViewModel(
          }
     }
 
-    fun publicBetslips(publicCode: String): Single<BetLookupObj> {
+    fun publicBetslips(publicCode: String): Single<BetLookupObj2> {
         return marginfoxDataManager.publicBetslips(publicCode)
+    }
+
+    fun getInstances(
+    ): Single<Instance>{
+        return marginfoxDataManager.getInstances()
     }
 
     fun jackpotAgentBetting(
@@ -137,4 +145,6 @@ class MainViewModel(
     }
 
     fun getLocale() = localManager.getLocale()
+
+    fun getReport(dateTimeFrom:String,dateTimeTo:String) = betkeydataManager.getReport(dateTimeFrom,dateTimeTo)
 }

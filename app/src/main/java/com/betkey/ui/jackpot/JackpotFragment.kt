@@ -1,6 +1,7 @@
 package com.betkey.ui.jackpot
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,30 +9,29 @@ import android.widget.ArrayAdapter
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.network.models.Bet
+import com.betkey.network.models.BetLookupObj
 import com.betkey.network.models.Event
 import com.betkey.network.models.JackpotInfo
 import com.betkey.ui.MainViewModel
-import com.betkey.utils.dateToString
-import com.betkey.utils.isLowBattery
-import com.betkey.utils.setMessage
-import com.betkey.utils.toFullDate
+import com.betkey.utils.*
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_jackpot.*
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import retrofit2.http.Tag
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-class JackpotFragment : BaseFragment() {
+class JackpotFragment(private val betLookup: BetLookupObj? = null) : BaseFragment() {
 
     private val viewModel by sharedViewModel<MainViewModel>()
 
     companion object {
         const val TAG = "JackpotFragment"
 
-        fun newInstance() = JackpotFragment()
+        fun newInstance(betLookup: BetLookupObj? = null) = JackpotFragment(betLookup = betLookup)
     }
 
     private lateinit var gamesAdapter: JackpotGamesAdapter
@@ -108,9 +108,18 @@ class JackpotFragment : BaseFragment() {
             }
         )
 
-        subscribe(viewModel.getJacpotInfo(), {
-            setJackpotInfo(it)
-        }, {context?.also {con -> toast(setMessage(it, con))}})
+        if (betLookup != null){
+            subscribe(viewModel.getJacpotInfo(), {
+                setJackpotInfo(betLookup,it)
+            }, {context?.also {con -> toast(setMessage(it, con))}})
+        }else{
+            subscribe(viewModel.getJacpotInfo(), {
+                Log.d(TAG,"event size1 = ${it.events?.size}")
+                setJackpotInfo(it)
+            }, {context?.also {con -> toast(setMessage(it, con))}})
+        }
+
+
     }
 
     private fun setJackpotInfo(jackpotInfo: JackpotInfo) {
@@ -139,6 +148,30 @@ class JackpotFragment : BaseFragment() {
             val date = coupon.coupon?.expires?.toFullDate()!!.dateToString()
             jackpot_coupon_last_entry.text = date
         }
+    }
+
+    private fun setJackpotInfo( betLookup: BetLookupObj,jackpotInfo: JackpotInfo) {
+        jackpotInfo.coupon?.stakes?.also { stakes ->
+            jackpot_stake_sp.adapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, stakes)
+                stake = betLookup.stake?.toInt()
+                jackpot_stake_sp.setSelection(stakes.indexOfFirst { st -> st == stake.toString() })
+        }
+        val listEvents = mutableListOf<Event>()
+
+        if(betLookup.events?.filter { it.bet.isNotEmpty() }?.size ==betLookup.events?.size){
+            jackpot_create_ticket_btn.isEnabled = true
+        }
+
+        val events = mutableMapOf<String,Event>()
+      betLookup.events?.forEachIndexed { index, event ->
+          events[index.toString()] = event
+      }
+        jackpotInfo.events = events.toMap()
+        val date = betLookup.updated?.date?.toFullDate2()!!.dateToString()
+        jackpot_coupon_last_entry.text = date
+        jackpot_coupon_id.text = jackpotInfo.coupon?.coupon?.id.toString()
+        jackpotInfo.events?.values?.toMutableList()?.let { gamesAdapter.setItems(it) }
+
     }
 
     private fun sendRequest(eventsList: ArrayList<Pair<String, String>>, altEventsList: ArrayList<Pair<String, String>>) {

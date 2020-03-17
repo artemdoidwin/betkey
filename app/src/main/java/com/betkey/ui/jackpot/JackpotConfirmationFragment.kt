@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseFragment
+import com.betkey.network.models.BetLookupObj
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.UsbPrinterActivity
 import com.betkey.utils.*
@@ -16,12 +17,12 @@ import kotlinx.android.synthetic.main.fragment_jacpot_confirmation.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.concurrent.TimeUnit
 
-class JackpotConfirmationFragment : BaseFragment() {
+class JackpotConfirmationFragment(private val betLookup: BetLookupObj? = null) : BaseFragment() {
 
     companion object {
         const val TAG = "JackpotConfirmationFragment"
 
-        fun newInstance() = JackpotConfirmationFragment()
+        fun newInstance(betLookup: BetLookupObj? = null) = JackpotConfirmationFragment(betLookup)
     }
 
     private lateinit var gamesAdapter: BetsAdapter
@@ -40,6 +41,15 @@ class JackpotConfirmationFragment : BaseFragment() {
             }
         )
 
+        if (betLookup!=null){
+            gamesAdapter = betLookup.events?.mapIndexed { i,v->
+                Pair("${context?.resources?.getString(R.string.jackpot_game)} $i ${v.teams["1"]!!.name} - ${v.teams["2"]!!.name}",v.bet) }?.let {
+                BetsAdapter(
+                    it
+                )
+            }!!
+            bet_adapter.adapter = gamesAdapter
+        }
         viewModel.betsDetailsList.value?.also {
             gamesAdapter = BetsAdapter(it)
             bet_adapter.adapter = gamesAdapter

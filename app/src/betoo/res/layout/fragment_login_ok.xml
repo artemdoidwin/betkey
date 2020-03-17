@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
@@ -14,8 +14,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+    <Spinner
+            android:id="@+id/language_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:entries="@array/languages"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/include_toolbar" />
 
     <TextView
+            android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -24,152 +34,174 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/scan_btn"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include_toolbar" />
+            app:layout_constraintTop_toBottomOf="@+id/language_spinner" />
 
-
-    <Button
-            android:id="@+id/scan_btn"
-            style="@style/ButtonYellowTheme"
-            android:layout_width="@dimen/big_btn_width"
-            android:layout_height="@dimen/big_btn_height"
-            android:layout_marginBottom="12dp"
-            android:gravity="center"
-            android:text="@string/login_ok_scan_btn"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/sport_betting_btn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-            android:id="@+id/sport_betting_btn"
-            style="@style/ButtonGreenTheme"
-            android:layout_width="@dimen/big_btn_width"
-            android:layout_height="@dimen/big_btn_height"
-            android:layout_marginBottom="6dp"
-            android:gravity="center"
-            android:text="@string/login_ok_sport_btn"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/login_ok_guideline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-            android:id="@+id/jackpot_btn"
-            style="@style/ButtonGreenTheme"
-            android:layout_width="@dimen/big_btn_width"
-            android:layout_height="@dimen/big_btn_height"
-            android:layout_marginTop="6dp"
-            android:gravity="center"
-            android:text="@string/login_ok_jackpot_btn"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/login_ok_guideline" />
-
-    <Button
-            android:id="@+id/deposits_btn"
-            style="@style/ButtonBlueTheme"
-            android:layout_width="@dimen/big_btn_width"
-            android:layout_height="@dimen/big_btn_height"
-            android:layout_marginTop="12dp"
-            android:gravity="center"
-            android:text="@string/login_ok_deposits_btn"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/jackpot_btn" />
-
-    <Button
-            android:id="@+id/withdrawal_btn"
-            style="@style/ButtonBlueTheme"
-            android:layout_width="@dimen/big_btn_width"
-            android:layout_height="@dimen/big_btn_height"
-            android:layout_marginTop="12dp"
-            android:gravity="center"
-            android:text="@string/login_ok_withdrawal_btn"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/deposits_btn" />
-
-    <Button
-            android:id="@+id/lottery_btn"
-            style="@style/ButtonYellowTheme"
-            android:layout_width="@dimen/big_btn_width"
-            android:layout_height="@dimen/big_btn_height"
-            android:layout_marginTop="12dp"
-            android:gravity="center"
-            android:text="@string/lottery"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/withdrawal_btn"
-            android:visibility="gone"/>
-
-    <Button
-            android:id="@+id/pick_btn"
-            style="@style/ButtonGreenTheme"
-            android:layout_width="@dimen/big_btn_width"
-            android:layout_height="@dimen/big_btn_height"
-            android:layout_marginTop="12dp"
-            android:gravity="center"
-            android:text="@string/pick"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lottery_btn"
-            android:visibility="gone"/>
-
-
-    <Button
-            android:id="@+id/logout_btn"
-            style="@style/ButtonRedTheme"
-            android:layout_width="@dimen/small_btn_width"
-            android:layout_height="@dimen/small_btn_height"
-            android:gravity="center"
-            android:text="@string/logout_btn"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="16sp"
+    <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pick_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/textView3">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
 
-    <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/login_ok_guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="270dp" />
+            <Button
+                    android:id="@+id/scan_btn"
+                    style="@style/ButtonYellowTheme"
+                    android:layout_width="@dimen/big_btn_width"
+                    android:layout_height="@dimen/big_btn_height"
+                    android:layout_marginBottom="12dp"
+                    android:gravity="center"
+                    android:text="@string/login_ok_scan_btn"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/sport_betting_btn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-    <Spinner
-            android:id="@+id/language_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include_toolbar"
-            android:entries="@array/languages"/>
+            <Button
+                    android:id="@+id/sport_betting_btn"
+                    style="@style/ButtonGreenTheme"
+                    android:layout_width="@dimen/big_btn_width"
+                    android:layout_height="@dimen/big_btn_height"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center"
+                    android:text="@string/login_ok_sport_btn"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/login_ok_guideline"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                    android:id="@+id/jackpot_btn"
+                    style="@style/ButtonGreenTheme"
+                    android:layout_width="@dimen/big_btn_width"
+                    android:layout_height="@dimen/big_btn_height"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center"
+                    android:text="@string/login_ok_jackpot_btn"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/login_ok_guideline" />
+
+            <Button
+                    android:id="@+id/deposits_btn"
+                    style="@style/ButtonBlueTheme"
+                    android:layout_width="@dimen/big_btn_width"
+                    android:layout_height="@dimen/big_btn_height"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:text="@string/login_ok_deposits_btn"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/jackpot_btn" />
+
+            <Button
+                    android:id="@+id/withdrawal_btn"
+                    style="@style/ButtonBlueTheme"
+                    android:layout_width="@dimen/big_btn_width"
+                    android:layout_height="@dimen/big_btn_height"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:text="@string/login_ok_withdrawal_btn"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/deposits_btn" />
+
+            <Button
+                    android:id="@+id/lottery_btn"
+                    style="@style/ButtonYellowTheme"
+                    android:layout_width="@dimen/big_btn_width"
+                    android:layout_height="@dimen/big_btn_height"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:text="@string/lottery"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/withdrawal_btn" />
+
+            <Button
+                    android:id="@+id/pick_btn"
+                    style="@style/ButtonGreenTheme"
+                    android:layout_width="@dimen/big_btn_width"
+                    android:layout_height="@dimen/big_btn_height"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:text="@string/pick"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lottery_btn" />
 
 
+            <Button
+                    android:id="@+id/logout_btn"
+                    style="@style/ButtonRedTheme"
+                    android:layout_width="@dimen/small_btn_width"
+                    android:layout_height="@dimen/small_btn_height"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:text="@string/logout_btn"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@id/reportBtn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pick_btn"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/login_ok_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_begin="125dp" />
+
+
+            <TextView
+                    android:id="@+id/reportBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="6dp"
+                    android:text="@string/report"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/logout_btn"
+                    />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

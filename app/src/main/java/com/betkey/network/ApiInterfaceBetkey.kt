@@ -50,4 +50,12 @@ interface ApiInterfaceBetkey {
         ticketId: String
     ): Single<TicketRestObj>
 
+    @GET("reports/agents/statistics")
+    fun getReport(
+        @Header("X-AUTH-TOKEN")
+        token: String,
+        @Query("datetimeFrom") datetimeFrom: String,
+        @Query("datetimeTo") datetimeTo: String
+    ): Single<StatisticDto>
+
 }

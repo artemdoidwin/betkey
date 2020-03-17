@@ -41,12 +41,14 @@ class LookupFragment : BaseFragment() {
             lookup_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 subscribe(viewModel.publicBetslips(lookup_code_ET.text.toString()), {
                     addFragment(
-                        BasketFragment.newInstance(),
+                        BasketFragment.newInstance(true),
                         R.id.container_for_fragments,
                         BasketFragment.TAG
                     )
 //                 }, { (it as? HttpException)?.also { ex -> toast(ex.message()) } })
-                 }, {context?.also {con -> toast(setMessage(it, con))} })
+                 }, {
+                    it.printStackTrace()
+                    context?.also {con -> toast(setMessage(it, con))} })
             }
         )
 

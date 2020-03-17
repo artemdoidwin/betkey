@@ -12,6 +12,7 @@ import com.betkey.base.BaseFragment
 import com.betkey.models.PrintObj
 import com.betkey.models.SportBetBasketModel
 import com.betkey.network.models.BetLookupObj
+import com.betkey.network.models.BetLookupObj2
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.UsbPrinterActivity
 import com.betkey.ui.login.LoginOkFragment
@@ -22,16 +23,17 @@ import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.concurrent.TimeUnit
 
-class BasketFragment : BaseFragment() {
+class BasketFragment(private val isLookup: Boolean? = false) : BaseFragment() {
 
     companion object {
         const val TAG = "BasketFragment"
 
-        fun newInstance() = BasketFragment()
+        fun newInstance(isLookup: Boolean? = false) = BasketFragment(isLookup)
     }
 
     private val viewModel by sharedViewModel<MainViewModel>()
     private var totalOdds: Double = 0.0
+    private var tax: Double = 0.0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,8 +46,32 @@ class BasketFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+            subscribe(viewModel.getInstances(),{
+                 it.tax?.let {taxNN->
+                    tax =  taxNN
+                     tax5_title.text = String.format(resources.getString(R.string.tax_s),(taxNN*100).toInt())
+                     if (isLookup == true){
+                         viewModel.lookupBets2.observe(myLifecycleOwner, Observer { lookupBets ->
+                             lookupBets?.also { lookup -> createBasketList(lookup) }
+                         })
+                     }
+                }
+
+
+            },{
+                tax5_title.text = String.format(resources.getString(R.string.tax_s),0)
+                if (isLookup == true){
+                    viewModel.lookupBets2.observe(myLifecycleOwner, Observer { lookupBets ->
+                        lookupBets?.also { lookup -> createBasketList(lookup) }
+                    })
+                }
+                it.printStackTrace()
+            })
+
+
         compositeDisposable.add(
             place_bet_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
+
                 if (viewModel.lookupBets.value == null) {
                     placeBetAgent()
                 } else {
@@ -75,9 +101,14 @@ class BasketFragment : BaseFragment() {
                 viewModel.sportBettingStatus.value = null
             }
         })
-        viewModel.lookupBets.observe(myLifecycleOwner, Observer { lookupBets ->
-            lookupBets?.also { lookup -> createBasketList(lookup) }
-        })
+
+
+        if(isLookup == false){
+            viewModel.lookupBets.observe(myLifecycleOwner, Observer { lookupBets ->
+                lookupBets?.also { lookup -> createBasketList(lookup) }
+            })
+        }
+        amount_ET.isEnabled = isLookup!=true
         clearFields()
     }
 
@@ -98,7 +129,8 @@ class BasketFragment : BaseFragment() {
                 )
                 UsbPrinterActivity.start(activity!!, UsbPrinterActivity.SPORT_BETTING)
                 activity?.finish()
-            }, { context?.also { con -> toast(setMessage(it, con)) } })
+            }, { context?.also { con -> toast(setMessage(it, con)) }
+            it.printStackTrace()})
         }
     }
 
@@ -149,7 +181,39 @@ class BasketFragment : BaseFragment() {
             initAdapter(basketList)
         }
     }
-
+    private fun createBasketList(bets: BetLookupObj2) {
+        bets.events?.also { list ->
+            val basketList = mutableListOf<SportBetBasketModel>()
+            for (i in list.indices) {
+                val event = list[i]
+                val teamsName = "${event.teams["1"]?.name} - ${event.teams["2"]?.name}"
+                var date = ""
+                event.time!!.date?.also { date = it.toFullDate2().dateToString3() }
+                var betWinName = ""
+                when (event.bet) {
+                    "1" -> event.teams["1"]?.name?.also { name -> betWinName = name }
+                    "X" -> betWinName = resources.getString(R.string.sportbetting_draw)
+                    "2" -> event.teams["1"]?.name?.also { name -> betWinName = name }
+                }
+                basketList.add(
+                    SportBetBasketModel(
+                        idEvent = event.id!!,
+                        league = event.league!!.name,
+                        teamsName = teamsName,
+                        date = date,
+                        marketKey = event.market,
+                        marketName = event.market_name,
+                        betWinName = betWinName,
+                        odds = event.odds.toString(),
+                        betKey = event.bet,
+                        lineName = event.line
+                    )
+                )
+            }
+            amount_ET.setText(bets.stake.toString())
+            initAdapter(basketList)
+        }
+    }
     private fun clearFields() {
         viewModel.wallets.value?.get(0)?.currency?.also {
             val default = "0 $it"
@@ -179,12 +243,18 @@ class BasketFragment : BaseFragment() {
     }
 
     private fun fillAllFields(stake: Double) {
+        place_bet_btn.isEnabled = stake>0.0
         viewModel.wallets.value?.get(0)?.currency?.also {
+            val stk = stake-(stake*0.1)
+            val totWin = totalOdds * stake //+bonus
             val win = (totalOdds * stake).roundOffDecimalWithComma()
             val potentWin = "$win $it"
+            stakeTv.text = "${stk.roundOffDecimalWithComma()} $it"
             potential_win.text = potentWin
-            total_win.text = potentWin
-            payout.text = potentWin
+            tax10.text = "${(stake*0.1).roundOffDecimalWithComma()} $it"
+            total_win.text = "${win} $it"//+bonuse
+            tax5.text = "${((totWin-stk)*tax).roundOffDecimalWithComma()} $it"
+            payout.text = "${(totWin-(totWin-stk)*tax).roundOffDecimalWithComma()} $it"
         }
     }
 

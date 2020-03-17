@@ -24,7 +24,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line_name"
+
             tools:text="1 : 2.50" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
