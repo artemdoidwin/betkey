@@ -120,6 +120,9 @@ class MainViewModel(
         return marginfoxDataManager.betLookupJackpot(ticketId)
     }
 
+    fun approveJackpot(code:String) = marginfoxDataManager.jackpotApprove(code)
+    fun approveBetlsip(code:String) = marginfoxDataManager.betslipApprove(code).flatMap {  checkTicket(it.code) }
+    fun getPrematchBetting() = betkeydataManager.getPrematchBetting()
     fun getAgentWallets(): Completable {
         return betkeydataManager.getAgentWallets()
     }

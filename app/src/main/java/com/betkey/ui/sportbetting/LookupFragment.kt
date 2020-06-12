@@ -3,6 +3,7 @@ package com.betkey.ui.sportbetting
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,7 +42,7 @@ class LookupFragment : BaseFragment() {
             lookup_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
                 subscribe(viewModel.publicBetslips(lookup_code_ET.text.toString()), {
                     addFragment(
-                        BasketFragment.newInstance(true),
+                        BasketFragment.newInstance(lookup_code_ET.text.toString()),
                         R.id.container_for_fragments,
                         BasketFragment.TAG
                     )

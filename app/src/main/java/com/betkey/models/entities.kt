@@ -30,8 +30,15 @@ data class SportBetBasketModel(
 )
 
 data class PrintObj(
+    var stack: String = "",
     var totalOdds: String = "",
     var bonus: String = "",
     var potentialWin: String = "",
-    var netWinning: String = ""
+    var netWinning: String = "",
+    var salesTax: String = "",
+    var incomeTax: String = "",
+    var salesTaxTitle: String = "",
+    var incomeTaxTitle: String = "",
+    var totalWin: String = ""
+
 )

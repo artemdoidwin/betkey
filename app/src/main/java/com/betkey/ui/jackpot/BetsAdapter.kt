@@ -1,5 +1,6 @@
 package com.betkey.ui.jackpot
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,10 +26,13 @@ class BetsAdapter (private val list: List<Pair<String, String>>)
     class BetsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun updateItem(name: String, bet: String) {
             itemView.item_bet_game_name.text = name
+            Log.d("JNKDHISUHI","bet $bet")
             itemView.item_bet_comand_name.text = when(bet){
+
                 "1"->"HOME"
                 "X"->"DRAW"
-                else -> "AWAY"
+                "2"-> "AWAY"
+                else ->bet
             }
         }
     }

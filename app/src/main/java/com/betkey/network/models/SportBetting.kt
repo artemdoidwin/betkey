@@ -10,6 +10,13 @@ class SportBetting(
     companion object {
         fun toSportBetting(sportBettingRest: SportBettingRest) =
             SportBetting(
+                startingSoon = sportBettingRest.startingSoon.map { map1 ->
+                    map1.key to map1.value.map { map2 ->
+                        map2.key to map2.value.map { linked ->
+                            Gson().fromJson(Gson().toJson(linked), Event::class.java)
+                        }
+                    }.toMap()
+                }.toMap(),
                 tomorrow = sportBettingRest.tomorrow.map { map1 ->
                     map1.key to map1.value.map { map2 ->
                         map2.key to map2.value.map { linked ->

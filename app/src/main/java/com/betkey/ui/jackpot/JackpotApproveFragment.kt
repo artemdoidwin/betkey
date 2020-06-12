@@ -1,6 +1,7 @@
 package com.betkey.ui.jackpot
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import com.betkey.network.models.*
 import com.betkey.ui.MainViewModel
 import com.betkey.utils.dateToString
 import com.betkey.utils.setMessage
+import com.betkey.utils.toFullDate
 import com.betkey.utils.toFullDate2
 import kotlinx.android.synthetic.main.fragment_jackpot_approve.*
 import org.jetbrains.anko.support.v4.toast
@@ -66,18 +68,27 @@ class JackpotApproveFragment(private val betLookup: BetLookupObj) : BaseFragment
 
 
         jackpot_approve_ticket_btn.setOnClickListener {
-            viewModel.agentBet.postValue(AgentBettingResult(message_data = MessageData(stake = betLookup.stake!!.toInt(),betCode = betLookup.code)))
-            subscribe(viewModel.checkTicket(betLookup.code), {
-                betLookup.events?.mapIndexed { i,v->
-                    Pair("${context?.resources?.getString(R.string.jackpot_game)} $i ${v.teams["1"]!!.name} - ${v.teams["2"]!!.name}",v.bet) }?.let {
-                    viewModel.betsDetailsList.value = it
-                }
+            Log.d("MyDate","betLookup.created?.date ${betLookup.created?.date}")
+            Log.d("MyDate","betLookup.created?.date ${betLookup.created?.date?.toFullDate2()!!.time}")
+            viewModel.agentBet.postValue(AgentBettingResult(message_data = MessageData(stake = betLookup.stake!!.toInt(),betCode = betLookup.code),created = betLookup.created?.date?.toFullDate2()!!.time ))
+            subscribe(viewModel.checkTicket(betLookup.code), {ticket->
 
-            showFragment(
-                JackpotConfirmationFragment.newInstance(),
-                R.id.container_for_fragments,
-                JackpotConfirmationFragment.TAG
-            )
+                    subscribe(viewModel.approveJackpot(betLookup.code),{
+
+                    betLookup.events?.mapIndexed { i,v->
+                        Pair("${context?.resources?.getString(R.string.jackpot_game)} $i ${v.teams["1"]!!.name} - ${v.teams["2"]!!.name}",v.bet) }?.let {
+                        viewModel.betsDetailsList.value = it
+                    }
+
+                    showFragment(
+                        JackpotConfirmationFragment.newInstance(),
+                        R.id.container_for_fragments,
+                        JackpotConfirmationFragment.TAG
+                    )
+
+                },{context?.also {con -> toast(setMessage(it, con))}})
+
+
         }, {
             context?.also {con -> toast(setMessage(it, con))}
         })

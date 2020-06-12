@@ -11,7 +11,8 @@ import kotlinx.android.synthetic.main.item_sportbetting_basket.view.*
 
 class BasketAdapter(
     private val list: MutableList<SportBetBasketModel>,
-    private val clickListener: (String) -> Unit
+    private val clickListener: (String) -> Unit,
+    private var isCancelebla: Boolean = true
 ) : RecyclerView.Adapter<BasketAdapter.GameViewHolder>() {
 
 
@@ -25,12 +26,12 @@ class BasketAdapter(
     override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: GameViewHolder, position: Int) {
-        holder.updateItem(list[position])
+        holder.updateItem(list[position],isCancelebla)
     }
 
     inner class GameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun updateItem(model: SportBetBasketModel) {
+        fun updateItem(model: SportBetBasketModel, isCancelebla: Boolean = true) {
             if (adapterPosition % 2 == 0) {
                 itemView.basket_item_container.setBackgroundColor(
                     ContextCompat.getColor(itemView.context, R.color.light_gray_color)
@@ -40,6 +41,7 @@ class BasketAdapter(
                     ContextCompat.getColor(itemView.context, R.color.white)
                 )
             }
+            itemView.remove.visibility = if (isCancelebla){View.VISIBLE}else{View.GONE}
             itemView.remove.setOnClickListener { clickListener(model.idEvent) }
             itemView.ligue.text = model.league
             itemView.command_name.text = model.teamsName

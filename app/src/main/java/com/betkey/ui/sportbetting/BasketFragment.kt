@@ -3,9 +3,11 @@ package com.betkey.ui.sportbetting
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseFragment
@@ -13,9 +15,9 @@ import com.betkey.models.PrintObj
 import com.betkey.models.SportBetBasketModel
 import com.betkey.network.models.BetLookupObj
 import com.betkey.network.models.BetLookupObj2
+import com.betkey.network.models.Rule
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.UsbPrinterActivity
-import com.betkey.ui.login.LoginOkFragment
 import com.betkey.utils.*
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_sportbetting_basket.*
@@ -23,18 +25,20 @@ import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.concurrent.TimeUnit
 
-class BasketFragment(private val isLookup: Boolean? = false) : BaseFragment() {
+class BasketFragment(private val code: String? = null) : BaseFragment() {
 
     companion object {
         const val TAG = "BasketFragment"
 
-        fun newInstance(isLookup: Boolean? = false) = BasketFragment(isLookup)
+        fun newInstance(code: String? = null) = BasketFragment(code)
     }
 
     private val viewModel by sharedViewModel<MainViewModel>()
     private var totalOdds: Double = 0.0
     private var tax: Double = 0.0
-
+    private var salesTax = 0.0
+    private var mBonus: Int = 0
+    var rules : List<Rule>? = listOf()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,13 +49,31 @@ class BasketFragment(private val isLookup: Boolean? = false) : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if(!code.isNullOrEmpty()){
+            clearFields()
+        }
+            subscribe(viewModel.getPrematchBetting(),{
+
+                salesTax = it.platform_unit?.settings?.top_off_tax_value
+                tax10_title.text = String.format(resources.getString(R.string.tax_10),(salesTax*100).toInt())
+                Log.d("hgsiduhsid","jdoijf $it")
+            },{
+                tax10_title.text = String.format(resources.getString(R.string.tax_10),0)
+                it.printStackTrace()
+            })
 
             subscribe(viewModel.getInstances(),{
+                rules = it.betslipBonuses[0].rules
+
+
                  it.tax?.let {taxNN->
                     tax =  taxNN
                      tax5_title.text = String.format(resources.getString(R.string.tax_s),(taxNN*100).toInt())
-                     if (isLookup == true){
+                     if (!code.isNullOrEmpty()){
                          viewModel.lookupBets2.observe(myLifecycleOwner, Observer { lookupBets ->
+                             if(lookupBets.approved == true){
+                                 Toast.makeText(this.context,resources.getString(R.string.already_approved),Toast.LENGTH_LONG).show()
+                             }
                              lookupBets?.also { lookup -> createBasketList(lookup) }
                          })
                      }
@@ -60,8 +82,11 @@ class BasketFragment(private val isLookup: Boolean? = false) : BaseFragment() {
 
             },{
                 tax5_title.text = String.format(resources.getString(R.string.tax_s),0)
-                if (isLookup == true){
+                if (!code.isNullOrEmpty()){
                     viewModel.lookupBets2.observe(myLifecycleOwner, Observer { lookupBets ->
+                        if(lookupBets.approved == true){
+                            Toast.makeText(this.context,resources.getString(R.string.already_approved),Toast.LENGTH_LONG).show()
+                        }
                         lookupBets?.also { lookup -> createBasketList(lookup) }
                     })
                 }
@@ -71,12 +96,36 @@ class BasketFragment(private val isLookup: Boolean? = false) : BaseFragment() {
 
         compositeDisposable.add(
             place_bet_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
+                if (code.isNullOrEmpty()){
+                    if (viewModel.lookupBets.value == null) {
+                        placeBetAgent()
+                    }
+                }else{
+                    code?.let {
 
-                if (viewModel.lookupBets.value == null) {
-                    placeBetAgent()
-                } else {
-                    placeBetPlayer()
+                        subscribe(  viewModel.approveBetlsip(it),{
+
+                            viewModel.printObj.value = PrintObj(
+                                stack = stakeTv.text.toString(),
+                                totalOdds = total_odds.text.toString(),
+                                bonus = bonus.text.toString(),
+                                potentialWin = potential_win.text.toString(),
+                                netWinning = payout.text.toString(),
+                                incomeTax = tax5.text.toString(),
+                                salesTax = tax10.text.toString(),
+                                incomeTaxTitle = tax5_title.text.toString(),
+                                salesTaxTitle = tax10_title.text.toString(),
+                                totalWin = total_win.text.toString()
+                        )
+                            UsbPrinterActivity.start(activity!!, UsbPrinterActivity.SPORT_BETTING)
+                            activity?.finish()},
+                            {
+                                Log.d("Taganich"," error ${it.message}")
+                                toast(it.message.toString())
+                            it.printStackTrace()})
+                    }
                 }
+
             }
         )
         compositeDisposable.add(
@@ -92,7 +141,7 @@ class BasketFragment(private val isLookup: Boolean? = false) : BaseFragment() {
         )
         amount_ET.addTextChangedListener(textWatcher)
 
-        viewModel.basketList.observe(myLifecycleOwner, Observer { list ->
+        viewModel.basketList.observe(myLifecycleOwner, Observer { list  ->
             list?.also { initAdapter(list) }
         })
         viewModel.sportBettingStatus.observe(myLifecycleOwner, Observer { status ->
@@ -103,13 +152,13 @@ class BasketFragment(private val isLookup: Boolean? = false) : BaseFragment() {
         })
 
 
-        if(isLookup == false){
+        if(code.isNullOrEmpty()){
             viewModel.lookupBets.observe(myLifecycleOwner, Observer { lookupBets ->
                 lookupBets?.also { lookup -> createBasketList(lookup) }
             })
         }
-        amount_ET.isEnabled = isLookup!=true
-        clearFields()
+        //amount_ET.isEnabled = code.isNullOrEmpty()
+
     }
 
     private fun placeBetPlayer() {
@@ -122,10 +171,16 @@ class BasketFragment(private val isLookup: Boolean? = false) : BaseFragment() {
             subscribe(viewModel.getAgentProfile(amount_ET.text.toString()), {
                 //            toast("Success!!!!")
                 viewModel.printObj.value = PrintObj(
+                    stack = stakeTv.text.toString(),
                     totalOdds = total_odds.text.toString(),
                     bonus = bonus.text.toString(),
                     potentialWin = potential_win.text.toString(),
-                    netWinning = payout.text.toString()
+                    netWinning = payout.text.toString(),
+                    incomeTax = tax5.text.toString(),
+                    salesTax = tax10.text.toString(),
+                    incomeTaxTitle = tax5_title.text.toString(),
+                    salesTaxTitle = tax10_title.text.toString(),
+                    totalWin = total_win.text.toString()
                 )
                 UsbPrinterActivity.start(activity!!, UsbPrinterActivity.SPORT_BETTING)
                 activity?.finish()
@@ -135,7 +190,7 @@ class BasketFragment(private val isLookup: Boolean? = false) : BaseFragment() {
     }
 
     private fun initAdapter(list: MutableList<SportBetBasketModel>) {
-        basket_adapter.adapter = BasketAdapter(list) { idEvent ->
+        basket_adapter.adapter = BasketAdapter(list, { idEvent ->
             val newList = mutableListOf<SportBetBasketModel>()
             newList.addAll(list)
             list.forEach { modelInList ->
@@ -143,8 +198,11 @@ class BasketFragment(private val isLookup: Boolean? = false) : BaseFragment() {
                     newList.remove(modelInList)
                 }
             }
+            if (list.size == 0 ){
+                    clearFields()
+            }
             viewModel.basketList.value = newList
-        }
+        },isCancelebla = code.isNullOrEmpty())
         calculateTotalOdds(list)
     }
 
@@ -177,8 +235,15 @@ class BasketFragment(private val isLookup: Boolean? = false) : BaseFragment() {
                     )
                 )
             }
-            amount_ET.setText(bets.stake.toString())
             initAdapter(basketList)
+            amount_ET.setText(bets.stake.toString())
+            fillAllFields(amount_ET.text.toString().toDouble())
+            if(basketList.size == 0){
+                clearFields()
+            }
+
+
+
         }
     }
     private fun createBasketList(bets: BetLookupObj2) {
@@ -210,6 +275,9 @@ class BasketFragment(private val isLookup: Boolean? = false) : BaseFragment() {
                     )
                 )
             }
+            if(basketList.size == 0){
+                clearFields()
+            }
             amount_ET.setText(bets.stake.toString())
             initAdapter(basketList)
         }
@@ -221,10 +289,12 @@ class BasketFragment(private val isLookup: Boolean? = false) : BaseFragment() {
             potential_win.text = default
             total_win.text = default
             payout.text = default
+            tax5.text = default
         }
     }
 
     private fun calculateTotalOdds(list: MutableList<SportBetBasketModel>) {
+
         if (list.size == 0) {
             totalOdds = 0.0
             total_odds.text = "0"
@@ -239,43 +309,60 @@ class BasketFragment(private val isLookup: Boolean? = false) : BaseFragment() {
 
         if (amount_ET.text.toString().isNotEmpty()) {
             fillAllFields(amount_ET.text.toString().toDouble())
+        }else{
+            fillAllFields(0.0)
         }
     }
 
-    private fun fillAllFields(stake: Double) {
-        place_bet_btn.isEnabled = stake>0.0
+    private fun fillAllFields(ticketPrice: Double) {
+        place_bet_btn.isEnabled = ticketPrice>0.0 && !(viewModel.lookupBets2.value?.approved?:false && !code.isNullOrEmpty())
         viewModel.wallets.value?.get(0)?.currency?.also {
-            val stk = stake-(stake*0.1)
-            val totWin = totalOdds * stake //+bonus
-            val win = (totalOdds * stake).roundOffDecimalWithComma()
-            val potentWin = "$win $it"
-            stakeTv.text = "${stk.roundOffDecimalWithComma()} $it"
-            potential_win.text = potentWin
-            tax10.text = "${(stake*0.1).roundOffDecimalWithComma()} $it"
-            total_win.text = "${win} $it"//+bonuse
-            tax5.text = "${((totWin-stk)*tax).roundOffDecimalWithComma()} $it"
-            payout.text = "${(totWin-(totWin-stk)*tax).roundOffDecimalWithComma()} $it"
+
+            val rule =  rules?.find { it.number == basket_adapter?.adapter?.itemCount ?: 0 }
+            Log.d("BONUS","betsBon $rule $rules")
+            if (viewModel.basketList.value?.find { it.odds.toDouble() < rule?.bet ?: 0.0} == null){
+                mBonus =rule?.bonus ?: 0
+            }else{
+               // mBonus = 0
+            }
+            val stake = ticketPrice-(ticketPrice*salesTax)
+            val potentialWin = totalOdds * stake
+            val tBonus = (potentialWin  - stake) * (mBonus.toDouble()/100)
+            val totWin = potentialWin + tBonus
+            val incomeTax = (totWin-stake)*tax
+
+            stakeTv.text = "${stake.roundOffDecimalWithComma()} $it"
+            tax10.text = "${(ticketPrice*salesTax).roundOffDecimalWithComma()} $it"
+            potential_win.text = "${potentialWin.roundOffDecimalWithComma()} $it"
+            bonus.text = "${tBonus.roundOffDecimalWithComma()} $it"
+            total_win.text = "${totWin.roundOffDecimalWithComma()} $it"//+bonuse
+            tax5.text = "${incomeTax.roundOffDecimalWithComma()} $it"
+            payout.text = "${(totWin-incomeTax).roundOffDecimalWithComma()} $it"
+
         }
     }
 
     private val textWatcher = object : TextWatcher {
         override fun onTextChanged(searchText: CharSequence, start: Int, before: Int, count: Int) {
-            var isEnabledFlag = false
-            viewModel.basketList.value?.size?.also {
-                isEnabledFlag =
-                    searchText.isNotEmpty() && searchText.toString().toDouble() > 0 && it > 0
-            }
+            var isEnabledFlag = searchText.isNotEmpty() && searchText.toString().toDouble() > 0 && basket_adapter?.adapter?.itemCount ?: 0 > 0 && !(viewModel.lookupBets2.value?.approved?:false && !code.isNullOrEmpty())
 
-            viewModel.lookupBets.value?.also {
-                isEnabledFlag = searchText.isNotEmpty() && searchText.toString().toDouble() > 0
+
+
+
+            if (searchText.isNullOrEmpty()){
+                fillAllFields(0.0)
+            }else{
+                fillAllFields(searchText.toString().toDouble())
             }
 
             place_bet_btn.isEnabled = isEnabledFlag
             if (searchText.isNotEmpty() && searchText.toString().toDouble() == 0.0) {
                 amount_ET.setText("")
+
             }
+
             if (isEnabledFlag) {
-                fillAllFields(searchText.toString().toDouble())
+
             }
         }
 

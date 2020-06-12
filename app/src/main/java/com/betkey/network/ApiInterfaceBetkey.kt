@@ -58,4 +58,6 @@ interface ApiInterfaceBetkey {
         @Query("datetimeTo") datetimeTo: String
     ): Single<StatisticDto>
 
+    @GET("platforms/units/prematch_betting")
+    fun getPrematchBetting(): Single<PrematchBetting>
 }

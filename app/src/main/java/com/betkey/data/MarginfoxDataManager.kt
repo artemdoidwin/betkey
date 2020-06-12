@@ -1,5 +1,6 @@
 package com.betkey.data
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.betkey.network.ApiInterfaceMarginfox
 import com.betkey.network.models.*
@@ -22,7 +23,9 @@ class MarginfoxDataManager(
     val jackpotInfo = modelRepository.jackpotInfo
     val lookupBets = modelRepository.lookupBets
     val lookupBets2 = modelRepository.lookupBets2
-    val sportBetStartingSoon = modelRepository.sportBetStartingSoon
+    val sportBetStartingSoon = modelRepository.sportBetStartingSoon.apply {
+       // this.value = mapOf(Pair("ijoijdf", mapOf(Pair("jjjfkj", listOf(Event().generateEvent())))))
+    }
     val sportBetTomorrow = modelRepository.sportBetTomorrow
     val sportBetToday = modelRepository.sportBetToday
     val marketsRest = modelRepository.marketsRest
@@ -56,12 +59,37 @@ class MarginfoxDataManager(
             }
     }
 
+    fun jackpotApprove(code:String): Single<ApproveJackpotResponse> {
+        prefManager.getToken().let {
+            return apiMarginfox.approveJackpot(it,code)
+        }
+
+    }
+    fun betslipApprove(code:String): Single<BetLookupObj> {
+        prefManager.getToken().let {
+            return apiMarginfox.approveBetslip(it,code).flatMap {
+                val model = BetLookupObj.checkStatus(it)
+
+                if (model == null) {
+                    modelRepository.sportBetStatus.postValue(it.status)
+                } else {
+                    modelRepository.sportBetSuccess.postValue(model)
+                }
+                Single.just(model)
+            }
+
+        }
+
+    }
+
+
+
     fun jackpotAgentBetting(
         selections: ArrayList<String>,
         stake: Int,
         alternativeSelections: ArrayList<String>
     ): Single<AgentBettingResult> {
-
+        Log.d("eventss","send jackpotInfo.events ${selections}  jackpotInfo.altEvents ${alternativeSelections}")
         val map = linkedMapOf<String,String>()
         selections.forEachWithIndex { index, value ->
             map["jackpot[selections][${index}]"] = value
@@ -77,7 +105,7 @@ class MarginfoxDataManager(
                 token, map, stake, AGENT_HHT, alternativesMap
             )
                 .flatMap {
-                    modelRepository.agentBet.postValue(it)
+                    modelRepository.agentBet.postValue(it.apply { it.created = it.created*1000 })
                     Single.just(it)
                 }
         }
@@ -104,9 +132,11 @@ class MarginfoxDataManager(
     fun sportBetStartingSoon(): Single<Map<String, Map<String, List<Event>>>> {
         return apiMarginfox.getSportbetting(prefManager.getLanguage(), "MRFT","starting_soon", API_KEY_MARGINFOX)
             .flatMap {
+
                 val sb = toSportBetting(it)
-                modelRepository.sportBetTomorrow.postValue(sb.tomorrow)
-                Single.just(sb.tomorrow)
+                Log.d("soon", "soo $sb")
+                modelRepository.sportBetStartingSoon.postValue(sb.startingSoon)
+                Single.just(sb.startingSoon)
             }
     }
 
@@ -144,19 +174,29 @@ class MarginfoxDataManager(
             events["betslip[source]"] = "HHT"
             events["betslip[instance]"] = "exaloc"
             events["betslip[live]"] = "0"
-            events["betkeyData[agent_id]"] = agentId.toString()
+
         }
+
         return prefManager.getToken().let { token ->
-            apiMarginfox.sprotBettingPlaceBet(API_KEY_MARGINFOX, events, token)
-                .flatMap {
-                    val model = BetLookupObj.checkStatus(it)
-                    if (model == null) {
-                        modelRepository.sportBetStatus.postValue(it.status)
-                    } else {
-                        modelRepository.sportBetSuccess.postValue(model)
-                    }
-                    Single.just(model)
+            Log.d("CreatingTicket"," betkeyData[agent_token] = $token")
+            apiMarginfox.getAgentProfile(API_KEY_MARGINFOX,"exaloc",token).flatMap {
+                events["betkeyData[agent_id]"] = it.message?.agentDocument?.id.toString()
+                events.forEach {
+                    Log.d("CreatingTicket"," ${it.key} = ${it.value}")
                 }
+
+                apiMarginfox.sprotBettingPlaceBet(API_KEY_MARGINFOX, events, token)
+                    .flatMap {
+                        val model = BetLookupObj.checkStatus(it)
+                        if (model == null) {
+                            modelRepository.sportBetStatus.postValue(it.status)
+                        } else {
+                            modelRepository.sportBetSuccess.postValue(model)
+                        }
+                        Single.just(model)
+                    }
+            }
+
         }
     }
 

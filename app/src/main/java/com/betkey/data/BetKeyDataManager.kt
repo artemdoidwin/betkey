@@ -39,13 +39,18 @@ class BetKeyDataManager(
     }
 
     fun getReport(dateTimeFrom:String,dateTimeTo:String):Single<StatisticDto>{
+        Log.d("ODLPODPOD","get report call")
         return prefManager.getToken().let { token ->
+            Log.d("ODLPODPOD","token is good")
             apiBetkey.getReport(token,dateTimeFrom,dateTimeTo).flatMap {
                 report.postValue(it)
+                Log.d("ODLPODPOD","mare request report")
                 Single.just(it)
             }
         }
     }
+
+    fun getPrematchBetting() = apiBetkey.getPrematchBetting()
 
     fun agentLogout(): Completable {
         return prefManager.getToken().let { token ->

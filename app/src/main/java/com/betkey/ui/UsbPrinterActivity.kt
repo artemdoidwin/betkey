@@ -1,7 +1,5 @@
 package com.betkey.ui
 
-import android.R.attr.textColor
-import android.R.attr.textSize
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
@@ -12,7 +10,6 @@ import android.os.Looper
 import android.os.Message
 import android.util.Log
 import android.view.KeyEvent
-import android.widget.Toast
 import com.betkey.R
 import com.betkey.base.BaseActivity
 import com.betkey.network.models.Event
@@ -407,14 +404,14 @@ class UsbPrinterActivity : BaseActivity() {
         dottedLine()
         viewModel.agentBet.value?.also { agentBet ->
             printHeadRow(
-                resources.getString(R.string.jackpot_confirmation_ticket_number),
+                resources.getString(R.string.jackpot_round_title),
                 agentBet.message_data.couponId.toString()
             )
             printHeadRow(
                 resources.getString(R.string.jackpot_game_code), agentBet.message_data.betCode
             )
             printHeadRow(
-                resources.getString(R.string.jackpot_game_date_time), dateString(agentBet.created)
+                resources.getString(R.string.jackpot_game_date_time), Date(agentBet.created).dateToString()
             )
             viewModel.ticket.value?.also { ticket ->
                 printHeadRow(
@@ -447,7 +444,7 @@ class UsbPrinterActivity : BaseActivity() {
 
         viewModel.sportBetSuccess.value?.also { sbSuccess ->
             printHeadRow(
-                resources.getString(R.string.jackpot_confirmation_ticket_number), sbSuccess.id
+                resources.getString(R.string.jackpot_confirmation_ticket_number).toUpperCase(), sbSuccess.id
             )
             printHeadRow(resources.getString(R.string.jackpot_game_code), sbSuccess.code)
             printHeadRow(
@@ -479,11 +476,13 @@ class UsbPrinterActivity : BaseActivity() {
                 }
             }
             viewModel.printObj.value?.also {
-                printHeadRow(resources.getString(R.string.sportbetting_odds), it.totalOdds)
+                printHeadRow(resources.getString(R.string.sportbetting_total_odds).toUpperCase(), it.totalOdds)
+                printHeadRow(resources.getString(R.string.stake).toUpperCase(), it.stack)
+                printHeadRow(it.salesTaxTitle.toUpperCase(), it.salesTax)
+                printHeadRow(resources.getString(R.string.sportbetting_potential_win), it.potentialWin)
                 printHeadRow(resources.getString(R.string.sportbetting_bonus), it.bonus)
-                printHeadRow(
-                    resources.getString(R.string.sportbetting_potential_win), it.potentialWin
-                )
+                printHeadRow(resources.getString(R.string.sportbetting_total_win).toUpperCase(), it.totalWin)
+                printHeadRow(it.incomeTaxTitle.toUpperCase(), it.incomeTax)
                 printHeadRow(resources.getString(R.string.sportbetting_winning), it.netWinning)
             }
             dottedLine()

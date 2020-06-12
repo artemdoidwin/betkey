@@ -134,6 +134,7 @@ fun String.getSHA1(): String {
 //}
 
 fun setMessage(it: Throwable, con: Context): String {
+    it.printStackTrace()
     return when (it) {
         is UnknownHostException -> con.resources.getString(R.string.no_internet)
         is HttpException -> {

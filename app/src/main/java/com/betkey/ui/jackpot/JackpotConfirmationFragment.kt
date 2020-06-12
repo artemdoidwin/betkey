@@ -15,6 +15,7 @@ import com.betkey.utils.*
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_jacpot_confirmation.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class JackpotConfirmationFragment(private val betLookup: BetLookupObj? = null) : BaseFragment() {
@@ -69,7 +70,8 @@ class JackpotConfirmationFragment(private val betLookup: BetLookupObj? = null) :
                     val price = "${it.message_data?.stake} ${wallets[0].currency} "
                     confirmation_ticket_price.text = price
                 }
-                confirmation_ticket_created.text = dateString(it.created!!)
+                Log.d("MyDate","it.created ${it.created}")
+                confirmation_ticket_created.text = (Date().apply { time = it.created }).dateToString()
                 UsbPrinterActivity.start(activity!!, UsbPrinterActivity.JACKPOT)
             }
         })
@@ -79,6 +81,7 @@ class JackpotConfirmationFragment(private val betLookup: BetLookupObj? = null) :
                 it.coupon?.also { coupon ->
                     confirmation_coupon_id.text = coupon.coupon?.id.toString()
                     val date = coupon.coupon?.expires?.toFullDate()!!.dateToString()
+                    confirmation_ticket_number.text = coupon.coupon?.id.toString()
                     confirmation_last_entry.text = date
                 }
             }

@@ -7,9 +7,9 @@ const val BASE_URSL_BETKEY2 = "https://api.betshop.online/"
 const val API_KEY_BETKEY = BuildConfig.API_KEY_BETKEY
 const val API_KEY_BETKEY2 = "tEzenFNzWh252R"
 
-const val BASE_URSL_MARGINFOX = "http://api.exaloc.org/v1/"
+const val BASE_URSL_MARGINFOX = BuildConfig.BASE_URSL_MARGINFOX
 const val INSTANCE_MARGINFOX = BuildConfig.INSTANCE_MARGINFOX
-const val API_KEY_MARGINFOX = "exaloc_kong_key"
+const val API_KEY_MARGINFOX = BuildConfig.API_KEY_MARGINFOX
 
 const val BASE_URSL_PSP = BuildConfig.BASE_URSL_PSP
 const val BASE_URSL_PSP2 = "https://payment-psp.betshop.online/"

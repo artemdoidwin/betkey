@@ -36,7 +36,7 @@ class SportbetingFragment : BaseFragment() {
             subscribe( viewModel.sportBetStartingSoon(), {
                 addFragment(TodayEventsFragment.newInstance(), R.id.container_for_fragments, TodayEventsFragment.TAG)
             }, {
-                toast(it.message.toString())
+                toast(resources.getString(R.string.sportsbetting_error))
             })
         }
 
@@ -44,7 +44,7 @@ class SportbetingFragment : BaseFragment() {
             subscribe( viewModel.sportBetTomorrow(), {
                 addFragment(TodayEventsFragment.newInstance(), R.id.container_for_fragments, TodayEventsFragment.TAG)
             }, {
-                toast(it.message.toString())
+                toast(resources.getString(R.string.sportsbetting_error))
             })
         }
 
@@ -52,7 +52,7 @@ class SportbetingFragment : BaseFragment() {
             subscribe( viewModel.sportBetToday(), {
                 addFragment(TodayEventsFragment.newInstance(), R.id.container_for_fragments, TodayEventsFragment.TAG)
             }, {
-                toast(it.message.toString())
+                toast(resources.getString(R.string.sportsbetting_error))
             })
         }
 

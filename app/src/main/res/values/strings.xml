@@ -60,7 +60,7 @@
     <string name="jackpot_confirmation_draw">Draw</string>
     <string name="jackpot_confirmation_away">Away</string>
     <string name="jackpot_game">Game</string>
-    <string name="jackpot_game_code">CODE:</string>
+    <string name="jackpot_game_code">TICKET CODE:</string>
     <string name="jackpot_game_date_time">DATE/TIME:</string>
 
     <string name="deposit_title">Find player</string>
@@ -93,7 +93,7 @@
     <string name="withdrawal_error_pin">Wrong withdrawal pin</string>
 
     <string name="sportbetting_title">Sportsbetting</string>
-    <string name="sportbetting_featured_events">Featured events</string>
+    <string name="sportbetting_featured_events">Starting Soon</string>
     <string name="sportbetting_today">Today</string>
     <string name="sportbetting_todat_events">Today\'s events</string>
     <string name="sportbetting_tomorrow_events">Tomorrow\'s events</string>
@@ -122,7 +122,7 @@
     <string name="sportbetting_place">Place:</string>
     <string name="sportbetting_place_">PLACE</string>
     <string name="sportbetting_potint_tax">POTENTIAL TAX:</string>
-    <string name="sportbetting_winning">NET WINNING:</string>
+    <string name="sportbetting_winning">PAYOUT:</string>
 
     <string name="lottery_id">ROUND ID:</string>
     <string name="lottery_next_draw">Next draw:</string>
@@ -193,8 +193,11 @@
     <string name="report_currency">currency:</string>
     <string name="report_print">Print report</string>
     <string name="approve_jackpot">Approve jackpot</string>
-    <string name="tax_10">Tax 10%</string>
-    <string name="tax_s">Tax \%d\%%</string>
-    <string name="stack">Stack</string>
+    <string name="tax_10">Sales tax \%d\%%</string>
+    <string name="tax_s">Income tax \%d\%%</string>
+    <string name="stake">Stake</string>
+    <string name="sportsbetting_error">Sorry, there is no any games in this period</string>
+    <string name="total_price">TOTAL PRICE</string>
+    <string name="already_approved">Thank you, this betslip is already approved</string>
 
 </resources>

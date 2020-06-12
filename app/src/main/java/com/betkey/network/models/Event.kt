@@ -1,6 +1,8 @@
 package com.betkey.network.models
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
+import kotlin.random.Random
 
 data class Event(
     @SerializedName("id")
@@ -71,4 +73,24 @@ data class Event(
 
     var isAltGame: Boolean = false,
     var btnChecked: Int = -1
-)
+){
+    fun generateEvent() = Event(
+        id = Random(5).nextInt().toString(),
+        friendlyId = Random(5).nextInt(),
+        sport = "football",
+        startTime = "2019-04-16T17:00:00+00:00",
+        status = 0,
+        statusName = "Scheduled",
+        updatedAt = "2019-04-16T00:50:57+00:00",
+        teams = mapOf(Pair("1", Team(UUID.randomUUID().toString(),"firstTeam")),Pair("2", Team(UUID.randomUUID().toString(),"secondTeam"))),
+        league = League(id = UUID.randomUUID().toString(),
+            name = "Superettan",
+            order = 9999),
+        blocked = false,
+        odds = 0.44,
+        result = "Fool Time",
+        odds_formats = OddsFormats("2.33","of")
+
+        )
+}
+

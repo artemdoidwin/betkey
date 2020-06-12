@@ -96,4 +96,21 @@ interface ApiInterfaceMarginfox {
     @GET("instances/exaloc")
     fun getInstances(
     ): Single<Instance>
+
+    @PUT("jackpot_bet/approve/{code}")
+    fun approveJackpot(
+        @Header("X-AUTH-TOKEN") token: String,
+        @Path("code")
+        code: String
+    ): Single<ApproveJackpotResponse>
+
+    @PUT("betkey/agents/betslips/{code}/approve")
+    fun approveBetslip(
+        @Header("X-AUTH-TOKEN") token: String,
+        @Path("code")
+        code: String
+    ): Single<StatusBetslip>
+
+    @GET("platforms/units/prematch_betting")
+    fun getPrematchBetting(): Single<PrematchBetting>
 }

@@ -1,6 +1,7 @@
 package com.betkey.ui.sportbetting
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -78,6 +79,7 @@ class TodayEventsFragment : BaseFragment() {
         viewModel.sportBetStartingSoon.observe(myLifecycleOwner, Observer { sportBetStartingSoon ->
             sportBetStartingSoon?.also { map ->
                 currenpMap = map
+                Log.d("sportbetting","soon $map")
                 head_text.text = resources.getString(R.string.sportbetting_starting_soon_events)
                 viewModel.basketList.value?.also { list ->
                     initAdapter(map, list)

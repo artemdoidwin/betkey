@@ -28,6 +28,7 @@ abstract class BaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         myLifecycleOwner.lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
     }
 
@@ -54,15 +55,20 @@ abstract class BaseFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
+
         myLifecycleOwner.lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        compositeDisposable.clear()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         myLifecycleOwner.lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         compositeDisposable.dispose()
     }
-
     fun showLoading() {
         baseActivity.showLoading()
     }

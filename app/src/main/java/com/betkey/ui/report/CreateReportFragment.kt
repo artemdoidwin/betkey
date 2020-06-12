@@ -1,6 +1,7 @@
 package com.betkey.ui.report
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,6 +47,7 @@ class CreateReportFragment: BaseFragment() {
 
         }
         reportTodayBtn.setOnClickListener {
+            Log.d(TAG,"report today clicked")
             subscribe(viewModel.getReport(format.format(Calendar.getInstance().apply {
                 set(Calendar.HOUR_OF_DAY,0)
                 set(Calendar.MINUTE,0)}.time),format.format(Date())),{

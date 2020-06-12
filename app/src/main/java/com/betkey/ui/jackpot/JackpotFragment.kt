@@ -96,15 +96,17 @@ class JackpotFragment(private val betLookup: BetLookupObj? = null) : BaseFragmen
                             }
                         }
 
-                    val eventsList = betDetailsMap.toList() as ArrayList<Pair<String, String>>
+                    val eventsList = betDetailsMap.toList().toMutableList()
                     eventsList.sortWith(comparator)
 
-                    val altEventsList = altDetailsMap.toList() as ArrayList<Pair<String, String>>
+                    val altEventsList = altDetailsMap.toList().toMutableList()
                     eventsList.sortWith(comparator)
 
                     stake = jackpot_stake_sp.selectedItem.toString().toInt()
-                    sendRequest(eventsList, altEventsList)
-                }
+                    sendRequest(eventsList as ArrayList<Pair<String, String>>,
+                        altEventsList as ArrayList<Pair<String, String>>
+                    )
+                }else{context?.also {con -> toast("low battary")}}
             }
         )
 
@@ -133,6 +135,8 @@ class JackpotFragment(private val betLookup: BetLookupObj? = null) : BaseFragmen
         }
 
         val listEvents = mutableListOf<Event>()
+        Log.d("eventss","jackpotInfo.events ${jackpotInfo.events?.keys}  jackpotInfo.altEvents ${jackpotInfo.altEvents?.keys}")
+        Log.d("eventss","jackpotInfo.events ${jackpotInfo.events?.values?.map { it.id}} jackpotInfo.altEvents ${jackpotInfo.altEvents?.keys}")
         listEvents.addAll(jackpotInfo.events!!.values)
 
         jackpotInfo.altEvents?.also { events ->
