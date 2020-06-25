@@ -461,11 +461,11 @@ class UsbPrinterActivity : BaseActivity() {
 
                 dottedLine()
                 sbSuccess.events?.also { events ->
-                    printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details))
-                    for (i in events.indices) {
-                        dottedLine()
-                        createBetList(events[i], null)
-                    }
+                    printMiddleText(resources.getString(R.string.sportbetting_payout_upper_case))
+//                    for (i in events.indices) {
+//                        dottedLine()
+//                        createBetList(events[i], null)
+//                    }
                     dottedLine()
                     val stake = "${ticket.stake.toDouble().roundOffDecimal()} " +
                             ticket.currency.toUpperCase(Locale.getDefault())

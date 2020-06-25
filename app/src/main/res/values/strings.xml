@@ -84,7 +84,7 @@
     <string name="withdrawal_id">ID:</string>
     <string name="withdrawal_text_bottom_looking">LOOKING FOR A RELIABLE AGENT SYSTEM?</string>
     <string name="withdrawal_text_bottom_contact">CONTACT US TODAY FOR MORE INFORMATION</string>
-    <string name="withdrawal_site" translatable="false">WWW.BETOO.CM</string>
+    <string name="withdrawal_site" translatable="false">WWW.BETSHOP.ONLINE</string>
     <string name="withdrawal_pin">Withdrawal pin</string>
     <string name="withdrawal_hint_pin">pin</string>
     <string name="withdrawal_confirm">Confirm withdrawal</string>
@@ -123,6 +123,7 @@
     <string name="sportbetting_place_">PLACE</string>
     <string name="sportbetting_potint_tax">POTENTIAL TAX:</string>
     <string name="sportbetting_winning">PAYOUT:</string>
+    <string name="sportbetting_payout_upper_case">PAYOUT</string>
 
     <string name="lottery_id">ROUND ID:</string>
     <string name="lottery_next_draw">Next draw:</string>
