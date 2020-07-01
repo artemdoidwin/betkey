@@ -55,7 +55,6 @@ private val networkModule = module {
             .addConverterFactory(GsonConverterFactory.create(Gson()))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
             .client(OkHttpClient.Builder()
-                .addInterceptor(get())
                 .addInterceptor{
                     it.proceed(
                         it.request().newBuilder().url(
@@ -63,6 +62,7 @@ private val networkModule = module {
                         ).build()
                     )
                 }
+                .addInterceptor(get())
                 .connectTimeout(20, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)
                 .writeTimeout(20, TimeUnit.SECONDS)

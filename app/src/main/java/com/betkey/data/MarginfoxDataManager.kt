@@ -215,6 +215,8 @@ class MarginfoxDataManager(
     }
 
     fun payoutTicket(id: String) : Single<TicketPayout> {
-       return apiMarginfox.payoutTicket(id)
+       return prefManager.getToken().let { token ->
+           apiMarginfox.payoutTicket(id, API_KEY_MARGINFOX, token)
+       }
     }
 }

@@ -61,7 +61,8 @@ interface ApiInterfaceMarginfox {
     @GET("prelive/events/{ids}")
     fun getEventsById(
         @Path("ids") ids: String,
-        @Query("lang") lang: String): Single<List<Event>>
+        @Query("lang") lang: String
+    ): Single<List<Event>>
 
     @GET("prelive/events/{event_id}")
     fun getSportbettingMarkets(
@@ -115,5 +116,8 @@ interface ApiInterfaceMarginfox {
     fun getPrematchBetting(): Single<PrematchBetting>
 
     @POST("betkey/agents/betslips/{id}/payout")
-    fun payoutTicket(@Path("id") id: String) : Single<TicketPayout>
+    fun payoutTicket(
+        @Path("id") id: String,
+        @Query("api_key") apiKey: String,
+        @Header("X-AUTH-TOKEN") token: String): Single<TicketPayout>
 }

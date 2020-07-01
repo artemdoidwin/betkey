@@ -35,26 +35,32 @@ android {
     productFlavors {
         betkeyTest {
             dimension "version"
-            applicationIdSuffix ".betkey"
+            applicationIdSuffix ".betkey.test"
             versionNameSuffix "-betkeytest"
+
             buildConfigField 'String', 'BASE_URSL_BETKEY', '"http://exaloc-kong.betkey.net:8000/"'
             buildConfigField 'String', 'API_KEY_BETKEY', '"exaloc_kong_key"'
             buildConfigField 'String', 'BASE_URSL_MARGINFOX', '"http://api.exaloc.org/v1/"'
             buildConfigField 'String', 'API_KEY_MARGINFOX', '"exaloc_kong_key"'
             buildConfigField 'String', 'INSTANCE_MARGINFOX', '"exaloc"'
             buildConfigField 'String', 'BASE_URSL_PSP', '"http://exaloc-payment-psp.betkey.net/"'
+
+            manifestPlaceholders = [applicationName: "BetkeyTest"]
         }
 
         betkeyProd {
             dimension "version"
             applicationIdSuffix ".betkey"
             versionNameSuffix "-betkeyprod"
+
             buildConfigField 'String', 'BASE_URSL_BETKEY', '"https://api.betshop.online/"'
             buildConfigField 'String', 'API_KEY_BETKEY', '"tEzenFNzWh252R"'
             buildConfigField 'String', 'BASE_URSL_MARGINFOX', '"https://api.exaloc.net/v1/"'
             buildConfigField 'String', 'API_KEY_MARGINFOX', '"U3acqUP4GqHvxYYKrU8g"'
             buildConfigField 'String', 'INSTANCE_MARGINFOX', '"exaloc"'
             buildConfigField 'String', 'BASE_URSL_PSP', '"https://payment-psp.betshop.online/"'
+
+            manifestPlaceholders = [applicationName: "Betkey"]
         }
 
         betoo {
@@ -65,6 +71,8 @@ android {
             buildConfigField 'String', 'API_KEY_BETKEY', '"QDXVK3qN2CGW4pi6"'
             buildConfigField 'String', 'INSTANCE_MARGINFOX', '"betoo"'
             buildConfigField 'String', 'BASE_URSL_PSP', '"http://betoo-payment-psp.betkey.net/"'
+
+            manifestPlaceholders = [applicationName: "Betoo"]
         }
     }
 
