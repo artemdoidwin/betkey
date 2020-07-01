@@ -36,6 +36,9 @@ data class Payment(
     @SerializedName("psp_payment_id")
     var psp_payment_id: String? = null,
 
+    @SerializedName("psp_payment_code")
+    var psp_payment_code: String? = null,
+
     @SerializedName("psp_name")
     var psp_name: String? = null,
 

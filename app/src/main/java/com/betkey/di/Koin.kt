@@ -1,6 +1,7 @@
 package com.betkey.di
 
 import android.content.Context
+import android.util.Log
 import com.betkey.BuildConfig
 import com.betkey.data.*
 import com.betkey.network.ApiInterfaceBetkey
@@ -22,6 +23,8 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 private val viewModelModule = module {
     viewModel { MainViewModel(get(), get(), get(), get()) }
@@ -49,18 +52,22 @@ private val networkModule = module {
     single(named(MARGINFOX)) {
         Retrofit.Builder()
             .baseUrl(BASE_URSL_MARGINFOX)
-            .client(get<OkHttpClient.Builder>()
-                .addInterceptor {
+            .addConverterFactory(GsonConverterFactory.create(Gson()))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+            .client(OkHttpClient.Builder()
+                .addInterceptor(get())
+                .addInterceptor{
                     it.proceed(
                         it.request().newBuilder().url(
                             it.request().url().newBuilder().addQueryParameter("instance", INSTANCE_MARGINFOX).build()
                         ).build()
                     )
                 }
-                .addInterceptor(get())
+                .connectTimeout(20, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
+                .writeTimeout(20, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(false)
                 .build())
-            .addConverterFactory(GsonConverterFactory.create(Gson()))
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
             .build()
     }
     single(named(PSP)) {

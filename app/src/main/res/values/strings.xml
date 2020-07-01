@@ -200,5 +200,6 @@
     <string name="sportsbetting_error">Sorry, there is no any games in this period</string>
     <string name="total_price">TOTAL PRICE</string>
     <string name="already_approved">Thank you, this betslip is already approved</string>
+    <string name="payment_unsuccesful">"Payment unsuccessful "</string>
 
 </resources>

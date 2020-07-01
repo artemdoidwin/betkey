@@ -113,4 +113,7 @@ interface ApiInterfaceMarginfox {
 
     @GET("platforms/units/prematch_betting")
     fun getPrematchBetting(): Single<PrematchBetting>
+
+    @POST("betkey/agents/betslips/{id}/payout")
+    fun payoutTicket(@Path("id") id: String) : Single<TicketPayout>
 }

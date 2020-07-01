@@ -9,6 +9,7 @@ import com.betkey.network.models.SportBetting.Companion.toSportBetting
 import com.betkey.repository.ModelRepository
 import com.betkey.utils.AGENT_HHT
 import com.betkey.utils.API_KEY_MARGINFOX
+import com.betkey.utils.INSTANCE_MARGINFOX
 import io.reactivex.Single
 import org.jetbrains.anko.collections.forEachWithIndex
 
@@ -211,5 +212,9 @@ class MarginfoxDataManager(
     fun getInstances(
     ): Single<Instance>{
        return apiMarginfox.getInstances()
+    }
+
+    fun payoutTicket(id: String) : Single<TicketPayout> {
+       return apiMarginfox.payoutTicket(id)
     }
 }

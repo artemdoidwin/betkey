@@ -333,7 +333,7 @@ class UsbPrinterActivity : BaseActivity() {
             }
             val time = "${resources.getString(R.string.withdrawal_time)} " +
                     dateString(payment.created)
-            val id = "${resources.getString(R.string.withdrawal_id)} " + payment.shortId
+            val id = "${resources.getString(R.string.withdrawal_id)} " + payment.psp_payment_code
 
             mUsbThermalPrinter.addString(number.toUpperCase(Locale.getDefault()))
             mUsbThermalPrinter.addString(name.toUpperCase(Locale.getDefault()))

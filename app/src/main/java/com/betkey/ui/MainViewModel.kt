@@ -150,4 +150,8 @@ class MainViewModel(
     fun getLocale() = localManager.getLocale()
 
     fun getReport(dateTimeFrom:String,dateTimeTo:String) = betkeydataManager.getReport(dateTimeFrom,dateTimeTo)
+
+    fun payoutTicket(id: String) : Single<TicketPayout> {
+        return marginfoxDataManager.payoutTicket(id)
+    }
 }
