@@ -52,6 +52,7 @@ class UsbPrinterActivity : BaseActivity() {
         const val PICK_3 = 4
         const val SPORT_BETTING = 5
         const val REPORT = 6
+        const val PAYOUT_TICKET = 7
 
         fun start(sender: Activity, operation: Int) {
             val intent = Intent(sender, UsbPrinterActivity::class.java).apply {
@@ -135,6 +136,7 @@ class UsbPrinterActivity : BaseActivity() {
                     PICK_3 -> pickPrint()
                     SPORT_BETTING -> sportBettingPrint()
                     REPORT -> reportPrint(intent.getStringExtra("dateFrom"),intent.getStringExtra("dateTo"))
+                    PAYOUT_TICKET -> payoutTicketPrint()
                 }
 
                 mUsbThermalPrinter.walkPaper(10)
@@ -461,11 +463,11 @@ class UsbPrinterActivity : BaseActivity() {
 
                 dottedLine()
                 sbSuccess.events?.also { events ->
-                    printMiddleText(resources.getString(R.string.sportbetting_payout_upper_case))
-//                    for (i in events.indices) {
-//                        dottedLine()
-//                        createBetList(events[i], null)
-//                    }
+                    printMiddleText(resources.getString(R.string.jackpot_confirmation_bet_details))
+                    for (i in events.indices) {
+                        dottedLine()
+                        createBetList(events[i], null)
+                    }
                     dottedLine()
                     val stake = "${ticket.stake.toDouble().roundOffDecimal()} " +
                             ticket.currency.toUpperCase(Locale.getDefault())
@@ -487,6 +489,48 @@ class UsbPrinterActivity : BaseActivity() {
             }
             dottedLine()
             printQR(sbSuccess.code)
+        }
+    }
+    var qu : Int = 0
+        private set(value) {
+            field ++
+            field += value
+        }
+
+
+    private fun payoutTicketPrint() {
+        printMyLogo(R.drawable.logo_for_print)   //picture
+        initStyleContent() //init context
+
+        //print content
+        dottedLine()
+
+        viewModel.payoutModel.value?.also {
+            printHeadRow(
+                resources.getString(R.string.jackpot_confirmation_ticket_number).toUpperCase(), it.ticketNumber
+            )
+            printHeadRow(resources.getString(R.string.jackpot_game_code), it.ticketCode)
+            printHeadRow(resources.getString(R.string.jackpot_game_date_time), it.date)
+            printHeadRow(resources.getString(R.string.scan_detail_type), it.type)
+
+            dottedLine()
+            printMiddleText(resources.getString(R.string.payout_upper_case))
+            dottedLine()
+
+            printHeadRow(
+                resources.getString(R.string.sportbetting_place_), " -  ${it.place}  -  ${it.stake} ${it.currency}"
+            )
+            printHeadRow(resources.getString(R.string.sportbetting_total_odds).toUpperCase(), it.totalOdds)
+            printHeadRow(resources.getString(R.string.stake).toUpperCase(),"${it.stake} ${it.currency}" )
+            printHeadRow(resources.getString(R.string.sales_tax), it.salesTax)
+            printHeadRow(resources.getString(R.string.sportbetting_potential_win), "${it.potentialWin} ${it.currency}")
+            printHeadRow(resources.getString(R.string.sportbetting_bonus), it.bonus)
+            printHeadRow(resources.getString(R.string.sportbetting_total_win).toUpperCase(), "${it.totalWin} ${it.currency}")
+            printHeadRow(resources.getString(R.string.income_tax), it.incomeTax)
+            printHeadRow(resources.getString(R.string.sportbetting_winning), "${it.payout} ${it.currency}")
+
+            dottedLine()
+            printQR(it.ticketCode)
         }
     }
 

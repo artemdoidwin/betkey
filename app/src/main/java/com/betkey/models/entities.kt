@@ -1,6 +1,8 @@
 package com.betkey.models
 
 import com.betkey.network.models.Bet
+import com.betkey.network.models.Message
+import com.betkey.network.models.Ticket
 
 data class LotteryOrPickModel(
     var price: String = "",
@@ -41,4 +43,22 @@ data class PrintObj(
     var incomeTaxTitle: String = "",
     var totalWin: String = ""
 
+)
+
+data class PayoutModel(
+    var ticketNumber: String = "",
+    var ticketCode: String = "",
+    var date: String = "",
+    var type: String = "",
+
+    var place: String = "",
+    var totalOdds: String = "",
+    var stake: String = "",
+    var currency: String = "",
+    var salesTax: String = "",
+    var potentialWin: String = "",
+    var bonus: String = "",
+    var totalWin: String = "",
+    var incomeTax: String = "",
+    var payout: String = ""
 )

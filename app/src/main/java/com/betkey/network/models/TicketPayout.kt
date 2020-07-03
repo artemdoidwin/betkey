@@ -56,7 +56,7 @@ data class Message(
 	val totalOdds: Double? = null,
 
 	@field:SerializedName("stake")
-	val stake: Int? = null,
+	val stake: Double? = null,
 
 	@field:SerializedName("shop_id")
 	val shopId: Int? = null,

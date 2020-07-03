@@ -34,6 +34,7 @@ class MarginfoxDataManager(
     val sportBettingStatus = modelRepository.sportBetStatus
     val sportBetSuccess = modelRepository.sportBetSuccess
     val printObj = modelRepository.printObj
+    val payoutModel = modelRepository.payoutModel
 
     fun getJackpotInfo(): Single<JackpotInfo> {
         return apiMarginfox.getJacpotInfo()

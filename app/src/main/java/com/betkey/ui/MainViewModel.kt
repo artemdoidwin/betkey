@@ -7,6 +7,7 @@ import com.betkey.data.BetKeyDataManager
 import com.betkey.data.LocaleManager
 import com.betkey.data.MarginfoxDataManager
 import com.betkey.data.PSPDataManager
+import com.betkey.models.PayoutModel
 import com.betkey.network.models.*
 import com.betkey.utils.PHONE_CODE
 import io.reactivex.Completable
@@ -44,6 +45,7 @@ class MainViewModel(
     val sportBetSuccess = marginfoxDataManager.sportBetSuccess
     val printObj = marginfoxDataManager.printObj
     val report = betkeydataManager.report
+    val payoutModel = marginfoxDataManager.payoutModel
 
     var phoneNumberCountryCode = PHONE_CODE
 

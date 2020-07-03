@@ -116,7 +116,7 @@
     <string name="sportbetting_total_odds">COTE TOTALE:</string>
     <string name="sportbetting_total_win">GAIN TOTAL:</string>
     <string name="sportbetting_winning">GAGNANT NET:</string>
-    <string name="sportbetting_payout_upper_case">PAIEMENT</string>
+    <string name="payout_upper_case">PAIEMENT</string>
     <string name="sure">sûr</string>
     <string name="unidentified_error">Erreur non identifiée</string>
     <string name="watting">Veuillez patienter pendant la vérification de la version du pilote</string>

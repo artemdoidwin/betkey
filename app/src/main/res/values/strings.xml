@@ -123,7 +123,7 @@
     <string name="sportbetting_place_">PLACE</string>
     <string name="sportbetting_potint_tax">POTENTIAL TAX:</string>
     <string name="sportbetting_winning">PAYOUT:</string>
-    <string name="sportbetting_payout_upper_case">PAYOUT</string>
+    <string name="payout_upper_case">PAYOUT</string>
 
     <string name="lottery_id">ROUND ID:</string>
     <string name="lottery_next_draw">Next draw:</string>
@@ -201,5 +201,7 @@
     <string name="total_price">TOTAL PRICE</string>
     <string name="already_approved">Thank you, this betslip is already approved</string>
     <string name="payment_unsuccesful">"Payment unsuccessful "</string>
+    <string name="income_tax">INCOME TAX:</string>
+    <string name="sales_tax">SALES_TAX:</string>
 
 </resources>
