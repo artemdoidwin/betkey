@@ -8,8 +8,6 @@ import androidx.lifecycle.Observer
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.models.PayoutModel
-import com.betkey.models.PrintObj
-import com.betkey.network.models.Message
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.UsbPrinterActivity
 import com.betkey.utils.dateString
@@ -59,27 +57,35 @@ class ScanPayoutSuccessFragment : BaseFragment() {
 
                 subscribe(viewModel.getPrematchBetting(),{ prebet ->
 
-                    val tax = it.message?.tax!!
-                    val totalOdds = it.message.totalOdds!!
+                    val totalOdds = it.message?.totalOdds!!
                     val stake = it.message.stake!!
                     val potentialWin = totalOdds * stake
-                    val incomeTax = (potentialWin -stake)*tax
-                    val salesTax = (prebet.platform_unit.settings.top_off_tax_value * 100).toInt()
-                    val salesTaxAmount = (prebet.platform_unit.settings.top_off_tax_value * stake).roundOffDecimal()
+
+                    val salesTax = (prebet.platform_unit.settings.sales_tax_value * 100).toInt()
+                    val salesTaxAmount = (prebet.platform_unit.settings.sales_tax_value * stake).roundOffDecimal()
+
+//                    val bonus = (potentialWin  - stake) * (bonus/100)
+
+                    val tBonus = it.message.bonus?.bonus!!
+                    val totWin = potentialWin + tBonus
+
+                    val tax = it.message.tax!!
+                    val incomeTax = (totWin -stake)*tax
+
 
                     viewModel.payoutModel.value = PayoutModel(
                         ticketNumber =  it.message.id!!,
                         ticketCode = it.message.code!!,
                         date = it.message.created!!.replace('T', ' ').replace("+00:00", ""),
                         type = t.platformUnit.name,
-                        place = it.message.events?.size!!.toString(), //?
+                        place = "${it.message.events?.size!!}/${it.message.events.size}",
                         totalOdds = it.message.totalOdds.toString(),
                         stake = it.message.stake.roundOffDecimal().toString(),
                         salesTax = "${salesTax}% $salesTaxAmount ${t.currency}",
                         potentialWin = potentialWin.roundOffDecimal().toString(),
                         currency = t.currency,
-                        bonus = "", //?
-                        totalWin = it.message.grossWin!!.toString(),
+                        bonus = "${tBonus.roundOffDecimal()} ${t.currency}",
+                        totalWin = "${totWin.roundOffDecimal()} ${t.currency}",
                         incomeTax = "${it.message.tax}% ${incomeTax.roundOffDecimal()} ${t.currency}" ,
                         payout = it.message.payout!!.toString()
                     )

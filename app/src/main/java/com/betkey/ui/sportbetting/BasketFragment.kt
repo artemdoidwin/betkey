@@ -54,7 +54,7 @@ class BasketFragment(private val code: String? = null) : BaseFragment() {
         }
             subscribe(viewModel.getPrematchBetting(),{
 
-                salesTax = it.platform_unit?.settings?.top_off_tax_value
+                salesTax = it.platform_unit?.settings?.sales_tax_value
                 tax10_title.text = String.format(resources.getString(R.string.tax_10),(salesTax*100).toInt())
                 Log.d("hgsiduhsid","jdoijf $it")
             },{
@@ -321,7 +321,7 @@ class BasketFragment(private val code: String? = null) : BaseFragment() {
             val rule =  rules?.find { it.number == basket_adapter?.adapter?.itemCount ?: 0 }
             Log.d("BONUS","betsBon $rule $rules")
             if (viewModel.basketList.value?.find { it.odds.toDouble() < rule?.bet ?: 0.0} == null){
-                mBonus =rule?.bonus ?: 0
+                mBonus =rule?.bonus?.toInt() ?: 0
             }else{
                // mBonus = 0
             }

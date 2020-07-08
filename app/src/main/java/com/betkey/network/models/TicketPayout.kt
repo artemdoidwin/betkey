@@ -47,7 +47,10 @@ data class Message(
 	val payout: Double? = null,
 
 	@field:SerializedName("tax")
-	val tax: Int? = null,
+	val tax: Double? = null,
+
+	@field:SerializedName("bonus")
+	val bonus: Bonus? = null,
 
 	@field:SerializedName("shop_name")
 	val shopName: String? = null,

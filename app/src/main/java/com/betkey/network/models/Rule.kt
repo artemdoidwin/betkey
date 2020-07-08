@@ -19,5 +19,5 @@ data class Rule (
     var betslip: Double = 0.0,
 
     @SerializedName("bonus")
-    var bonus: Int? = null
+    var bonus: Double? = null
 )

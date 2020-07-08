@@ -1,8 +1,6 @@
 package com.betkey.models
 
 import com.betkey.network.models.Bet
-import com.betkey.network.models.Message
-import com.betkey.network.models.Ticket
 
 data class LotteryOrPickModel(
     var price: String = "",
