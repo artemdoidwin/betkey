@@ -10,6 +10,8 @@ import com.betkey.base.BaseFragment
 import com.betkey.models.PayoutModel
 import com.betkey.ui.MainViewModel
 import com.betkey.ui.UsbPrinterActivity
+import com.betkey.ui.login.LoginFragment
+import com.betkey.ui.login.LoginOkFragment
 import com.betkey.utils.dateString
 import com.betkey.utils.roundOffDecimal
 import com.jakewharton.rxbinding3.view.clicks
@@ -41,7 +43,8 @@ class ScanPayoutSuccessFragment : BaseFragment() {
 
         compositeDisposable.add(
             scan_success_back_btn.clicks().throttleLatest(1, TimeUnit.SECONDS).subscribe {
-                popBackStack()
+                clearStack()
+                showFragment(LoginOkFragment.newInstance(), R.id.container_for_fragments, LoginFragment.TAG)
             }
         )
 
@@ -52,6 +55,7 @@ class ScanPayoutSuccessFragment : BaseFragment() {
                 scan_success_ticket_id.text = t.ticketId
             }
         })
+
         viewModel.ticket.value?.also { t ->
             subscribe(viewModel.payoutTicket(t.ticketId!!), {
 

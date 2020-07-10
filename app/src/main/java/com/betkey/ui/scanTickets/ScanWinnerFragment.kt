@@ -9,6 +9,7 @@ import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
 import com.betkey.utils.dateString
+import com.betkey.utils.roundOffDecimal
 import com.betkey.utils.setMessage
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_scan_winner.*
@@ -69,6 +70,8 @@ class ScanWinnerFragment : BaseFragment() {
                 winner_created.text = dateString(it.created!!.toLong())
                 winner_type.text = it.platformUnit!!.name
                 winner_ticket_id.text = it.ticketId
+                winner_sum.text = it.payout_amounts?.winning?.roundOffDecimal() ?: "0"
+                winner_currency.text = it.currency
             }
         })
     }

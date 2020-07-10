@@ -15,6 +15,9 @@ class Ticket (
     @SerializedName("currency")
     var currency: String = "",
 
+    @SerializedName("payout_amounts")
+    var payout_amounts: PayoutAmounts? = null,
+
     @SerializedName("source")
     var source: String? = null,
 
@@ -46,3 +49,7 @@ class Ticket (
     var shortId: String? = null
 
 )
+
+data class PayoutAmounts (
+    @SerializedName("winning")
+    var winning: Double? = null)
