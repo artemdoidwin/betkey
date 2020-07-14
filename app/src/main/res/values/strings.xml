@@ -203,5 +203,7 @@
     <string name="payment_unsuccesful">"Payment unsuccessful "</string>
     <string name="income_tax">INCOME TAX:</string>
     <string name="sales_tax">SALES_TAX:</string>
+    <string name="please_enter_date_correctly">Please, enter date correctly</string>
+    <string name="jackpot_was_approved">Jackpot was approved</string>
 
 </resources>

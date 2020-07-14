@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.network.models.*
@@ -68,6 +69,12 @@ class JackpotApproveFragment(private val betLookup: BetLookupObj) : BaseFragment
 
 
         jackpot_approve_ticket_btn.setOnClickListener {
+
+            if(betLookup.approved == true) {
+                Toast.makeText(context, getString(R.string.jackpot_was_approved), Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
             Log.d("MyDate","betLookup.created?.date ${betLookup.created?.date}")
             Log.d("MyDate","betLookup.created?.date ${betLookup.created?.date?.toFullDate2()!!.time}")
             viewModel.agentBet.postValue(AgentBettingResult(message_data = MessageData(stake = betLookup.stake!!.toInt(),betCode = betLookup.code),created = betLookup.created?.date?.toFullDate2()!!.time ))

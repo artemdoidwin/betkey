@@ -51,7 +51,7 @@ class CreateReportFragment: BaseFragment() {
                     it.printStackTrace()
                 })
             } catch (e: Exception) {
-                Toast.makeText(context, "Please, enter date correctly", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, getString(R.string.please_enter_date_correctly), Toast.LENGTH_LONG).show()
             }
         }
         reportTodayBtn.setOnClickListener {
