@@ -18,7 +18,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:inputType="date"
             app:mask="##/##/##"
-            android:hint="\u2000\u2000\u2000\u2000\u2000\u2000"
+            android:hint="ddmmyy"
             android:textColorHint="@android:color/black"
            app:keep_hint="true"
              />

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
@@ -12,6 +13,7 @@ import com.betkey.ui.jackpot.JackpotFragment
 import kotlinx.android.synthetic.main.fragment_create_report.*
 import kotlinx.android.synthetic.main.fragment_sportbetting_basket.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -39,12 +41,18 @@ class CreateReportFragment: BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         customReportBtn.setOnClickListener {
-            subscribe(viewModel.getReport(format.format(datePickerFrom.getDate()),format.format(datePickerFrom.getDate())),{
-                showFragment(ViewReportFragment.newInstance(formatForView.format(datePickerFrom.getDate()),formatForView.format(datePickerTo.getDate())), R.id.container_for_fragments, ViewReportFragment.TAG)
-            },{
-                it.printStackTrace()
-            })
 
+            try {
+                val from = datePickerFrom.getDate()
+                val to = datePickerTo.getDate()
+                subscribe(viewModel.getReport(format.format(from),format.format(to)),{
+                    showFragment(ViewReportFragment.newInstance(formatForView.format(datePickerFrom.getDate()),formatForView.format(datePickerTo.getDate())), R.id.container_for_fragments, ViewReportFragment.TAG)
+                },{
+                    it.printStackTrace()
+                })
+            } catch (e: Exception) {
+                Toast.makeText(context, "Please, enter date correctly", Toast.LENGTH_LONG).show()
+            }
         }
         reportTodayBtn.setOnClickListener {
             Log.d(TAG,"report today clicked")
