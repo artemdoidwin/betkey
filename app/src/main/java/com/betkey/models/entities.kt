@@ -39,11 +39,12 @@ data class PrintObj(
     var incomeTax: String = "",
     var salesTaxTitle: String = "",
     var incomeTaxTitle: String = "",
-    var totalWin: String = ""
-
+    var totalWin: String = "",
+    var stakeWithTax: String = ""
 )
 
 data class PayoutModel(
+    var placeStake: String = "",
     var ticketNumber: String = "",
     var ticketCode: String = "",
     var date: String = "",

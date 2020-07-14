@@ -38,6 +38,8 @@ class BasketFragment(private val code: String? = null) : BaseFragment() {
     private var tax: Double = 0.0
     private var salesTax = 0.0
     private var mBonus: Int = 0
+    private var stakeWithTax: String = ""
+
     var rules : List<Rule>? = listOf()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -115,7 +117,8 @@ class BasketFragment(private val code: String? = null) : BaseFragment() {
                                 salesTax = tax10.text.toString(),
                                 incomeTaxTitle = tax5_title.text.toString(),
                                 salesTaxTitle = tax10_title.text.toString(),
-                                totalWin = total_win.text.toString()
+                                totalWin = total_win.text.toString(),
+                                stakeWithTax = stakeWithTax
                         )
                             UsbPrinterActivity.start(activity!!, UsbPrinterActivity.SPORT_BETTING)
                             activity?.finish()},
@@ -180,7 +183,8 @@ class BasketFragment(private val code: String? = null) : BaseFragment() {
                     salesTax = tax10.text.toString(),
                     incomeTaxTitle = tax5_title.text.toString(),
                     salesTaxTitle = tax10_title.text.toString(),
-                    totalWin = total_win.text.toString()
+                    totalWin = total_win.text.toString(),
+                    stakeWithTax = stakeWithTax
                 )
                 UsbPrinterActivity.start(activity!!, UsbPrinterActivity.SPORT_BETTING)
                 activity?.finish()
@@ -338,7 +342,7 @@ class BasketFragment(private val code: String? = null) : BaseFragment() {
             total_win.text = "${totWin.roundOffDecimalWithComma()} $it"//+bonuse
             tax5.text = "${incomeTax.roundOffDecimalWithComma()} $it"
             payout.text = "${(totWin-incomeTax).roundOffDecimalWithComma()} $it"
-
+            stakeWithTax = "${(stake + ticketPrice*salesTax).roundOffDecimalWithComma()} $it"
         }
     }
 

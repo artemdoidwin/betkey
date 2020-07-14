@@ -66,7 +66,7 @@ class ScanPayoutSuccessFragment : BaseFragment() {
                     val potentialWin = totalOdds * stake
 
                     val salesTax = (prebet.platform_unit.settings.sales_tax_value * 100).toInt()
-                    val salesTaxAmount = (prebet.platform_unit.settings.sales_tax_value * stake).roundOffDecimal()
+                    val salesTaxAmount = (prebet.platform_unit.settings.sales_tax_value * stake)
 
 //                    val bonus = (potentialWin  - stake) * (bonus/100)
 
@@ -78,19 +78,20 @@ class ScanPayoutSuccessFragment : BaseFragment() {
 
 
                     viewModel.payoutModel.value = PayoutModel(
+                        placeStake = it.message.stake.roundOffDecimal().toString(),
                         ticketNumber =  it.message.id!!,
                         ticketCode = it.message.code!!,
                         date = it.message.created!!.replace('T', ' ').replace("+00:00", ""),
                         type = t.platformUnit.name,
                         place = "${it.message.events?.size!!}/${it.message.events.size}",
                         totalOdds = it.message.totalOdds.toString(),
-                        stake = it.message.stake.roundOffDecimal().toString(),
-                        salesTax = "${salesTax}% $salesTaxAmount ${t.currency}",
+                        stake = (it.message.stake - salesTaxAmount).roundOffDecimal().toString(),
+                        salesTax = "${salesTax}% ${salesTaxAmount.roundOffDecimal()} ${t.currency}",
                         potentialWin = potentialWin.roundOffDecimal().toString(),
                         currency = t.currency,
                         bonus = "${tBonus.roundOffDecimal()} ${t.currency}",
                         totalWin = "${totWin.roundOffDecimal()} ${t.currency}",
-                        incomeTax = "${it.message.tax}% ${incomeTax.roundOffDecimal()} ${t.currency}" ,
+                        incomeTax = "${it.message.tax} ${t.currency}" ,
                         payout = it.message.payout!!.toString()
                     )
 

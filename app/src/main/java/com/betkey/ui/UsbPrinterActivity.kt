@@ -473,7 +473,7 @@ class UsbPrinterActivity : BaseActivity() {
                             ticket.currency.toUpperCase(Locale.getDefault())
                     printHeadRow(
                         resources.getString(R.string.sportbetting_place_),
-                        " -  ${events.size}/${events.size}  -  $stake"
+                        " -  ${events.size}/${events.size}  -  ${viewModel.printObj.value?.stakeWithTax}"
                     )
                 }
             }
@@ -518,7 +518,7 @@ class UsbPrinterActivity : BaseActivity() {
             dottedLine()
 
             printHeadRow(
-                resources.getString(R.string.sportbetting_place_), " -  ${it.place}  -  ${it.stake} ${it.currency}"
+                resources.getString(R.string.sportbetting_place_), " -  ${it.place}  -  ${it.placeStake} ${it.currency}"
             )
             printHeadRow(resources.getString(R.string.sportbetting_total_odds).toUpperCase(), it.totalOdds)
             printHeadRow(resources.getString(R.string.stake).toUpperCase(),"${it.stake} ${it.currency}" )
