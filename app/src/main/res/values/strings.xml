@@ -205,5 +205,12 @@
     <string name="sales_tax">SALES_TAX:</string>
     <string name="please_enter_date_correctly">Please, enter date correctly</string>
     <string name="jackpot_was_approved">Jackpot was approved</string>
+    <string name="successful_result">Successful result</string>
+    <string name="market_blocked">Market blocked or bet blocked</string>
+    <string name="odds_were_changed">Odds were changed</string>
+    <string name="stake_is_too_big">Stake is too big</string>
+    <string name="stake_is_too_low">Stake is too low</string>
+    <string name="agent_dont_have_enough_money">Agent don\'t have enough money</string>
+    <string name="something_went_wrong">Something went wrong</string>
 
 </resources>

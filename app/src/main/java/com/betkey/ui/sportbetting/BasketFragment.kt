@@ -124,8 +124,9 @@ class BasketFragment(private val code: String? = null) : BaseFragment() {
                             activity?.finish()},
                             {
                                 Log.d("Taganich"," error ${it.message}")
-                                toast(it.message.toString())
-                            it.printStackTrace()})
+//                                toast(it.message.toString())
+                            it.printStackTrace()}
+                        )
                     }
                 }
 
@@ -149,7 +150,15 @@ class BasketFragment(private val code: String? = null) : BaseFragment() {
         })
         viewModel.sportBettingStatus.observe(myLifecycleOwner, Observer { status ->
             status?.also {
-                toast("Place bet error $status")
+                when(it) {
+                    1 -> toast(getString(R.string.successful_result))
+                    0 -> toast(getString(R.string.market_blocked))
+                    2 -> toast(getString(R.string.odds_were_changed))
+                    3 -> toast(getString(R.string.stake_is_too_big))
+                    4 -> toast(getString(R.string.stake_is_too_low))
+                    6 -> toast(getString(R.string.agent_dont_have_enough_money))
+                    else -> toast(getString(R.string.something_went_wrong))
+                }
                 viewModel.sportBettingStatus.value = null
             }
         })
@@ -188,7 +197,8 @@ class BasketFragment(private val code: String? = null) : BaseFragment() {
                 )
                 UsbPrinterActivity.start(activity!!, UsbPrinterActivity.SPORT_BETTING)
                 activity?.finish()
-            }, { context?.also { con -> toast(setMessage(it, con)) }
+            }, {
+//                context?.also { con -> toast(setMessage(it, con)) }
             it.printStackTrace()})
         }
     }
