@@ -125,5 +125,7 @@ class ScanPayoutSuccessFragment : BaseFragment() {
                 scan_success_logo_head_text.visibility = View.VISIBLE
             })
         }
+
+        subscribe(viewModel.getAgentWallets(), {})
     }
 }

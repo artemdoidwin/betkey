@@ -5,13 +5,18 @@ import android.content.Intent
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
 import com.betkey.R
 import com.betkey.utils.LoadingUiHelper
+import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseActivity : AppCompatActivity() {
 
     private var currentFragment: BaseFragment? = null
     private var progressDialog: LoadingUiHelper.ProgressDialogFragment? = null
+    val compositeDisposable = CompositeDisposable()
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase)
@@ -43,6 +48,23 @@ abstract class BaseActivity : AppCompatActivity() {
         progressDialog = null
     }
 
+    fun subscribe(single: Completable, success: () -> Unit, error: ((Throwable) -> Unit)? = null) {
+        showLoading()
+        compositeDisposable.add(single.observeOn(AndroidSchedulers.mainThread()).subscribe({
+            hideLoading()
+            success.invoke()
+        }, {
+            hideLoading()
+            error?.invoke(it)
+            Log.d("", "")
+        }))
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.dispose()
+    }
 
     fun addFragment(fragment: BaseFragment, idContainer: Int, tag: String){
         currentFragment = fragment

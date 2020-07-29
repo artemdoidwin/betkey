@@ -317,7 +317,7 @@ class BasketFragment(private val code: String? = null) : BaseFragment() {
             totalOdds = list.map { it.odds }
                 .map { it.toDouble() }
                 .reduce { acc, d -> acc.times(d) }
-            val oddsText = totalOdds.roundOffDecimalComma()
+            val oddsText = totalOdds.roundOffThousandsDecimalComma()
             total_odds.text = oddsText
         }
 
@@ -343,7 +343,7 @@ class BasketFragment(private val code: String? = null) : BaseFragment() {
             val potentialWin = totalOdds * stake
             val tBonus = (potentialWin  - stake) * (mBonus.toDouble()/100)
             val totWin = potentialWin + tBonus
-            val incomeTax = (totWin-stake)*tax
+            val incomeTax = totWin*tax
 
             stakeTv.text = "${stake.roundOffDecimalWithComma()} $it"
             tax10.text = "${(ticketPrice*salesTax).roundOffDecimalWithComma()} $it"

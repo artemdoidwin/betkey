@@ -71,19 +71,21 @@ class JackpotConfirmationFragment(private val betLookup: BetLookupObj? = null) :
                     confirmation_ticket_price.text = price
                 }
                 Log.d("MyDate","it.created ${it.created}")
-                confirmation_ticket_created.text = (Date().apply { time = it.created }).dateToString()
-                UsbPrinterActivity.start(activity!!, UsbPrinterActivity.JACKPOT)
-            }
-        })
 
-        viewModel.jackpotInfo.observe(myLifecycleOwner, Observer { jackpotInfo ->
-            jackpotInfo?.also {
-                it.coupon?.also { coupon ->
-                    confirmation_coupon_id.text = coupon.coupon?.id.toString()
-                    val date = coupon.coupon?.expires?.toFullDate()!!.dateToString()
-                    confirmation_ticket_number.text = coupon.coupon?.id.toString()
-                    confirmation_last_entry.text = date
-                }
+                viewModel.jackpotInfo.observe(myLifecycleOwner, Observer { jackpotInfo ->
+                    jackpotInfo?.also {
+                        it.coupon?.also { coupon ->
+                            viewModel.agentBet.value?.message_data?.couponId = coupon.coupon?.id!!
+                            confirmation_coupon_id.text = coupon.coupon?.id.toString()
+                            val date = coupon.coupon?.expires?.toFullDate()!!.dateToString()
+                            confirmation_ticket_number.text = coupon.coupon?.id.toString()
+                            confirmation_last_entry.text = date
+                        }
+                    }
+                    confirmation_ticket_created.text = (Date().apply { time = it.created }).dateToString()
+                    UsbPrinterActivity.start(activity!!, UsbPrinterActivity.JACKPOT)
+                })
+
             }
         })
     }

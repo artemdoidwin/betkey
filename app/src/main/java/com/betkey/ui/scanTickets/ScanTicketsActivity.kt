@@ -40,6 +40,11 @@ class ScanTicketsActivity : BaseActivity() {
             }
         })
     }
+    override fun onResume() {
+        super.onResume()
+        subscribe(viewModel.getAgentWallets(), {})
+    }
+
 
     override fun onBackPressed() {
         val listFragments = supportFragmentManager.fragments.filter { frag -> frag.isVisible }

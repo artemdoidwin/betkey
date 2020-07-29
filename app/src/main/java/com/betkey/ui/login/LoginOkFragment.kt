@@ -67,7 +67,6 @@ class LoginOkFragment : BaseFragment() {
         initButtons()
 
         activity?.include_toolbar?.visibility = View.GONE
-
         viewModel.wallets.observe(myLifecycleOwner, Observer { wallets ->
             wallets?.also {
                 val nameToDisplay = when {
@@ -79,7 +78,11 @@ class LoginOkFragment : BaseFragment() {
                 text_toolbar.text = text
             }
         })
+    }
 
+    override fun onResume() {
+        super.onResume()
+        subscribe(viewModel.getAgentWallets(), {})
     }
 
     private fun initButtons() {

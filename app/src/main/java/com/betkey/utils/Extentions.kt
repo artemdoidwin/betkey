@@ -28,6 +28,12 @@ fun Double.roundOffDecimalComma(): String? {
     return df.format(this).replace(",".toRegex(), ".")
 }
 
+fun Double.roundOffThousandsDecimalComma(): String? {
+    val df = DecimalFormat("#.###")
+    df.roundingMode = RoundingMode.FLOOR
+    return df.format(this).replace(",".toRegex(), ".")
+}
+
 fun Double.roundOffDecimalWithComma(): String? {
     val text = DecimalFormat("#,###,###.##").format(this).replace(",".toRegex(), ".")
     return text.replace("\\s+".toRegex(), ",")

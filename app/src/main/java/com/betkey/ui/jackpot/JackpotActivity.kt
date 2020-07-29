@@ -38,6 +38,10 @@ class JackpotActivity : BaseActivity() {
 
         showFragment(JackpotMenuFragment.newInstance(), R.id.container_for_fragments, JackpotMenuFragment.TAG)
     }
+    override fun onResume() {
+        super.onResume()
+        subscribe(viewModel.getAgentWallets(), {})
+    }
 
     override fun onBackPressed() {
         finish()
