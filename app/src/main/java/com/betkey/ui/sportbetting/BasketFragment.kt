@@ -56,7 +56,7 @@ class BasketFragment(private val code: String? = null) : BaseFragment() {
         }
             subscribe(viewModel.getPrematchBetting(),{
 
-                salesTax = it.platform_unit?.settings?.sales_tax_value
+                salesTax = (it.platform_unit.settings.sales_tax_value)/100
                 tax10_title.text = String.format(resources.getString(R.string.tax_10),(salesTax*100).toInt())
                 Log.d("hgsiduhsid","jdoijf $it")
             },{
@@ -174,13 +174,13 @@ class BasketFragment(private val code: String? = null) : BaseFragment() {
     }
 
     private fun placeBetPlayer() {
-        subscribe(viewModel.getAgentProfile(amount_ET.text.toString()), { profile ->
+        subscribe(viewModel.getAgentProfile(stakeTv.text.toString()), { profile ->
         }, { context?.also { con -> toast(setMessage(it, con)) } })
     }
 
     private fun placeBetAgent() {
         if (!isLowBattery(context!!)){
-            subscribe(viewModel.getAgentProfile(amount_ET.text.toString()), {
+            subscribe(viewModel.getAgentProfile(stakeTv.text.toString()), {
                 //            toast("Success!!!!")
                 viewModel.printObj.value = PrintObj(
                     stack = stakeTv.text.toString(),
@@ -317,7 +317,7 @@ class BasketFragment(private val code: String? = null) : BaseFragment() {
             totalOdds = list.map { it.odds }
                 .map { it.toDouble() }
                 .reduce { acc, d -> acc.times(d) }
-            val oddsText = totalOdds.roundOffThousandsDecimalComma()
+            val oddsText = totalOdds.roundOffDecimalComma()
             total_odds.text = oddsText
         }
 
