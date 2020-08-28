@@ -17,7 +17,7 @@ import android.content.Intent
 import android.content.IntentFilter
 
 fun Double.roundOffDecimal(): String? {
-    val df = DecimalFormat("#.##")
+    val df = DecimalFormat("0.00")
     df.roundingMode = RoundingMode.FLOOR
     return df.format(this)
 }
@@ -41,7 +41,7 @@ fun Double.roundOffDecimalWithComma(): String? {
 
 fun dateString(sec: Long): String {
     val cal = Calendar.getInstance()
-    cal.timeZone = TimeZone.getTimeZone("UTC")
+    cal.timeZone = TimeZone.getDefault()
     cal.timeInMillis = sec * 1000
     val hh = convertDate(cal.get(Calendar.HOUR_OF_DAY))
     val mm = convertDate(cal.get(Calendar.MINUTE))
@@ -67,7 +67,7 @@ fun String.toFullDate(): Date {
 fun String.toFullDate2(): Date {
     return try {
         SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-            .apply { timeZone = TimeZone.getTimeZone("UTC") }
+            .apply { timeZone = TimeZone.getDefault() }
             .parse(this)
     } catch (e: java.lang.Exception) {
         Date(0)
@@ -77,7 +77,7 @@ fun String.toFullDate2(): Date {
 fun Date.dateToString(): String {
     if (this.time == 0L) return ""
     return SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).apply {
-        timeZone = TimeZone.getTimeZone("UTC")
+        timeZone = TimeZone.getDefault()
     }
         .format(this)
 }
@@ -85,7 +85,7 @@ fun Date.dateToString(): String {
 fun Date.dateToString2(): String {
     if (this.time == 0L) return ""
     return SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).apply {
-        timeZone = TimeZone.getTimeZone("UTC")
+        timeZone = TimeZone.getDefault()
     }
         .format(this)
 }
@@ -93,7 +93,7 @@ fun Date.dateToString2(): String {
 fun Date.dateToString3(): String {
     if (this.time == 0L) return ""
     return SimpleDateFormat("EEEE dd MMMM HH:mm", Locale.getDefault()).apply {
-        timeZone = TimeZone.getTimeZone("UTC")
+        timeZone = TimeZone.getDefault()
     }
         .format(this)
 }
@@ -101,7 +101,7 @@ fun Date.dateToString3(): String {
 fun Date.dateToString4(): String {
     if (this.time == 0L) return ""
     return SimpleDateFormat("MMMM dd, yyyy, HH:mm:ss.S", Locale.getDefault()).apply {
-        timeZone = TimeZone.getTimeZone("UTC")
+        timeZone = TimeZone.getDefault()
     }
         .format(this)
 }
