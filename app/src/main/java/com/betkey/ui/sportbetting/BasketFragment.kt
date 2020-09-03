@@ -55,8 +55,10 @@ class BasketFragment(private val code: String? = null) : BaseFragment() {
             clearFields()
         }
             subscribe(viewModel.getPrematchBetting(),{
-
-                salesTax = (it.platform_unit.settings.sales_tax_value)/100
+                salesTax = when (val salesTaxFromBackend = it.platform_unit.settings.sales_tax_value) {
+                    7.0 -> salesTaxFromBackend/100
+                    else -> salesTaxFromBackend
+                }
                 tax10_title.text = String.format(resources.getString(R.string.tax_10),(salesTax*100).toInt())
                 Log.d("hgsiduhsid","jdoijf $it")
             },{
@@ -317,6 +319,7 @@ class BasketFragment(private val code: String? = null) : BaseFragment() {
             totalOdds = list.map { it.odds }
                 .map { it.toDouble() }
                 .reduce { acc, d -> acc.times(d) }
+            totalOdds = totalOdds.roundOffDecimalComma().toDouble()
             val oddsText = totalOdds.roundOffDecimalComma()
             total_odds.text = oddsText
         }

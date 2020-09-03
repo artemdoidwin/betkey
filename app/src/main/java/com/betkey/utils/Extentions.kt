@@ -22,7 +22,7 @@ fun Double.roundOffDecimal(): String? {
     return df.format(this)
 }
 
-fun Double.roundOffDecimalComma(): String? {
+fun Double.roundOffDecimalComma(): String {
     val df = DecimalFormat("0.00")
     df.roundingMode = RoundingMode.FLOOR
     return df.format(this).replace(",".toRegex(), ".")
