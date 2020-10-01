@@ -189,6 +189,7 @@ class MarginfoxDataManager(
 
                 apiMarginfox.sprotBettingPlaceBet(API_KEY_MARGINFOX, events, token)
                     .flatMap {
+                        Log.d("sprotBettingPlaceBet","StatusBetslip: $it")
                         val model = BetLookupObj.checkStatus(it)
                         if (model == null) {
                             modelRepository.sportBetStatus.postValue(it.status)
