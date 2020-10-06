@@ -53,6 +53,7 @@ class MarginfoxDataManager(
     }
 
     fun betLookupBetslip(ticketId: String): Single<BetLookupObj> {
+        Log.d("MyBetLog", "Bet lookup betslip " + ticketId)
         return apiMarginfox.betLookupBetslip(ticketId)
             .flatMap {dummy ->
                 val obj = BetLookupObj.toBetLookup(dummy)
@@ -172,7 +173,7 @@ class MarginfoxDataManager(
                 events["betslip[events][${event.idEvent}][odds]"] = event.odds
                 events["betslip[events][${event.idEvent}][market_name]"] = event.marketName
             }
-            events["betslip[stake]"] = stake
+            events["betslip[stake]"] = stake.filter { !it.isLetter() }
             events["betslip[source]"] = "HHT"
             events["betslip[instance]"] = "exaloc"
             events["betslip[live]"] = "0"
@@ -186,7 +187,6 @@ class MarginfoxDataManager(
                 events.forEach {
                     Log.d("CreatingTicket"," ${it.key} = ${it.value}")
                 }
-
                 apiMarginfox.sprotBettingPlaceBet(API_KEY_MARGINFOX, events, token)
                     .flatMap {
                         Log.d("sprotBettingPlaceBet","StatusBetslip: $it")

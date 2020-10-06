@@ -294,7 +294,13 @@ class BasketFragment(private val code: String? = null) : BaseFragment() {
             if(basketList.size == 0){
                 clearFields()
             }
-            amount_ET.setText(bets.stake.toString())
+            /**
+             * Fix for issue where we are receiving stake bu not total price and
+             * setting stake as total price
+             */
+            val totalPrice = (bets.stake!! * 100) / (100 - 7)
+            amount_ET.setText(totalPrice.toString())
+           // amount_ET.setText(bets.stake.toString())
             initAdapter(basketList)
         }
     }
@@ -319,8 +325,8 @@ class BasketFragment(private val code: String? = null) : BaseFragment() {
             totalOdds = list.map { it.odds }
                 .map { it.toDouble() }
                 .reduce { acc, d -> acc.times(d) }
-            totalOdds = totalOdds.roundOffDecimalComma().toDouble()
-            val oddsText = totalOdds.roundOffDecimalComma()
+            totalOdds = totalOdds.roundOffDecimalCeilingComma().toDouble()
+            val oddsText = totalOdds.roundOffDecimalCeilingComma()
             total_odds.text = oddsText
         }
 
@@ -346,7 +352,7 @@ class BasketFragment(private val code: String? = null) : BaseFragment() {
             val potentialWin = totalOdds * stake
             val tBonus = (potentialWin  - stake) * (mBonus.toDouble()/100)
             val totWin = potentialWin + tBonus
-            val incomeTax = totWin*tax
+            val incomeTax = if (totWin > 1000) (totWin - stake) *tax else 0.0
 
             stakeTv.text = "${stake.roundOffDecimalWithComma()} $it"
             tax10.text = "${(ticketPrice*salesTax).roundOffDecimalWithComma()} $it"

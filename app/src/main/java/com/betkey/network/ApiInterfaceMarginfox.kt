@@ -79,6 +79,7 @@ interface ApiInterfaceMarginfox {
         @Field("betkeyData[agent_token]") token: String
     ): Single<StatusBetslip>
 
+
     @FormUrlEncoded
     @POST("betkey/agent_profile")
     fun getAgentProfile(
